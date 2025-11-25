@@ -48,9 +48,9 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      pdfExtractorBaseAddress: process.env.NUXT_PUBLIC_PDF_EXTRACTOR_BASE_ADDRESS,
-      apartmentsBaseAddress: process.env.NUXT_PUBLIC_APARTMENTS_BASE_ADDRESS,
-      blogBaseAddress: process.env.NUXT_PUBLIC_BLOG_BASE_ADDRESS,
+      pdfExtractorBaseAddress: process.env.NUXT_PUBLIC_PDF_EXTRACTOR_BASE_ADDRESS || 'https://laraue.com/api/pdfql/v1',
+      apartmentsBaseAddress: process.env.NUXT_PUBLIC_APARTMENTS_BASE_ADDRESS || 'https://laraue.com/api/real_estate',
+      blogBaseAddress: process.env.NUXT_PUBLIC_BLOG_BASE_ADDRESS || 'https://laraue.com/api/blog',
     },
   }
 })
