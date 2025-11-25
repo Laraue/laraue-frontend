@@ -45,5 +45,12 @@ export default defineNuxtConfig({
         }
       ],
     },
+  },
+  runtimeConfig: {
+    public: {
+      pdfExtractorBaseAddress: 'http://localhost:5192/api/v1',
+      apartmentsBaseAddress: 'http://localhost:5127/api',
+      blogBaseAddress: 'http://localhost:5289/api',
+    },
   }
 })

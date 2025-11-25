@@ -1,5 +1,6 @@
 export const useApartmentsClient = () => {
+    const configuration = useRuntimeConfig();
     return $fetch.create({
-        baseURL: import.meta.env.VITE_APARTMENTS_BASE_URL,
+        baseURL: configuration.public.apartmentsBaseAddress,
     })
 }

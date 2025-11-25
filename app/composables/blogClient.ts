@@ -1,5 +1,6 @@
 export const useBlogClient = () => {
+    const configuration = useRuntimeConfig();
     return $fetch.create({
-        baseURL: import.meta.env.VITE_CMS_BACKEND_BASE_URL,
+        baseURL: configuration.public.blogBaseAddress,
     })
 }

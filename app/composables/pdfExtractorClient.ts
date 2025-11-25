@@ -1,5 +1,6 @@
 export const usePdfExtractorClient = () => {
+    const configuration = useRuntimeConfig();
     return $fetch.create({
-        baseURL: import.meta.env.VITE_PDFQL_BASE_URL,
+        baseURL: configuration.public.pdfExtractorBaseAddress,
     })
 }
