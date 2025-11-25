@@ -1,0 +1,38 @@
+name: Build Vue App
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'pnpm'
+      - run: pnpm i
+      - run: pnpm nuxt build
+
+      - name: Upload
+        if: github.ref == 'refs/heads/main'
+        uses: marcodallasanta/ssh-scp-deploy@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }} # "example.com"
+          port: ${{ secrets.SSH_PORT }} # 22
+          user: ${{ secrets.SSH_USER }} # "user"
+          password: ${{ secrets.SSH_PASSWORD }} # "password"
+          local: .output/*
+          remote: "/home/laraue/frontend/laraue"
+          post_upload: echo "Frontend folder uploaded"
