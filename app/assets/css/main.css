@@ -1,0 +1,50 @@
+:root {
+    --el-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+h1 {
+    font-weight: 800;
+    font-size: 1.8em;
+}
+
+h2 {
+    font-weight: 800;
+    font-size: 1.6em;
+}
+
+h3 {
+    font-weight: 800;
+    font-size: 1.3em;
+}
+
+h4 {
+    font-weight: 700;
+    font-size: 1em;
+}
+
+b {
+    font-weight: 600;
+}
+
+p, ul, ol, li {
+    margin: 1rem 0; /* 16px top/bottom, 0 left/right */
+    padding: 0;
+    line-height: 1.5; /* Better readability */
+}
+
+
+@media screen and (max-width: 1024px) {
+    h1, h2, h3, h4, h5, h6 {
+        letter-spacing: 0.01em;
+        line-height: 1;
+    }
+    p, ul, ol, li, pre, code {
+        margin: 0.75rem 0;
+        padding: 0 0.5rem;
+        font-size: 0.9375rem;
+        text-align: justify;
+        letter-spacing: 0.01em;
+        line-height: 1.4;
+    }
+}
