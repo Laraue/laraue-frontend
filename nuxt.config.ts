@@ -48,9 +48,9 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      pdfExtractorBaseAddress: 'http://localhost:5192/api/v1',
-      apartmentsBaseAddress: 'http://localhost:5127/api',
-      blogBaseAddress: 'http://localhost:5289/api',
+      pdfExtractorBaseAddress: process.env.NUXT_PUBLIC_PDF_EXTRACTOR_BASE_ADDRESS || 'http://localhost:5192/api/v1',
+      apartmentsBaseAddress: process.env.NUXT_PUBLIC_APARTMENTS_BASE_ADDRESS || 'http://localhost:5127/api',
+      blogBaseAddress: process.env.NUXT_PUBLIC_BLOG_BASE_ADDRESS || 'http://localhost:5289/api',
     },
   }
 })
