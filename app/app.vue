@@ -29,9 +29,7 @@ const route = useRoute();
               <el-sub-menu index="1-2" class="menu-links">
                 <template #title>Demonstrations</template>
                 <el-menu-item index="/crawled-apartments">
-                  <nuxt-link to="/crawled-apartments" class="main-page-link">
-                    View SPB apartments
-                  </nuxt-link>
+                  View SPB apartments
                 </el-menu-item>
               </el-sub-menu>
             </el-sub-menu>
@@ -96,6 +94,9 @@ const route = useRoute();
 .menu-links{
   grid-column-start: 3;
   display: flex;
+}
+.menu-links li{
+  margin: 0;
 }
 .footer {
   background-color: #25003a;

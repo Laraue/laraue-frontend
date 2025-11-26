@@ -13,12 +13,10 @@ const articleId = route.params.id as string;
 const { loadArticle } = useBlogApi();
 const article = await loadArticle(articleId);
 
-if (import.meta.server) {
-  useSeoMeta({
-    title: () => `Laraue Article: ${article.title}`,
-    ogTitle: () => `Laraue Article: ${article.title}`,
-  })
-}
+useSeoMeta({
+  title: () => `Laraue Article: ${article.title}`,
+  ogTitle: () => `Laraue Article: ${article.title}`,
+})
 </script>
 
 <template>

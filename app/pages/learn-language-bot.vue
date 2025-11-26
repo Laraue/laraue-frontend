@@ -1,10 +1,8 @@
 <script setup lang="ts">
-if (import.meta.server) {
-  useSeoMeta({
-    title: 'Laraue App: Learn Language Bot',
-    description: 'The telegram bot that helps to learn top 5k used words of English, Japanese, Russian and French languages',
-  })
-}
+useSeoMeta({
+  title: 'Laraue App: Learn Language Bot',
+  description: 'The telegram bot that helps to learn top 5k used words of English, Japanese, Russian and French languages',
+})
 </script>
 
 <template>

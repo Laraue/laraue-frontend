@@ -49,12 +49,10 @@ const computedItems = computed<Article[]>(() => items.value
     }
   }))
 
-if (import.meta.server) {
-  useSeoMeta({
-    title: 'Laraue Documentation section',
-    description: 'All documentation of the Laraue organization',
-  })
-}
+useSeoMeta({
+  title: 'Laraue Documentation section',
+  description: 'All documentation of the Laraue organization',
+})
 
 </script>
 

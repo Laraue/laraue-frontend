@@ -122,13 +122,10 @@ watch(() => filter, async () => {
   await loadAdvertisements();
 }, { deep: true });
 
-if (import.meta.server) {
-  useSeoMeta({
-    title: 'Laraue App: Crawled Apartments',
-    description: 'Cian and Avito Advertisements ranked by AI',
-  })
-}
-
+useSeoMeta({
+  title: 'Laraue App: Crawled Apartments',
+  description: 'Cian and Avito Advertisements ranked by AI',
+})
 </script>
 
 <template>

@@ -24,13 +24,10 @@ const menuPath = getCurrentDocumentationRoot.value
 const documentation = await loadDocumentation(itemId);
 const menuItems = await loadMenu(menuPath, 5);
 
-if (import.meta.server) {
-  useSeoMeta({
-    title: () => `Laraue Documentation: ${documentation.title}`,
-    ogTitle: () => `Laraue Documentation: ${documentation.title}`,
-  })
-}
-
+useSeoMeta({
+  title: () => `Laraue Documentation: ${documentation.title}`,
+  ogTitle: () => `Laraue Documentation: ${documentation.title}`,
+})
 </script>
 
 <template>

@@ -27,13 +27,11 @@ definePageMeta({
   layout: 'blog',
 })
 
-if (import.meta.server) {
-  useSeoMeta({
-    title: () => `Laraue Project: ${project.title}`,
-    ogTitle: () => `Laraue Project: ${project.title}`,
-    description: () => project.description,
-  })
-}
+useSeoMeta({
+  title: () => `Laraue Project: ${project.title}`,
+  ogTitle: () => `Laraue Project: ${project.title}`,
+  description: () => project.description,
+})
 
 </script>
 

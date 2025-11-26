@@ -117,12 +117,10 @@ watch(pdfql, () => {
   runSyntaxCheck();
 })
 
-if (import.meta.server) {
-  useSeoMeta({
-    title: 'Laraue App: Pdf Extractor',
-    description: 'Extract data from PDF with the Pdf Query language or premade snippets',
-  })
-}
+useSeoMeta({
+  title: 'Laraue App: Pdf Extractor',
+  description: 'Extract data from PDF with the Pdf Query language or premade snippets',
+})
 </script>
 
 <template>

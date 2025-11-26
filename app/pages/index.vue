@@ -1,10 +1,8 @@
 <script setup lang="ts">
-if (import.meta.server) {
-  useSeoMeta({
-    title: 'Laraue Blog and Demonstrations',
-    description: 'The blog of .NET developer that like to write different libraries and check concepts',
-  })
-}
+useSeoMeta({
+  title: 'Laraue Blog and Demonstrations',
+  description: 'The blog of .NET developer that like to write different libraries and check concepts',
+})
 </script>
 
 <template>
