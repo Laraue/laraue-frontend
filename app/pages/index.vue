@@ -1,7 +1,7 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'Laraue Blog and Demonstrations',
-  description: 'The blog of .NET developer that like to write different libraries and check concepts',
+  description: 'The blog of a .NET developer who likes to write different libraries and test concepts.',
 })
 </script>
 

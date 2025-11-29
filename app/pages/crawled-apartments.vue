@@ -2,7 +2,15 @@
 import { reactive, ref, watch} from "vue";
 import LDateRangePicker from "../components/ui/LDateRangePicker.vue";
 import {useRouter} from "vue-router";
-import {faBed, faHome, faLayerGroup, faMoneyBill, faRulerCombined, faSubway} from '@fortawesome/free-solid-svg-icons'
+import {
+  faBed,
+  faHome,
+  faLayerGroup,
+  faLocationDot,
+  faMoneyBill,
+  faRulerCombined,
+  faSubway
+} from '@fortawesome/free-solid-svg-icons'
 import LNumberRangePicker from "../components/ui/LNumberRangePicker.vue";
 import {type Advertisement, Filter, SourceType, useApartmentsApi} from "~/composables/apartmentsApi";
 
@@ -122,6 +130,8 @@ watch(() => filter, async () => {
   await loadAdvertisements();
 }, { deep: true });
 
+const isPriceInMarket = (item: Advertisement) => item.totalPrice < item.predictedMarketPrice;
+
 useSeoMeta({
   title: 'Laraue App: Crawled Apartments',
   description: 'Cian and Avito Advertisements ranked by AI',
@@ -146,7 +156,6 @@ useSeoMeta({
           <el-option :value=3 label="Total Price" />
           <el-option :value=4 label="Renovation rating" />
           <el-option :value=6 label="Rooms Count" />
-          <el-option :value=7 label="Ideality" />
         </el-select>
 
         <label class="filter-label">Sort Order:</label>
@@ -260,7 +269,7 @@ useSeoMeta({
       </div>
 
       <div class="infinite-scroll grid" v-infinite-scroll="load" v-loading="hasError === null">
-        <div class="property-card" v-for="item in advertisements">
+        <article class="property-card" v-for="item in advertisements">
           <div class="image-slider">
             <div class="image-container">
               <el-carousel :autoplay="false">
@@ -279,7 +288,14 @@ useSeoMeta({
                 {{ item.sourceType == SourceType.Cian ? "Cian" : "Avito" }} #{{item.sourceId}}
               </a>
             </h3>
-            <div class="property-price">{{ moneyFormatter.format(item.totalPrice) }}</div>
+            <div class="property-price">
+              {{ moneyFormatter.format(item.totalPrice) }}
+            </div>
+
+            <div class="address-details" v-if="item.address">
+              <font-awesome :icon="faLocationDot" />
+              {{ item.address }} {{ item.houseNumber }}
+            </div>
 
             <div class="property-details">
               <div class="detail-item">
@@ -300,7 +316,7 @@ useSeoMeta({
               </div>
             </div>
 
-            <div class="subway-info">
+            <div class="subway-info" v-if="item.metroStations.length > 0">
               <font-awesome :icon="faSubway" />
               <div v-for="metroStation in item.metroStations" :key="metroStation.id">
                 <div>
@@ -325,28 +341,26 @@ useSeoMeta({
                   </div>
                 </div>
               </div>
-              <div class="ideality">
-                <div class="rating-label">Ideality: {{ Math.ceil(item.ideality * 100) }}%</div>
-                <div class="rating-bar">
-                  <div
-                    class="rating-fill"
-                    :style="{
-                      width: item.ideality * 100 + '%',
-                      background: getCoefficientColor(item.ideality)
-                    }">
-                  </div>
-                </div>
+              <div class="market-price" v-if="item.predictedMarketPrice">
+                Price is
+                <span class="in-market" v-if="item.totalPrice > item.predictedMarketPrice">
+                  {{ Math.round((item.totalPrice / item.predictedMarketPrice - 1) * 100) }}% cheaper
+                </span>
+                <span class="not-in-market" v-if="item.totalPrice < item.predictedMarketPrice">
+                  {{ Math.round((item.predictedMarketPrice / item.totalPrice - 1) * 100) }}% expensive
+                </span>
+                than market {{ moneyFormatter.format(item.predictedMarketPrice) }}
               </div>
             </div>
 
-            <div class="advantages">
+            <div class="advantages" v-if="item.advantages.length > 0">
               <h4><i class="fas fa-thumbs-up"></i> Advantages</h4>
               <ul>
                 <li v-for="advantage in item.advantages">{{ advantage }}</li>
               </ul>
             </div>
 
-            <div class="disadvantages">
+            <div class="disadvantages" v-if="item.problems.length > 0">
               <h4><i class="fas fa-exclamation-circle"></i> Disadvantages</h4>
               <ul>
                 <li v-for="problem in item.problems">{{ problem }}</li>
@@ -358,7 +372,7 @@ useSeoMeta({
               <div><i class="fas fa-bell"></i> {{ item.crawledAt == item.firstTimeCrawledAt ? 'New listing' : 'Updated' }}</div>
             </div>
           </div>
-        </div>
+        </article>
       </div>
     </div>
   </div>
@@ -409,8 +423,28 @@ h1 {
 .property-price {
   font-size: 1.9rem;
   font-weight: 700;
-  color: #b21f1f;
-  margin-bottom: 2vh;
+  color: #10367c;
+}
+
+.market-price {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 1.5vh;
+}
+
+.in-market {
+  color: #19a614;
+}
+
+.not-in-market {
+  color: #8f2214;
+}
+
+.address-details{
+  margin-top: 1.5vh;
+  font-size: 1rem;
+  padding-bottom: 2vh;
+  color: #000000;
 }
 
 .property-title a {

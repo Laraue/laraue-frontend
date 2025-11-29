@@ -9,6 +9,7 @@ export interface Advertisement {
     floorNumber: number
     totalFloorsNumber: number
     totalPrice: number
+    predictedMarketPrice: number
     squareMeterPrice: number
     realSquareMeterPrice: number
     renovationRating: number
@@ -18,6 +19,8 @@ export interface Advertisement {
     firstTimeCrawledAt: string
     shortDescription: string
     advantages: string[]
+    address: string | null
+    houseNumber: string | null
     problems: string[]
     metroStations: Array<MetroStation>
     images: Array<AdvertisementImage>

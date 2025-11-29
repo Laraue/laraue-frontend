@@ -18,7 +18,17 @@ export default defineNuxtConfig({
   ],
   fontawesome: {
     icons: {
-      solid: ['faBed', 'faMoneyBill', 'faLayerGroup', 'faRulerCombined', 'faHome', 'faSubway', 'faArrowDown', 'faUpload']
+      solid: [
+        'faBed',
+        'faMoneyBill',
+        'faLayerGroup',
+        'faRulerCombined',
+        'faHome',
+        'faSubway',
+        'faArrowDown',
+        'faUpload',
+        'faLocationDot'
+      ]
     }
   },
   routeRules: {
