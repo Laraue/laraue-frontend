@@ -1,3 +1,2 @@
 User-agent: *
-Host: laraue.com
 Sitemap: https://laraue.com/sitemap.xml
