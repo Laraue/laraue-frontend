@@ -342,14 +342,14 @@ useSeoMeta({
                 </div>
               </div>
               <div class="market-price" v-if="item.predictedMarketPrice">
-                Price is
-                <span class="in-market" v-if="item.totalPrice > item.predictedMarketPrice">
-                  {{ Math.round((item.totalPrice / item.predictedMarketPrice - 1) * 100) }}% cheaper
+                The price is
+                <span class="not-in-market" v-if="item.totalPrice > item.predictedMarketPrice">
+                  {{ Math.round((item.totalPrice / item.predictedMarketPrice - 1) * 100) }}% expensive
                 </span>
-                <span class="not-in-market" v-if="item.totalPrice < item.predictedMarketPrice">
-                  {{ Math.round((item.predictedMarketPrice / item.totalPrice - 1) * 100) }}% expensive
+                <span class="in-market" v-if="item.totalPrice < item.predictedMarketPrice">
+                  {{ Math.round((item.predictedMarketPrice / item.totalPrice - 1) * 100) }}% cheaper
                 </span>
-                than market {{ moneyFormatter.format(item.predictedMarketPrice) }}
+                than estimated {{ moneyFormatter.format(item.predictedMarketPrice) }}
               </div>
             </div>
 
@@ -443,7 +443,6 @@ h1 {
 .address-details{
   margin-top: 1.5vh;
   font-size: 1rem;
-  padding-bottom: 2vh;
   color: #000000;
 }
 
@@ -457,17 +456,17 @@ h1 {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 2vh;
   padding: 10px;
   background: #f8f9fa;
   border-radius: 8px;
+  margin-top: 1.5vh;
 }
 
 .property-details {
+  margin-top: 2vh;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2vh;
-  margin-bottom: 2vh;
 }
 
 .property-title {
@@ -483,7 +482,8 @@ h1 {
 }
 
 .ai-ratings {
-  margin-bottom: 3vh;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }
 
 .ai-ratings .renovation {
