@@ -35,16 +35,15 @@ p, ul, ol, li {
 
 
 @media screen and (max-width: 1024px) {
-    h1, h2, h3, h4, h5, h6 {
-        letter-spacing: 0.01em;
-        line-height: 1;
-    }
-    p, ul, ol, li, pre, code {
+    p, ul, ol, li, pre, code, h1, h2, h3, h4, h5, h6 {
         margin: 0.75rem 0;
         padding: 0 0.5rem;
         font-size: 0.9375rem;
         text-align: justify;
         letter-spacing: 0.01em;
         line-height: 1.4;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        line-height: 1;
     }
 }

@@ -51,7 +51,7 @@ const route = useRoute();
           </p>
         </div>
         <div class="footer-resources">
-          <h3>Resources</h3>
+          <p>Resources</p>
           <a href="https://github.com/win7user10">GitHub</a>
         </div>
         <div class="footer-copyright">
@@ -117,25 +117,22 @@ const route = useRoute();
   padding: 0;
 }
 
-.footer-resources li {
-  margin-bottom: 5px;
+.footer-resources p {
+  margin: 0.1vh;
+  text-align: center;
 }
 
-.footer-resources h3 {
-  margin-bottom: 10px;
+.footer-resources li {
+  margin-bottom: 5px;
 }
 
 .footer-copyright {
   margin-top: 20px;
   font-size: 0.8rem;
+  align-items: center;
 }
 
-@media (max-width: 1024px) {
-  .footer-copyright {
-    align-items: center;
-  }
-  .footer-copyright p {
-    text-align: center;
-  }
+.footer-copyright p {
+  text-align: center;
 }
 </style>
