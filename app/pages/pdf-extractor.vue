@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import {computed, defineAsyncComponent, onMounted, ref, watch} from 'vue';
+import {computed, ref, watch} from 'vue';
 import type {UploadFile, UploadProps} from "element-plus";
 import {type PsqlExecutionResult, usePdfExtractorApi} from "~/composables/pdfExtractorApi";
-import {faArrowDown, faUpload} from "@fortawesome/free-solid-svg-icons";
+import {faUpload} from "@fortawesome/free-solid-svg-icons";
 import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
+import LSelect from "~/components/docs/LSelect.vue";
 
 const { runQuery, checkSyntax } = usePdfExtractorApi();
 
@@ -15,7 +16,15 @@ const isLoading = ref(false);
 const result = ref<PsqlExecutionResult>({ result: null, errors: [] });
 const isSnippetWindowOpened = ref(false);
 
+const isCopied = ref(false);
+const copyToClipBoard = () => {
+  const copyText = JSON.stringify(result.value.result);
+  navigator.clipboard.writeText(copyText);
+  isCopied.value = true;
+}
+
 const run = async () => {
+  isCopied.value = false;
   try {
     const bytes = await getBase64(file.value);
     result.value = await withLoader(() => runQuery(pdfql.value, bytes));
@@ -30,10 +39,6 @@ const run = async () => {
     }
   }
 }
-
-const PdfqlEditor = defineAsyncComponent(() =>
-    import('../components/PdfqlEditor.vue')
-);
 
 const runSyntaxCheck = async () => {
   result.value.result = null;
@@ -68,22 +73,22 @@ const modes = [
   {
     title: "Select tables",
     pdfql: "select(tables)",
-    id: "tables"
+    key: "tables"
   },
   {
     title: "Select table rows",
     pdfql: "select(tableRows)",
-    id: "tableRows"
+    key: "tableRows"
   },
   {
     title: "Select table cells",
     pdfql: "select(tableCells)",
-    id: "tableCells"
+    key: "tableCells"
   },
   {
     title: "Write query manually (advanced)",
     pdfql: "",
-    id: "manual"
+    key: "manual"
   },
 ]
 
@@ -108,13 +113,19 @@ const chooseSuggestion = (id: string) => {
   pdfql.value = currentMode.value!.pdfql;
 }
 
-const currentModeId = ref<string | null>(null);
+const currentModeId = ref<string | undefined>("tables");
 const currentMode = computed(() => {
-  return currentModeId.value ? modes.find(m => m.id === currentModeId.value)! : null;
+  return currentModeId.value ? modes.find(m => m.key === currentModeId.value)! : null;
 })
 
 watch(pdfql, () => {
   runSyntaxCheck();
+})
+
+watch(currentModeId, (newModeId) => {
+  const mode = modes.find(m => m.key === newModeId);
+  if (mode)
+    pdfql.value = mode.pdfql;
 })
 
 useSeoMeta({
@@ -124,134 +135,107 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="body">
-    <el-dialog v-model="isSnippetWindowOpened" title="Select a snippet" width="800">
-      <div v-for="snippet in snippets">
-        <a href="#" @click.prevent="chooseSnippet(snippet.pdfql)">{{ snippet.title }}</a>
+  <div class="container">
+    <header>
+      <h1>Extract objects from PDF</h1>
+      <p class="subtitle">The service helps to extract PDF parts in the popular formats for free. Registration is not required.</p>
+      <nuxt-link class="doc-link" to="blog/projects/pdf-query-language">About PDF query language</nuxt-link>
+    </header>
+
+    <div class="content">
+      <div class="form-group">
+        <label for="extract-type">What do you want to extract?</label>
+        <l-select
+            :options="modes"
+            v-model="currentModeId">
+        </l-select>
       </div>
-    </el-dialog>
-    <div class="layout">
-      <div class="content">
-        <div class="title">
-          <div class="title-text">
-            <h1>Extract objects from PDF</h1>
+
+      <div  v-if="currentMode?.key === 'manual'" class="form-group">
+        <label for="query-input">Enter PDF query:</label>
+        <textarea id="query-input" v-model="pdfql"></textarea>
+      </div>
+
+      <div class="form-group">
+        <el-upload
+            class="pdf-uploader"
+            :on-change="handleChange"
+            :auto-upload="false"
+            accept="application/pdf"
+            drag
+            :limit="2">
+          <el-icon class="el-icon--upload">
+            <font-awesome :icon="faUpload" />
+          </el-icon>
+          <div class="el-upload__text">
+            Drop PDF here to process or <em>click to upload</em>
           </div>
-          <div class="title-description">
-            The service helps to extract PDF parts in the popular formats for free. Registration is not required.
-          </div>
-          <div class="title-documentation-link">
-            <a href="https://laraue.com/pdf-extractor/docs/" target="_blank">Documentation</a>
-          </div>
+        </el-upload>
+      </div>
+
+      <div id="error-message" class="error"></div>
+
+      <button
+        :disabled="isLoading"
+        v-if="pdfql.length > 0 && file"
+        class="btn"
+        @click="run"
+        v-loading="isLoading">
+        {{ isLoading ? 'Processing' : 'Start' }}
+      </button>
+
+      <div id="result-container" class="result-container" v-if="result.errors.length > 0 || result.result">
+        <div class="result-header">
+          <h3>Extraction Result</h3>
+          <button
+            @click="copyToClipBoard"
+            class="copy-btn"
+            v-if="result.result"
+            :class="{copied: isCopied}">
+            {{ isCopied ? 'Copied' : 'Copy to Clipboard' }}
+          </button>
         </div>
-        <div class="snippet-selection-frame">
-          <div class="snippet-selection-dropdown">
-            <el-dropdown>
-              <el-button>
-                {{ currentMode ? currentMode.title : 'I want to' }}
-              <el-icon class="el-icon--right">
-                <font-awesome :icon="faArrowDown" />
-              </el-icon>
-              </el-button>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item v-for="mode in modes" @click="chooseSuggestion(mode.id)">{{ mode.title }}</el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
+        <div class="result-content">
+          <div v-for="error in result.errors" class="execution-result__item">
+            <p class="execution-result__error-line">
+              {{error.startLineNumber}}:{{error.startPosition}}
+            </p>
+            <p class="execution-result__error-description">
+              {{error.message}}
+            </p>
           </div>
-        </div>
-        <div class="select-pdf-frame" v-if="currentMode">
-          <el-upload
-              class="pdf-uploader"
-              :on-change="handleChange"
-              :auto-upload="false"
-              accept="application/pdf"
-              drag
-              :limit="2">
-            <el-icon class="el-icon--upload">
-              <font-awesome :icon="faUpload" />
-            </el-icon>
-            <div class="el-upload__text">
-              Drop PDF here to process or <em>click to upload</em>
-            </div>
-          </el-upload>
-        </div>
-        <div class="editor-frame" v-if="currentMode?.id === 'manual'">
-          <div class="editor-frame-left">
-            <div class="editor-code-frame">
-              <ClientOnly>
-              <pdfql-editor
-                v-model="pdfql"
-                :errors="result.errors"/>
-              </ClientOnly>
-            </div>
-            <div class="editor-frame-bottom">
-              Enter PDF query or
-              <a href="" @click.prevent="isSnippetWindowOpened = true">choose</a>
-              a snippet.
-              Full <a target="_blank" href="https://github.com/win7user10/Laraue.PdfQL">Documentation</a> is available on github.
-            </div>
-          </div>
-        </div>
-        <div class="run-execution-frame">
-          <el-button v-if="pdfql.length > 0 && file"
-                     :loading="isLoading"
-                     class="execute-pdfql-button"
-                     @click="run">
-            {{ isLoading ? 'Processing' : 'Start' }}
-          </el-button>
-        </div>
-        <div class="execution-result-frame" v-if="result.errors.length > 0 || result.result">
-          <div class="execution-result">
-            <div v-for="error in result.errors" class="execution-result__item">
-              <p class="execution-result__error-line">
-                {{error.startLineNumber}}:{{error.startPosition}}
-              </p>
-              <p class="execution-result__error-description">
-                {{error.message}}
-              </p>
-            </div>
-            <div>
-              <div v-if="result.result" class="execution-result__result">
-                <vue-json-pretty
-                    :data="result.result"
-                    :deep="2"
-                    :collapsed-node-length="20" />
-              </div>
-            </div>
-          </div>
-          <div class="execution-result__stat">
-            <div class="execution-result__title">
-              Output Window
-            </div>
-            <div class="execution-result__current-state">
-              {{ result.errors.length > 0 ? result.errors.length + ' error(s) found' : '' }}
+          <div>
+            <div v-if="result.result" class="execution-result__result">
+              <vue-json-pretty
+                :data="result.result"
+                :deep="1"
+                :collapsed-node-length="20" />
             </div>
           </div>
         </div>
       </div>
-      <div class="footer">
-        <div class="footer-steps">
-          <div class="footer-step">
-            <div class="footer-step__title">Step 1</div>
-            <div class="footer-step__name">Enter the PDF query</div>
-            <div class="footer-step__description">
-              You can write you own query or choose the snippet from the list. The app checks syntax and show errors if the occurred
-            </div>
+
+      <div class="steps">
+        <h3>How It Works</h3>
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Select Extraction Type</h4>
+            <p>Choose what you want to extract from your PDF document.</p>
           </div>
-          <div class="footer-step">
-            <div class="footer-step__title">Step 2</div>
-            <div class="footer-step__name">Upload PDF document</div>
-            <div class="footer-step__description">
-              Files are uploaded using safe connection. The app doesn't store them after processing.
-            </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Upload PDF</h4>
+            <p>Upload your PDF document using the file browser or drag and drop.</p>
           </div>
-          <div class="footer-step">
-            <div class="footer-step__title">Step 3</div>
-            <div class="footer-step__name">Launch and get a result</div>
-            <div class="footer-step__description">
-              The result can be returned in json / XML / docx / xlsx /csv formats.
-            </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Get Results</h4>
+            <p>Click "Start Extraction" and view your extracted data in the results area.</p>
           </div>
         </div>
       </div>
@@ -260,195 +244,211 @@ useSeoMeta({
 </template>
 
 <style scoped>
-.body{
-  color: #fff;
-  display: flex;
-  justify-content: center;
+
+.container {
+  margin: 0 auto;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
-.layout{
-  width: 100vw;
-  max-width: 1920px;
-  background: rgb(26, 4, 37);
-  display: flex;
-  justify-content: center;
-  flex-flow: column;
-  align-items: center;
-}
-.content{
-  margin-top: 5vh;
-  max-width: 960px;
+
+header {
+  background: #f8f9fa;
+  color: #343a40;
+  padding: 120px 20px;
   text-align: center;
-  padding: 10px;
+  border-bottom: 1px solid #dee2e6;
 }
-.title-description{
-  margin-top: 15px;
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
 }
-a{
-  text-decoration: underline;
-  color: #848826FF;
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 15px;
 }
-a:hover{
-  color: rgb(201, 205, 116);
+
+.doc-link {
+  background: linear-gradient(135deg, #8c2abf, #a489c3);
+  color: white;
+  padding: 15px 30px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 20px;
+  transition: opacity 0.3s;
 }
-a:focus{
-  color: #e2e3c2;
+
+.doc-link:hover {
+  opacity: 0.9;
 }
-.pdf-uploader{
-  padding: 2vw 0;
-  width: 15vw;
+
+.content {
+  padding: 30px;
+  max-width: 900px;
+  margin: 0 auto;
 }
-.select-pdf-frame{
+
+.form-group {
+  margin-bottom: 25px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #444;
+}
+
+select, textarea, .upload-area {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+select:focus, textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 14px 25px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.result-container {
+  margin-top: 30px;
+}
+
+.result-header {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.result-content {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  padding: 20px;
+  font-family: monospace;
+  white-space: pre-wrap;
+  max-height: 300px;
+  overflow: auto;
+  position: relative;
+}
+
+.copy-btn {
+  min-width: 140px;
+  padding: 8px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.copy-btn:not(.copied):hover {
+  background: #b8d6c6;
+}
+
+.steps {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 25px;
+  margin-top: 30px;
+}
+
+.steps h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.step {
+  display: flex;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.step-number {
+  background: #667eea;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
+  margin-right: 15px;
+  flex-shrink: 0;
 }
-.editor-code-frame{
-  max-width: 871px;
+
+.step-content h4 {
+  margin-bottom: 5px;
+  color: #444;
 }
-.editor-frame{
-  max-width: 960px;
-  background: #2D1639;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2vh;
+
+.step-content p {
+  color: #666;
+  font-size: 0.95rem;
 }
-.editor-frame-left{
-  width: 100%;
+
+.error {
+  color: #dc3545;
+  background: #f8d7da;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 15px;
+  display: none;
 }
-.editor-frame-bottom{
-  padding-left: 1vh;
-  padding-bottom: 1vh;
-  text-align: left;
-}
-.execute-pdfql-button{
-  margin-top: 5vh;
-  background: #672E85;
-  color: #fff;
-  border: none;
-  width: 200px;
-  height: 40px;
-}
-.execute-pdfql-button:hover{
-  background: #8650a3;
-  cursor: pointer;
-  color: #fff;
-}
-.execute-pdfql-button.is-disabled{
-  background: #2D1639;
-  color: #fff;
-}
-.execute-pdfql-button.is-disabled:hover{
-  background: #2D1639;
-  color: #fff;
-}
-.execution-result-frame{
-  margin-top: 5vh;
-  display: flex;
-  flex-flow: column;
-  background: #5C3C6C;
-  border: 1px solid var(--el-border-color);
-  min-height: 15vh;
-  justify-content: space-between;
-  padding-left: 0.5vw;
-  padding-right: 0.5vw;
-  margin-bottom: 5vw;
-}
-.execution-result__item{
-  display: flex;
-  line-height: 0;
-  font-size: 14px;
-  height: 16px;
-}
-.execution-result__error-line{
-  margin-right: 0.5vw;
-  font-weight: 500;
-  width: 30px;
-  text-align: left;
-}
-.execution-result__error-description{
-  font-weight: 200;
-}
-.execution-result__stat{
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2vh;
-}
-.execution-result__result{
-  text-align: left;
-}
-.footer{
-  background: #E0E0E0;
-  color: #000000;
-  width: 100%;
-}
-.footer-steps{
-  display: flex;
-  justify-content: space-around;
-  gap: 30px;
-  margin: 10vh 1vw;
-}
-.footer-step{
-  width: 14vw;
-  background: #fff;
-  text-align: left;
-  padding: 10px;
-}
-.footer-step__title{
-  text-transform: uppercase;
-  font-weight: 300;
-  font-size: 10px;
-}
-.footer-step__name{
-  margin-top: 3vh;
-  font-weight: 400;
-  font-size: 16px;
-}
-.footer-step__description{
-  margin-top: 5vh;
-  font-size: 14px;
-}
-.snippet-selection-frame{
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  font-size: 18px;
-  margin-top: 7vh;
-}
-.snippet-selection-dropdown .el-button{
-  background: rgb(26, 4, 37);
-  color: #646547;
-  border: none;
-  text-decoration: underline;
-}
-.run-execution-frame{
-  margin-bottom: 5vh;
-}
-.title-documentation-link{
-  margin-top: 3vh;
-}
-@media (max-width: 1024px) {
-  .footer-step{
-    width: 95%;
+
+@media (max-width: 600px) {
+
+  .content {
+    padding: 20px;
   }
-  .footer-steps{
-    flex-flow: column;
-  }
-  .pdf-uploader{
-    width: 100%;
+
+  h1 {
+    font-size: 1.8rem;
   }
 }
 </style>
-
-<style>
-.el-upload-list__item:hover{
-  background-color: #2D1639 !important;
-}
-.el-upload-dragger .el-upload__text em{
-  color: #aaaa36;
-}
-.vjs-tree-node.is-highlight, .vjs-tree-node:hover {
-  background-color: #57127a;
-}
-</style>
-

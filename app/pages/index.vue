@@ -8,6 +8,7 @@ interface Item{
   description: string;
   link: string;
   tags?: string[];
+  image?: string;
 }
 interface Section{
   title: string;
@@ -23,16 +24,19 @@ const sections: Section[] = [
         title: "PDF Extractor",
         description: "Easily extract text, images, and data from PDF files with a fast, user-friendly tool. Simplify document processing on any device.",
         link: '/pdf-extractor',
+        image: '/images/pdf-extractor.jfif',
       },
       {
         title: "Language Learning Platform",
         description: "Master languages (RU-EN, JA-EN, FR-EN) with quiz and view modes. Track progress and learn anywhere via Telegram.",
         link: '/learn-language-bot',
+        image: '/images/learn-language.png',
       },
       {
         title: "Advertisements Collector",
         description: "This application collects and displays advertisements from various sources and ranking them with AI.",
         link: '/crawled-apartments',
+        image: '/images/adv2.png',
       }
     ]
   },
@@ -110,6 +114,8 @@ const sections: Section[] = [
             <div class="tags" v-if="(item.tags?.length ?? 0) > 0">
               <div class="tag" v-for="tag in item.tags">{{ tag }}</div>
             </div>
+            <div v-if="item.image" class="logo" :style="{ backgroundImage: `url(${item.image}) ` }">
+            </div>
           </nuxt-link>
         </div>
       </section>
@@ -119,6 +125,14 @@ const sections: Section[] = [
 </template>
 
 <style scoped>
+.logo {
+  min-width: 60px;
+  min-height: 60px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .container {
   max-width: 1500px;
   margin: 0 auto;
