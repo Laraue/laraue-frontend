@@ -9,51 +9,108 @@ useSeoMeta({
   <header>
     <h1>Laraue's Language Learning Platform</h1>
     <p>Master languages with multiple ways to study vocabulary. Learn anytime, anywhere without installing any app!</p>
-    <a href="https://t.me/learn_lang_bot" class="btn-start">Start Learning Now</a>
+    <div>
+      <a href="https://t.me/learn_lang_bot" class="btn-start">Start Learning Now</a>
+      <img src="/images/quiz-mode.jpg" alt="Learn Language Bot" class="hero-image">
+    </div>
   </header>
   <main>
-    <section class="features">
-      <h2>Why You Should Use This Bot?</h2>
-      <div class="card-container">
-        <div class="card">
-          <h3>Quiz Mode</h3>
-          <p>Engage in interactive, gamified quizzes designed to boost retention and make learning vocabulary fun and effective.</p>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Powerful Learning Features</h2>
+          <p>Our platform combines cutting-edge technology with proven learning methods</p>
         </div>
-        <div class="card">
-          <h3>View Mode</h3>
-          <p>Organize and explore words by CEFR level (A1-C2), topic (e.g., travel, business), or alphabetically for tailored learning.</p>
-        </div>
-        <div class="card">
-          <h3>Progress Stats</h3>
-          <p>Monitor your learning streak, quiz scores, and word mastery to stay motivated and track your improvement over time.</p>
-        </div>
-        <div class="card">
-          <h3>Seamless Access</h3>
-          <p>Access the platform instantly on Telegram, compatible with smartphones, tablets, or desktops without downloading apps.</p>
-        </div>
-        <div class="card">
-          <h3>Personalized Learning</h3>
-          <p>Customize your study sessions to focus on specific language pairs or difficulty levels that suit your goals.</p>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i>🧠</i>
+            </div>
+            <h3>Quiz Mode</h3>
+            <p>Engage in interactive, gamified quizzes designed to boost retention and make learning vocabulary fun and effective.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i>💬</i>
+            </div>
+            <h3>Personalized Learning</h3>
+            <p>Customize your study sessions to focus on specific language pairs or difficulty levels that suit your goals.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i>📊</i>
+            </div>
+            <h3>Progress Tracking</h3>
+            <p>Monitor your learning streak, quiz scores, and word mastery to stay motivated and track your improvement over time.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i>🎵</i>
+            </div>
+            <h3>Seamless Access</h3>
+            <p>Access the platform instantly on Telegram, compatible with smartphones, tablets, or desktops without downloading apps.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i>🎵</i>
+            </div>
+            <h3>View Mode</h3>
+            <p>Organize and explore words by CEFR level (A1-C2), topic (e.g., travel, business), or alphabetically for tailored learning.</p>
+          </div>
         </div>
       </div>
     </section>
-    <section class="languages">
-      <h2>Supported Language Pairs</h2>
-      <div class="card-container">
-        <div class="card">
-          <h3>Russian-English</h3>
-          <p>(ru-en)</p>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>How It Works</h2>
+          <p>Learning a new language has never been easier</p>
         </div>
-        <div class="card">
-          <h3>Japanese-English</h3>
-          <p>(ja-en)</p>
-        </div>
-        <div class="card">
-          <h3>French-English</h3>
-          <p>(fr-en)</p>
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Choose Your Language</h3>
+            <p>Select from 20+ popular languages to start your journey</p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Start Learning</h3>
+            <p>Follow personalized lessons and track your progress</p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Practice &amp; Improve</h3>
+            <p>Engage in real conversations and test your skills</p>
+          </div>
         </div>
       </div>
     </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Supported Languages</h2>
+          <p>Learn the most popular languages with our platform</p>
+        </div>
+        <div class="languages-grid">
+          <div class="language-card">
+            <h3>Russian-English</h3>
+            <p>RU-EN</p>
+          </div>
+          <div class="language-card">
+            <h3>Japanese-English</h3>
+            <p>JA-EN</p>
+          </div>
+          <div class="language-card">
+            <h3>French-English</h3>
+            <p>FR-EN</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="project">
       <h3 class="project-title">Source Code & Contributions</h3>
       <div class="project-content">
@@ -70,6 +127,7 @@ useSeoMeta({
 </template>
 
 <style scoped>
+
 header {
   background: #f8f9fa;
   color: #343a40;
@@ -98,6 +156,7 @@ header p {
   font-weight: bold;
   display: inline-block;
   margin-top: 20px;
+  margin-right: 20px;
   transition: opacity 0.3s;
 }
 
@@ -105,8 +164,111 @@ header p {
   opacity: 0.9;
 }
 
+.section {
+  padding: 80px 0;
+}
+
 main {
   background: url("/images/learn-words-background.png") no-repeat center center/cover;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-title h2 {
+  font-size: 2.5rem;
+  color: #7437ae;;
+  margin-bottom: 15px;
+  position: relative;
+  display: inline-block;
+}
+
+.section-title h2::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: #00b4d8;
+  border-radius: 2px;
+}
+
+.section-title p {
+  font-size: 1.2rem;
+  color: #6c757d;;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.step {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  text-align: center;
+  padding: 30px 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.languages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.language-card {
+  background: white;
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.language-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #7437ae;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: #8c2abf;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 auto 20px;
+}
+
+.step h3 {
+  margin-bottom: 15px;
+  color: #7437ae;
+}
+
+h3 {
+  font-size: 1.17em;
+  text-align: center;
 }
 
 section {
@@ -117,31 +279,61 @@ section {
 
 .features h2,
 .languages h2 {
+  font-size: 2.5rem;
   color: #7437ae;
-  font-size: 20px;
   font-weight: 500;
   margin: 5vh 0;
 }
 
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
 }
 
-.card {
-  background-color: white;
+.feature-card {
+  background: white;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 280px;
-  text-align: left;
-  transition: transform 0.2s;
+  padding: 30px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
 }
 
-.card:hover {
-  transform: translateY(-5px);
+.feature-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #8c2abf;
+}
+
+.feature-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #343a40;
+}
+
+.feature-card p {
+  color: #6c757d;
+}
+
+.feature-icon {
+  width: 80px;
+  height: 80px;
+  background: rgba(140, 42, 191, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: #8c2abf;
+  font-size: 2rem;
 }
 
 .card h3 {
@@ -232,6 +424,14 @@ footer a:hover {
   vertical-align: middle; /* Align icon with text */
 }
 
+.hero-image {
+  max-width: 300px;
+  margin: 30px auto 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);;
+  border: 5px solid #c6e3ec;
+}
+
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   header {
@@ -242,8 +442,21 @@ footer a:hover {
     padding: 30px 20px;
   }
 
-  .card {
-    width: 100%; /* Make cards full-width on smaller screens */
+  header h1 {
+    font-size: 2.5rem;
+  }
+
+  header p {
+    font-size: 1.1rem;
+  }
+
+  .section {
+    padding: 10px 0;
+  }
+
+  .section-title h2 {
+    font-size: 2rem;
+    text-align: center;
   }
 }
 </style>
