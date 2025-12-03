@@ -30,7 +30,7 @@ const sections: Section[] = [
         title: "Language Learning Platform",
         description: "Master languages (RU-EN, JA-EN, FR-EN) with quiz and view modes. Track progress and learn anywhere via Telegram.",
         link: '/learn-language-bot',
-        image: '/images/learn-language.png',
+        image: '/images/learn-language.jpg',
       },
       {
         title: "Advertisements Collector",
@@ -308,9 +308,10 @@ const sections: Section[] = [
 }
 
 .card-header {
-  display: flex;
   align-items: center;
   margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: 60px auto;
 }
 
 .card-icon {
