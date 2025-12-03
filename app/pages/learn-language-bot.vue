@@ -20,7 +20,7 @@ useSeoMeta({
       <div class="container">
         <div class="section-title">
           <h2>Powerful Learning Features</h2>
-          <p>Our platform combines cutting-edge technology with proven learning methods</p>
+          <p>The platform combines cutting-edge technology with proven learning methods</p>
         </div>
         <div class="features-grid">
           <div class="feature-card">
@@ -72,17 +72,17 @@ useSeoMeta({
           <div class="step">
             <div class="step-number">1</div>
             <h3>Choose Your Language</h3>
-            <p>Select from 20+ popular languages to start your journey</p>
+            <p>Select any of the available languages pair on settings</p>
           </div>
           <div class="step">
             <div class="step-number">2</div>
             <h3>Start Learning</h3>
-            <p>Follow personalized lessons and track your progress</p>
+            <p>Use Quiz Mode to learn new words</p>
           </div>
           <div class="step">
             <div class="step-number">3</div>
             <h3>Practice &amp; Improve</h3>
-            <p>Engage in real conversations and test your skills</p>
+            <p>Each finished Quiz will update and show your statistics</p>
           </div>
         </div>
       </div>
@@ -456,6 +456,14 @@ footer a:hover {
 
   .section-title h2 {
     font-size: 2rem;
+    text-align: center;
+  }
+
+  .language-card p {
+    text-align: center;
+  }
+
+  .step p {
     text-align: center;
   }
 }
