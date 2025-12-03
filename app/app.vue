@@ -80,13 +80,6 @@ const route = useRoute();
   flex: 1 1 auto;
   height: auto;
 }
-.main-page-link{
-  font-size: 1.5rem;
-  font-weight: 500;
-}
-.user-button{
-  grid-column-start: 20;
-}
 .menu{
   display: grid;
   grid-template-columns: repeat(20, 1fr);
