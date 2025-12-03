@@ -46,14 +46,14 @@ useSeoMeta({
           </div>
           <div class="feature-card">
             <div class="feature-icon">
-              <i>🎵</i>
+              <i>🖥️</i>
             </div>
             <h3>Seamless Access</h3>
             <p>Access the platform instantly on Telegram, compatible with smartphones, tablets, or desktops without downloading apps.</p>
           </div>
           <div class="feature-card">
             <div class="feature-icon">
-              <i>🎵</i>
+              <i>👀</i>
             </div>
             <h3>View Mode</h3>
             <p>Organize and explore words by CEFR level (A1-C2), topic (e.g., travel, business), or alphabetically for tailored learning.</p>
