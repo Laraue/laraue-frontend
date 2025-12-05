@@ -32,9 +32,9 @@ export default defineNuxtConfig({
     }
   },
   routeRules: {
-    '/': { ssr: true },
+    '/': { prerender: true },
     '/crawled-apartments': { ssr: true },
-    '/learn-language-bot': { ssr: true },
+    '/learn-language-bot': { prerender: true },
     '/blog/**': { ssr: true },
   },
   app: {
