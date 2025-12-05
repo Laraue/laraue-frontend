@@ -32,15 +32,10 @@ export default defineNuxtConfig({
     }
   },
   routeRules: {
-    '/': { prerender: true },
+    '/': { ssr: true },
     '/crawled-apartments': { ssr: true },
-    '/learn-language-bot': { prerender: true },
+    '/learn-language-bot': { ssr: true },
     '/blog/**': { ssr: true },
-  },
-  vite: {
-    optimizeDeps: {
-      include: ['monaco-editor']
-    }
   },
   app: {
     head: {
