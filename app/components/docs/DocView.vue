@@ -135,6 +135,10 @@ defineProps({
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
+.article-content :deep(img) {
+  width: 100%;
+}
+
 /* Code block with language class */
 .article-content :deep(pre code) {
   background: none;
