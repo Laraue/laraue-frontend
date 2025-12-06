@@ -21,6 +21,7 @@ export interface Advertisement {
     advantages: string[]
     address: string | null
     houseNumber: string | null
+    cityName: string | null
     problems: string[]
     metroStations: Array<MetroStation>
     images: Array<AdvertisementImage>
@@ -56,6 +57,7 @@ export class Filter {
     minSquare = null
     maxSquare = null
     roomsCount = []
+    cityId: number | null = null
     excludeFirstFloor = false
     excludeLastFloor = false
     sortBy = 0

@@ -255,6 +255,19 @@ defineProps({
   .tag-list{
     justify-content: center;
   }
+
+  .article-content :deep(p, ul, ol, li, pre, code, h1, h2, h3, h4, h5, h6) {
+    margin: 0.75rem 0;
+    padding: 0 0.5rem;
+    font-size: 0.9375rem;
+    text-align: justify;
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+  }
+
+  .article-content :deep(h1, h2, h3, h4, h5, h6) {
+    line-height: 1;
+  }
 }
 
 </style>

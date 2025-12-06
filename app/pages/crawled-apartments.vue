@@ -131,6 +131,10 @@ watch(() => filter, async () => {
 }, { deep: true });
 
 const isPriceInMarket = (item: Advertisement) => item.totalPrice < item.predictedMarketPrice;
+const getAddressString = (item: Advertisement) => {
+  const parts = [item.cityName, item.address, item.houseNumber];
+  return parts.filter(i => i && i.length > 0).join(', ');
+}
 
 useSeoMeta({
   title: 'Laraue App: Crawled Apartments',
@@ -145,6 +149,15 @@ useSeoMeta({
   <div class="container">
     <el-collapse>
       <el-aside class="filters" v-if="!filtersHidden">
+        <label class="filter-label">City:</label>
+        <el-select
+            class="number-input"
+            clearable
+            v-model="filter.cityId">
+          <el-option :value="1" label="Saint-Petersburg" />
+          <el-option :value="2" label="Volgograd" />
+        </el-select>
+
         <label class="filter-label">Sort By:</label>
         <el-select
             class="number-input"
@@ -292,9 +305,9 @@ useSeoMeta({
               {{ moneyFormatter.format(item.totalPrice) }}
             </div>
 
-            <div class="address-details" v-if="item.address">
+            <div class="address-details" v-if="item.cityName">
               <font-awesome :icon="faLocationDot" />
-              {{ item.address }} {{ item.houseNumber }}
+              {{ getAddressString(item) }}
             </div>
 
             <div class="property-details">
