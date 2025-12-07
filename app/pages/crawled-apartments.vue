@@ -154,6 +154,7 @@ useSeoMeta({
             class="number-input"
             clearable
             v-model="filter.cityId">
+          <el-option :value="3" label="Moscow" />
           <el-option :value="1" label="Saint-Petersburg" />
           <el-option :value="2" label="Volgograd" />
         </el-select>
