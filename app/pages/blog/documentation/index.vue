@@ -49,8 +49,16 @@ const computedItems = computed<Article[]>(() => items.value
     }
   }))
 
+const title = computed(() => {
+  let result = "Laraue Documentation"
+  if (selectedProject.value)
+    result += " related to project '" + selectedProject.value + "'"
+
+  return result
+})
+
 useSeoMeta({
-  title: 'Laraue Documentation section',
+  title: title,
   description: 'All documentation of the Laraue organization',
 })
 
@@ -66,7 +74,7 @@ useSeoMeta({
 
   <articles-list
     v-if="items"
-    title="All Documentation Items"
+    :title="title"
     :articles="computedItems"/>
 </template>
 

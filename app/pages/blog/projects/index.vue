@@ -43,8 +43,16 @@ const computedItems = computed<Article[]>(() => (projects.value ?? [])
       }
     }))
 
+const title = computed(() => {
+  let result = "Laraue Projects"
+  if (selectedTag.value)
+    result += " with tag '" + selectedTag.value + "'"
+
+  return result
+})
+
 useSeoMeta({
-  title: 'Laraue Projects list',
+  title: title,
   description: 'All projects of the Laraue organization',
 })
 </script>
@@ -60,7 +68,7 @@ useSeoMeta({
 
   <articles-list
       v-if="projects"
-      title="All Projects"
+      :title=title
       :articles="computedItems"/>
 </template>
 
