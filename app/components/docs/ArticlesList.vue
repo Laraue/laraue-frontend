@@ -16,22 +16,6 @@ export interface Article {
   path: string[] | undefined;
 }
 
-const makePath = (path: string[] | undefined, fileName: string) => {
-  const result = []
-
-  if (path)
-    result.push(...path)
-
-  if (!isIndexFile(fileName))
-    result.push(fileName)
-
-  return "/" + PathUtil.getPathString(result)
-}
-
-const isIndexFile = (fileName: string) => {
-  return fileName === "index"
-}
-
 </script>
 
 <template>
@@ -39,7 +23,7 @@ const isIndexFile = (fileName: string) => {
     <h2>{{ title }}</h2>
     <nuxt-link
       v-for="article in articles"
-      :to="makePath(article.path, article.fileName)">
+      :to="PathUtil.getAbsolutePathString(article.path)">
       <div class="article-card" >
         <h3>{{ article.title }}</h3>
         <p>{{ article.description }}</p>

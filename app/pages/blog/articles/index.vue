@@ -15,16 +15,14 @@ definePageMeta({
 })
 
 const selectedProject = ref("")
-const selectedTag = ref("")
 
 const loadPage = async () => {
-  articles.value = await loadArticlesList(0, 8, selectedProject.value, selectedTag.value);
+  articles.value = await loadArticlesList(0, 8, selectedProject.value, undefined);
 }
 await loadPage();
 
 const resetSelects = () => {
   selectedProject.value = "";
-  selectedTag.value = "";
 }
 
 const updateSelectValue = (valueRef: Ref<string, string>, value: string) => {
@@ -47,8 +45,16 @@ const computedArticles = computed<Article[]>(() => articles.value
       }
     }))
 
+const title = computed(() => {
+  let result = "All content"
+  if (selectedProject.value)
+    result += " of project '" + selectedProject.value + "'"
+
+  return result
+})
+
 useSeoMeta({
-  title: 'Laraue Articles list',
+  title: title.value,
   description: 'All articles of the Laraue organization',
 })
 
@@ -64,7 +70,7 @@ useSeoMeta({
 
   <articles-list
       v-if="articles"
-      title="All Articles"
+      :title="title"
       :articles="computedArticles"/>
 </template>
 

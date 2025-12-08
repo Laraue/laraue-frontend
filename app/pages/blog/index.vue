@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import ArticlesList, {type Article} from "../../components/docs/ArticlesList.vue";
-import {computed, type Ref, ref} from "vue";
+import {computed, type Ref, ref, watch} from "vue";
 import LFiltersSection from "../../components/docs/LFiltersSection.vue";
 import LSelectTag from "../../components/docs/LSelectTag.vue";
 import LSelectContentType from "../../components/docs/LSelectContentType.vue";
@@ -16,8 +16,12 @@ const items = ref<DocumentationItem[]>([])
 const route = useRoute();
 
 const selectedProject = ref("")
-const selectedTag = ref<string>(route.query.tag as string ?? "")
+const selectedTag = ref<string>(route.query.tag as string)
 const selectedContentType = ref<string>("")
+
+watch(() => route.query.tag, (newTag) => {
+  changeSelectedTag(newTag as string);
+})
 
 const { loadDocumentationItemsList } = useBlogApi();
 const loadPage = async () => {
@@ -29,6 +33,16 @@ const loadPage = async () => {
       selectedContentType.value)
   items.value = data.data
 }
+
+const title = computed(() => {
+  let result = "All content"
+  if (selectedTag.value)
+    result += " by tag '" + selectedTag.value + "'"
+  if (selectedContentType.value)
+    result += " of type '" + selectedContentType.value + "'"
+
+  return result
+})
 
 await loadPage();
 
@@ -60,7 +74,7 @@ const computedItems = computed<Article[]>(() => items.value
     }))
 
 useSeoMeta({
-  title: 'Laraue Blog Items list',
+  title: title,
   description: 'All blog posts of the Laraue organization',
 })
 
@@ -80,7 +94,7 @@ useSeoMeta({
 
   <articles-list
       v-if="items"
-      title="All Content"
+      :title="title"
       :articles="computedItems"/>
 </template>
 

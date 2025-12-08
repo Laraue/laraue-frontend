@@ -136,7 +136,7 @@ defineProps({
 }
 
 .article-content :deep(img) {
-  width: 100%;
+  max-width: 100%;
 }
 
 /* Code block with language class */

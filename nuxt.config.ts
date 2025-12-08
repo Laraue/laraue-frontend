@@ -33,9 +33,8 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/': { prerender: true },
-    '/crawled-apartments': { ssr: true },
+    '/crawled-apartments': { ssr: false },
     '/learn-language-bot': { prerender: true },
-    '/blog/**': { ssr: true },
   },
   app: {
     head: {
