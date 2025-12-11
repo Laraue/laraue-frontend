@@ -1,4 +1,36 @@
 <script setup lang="ts">
+
+const supportedLanguages = [
+  {
+    name: "Russian-English",
+    value: "RU-EN"
+  },
+  {
+    name: "Japanese-English",
+    value: "JA-EN"
+  },
+  {
+    name: "French-English",
+    value: "FR-EN"
+  },
+  {
+    name: "Hindi-English",
+    value: "HI-EN"
+  },
+  {
+    name: "German-English",
+    value: "DE-EN"
+  },
+  {
+    name: "Chinese-English",
+    value: "ZN-EN"
+  },
+  {
+    name: "Spanish-English",
+    value: "ES-EN"
+  }
+]
+
 useSeoMeta({
   title: 'Laraue App: Learn Language Bot',
   description: 'The telegram bot that helps to learn top 5k used words of English, Japanese, Russian and French languages',
@@ -95,17 +127,9 @@ useSeoMeta({
           <p>Learn the most popular languages with our platform</p>
         </div>
         <div class="languages-grid">
-          <div class="language-card">
-            <h3>Russian-English</h3>
-            <p>RU-EN</p>
-          </div>
-          <div class="language-card">
-            <h3>Japanese-English</h3>
-            <p>JA-EN</p>
-          </div>
-          <div class="language-card">
-            <h3>French-English</h3>
-            <p>FR-EN</p>
+          <div class="language-card" v-for="language in supportedLanguages">
+            <h3>{{ language.name }}</h3>
+            <p>{{ language.value }}</p>
           </div>
         </div>
       </div>
