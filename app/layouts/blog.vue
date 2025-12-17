@@ -83,7 +83,7 @@ const documentationMenuItems = await loadMenu(PathUtil.getPath("documentation"),
 }
 
 .sidebar {
-  background-color: #453d6e;
+  background-color: #ecf0f1;
   color: white;
   padding: 20px;
 }
@@ -105,7 +105,7 @@ const documentationMenuItems = await loadMenu(PathUtil.getPath("documentation"),
 }
 
 .sidebar a{
-  color: white;
+  color: #000;
 }
 
 .sidebar ul li {
@@ -117,7 +117,7 @@ const documentationMenuItems = await loadMenu(PathUtil.getPath("documentation"),
 }
 
 .sidebar ul li a {
-  color: #bdc3c7;
+  color: #242526;
   text-decoration: none;
   transition: color 0.3s;
 }
