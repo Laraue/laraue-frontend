@@ -137,13 +137,13 @@ const sections: Section[] = [
 <style scoped>
 .container {
   max-width: 1200px;
-  margin: 0 auto;
   background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
   min-height: 100vh;
   padding: 0;
   box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
   border-radius: 12px;
   overflow: hidden;
+  margin: 10px auto 0;
 }
 
 .hero {

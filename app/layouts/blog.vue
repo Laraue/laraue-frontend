@@ -83,7 +83,7 @@ const documentationMenuItems = await loadMenu(PathUtil.getPath("documentation"),
 }
 
 .sidebar {
-  background-color: #2c3e50;
+  background-color: #453d6e;
   color: white;
   padding: 20px;
 }
@@ -242,7 +242,7 @@ const documentationMenuItems = await loadMenu(PathUtil.getPath("documentation"),
 
   .sidebar ul li {
     border: none;
-    padding: 4px 0;
+    padding: 6px 0;
     text-align: center;
     margin: 0;
   }

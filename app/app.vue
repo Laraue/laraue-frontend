@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const route = useRoute();
+import LMenu from "~/components/ui/LMenu.vue";
 </script>
 
 <template>
@@ -7,36 +7,7 @@ const route = useRoute();
     <div class="container">
       <div class="header">
         <div class="header-left">
-          <el-menu
-              class="menu"
-              mode="horizontal"
-              router
-              :default-active="route.path">
-            <el-menu-item index="/">
-              Laraue Tools
-            </el-menu-item>
-            <el-sub-menu index="1" class="menu-links">
-              <template #title>Projects</template>
-              <el-sub-menu index="1-1" class="menu-links">
-                <template #title>Apps</template>
-                <el-menu-item index="/pdf-extractor">
-                  PDF extractor
-                </el-menu-item>
-                <el-menu-item index="/learn-language-bot">
-                  Learn Top 5k Words Bot
-                </el-menu-item>
-              </el-sub-menu>
-              <el-sub-menu index="1-2" class="menu-links">
-                <template #title>Demonstrations</template>
-                <el-menu-item index="/crawled-apartments">
-                  View SPB apartments
-                </el-menu-item>
-              </el-sub-menu>
-            </el-sub-menu>
-            <el-menu-item index="/blog">
-              Blog
-            </el-menu-item>
-          </el-menu>
+          <l-menu />
         </div>
       </div>
       <div class="content">
@@ -79,14 +50,6 @@ const route = useRoute();
 .content{
   flex: 1 1 auto;
   height: auto;
-}
-.menu{
-  display: grid;
-  grid-template-columns: repeat(20, 1fr);
-}
-.menu-links{
-  grid-column-start: 3;
-  display: flex;
 }
 .menu-links li{
   margin: 0;
