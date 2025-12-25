@@ -26,7 +26,6 @@ useSeoMeta({
       :created-at="article?.createdAt"
       :updated-at="article?.updatedAt"
       :inner-links="article?.innerLinks"
-      :tags="article?.projects"
       :title="article?.title">
         <template #before-content>
           <div class="related-projects" v-if="article?.projects">
