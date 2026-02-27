@@ -168,7 +168,9 @@ useSeoMeta({
             </div>
             <!-- plain text html view (active initially) -->
             <div v-else id="textView" class="text-view">
-              {{ transpiled }}
+              <div class="plain-text-output">
+                {{ transpiled }}
+              </div>
             </div>
           </div>
         </div>
@@ -254,7 +256,6 @@ h1 {
 /* shared card styles */
 .card {
   background: #ffffffdd;
-  backdrop-filter: blur(4px);
   border-radius: 2rem;
   box-shadow: 0 12px 30px -8px rgba(0,20,40,0.15), 0 4px 0 0 #f8fafc inset;
   overflow: hidden;
@@ -413,6 +414,8 @@ h1 {
 .rendered-html :deep(blockquote) { border-left: 4px solid #a5b4fc; padding-left: 1rem; color: #334155; }
 .rendered-html :deep(table) { border-collapse: collapse; width: 100%; }
 .rendered-html :deep(th), .rendered-html :deep(td) { border: 1px solid #cbd5e1; padding: 0.5rem; }
+.rendered-html :deep(ul) { list-style: disc; margin-left: 20px; }
+.rendered-html :deep(ol) { list-style: decimal; margin-left: 20px; }
 
 /* plain text area (inside output) */
 .plain-text-output {
