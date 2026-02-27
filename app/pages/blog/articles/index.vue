@@ -55,7 +55,7 @@ const title = computed(() => {
 
 useSeoMeta({
   title: title.value,
-  description: 'All articles of the Laraue organization',
+  description: 'The whole articles list in the Blog. Use the filters to find only you interested in.',
 })
 
 </script>

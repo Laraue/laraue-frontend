@@ -1,7 +1,7 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'Laraue Blog and Demonstrations',
-  description: 'The blog of a .NET developer who likes to write different libraries and test concepts.',
+  description: 'The technical Blog of Ilya Belyansky, a .NET developer who likes to write different libraries, test concepts and share thoughts.',
 })
 interface Item{
   title: string;
