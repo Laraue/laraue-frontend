@@ -27,7 +27,7 @@ import LMenu from "~/components/ui/LMenu.vue";
         </div>
         <div class="footer-copyright">
           <p>For inquiries or feedback, contact the developer on Telegram: <a href="https://t.me/win7user10">@win7user10</a></p>
-          <p>2025 Laraue. All rights reserved.</p>
+          <p>2026 Laraue. All rights reserved.</p>
         </div>
       </footer>
     </div>

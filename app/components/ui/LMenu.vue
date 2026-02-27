@@ -31,6 +31,11 @@ const menuItems: MenuItem[] = [
         text: "View SPB apartments",
         link: "/crawled-apartments",
         id: "2-1",
+      },
+      {
+        text: "Markdown to HTML converter",
+        link: "/markdown-converter",
+        id: "2-2",
       }
     ]
   },

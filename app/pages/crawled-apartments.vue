@@ -137,8 +137,8 @@ const getAddressString = (item: Advertisement) => {
 }
 
 useSeoMeta({
-  title: 'Laraue App: Crawled Apartments',
-  description: 'Cian and Avito Advertisements ranked by AI',
+  title: 'Real Estate Offers Ranked by AI',
+  description: 'The Cian and Avito advertisements aggregator that automatically rank renovations',
 })
 </script>
 

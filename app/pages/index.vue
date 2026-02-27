@@ -18,7 +18,7 @@ interface Section{
 const sections: Section[] = [
   {
     title: "Applications",
-    description: "The list of currently deployed applications on the domain.",
+    description: "The list of currently deployed applications",
     items: [
       {
         title: "PDF Extractor",
@@ -42,7 +42,7 @@ const sections: Section[] = [
   },
   {
     title: "Libraries",
-    description: "Open-source modules that can be used in real applications.",
+    description: "Open-source modules that can be used in real applications",
     items: [
       {
         title: "Laraue.EfCoreTriggers",
@@ -90,9 +90,9 @@ const sections: Section[] = [
           <div class="section-divider"></div>
         </div>
         <div class="about-text">
-          <p>Hello. I am a software developer from Russia. I like to explore different concepts and technologies, and this site serves as a platform where I share my ideas and projects.</p>
-          <p>The site contains my thoughts, tutorials, and the development journey of various projects I've worked on in the <nuxt-link to="/blog" class="link-highlight">Blog section</nuxt-link>. I made this resource to structure my thoughts and provide a reference for other developers who want to create something meaningful.</p>
-          <p>You can also find applications described in the blog. For this, I suggest exploring the links above.</p>
+          <p>Hello. I am yet another one software engineer born in Russia. I like to explore different concepts and technologies, and this site serves as a platform where I share my ideas and projects.</p>
+          <p>The site contains my thoughts, tutorials, and the development journey of various projects I've worked on in the <nuxt-link to="/blog" class="link-highlight">Blog section</nuxt-link>. I made this resource to structure all I ever made and provide a reference for other developers who want to create something useful.</p>
+          <p>The resource also contain some deployed apps, to access them I suggest exploring the links above.</p>
         </div>
       </section>
 
