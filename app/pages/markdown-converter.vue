@@ -12,6 +12,11 @@ const loadResponse = async() => {
   transpiled.value = response.htmlContent ?? ""
 }
 
+useSeoMeta({
+  title: 'Markdown to HTML Converter',
+  description: 'The utility for online Markdown to HTML Converting',
+})
+
 </script>
 
 <template>

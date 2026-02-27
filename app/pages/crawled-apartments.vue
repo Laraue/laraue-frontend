@@ -137,7 +137,7 @@ const getAddressString = (item: Advertisement) => {
 }
 
 useSeoMeta({
-  title: 'Real Estate Offers Ranked by AI',
+  title: 'AI-Ranked SPB Apartments',
   description: 'The Cian and Avito advertisements aggregator that automatically rank renovations',
 })
 </script>

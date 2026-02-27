@@ -32,7 +32,7 @@ const supportedLanguages = [
 ]
 
 useSeoMeta({
-  title: 'Laraue App: Learn Language Bot',
+  title: 'Increase Vocabulary with Flashcards Bot',
   description: 'The telegram bot that helps to learn top 5k used words of English, Japanese, Russian and French languages',
 })
 </script>

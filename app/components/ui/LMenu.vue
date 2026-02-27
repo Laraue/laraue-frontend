@@ -12,31 +12,31 @@ const menuItems: MenuItem[] = [
     id: "1",
     children: [
       {
-        text: "PDF extractor",
-        link: "/pdf-extractor",
+        text: "Markdown to HTML Converter",
+        link: "/markdown-converter",
         id: "1-1",
       },
       {
-        text: "Learn Top 5k Words Bot",
-        link: "/learn-language-bot",
-        id: "1-2"
+        text: "AI-Ranked Apartments",
+        link: "/crawled-apartments",
+        id: "1-2",
+      },
+      {
+        text: "Pdf Query Language Concept",
+        link: "/pdf-extractor",
+        id: "1-3",
       }
     ]
   },
   {
-    text: "Demonstrations",
+    text: "Telegram Bots",
     id: "2",
     children: [
       {
-        text: "View SPB apartments",
-        link: "/crawled-apartments",
-        id: "2-1",
+        text: "Increase Vocabulary with Flashcards",
+        link: "/learn-language-bot",
+        id: "2-1"
       },
-      {
-        text: "Markdown to HTML converter",
-        link: "/markdown-converter",
-        id: "2-2",
-      }
     ]
   },
   {

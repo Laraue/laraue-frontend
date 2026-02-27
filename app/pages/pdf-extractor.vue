@@ -129,7 +129,7 @@ watch(currentModeId, (newModeId) => {
 })
 
 useSeoMeta({
-  title: 'Laraue App: Pdf Extractor',
+  title: 'Pdf Query Language Concept (Alpha)',
   description: 'Extract data from PDF with the Pdf Query language or premade snippets',
 })
 </script>
