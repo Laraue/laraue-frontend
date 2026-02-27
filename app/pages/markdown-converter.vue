@@ -256,7 +256,6 @@ h1 {
 /* shared card styles */
 .card {
   background: #ffffffdd;
-  border-radius: 2rem;
   box-shadow: 0 12px 30px -8px rgba(0,20,40,0.15), 0 4px 0 0 #f8fafc inset;
   overflow: hidden;
   display: flex;
@@ -271,7 +270,7 @@ h1 {
 
 .card-header {
   padding: 1.2rem 1.8rem;
-  background: #f8fafc;
+  background: #eef2ff66;
   border-bottom: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
@@ -310,6 +309,10 @@ h1 {
   color: #1e293b;
   caret-color: #6366f1;
   outline: none;
+  overflow: auto;  /* enables both horizontal and vertical scrollbars when needed */
+  white-space: pre;  /* prevents text wrapping, forces horizontal scroll for long lines */
+  word-wrap: normal;  /* ensures long unbroken strings trigger horizontal scroll */
+  box-sizing: border-box;
 }
 
 .markdown-input::placeholder {
@@ -324,6 +327,7 @@ h1 {
   flex: 1;
   background: #ffffff;
   min-height: 460px;
+  max-height: 700px;
 }
 
 /* toggle switch (clean, modern) */
@@ -390,9 +394,10 @@ h1 {
 .rendered-html {
   padding: 1.8rem;
   height: 100%;
-  overflow-y: auto;
   line-height: 1.6;
   color: #1e293b;
+  overflow: auto;  /* scrollbars for rendered HTML view */
+  box-sizing: border-box;
 }
 
 .rendered-html :deep(h1),
@@ -422,17 +427,17 @@ h1 {
   padding: 1.8rem;
   margin: 0;
   height: 100%;
-  overflow-y: auto;
   background: #fcfcfd;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.95rem;
-  white-space: pre-wrap;
-  word-wrap: break-word;
   color: #0f172a;
   border: none;
   resize: none;
   width: 100%;
   min-height: 460px;
+  overflow: auto;  /* scrollbars for plain text view */
+  white-space: pre;  /* keeps code formatting with horizontal scroll */
+  word-wrap: normal;  /* ensures long lines cause horizontal scroll */
 }
 
 /* toggle visibility */
@@ -448,8 +453,6 @@ h1 {
 .cheat-sheet {
   margin-top: 1.8rem;
   background: #ffffffd9;
-  backdrop-filter: blur(4px);
-  border-radius: 2rem;
   padding: 1.5rem 2rem;
   border: 1px solid #ffffff;
   box-shadow: 0 12px 25px -16px #1e293b;
@@ -489,12 +492,14 @@ h1 {
   font-weight: 500;
   color: #1e293b;
   cursor: pointer;
-  transition: all 0.15s ease;
   box-shadow: 0 2px 6px #00000008;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   user-select: none;
+  -webkit-tap-highlight-color: transparent;  /* removes gray tap highlight on iOS */
+  -webkit-touch-callout: none;  /* prevents callout menu */
+  transition: all 0.15s ease;  /* your existing transition */
 }
 
 .rule-chip:hover {
@@ -517,6 +522,11 @@ h1 {
   font-size: 0.85rem;
   color: #4338ca;
   border: 1px solid #cbd5e1;
+}
+
+/* Remove any default tap highlight color that might persist */
+.rule-chip:focus-visible {
+  outline: none;  /* removes focus outline on tap (optional) */
 }
 
 .rule-desc {
@@ -603,6 +613,9 @@ hr {
   .rule-chip {
     padding: 0.4rem 1rem;
     font-size: 0.9rem;
+  }
+  .output-area, .plain-text-output, .markdown-input {
+    min-height: 150px;
   }
 }
 </style>
