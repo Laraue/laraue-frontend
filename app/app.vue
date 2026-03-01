@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LMenu from "~/components/ui/LMenu.vue";
+const { t } = useI18n()
 </script>
 
 <template>
@@ -17,22 +18,33 @@ import LMenu from "~/components/ui/LMenu.vue";
       </div>
       <footer class="footer">
         <div class="footer-about">
-          <p>Laraue is a development organization focused on building reusable libraries and engaging projects. We're driven by a passion for creating efficient open-source solutions.
-            Discover the repositories and projects that showcase our dedication to innovation.
-          </p>
+          <p>{{ t("laraueDescription") }}</p>
         </div>
         <div class="footer-resources">
           <p>Resources</p>
           <a href="https://github.com/win7user10">GitHub</a>
         </div>
         <div class="footer-copyright">
-          <p>For inquiries or feedback, contact the developer on Telegram: <a href="https://t.me/win7user10">@win7user10</a></p>
+          <p>{{ t("feedbackTitle") }}: <a href="https://t.me/win7user10">@win7user10</a></p>
           <p>2026 Laraue. All rights reserved.</p>
         </div>
       </footer>
     </div>
   </div>
 </template>
+
+<i18n lang="json">
+{
+  "en": {
+    "laraueDescription": "Laraue is an indie development organization focused on building reusable libraries and engaging projects. I'm driven by a passion for creating efficient open-source solutions and possible monetization of projects.",
+    "feedbackTitle": "For inquiries or feedback, contact me on Telegram"
+  },
+  "ru": {
+    "laraueDescription": "Laraue - инди организация, сфокусированная на создании переиспользуемых библиотек и проектов. Мотивацией является любовь к созданию хорошего кода и возможная монетизация проектов.",
+    "feedbackTitle": "По всем вопросам доступен в Telegram"
+  }
+}
+</i18n>
 
 <style scoped>
 .layout{

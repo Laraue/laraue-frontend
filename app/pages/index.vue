@@ -45,30 +45,30 @@ const sections = computed<Section[]>(() => [
     ]
   },
   {
-    title: "Libraries",
-    description: "Open-source modules that can be used in real applications",
+    title: t("librariesTitle"),
+    description: t("librariesDescription"),
     items: [
       {
         title: "Laraue.EfCoreTriggers",
-        description: "Allows to work with triggers via C# code.",
+        description: t("efCoreTriggersDescription"),
         link: localePath("/blog/projects/ef-core-triggers"),
         tags: [".NET", "EF Core", "Database Triggers"]
       },
       {
         title: "Laraue.PdfQL",
-        description: "PDF Query Language - A powerful language for querying and manipulating PDF documents.",
+        description: t("pdfqlDescription"),
         link: localePath('/blog/projects/pdf-query-language'),
         tags: [".NET", "PDF", "Interpreter", "Query language"]
       },
       {
         title: "Laraue.Crawling",
-        description: "A robust and flexible web crawling library for .NET.",
+        description: t("crawlingLibraryDescription"),
         link: localePath('/blog/projects/crawler'),
         tags: [".NET", "Web Crawling", "Scraping"]
       },
       {
         title: "Laraue.Telegram.NET",
-        description: "Work with telegram via Telegram controllers.",
+        description: t("telegramNetLibraryDescription"),
         link: localePath('/blog/projects/telegram-net'),
         tags: [".NET", "Telegram Bot API"]
       }
@@ -95,7 +95,13 @@ const sections = computed<Section[]>(() => [
     "learnLanguageBotTitle": "Language Learning Bot",
     "learnLanguageBotDescription": "Master languages (RU-EN, JA-EN, FR-EN) with flashcards. Track progress and learn anywhere via Telegram.",
     "advertisementsCollectorTitle": "AI Apartments Aggregator",
-    "advertisementsCollectorDescription": "This application collects and displays advertisements from various sources and ranking them with AI."
+    "advertisementsCollectorDescription": "This application collects and displays advertisements from various sources and ranking them with AI.",
+    "librariesTitle": "Libraries",
+    "librariesDescription": "Open-source modules that can be used in real applications",
+    "efCoreTriggersDescription": "Allows to define triggers without SQL using only C# code.",
+    "pdfqlDescription": "PDF Query Language (Concept) - A powerful language for querying and manipulating PDF documents.",
+    "crawlingLibraryDescription": "A robust and flexible web crawling library for .NET.",
+    "telegramNetLibraryDescription": "The library to write Telegram bots in MVC style"
   },
   "ru": {
     "devName": "Белянский Илья",
@@ -112,7 +118,13 @@ const sections = computed<Section[]>(() => [
     "learnLanguageBotTitle": "Бот для изучения языков",
     "learnLanguageBotDescription": "Пополняйте словарный запас (RU-EN, JA-EN, FR-EN) с помощью квизов. Отслеживайте прогресс и обучайтесь в любом месте через Telegram.",
     "advertisementsCollectorTitle": "ИИ аггрегатор недвижимости",
-    "advertisementsCollectorDescription": "Приложение собирает объявления с разных платформ недвижимости и делает их ранжирование с помощью ИИ"
+    "advertisementsCollectorDescription": "Приложение собирает объявления с разных платформ недвижимости и делает их ранжирование с помощью ИИ",
+    "librariesTitle": "Библиотеки",
+    "librariesDescription": "Готовые open-source модули для реальных приложений",
+    "efCoreTriggersDescription": "Позволяет создавать триггеры в базах данных без использования SQL",
+    "pdfqlDescription": "Концепт языка для написания запросов к PDF документам",
+    "crawlingLibraryDescription": "Многофункциональная библиотека для написания парсеров в .NET",
+    "telegramNetLibraryDescription": "Библиотека для написания Telegram ботов в MVC-стиле"
   }
 }
 </i18n>
