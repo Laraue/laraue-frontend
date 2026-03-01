@@ -6,13 +6,15 @@ interface MenuItem {
   id: string
 }
 
+const { t } = useI18n()
+
 const menuItems: MenuItem[] = [
   {
     text: "Apps",
     id: "1",
     children: [
       {
-        text: "Markdown to HTML Converter",
+        text: $t('markdownConverter'),
         link: "/markdown-converter",
         id: "1-1",
       },
