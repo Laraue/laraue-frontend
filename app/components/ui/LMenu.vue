@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import LLanguageSelector from "~/components/ui/LLanguageSelector.vue";
+
 interface MenuItem {
   text: string;
   link?: string;
@@ -6,47 +8,47 @@ interface MenuItem {
   id: string
 }
 
-const { t } = useI18n()
-
-const menuItems: MenuItem[] = [
-  {
-    text: "Apps",
-    id: "1",
-    children: [
-      {
-        text: $t('markdownConverter'),
-        link: "/markdown-converter",
-        id: "1-1",
-      },
-      {
-        text: "AI-Ranked Apartments",
-        link: "/crawled-apartments",
-        id: "1-2",
-      },
-      {
-        text: "Pdf Query Language Concept",
-        link: "/pdf-extractor",
-        id: "1-3",
-      }
-    ]
-  },
-  {
-    text: "Telegram Bots",
-    id: "2",
-    children: [
-      {
-        text: "Increase Vocabulary with Flashcards",
-        link: "/learn-language-bot",
-        id: "2-1"
-      },
-    ]
-  },
-  {
-    text: "Blog",
-    id: "3",
-    link: "/blog",
-  }
-]
+const menuItems = computed(() => {
+  return [
+    {
+      text: "Apps",
+      id: "1",
+      children: [
+        {
+          text: $t('markdownConverter'),
+          link: "/markdown-converter",
+          id: "1-1",
+        },
+        {
+          text: "AI-Ranked Apartments",
+          link: "/crawled-apartments",
+          id: "1-2",
+        },
+        {
+          text: "Pdf Query Language Concept",
+          link: "/pdf-extractor",
+          id: "1-3",
+        }
+      ]
+    },
+    {
+      text: "Telegram Bots",
+      id: "2",
+      children: [
+        {
+          text: "Increase Vocabulary with Flashcards",
+          link: "/learn-language-bot",
+          id: "2-1"
+        },
+      ]
+    },
+    {
+      text: "Blog",
+      id: "3",
+      link: "/blog",
+    }
+  ]
+});
 
 const isMobileMenuActive = ref(false);
 const activeItem: Ref<string | undefined> = ref(undefined);
@@ -84,6 +86,14 @@ const removeActiveItem = () => activeItem.value = undefined;
             </a>
           </div>
         </li>
+
+        <li
+          class="nav-item level-1">
+          <a>
+            <l-language-selector />
+          </a>
+        </li>
+
       </ul>
     </div>
   </nav>
