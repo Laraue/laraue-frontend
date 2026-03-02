@@ -11,14 +11,33 @@ const update = (state: string) => {
   emit('update:modelValue', state)
 }
 
+const { t } = useI18n();
+
 const contentTypeOptions = ref<ISelectOption[]>([
-  { title: "Content type", key: "" },
-  { title: "Documentation", key: "documentation" },
-  { title: "Project", key: "project" },
-  { title: "Article", key: "article" },
+  { title: t('contentType'), key: "" },
+  { title: t('documentation'), key: "documentation" },
+  { title: t('project'), key: "project" },
+  { title: t('article'), key: "article" },
 ])
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "contentType": "Content type",
+    "documentation": "Documentation",
+    "project": "Projects",
+    "article": "Articles"
+  },
+  "ru": {
+    "contentType": "Тип контента",
+    "documentation": "Документация",
+    "project": "Проекты",
+    "article": "Статьи"
+  }
+}
+</i18n>
 
 <template>
   <l-select

@@ -21,12 +21,12 @@ const { t } = useI18n()
           <p>{{ t("laraueDescription") }}</p>
         </div>
         <div class="footer-resources">
-          <p>Resources</p>
+          <p>{{ t("resources") }}</p>
           <a href="https://github.com/win7user10">GitHub</a>
         </div>
         <div class="footer-copyright">
           <p>{{ t("feedbackTitle") }}: <a href="https://t.me/win7user10">@win7user10</a></p>
-          <p>2026 Laraue. All rights reserved.</p>
+          <p>2026 Laraue</p>
         </div>
       </footer>
     </div>
@@ -37,11 +37,13 @@ const { t } = useI18n()
 {
   "en": {
     "laraueDescription": "Laraue is an indie development organization focused on building reusable libraries and engaging projects. I'm driven by a passion for creating efficient open-source solutions and possible monetization of projects.",
-    "feedbackTitle": "For inquiries or feedback, contact me on Telegram"
+    "feedbackTitle": "For inquiries or feedback, contact me on Telegram",
+    "resources": "Resources"
   },
   "ru": {
     "laraueDescription": "Laraue - инди организация, сфокусированная на создании переиспользуемых библиотек и проектов. Мотивацией является любовь к созданию хорошего кода и возможная монетизация проектов.",
-    "feedbackTitle": "По всем вопросам доступен в Telegram"
+    "feedbackTitle": "По всем вопросам доступен в Telegram",
+    "resources": "Ссылки"
   }
 }
 </i18n>

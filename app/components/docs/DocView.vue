@@ -11,7 +11,21 @@ defineProps({
   tags: Array<string>,
 })
 
+const { t } = useI18n();
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "created": "Created",
+    "updated": "Updated"
+  },
+  "ru": {
+    "created": "Создан",
+    "updated": "Обновлен"
+  }
+}
+</i18n>
 
 <template>
   <article>
@@ -20,8 +34,8 @@ defineProps({
         <h1 class="article-title">{{ title }}</h1>
         <div class="article-meta">
           <span><read-time :content-length="content?.length"/></span>
-          <span>Created: <strong>{{ createdAt }}</strong></span>
-          <span>Updated: <strong>{{ updatedAt }}</strong></span>
+          <span>{{ t('created') }}: <strong>{{ createdAt }}</strong></span>
+          <span>{{ t('updated') }}: <strong>{{ updatedAt }}</strong></span>
         </div>
 
         <slot name="after-header"></slot>

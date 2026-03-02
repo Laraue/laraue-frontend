@@ -34,12 +34,14 @@ const loadPage = async () => {
   items.value = data.data
 }
 
+const { t } = useI18n()
+
 const title = computed(() => {
-  let result = "All content"
+  let result = t('all')
   if (selectedTag.value)
-    result += " by tag '" + selectedTag.value + "'"
+    result += " " + t('byTag') + " '" + selectedTag.value + "'"
   if (selectedContentType.value)
-    result += " of type '" + selectedContentType.value + "'"
+    result += " " + t('ofType') + " '" + selectedContentType.value + "'"
 
   return result
 })
@@ -79,6 +81,21 @@ useSeoMeta({
 })
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "all": "All content",
+    "byTag": "by tag",
+    "ofType": "of type"
+  },
+  "ru": {
+    "all": "Весь контент",
+    "byTag": "c тегом",
+    "ofType": "с типом"
+  }
+}
+</i18n>
 
 <template>
   <l-filters-section>

@@ -25,8 +25,8 @@ const documentation = await loadDocumentation(itemId);
 const menuItems = await loadMenu(menuPath, 5);
 
 useSeoMeta({
-  title: () => `Laraue Documentation: ${documentation.title}`,
-  ogTitle: () => `Laraue Documentation: ${documentation.title}`,
+  title: () => `Documentation: ${documentation.title}`,
+  ogTitle: () => `Documentation: ${documentation.title}`,
 })
 </script>
 

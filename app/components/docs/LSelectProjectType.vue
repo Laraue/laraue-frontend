@@ -16,9 +16,10 @@ const update = (state: string) => {
   emit('update:modelValue', state)
 }
 
+const { t } = useI18n()
 const computedProjects = computed(() => {
   const options = projectOptions.value.map(x => { return { title: x.title ?? x.fileName, key: x.fileName } as ISelectOption });
-  options.unshift({ title: "Project", key: "" });
+  options.unshift({ title: t('project'), key: "" });
   return options;
 })
 
@@ -27,6 +28,17 @@ onMounted(async () => {
 })
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "project": "Project"
+  },
+  "ru": {
+    "project": "Проект"
+  }
+}
+</i18n>
 
 <template>
   <l-select

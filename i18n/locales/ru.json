@@ -1,3 +1,6 @@
 {
-  "markdownConverter": "Конвертер Markdown в HTML"
+  "markdownConverter": "Конвертер Markdown в HTML",
+  "apartmentsAggregator": "ИИ аггрегатор недвижимости",
+  "pdfExtractor": "Конвертер PDF в JSON",
+  "vocabularyBot": "Бот для увеличения словарного запаса"
 }

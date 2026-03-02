@@ -8,44 +8,46 @@ interface MenuItem {
   id: string
 }
 
-const menuItems = computed(() => {
+const localePath = useLocalePath();
+
+const menuItems = computed<MenuItem[]>(() => {
   return [
     {
-      text: "Apps",
+      text: $t('apps'),
       id: "1",
       children: [
         {
           text: $t('markdownConverter'),
-          link: "/markdown-converter",
+          link: localePath("/markdown-converter"),
           id: "1-1",
         },
         {
-          text: "AI-Ranked Apartments",
-          link: "/crawled-apartments",
+          text: $t('apartmentsAggregator'),
+          link: localePath("/crawled-apartments"),
           id: "1-2",
         },
         {
-          text: "Pdf Query Language Concept",
-          link: "/pdf-extractor",
+          text: $t("pdfExtractor"),
+          link: localePath("/pdf-extractor"),
           id: "1-3",
         }
       ]
     },
     {
-      text: "Telegram Bots",
+      text: $t('telegramBots'),
       id: "2",
       children: [
         {
-          text: "Increase Vocabulary with Flashcards",
-          link: "/learn-language-bot",
+          text: $t('vocabularyBot'),
+          link: localePath("/learn-language-bot"),
           id: "2-1"
         },
       ]
     },
     {
-      text: "Blog",
+      text: $t('blog'),
       id: "3",
-      link: "/blog",
+      link: localePath("/blog"),
     }
   ]
 });
@@ -56,6 +58,21 @@ const isActive = (id: string) => activeItem.value === id;
 const removeActiveItem = () => activeItem.value = undefined;
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "apps": "Apps",
+    "telegramBots": "Telegram Bots",
+    "blog": "Blog"
+  },
+  "ru": {
+    "apps": "Приложения",
+    "telegramBots": "Telegram Боты",
+    "blog": "Блог"
+  }
+}
+</i18n>
 
 <template>
   <nav class="navbar">
