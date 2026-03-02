@@ -43,10 +43,11 @@ const computedItems = computed<Article[]>(() => (projects.value ?? [])
       }
     }))
 
+const { t } = useI18n()
 const title = computed(() => {
-  let result = "Laraue Projects"
+  let result = t('projects')
   if (selectedTag.value)
-    result += " with tag '" + selectedTag.value + "'"
+    result += " " + t('byTag') + " '" + selectedTag.value + "'"
 
   return result
 })
@@ -56,6 +57,19 @@ useSeoMeta({
   description: 'All projects of the Laraue organization',
 })
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "projects": "Projects",
+    "byTag": "with tag"
+  },
+  "ru": {
+    "projects": "Проекты",
+    "byTag": "c тегом"
+  }
+}
+</i18n>
 
 <template>
   <l-filters-section>

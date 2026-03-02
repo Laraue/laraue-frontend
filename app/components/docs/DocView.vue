@@ -18,11 +18,15 @@ const { t } = useI18n();
 {
   "en": {
     "created": "Created",
-    "updated": "Updated"
+    "updated": "Updated",
+    "tags": "Tags",
+    "tableOfContent": "Table of content"
   },
   "ru": {
     "created": "Создан",
-    "updated": "Обновлен"
+    "updated": "Обновлен",
+    "tags": "Теги",
+    "tableOfContent": "Содержание"
   }
 }
 </i18n>
@@ -44,7 +48,7 @@ const { t } = useI18n();
       <slot name="before-content"></slot>
 
       <div class="tags" v-if="tags">
-        <h3>Tags</h3>
+        <h3>{{ t('tags') }}</h3>
         <div class="tag-list">
           <span class="tag-item" v-for="tag in tags">
             {{ tag }}
@@ -53,7 +57,7 @@ const { t } = useI18n();
       </div>
 
       <div class="toc" v-if="innerLinks">
-        <h3>Table of content</h3>
+        <h3>{{ t('tableOfContent') }}</h3>
         <ul>
           <li v-for="link in innerLinks" :class="'toc-level-' + link.level">
             <a :href="link.link">{{ link.title }}</a>

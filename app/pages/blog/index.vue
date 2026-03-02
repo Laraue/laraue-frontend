@@ -86,8 +86,8 @@ useSeoMeta({
 {
   "en": {
     "all": "All content",
-    "byTag": "by tag",
-    "ofType": "of type"
+    "byTag": "with tag",
+    "ofType": "with type"
   },
   "ru": {
     "all": "Весь контент",

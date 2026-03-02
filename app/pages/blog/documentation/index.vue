@@ -49,10 +49,11 @@ const computedItems = computed<Article[]>(() => items.value
     }
   }))
 
+const { t } = useI18n()
 const title = computed(() => {
-  let result = "Laraue Documentation"
+  let result = t('documentation')
   if (selectedProject.value)
-    result += " related to project '" + selectedProject.value + "'"
+    result += " " + t('ofProject') + " '" + selectedProject.value + "'"
 
   return result
 })
@@ -63,6 +64,19 @@ useSeoMeta({
 })
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "documentation": "Documentation",
+    "ofProject": "related to project"
+  },
+  "ru": {
+    "documentation": "Документация",
+    "ofProject": "проекта"
+  }
+}
+</i18n>
 
 <template>
   <l-filters-section>
