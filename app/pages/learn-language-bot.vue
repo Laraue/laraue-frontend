@@ -1,35 +1,79 @@
 <script setup lang="ts">
 
-const supportedLanguages = [
+const { t } = useI18n();
+const supportedLanguages = ref([
   {
-    name: "Russian-English",
+    name: t('russianEnglish'),
     value: "RU-EN"
   },
   {
-    name: "Japanese-English",
+    name: t('japaneseEnglish'),
     value: "JA-EN"
   },
   {
-    name: "French-English",
+    name: t('frenchEnglish'),
     value: "FR-EN"
   },
   {
-    name: "Hindi-English",
+    name: t('hindiEnglish'),
     value: "HI-EN"
   },
   {
-    name: "German-English",
+    name: t('germanEnglish'),
     value: "DE-EN"
   },
   {
-    name: "Chinese-English",
+    name: t('chineseEnglish'),
     value: "ZN-EN"
   },
   {
-    name: "Spanish-English",
+    name: t('spanishEnglish'),
     value: "ES-EN"
   }
-]
+])
+
+const features = ref([
+  {
+    "title": t('quizModeTitle'),
+    "description": t('quizModeDescription'),
+    "icon": "🧠",
+  },
+  {
+    "title": t('personalizationTitle'),
+    "description": t('personalizationDescription'),
+    "icon": "💬",
+  },
+  {
+    "title": t('trackingTitle'),
+    "description": t('trackingDescription'),
+    "icon": "📊",
+  },
+  {
+    "title": t('easyAccessTitle'),
+    "description": t('easyAccessDescription'),
+    "icon": "🖥️",
+  },
+  {
+    "title": t('viewModeTitle'),
+    "description": t('viewModeDescription'),
+    "icon": "👀",
+  }
+])
+
+const steps = ref([
+  {
+    "title": t('chooseLanguageStepTitle'),
+    "description": t('chooseLanguageStepDescription'),
+  },
+  {
+    "title": t('startStepTitle'),
+    "description": t('startStepDescription'),
+  },
+  {
+    "title": t('practiseStepTitle'),
+    "description": t('practiseStepDescription'),
+  }
+])
 
 useSeoMeta({
   title: 'Increase Vocabulary with Flashcards Bot',
@@ -37,12 +81,91 @@ useSeoMeta({
 })
 </script>
 
+<i18n lang="json">
+{
+  "en": {
+    "title": "The Telegram bot to increase your vocabulary",
+    "description": "Master languages with multiple ways to study vocabulary. Learn anytime, anywhere without installing any app!",
+    "start": "Start Learning Now",
+    "featuresTitle": "Powerful Learning Features",
+    "featuresDescription": "The bot combines technologies with proven learning methods",
+    "quizModeTitle": "Quiz Mode",
+    "quizModeDescription": "Engage in interactive, gamified quizzes designed to boost retention and make learning vocabulary fun and effective.",
+    "personalizationTitle": "Personalized Learning",
+    "personalizationDescription": "Customize your study sessions to focus on specific language pairs or difficulty levels that suit your goals.",
+    "trackingTitle": "Progress Tracking",
+    "trackingDescription": "Monitor your learning streak, quiz scores, and word mastery to stay motivated and track your improvement over time.",
+    "easyAccessTitle": "Seamless Access",
+    "easyAccessDescription": "Access the platform instantly on Telegram, compatible with smartphones, tablets, or desktops without downloading apps.",
+    "viewModeTitle": "View Mode",
+    "viewModeDescription": "Organize and explore words by CEFR level (A1-C2), topic (e.g., travel, business), or alphabetically for tailored learning.",
+    "howItWorksTitle": "How It Works",
+    "howItWorksDescription": "Learning a new language has never been easier",
+    "chooseLanguageStepTitle": "Choose Your Language",
+    "chooseLanguageStepDescription": "Select any of the available languages pair on settings",
+    "startStepTitle": "Start Learning",
+    "startStepDescription": "Use Quiz Mode to learn new words",
+    "practiseStepTitle": "Practice & Improve",
+    "practiseStepDescription": "Each finished Quiz will update and show your statistics",
+    "supportedLanguagesTitle": "Supported Languages",
+    "supportedLanguagesDescription": "Learn the most popular languages with our platform",
+    "sourceCodeTitle": "Source Code & Contributions",
+    "sourceCodeDescription": "Explore the project's architecture, contribute to development, and report issues on GitHub.",
+    "viewOnGitHub": "View on GitHub",
+    "russianEnglish": "Russian-English",
+    "japaneseEnglish": "Japanese-English",
+    "frenchEnglish": "French-English",
+    "hindiEnglish": "Hindi-English",
+    "germanEnglish": "German-English",
+    "chineseEnglish": "Chinese-English",
+    "spanishEnglish": "Spanish-English"
+  },
+  "ru": {
+    "title": "Telegram бот для развития словарного запаса",
+    "description": "Изучайте слова различных языков с помощью интерактивных карточек. Обучайтесь в любое время без установки дополнительных приложений.",
+    "start": "Начать обучение",
+    "featuresTitle": "Эффективные способы обучения",
+    "featuresDescription": "Бот объединяет технологии и проверенные временем методы",
+    "quizModeTitle": "Режим квиза",
+    "quizModeDescription": "Интерактивные геймицированные квизы сделаны помогают не заскучать во время изучения.",
+    "personalizationTitle": "Персоанализация",
+    "personalizationDescription": "Настройте обучения под себя, сфокусировавшись только на интересных топиках или определенной сложности слов.",
+    "trackingTitle": "Отслеживайте прогресс",
+    "trackingDescription": "Наблюдайте за статистикой пройденных квизов и результатами обучения.",
+    "easyAccessTitle": "Доступ отовсюду",
+    "easyAccessDescription": "Бот доступен в Telegram с любого устройства. Не нужно дополнительно устанавливать никаких приложений.",
+    "viewModeTitle": "Режим просмотра",
+    "viewModeDescription": "Есть возможность прсмотреть слова определенных топиков или уровней сложности вне режима квиза.",
+    "howItWorksTitle": "Как это работает",
+    "howItWorksDescription": "Изучение нового языка еще не было проще",
+    "chooseLanguageStepTitle": "Выберите язык",
+    "chooseLanguageStepDescription": "Можно выбрать любую языковую пару и изменить ее в любой момент",
+    "startStepTitle": "Начните обучение",
+    "startStepDescription": "Используйте режим квиза, чтобы выучить новые слова",
+    "practiseStepTitle": "Практикуйтесь и улучшайте знания",
+    "practiseStepDescription": "После каждого завершенного квиза обновляется и показавается стаистка обучения",
+    "supportedLanguagesTitle": "Поддерживаемые языки",
+    "supportedLanguagesDescription": "Изучайте самые популярные языковые пары",
+    "sourceCodeTitle": "Исходный код",
+    "sourceCodeDescription": "Изучить архитектуру проекта, внести вклад в разработку или сообщить о проблемах можно на GitHub.",
+    "viewOnGitHub": "Открыть GitHub",
+    "russianEnglish": "Русский - английский",
+    "japaneseEnglish": "Японский - английский",
+    "frenchEnglish": "Французский - английский",
+    "hindiEnglish": "Хинди - английский",
+    "germanEnglish": "Немецкий - английский",
+    "chineseEnglish": "Китайский - английский",
+    "spanishEnglish": "Испанский - английский"
+  }
+}
+</i18n>
+
 <template>
   <header>
-    <h1>Laraue's Language Learning Platform</h1>
-    <p>Master languages with multiple ways to study vocabulary. Learn anytime, anywhere without installing any app!</p>
+    <h1>{{ t('title') }}</h1>
+    <p>{{ t('description') }}</p>
     <div>
-      <a href="https://t.me/learn_lang_bot" class="btn-start">Start Learning Now</a>
+      <a target="_blank" rel="nofollow" href="https://t.me/learn_lang_bot" class="btn-start">{{ t('start') }}</a>
       <img src="/images/quiz-mode.jpg" alt="Learn Language Bot" class="hero-image">
     </div>
   </header>
@@ -51,44 +174,16 @@ useSeoMeta({
     <section class="section">
       <div class="container">
         <div class="section-title">
-          <h2>Powerful Learning Features</h2>
-          <p>The platform combines cutting-edge technology with proven learning methods</p>
+          <h2>{{ t('featuresTitle') }}</h2>
+          <p>{{ t('featuresDescription') }}</p>
         </div>
         <div class="features-grid">
-          <div class="feature-card">
+          <div class="feature-card" v-for="feature in features">
             <div class="feature-icon">
-              <i>🧠</i>
+              <i>{{ feature.icon }}</i>
             </div>
-            <h3>Quiz Mode</h3>
-            <p>Engage in interactive, gamified quizzes designed to boost retention and make learning vocabulary fun and effective.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i>💬</i>
-            </div>
-            <h3>Personalized Learning</h3>
-            <p>Customize your study sessions to focus on specific language pairs or difficulty levels that suit your goals.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i>📊</i>
-            </div>
-            <h3>Progress Tracking</h3>
-            <p>Monitor your learning streak, quiz scores, and word mastery to stay motivated and track your improvement over time.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i>🖥️</i>
-            </div>
-            <h3>Seamless Access</h3>
-            <p>Access the platform instantly on Telegram, compatible with smartphones, tablets, or desktops without downloading apps.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i>👀</i>
-            </div>
-            <h3>View Mode</h3>
-            <p>Organize and explore words by CEFR level (A1-C2), topic (e.g., travel, business), or alphabetically for tailored learning.</p>
+            <h3>{{ feature.title }}</h3>
+            <p>{{ feature.description }}</p>
           </div>
         </div>
       </div>
@@ -97,24 +192,14 @@ useSeoMeta({
     <section class="section">
       <div class="container">
         <div class="section-title">
-          <h2>How It Works</h2>
-          <p>Learning a new language has never been easier</p>
+          <h2>{{ t('howItWorksTitle') }}</h2>
+          <p>{{ t('howItWorksDescription') }}</p>
         </div>
         <div class="steps">
-          <div class="step">
-            <div class="step-number">1</div>
-            <h3>Choose Your Language</h3>
-            <p>Select any of the available languages pair on settings</p>
-          </div>
-          <div class="step">
-            <div class="step-number">2</div>
-            <h3>Start Learning</h3>
-            <p>Use Quiz Mode to learn new words</p>
-          </div>
-          <div class="step">
-            <div class="step-number">3</div>
-            <h3>Practice &amp; Improve</h3>
-            <p>Each finished Quiz will update and show your statistics</p>
+          <div class="step" v-for="(step, i) in steps">
+            <div class="step-number">{{ i + 1 }}</div>
+            <h3>{{ step.title }}</h3>
+            <p>{{ step.description }}</p>
           </div>
         </div>
       </div>
@@ -123,8 +208,8 @@ useSeoMeta({
     <section class="section">
       <div class="container">
         <div class="section-title">
-          <h2>Supported Languages</h2>
-          <p>Learn the most popular languages with our platform</p>
+          <h2>{{ t('supportedLanguagesTitle') }}</h2>
+          <p>{{ t('supportedLanguagesDescription') }}</p>
         </div>
         <div class="languages-grid">
           <div class="language-card" v-for="language in supportedLanguages">
@@ -136,14 +221,14 @@ useSeoMeta({
     </section>
 
     <section class="project">
-      <h3 class="project-title">Source Code & Contributions</h3>
+      <h3 class="project-title">{{ t('sourceCodeTitle') }}</h3>
       <div class="project-content">
-        <p>Explore the project's architecture, contribute to development, and report issues on GitHub.</p>
-        <a href="https://github.com/win7user10/Laraue.Apps.LearnLanguage" target="_blank" class="github-button">
+        <p>{{ t('sourceCodeDescription') }}</p>
+        <a href="https://github.com/win7user10/Laraue.Apps.LearnLanguage" target="_blank" rel="nofollow" class="github-button">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0c-1.5 0-3 .5-4 1.4L6 6.2V22h2l3-3a5.5 5.5 0 0 0 0-3.4L11 5.5a5.5 5.5 0 0 0-3.5 3.5L5 15h2v4a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2v-4l3-3a5.5 5.5 0 0 0-1.3 1.3z"></path>
           </svg>
-          View on GitHub
+          {{ t('viewOnGitHub') }}
         </a>
       </div>
     </section>
