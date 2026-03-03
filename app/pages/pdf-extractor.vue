@@ -16,6 +16,8 @@ const isLoading = ref(false);
 const result = ref<PsqlExecutionResult>({ result: null, errors: [] });
 const isSnippetWindowOpened = ref(false);
 
+const { t } = useI18n();
+
 const isCopied = ref(false);
 const copyToClipBoard = () => {
   const copyText = JSON.stringify(result.value.result);
@@ -69,36 +71,36 @@ const withLoader = async (func: () => Promise<any>) => {
   }
 }
 
-const modes = [
+const modes = computed(() => [
   {
-    title: "Select tables",
+    title: t('selectTables'),
     pdfql: "select(tables)",
     key: "tables"
   },
   {
-    title: "Select table rows",
+    title: t('selectTableRows'),
     pdfql: "select(tableRows)",
     key: "tableRows"
   },
   {
-    title: "Select table cells",
+    title: t('selectTableCells'),
     pdfql: "select(tableCells)",
     key: "tableCells"
   },
   {
-    title: "Write query manually (advanced)",
+    title: t('manualQuery'),
     pdfql: "",
     key: "manual"
   },
-]
+])
 
 const snippets = [
   {
-    title: "Select 3 first tables",
+    title: t('snippetFirstThreeTables'),
     pdfql: "select(tables)\r->take(3)",
   },
   {
-    title: "Select table rows where first cell equals 'Customer'",
+    title: t('snippetFilterRows'),
     pdfql: "select(tableRows)\r->filter(row => row.GetCell(1).Text() == 'Customer')"
   },
 ]
@@ -115,7 +117,7 @@ const chooseSuggestion = (id: string) => {
 
 const currentModeId = ref<string | undefined>("tables");
 const currentMode = computed(() => {
-  return currentModeId.value ? modes.find(m => m.key === currentModeId.value)! : null;
+  return currentModeId.value ? modes.value.find(m => m.key === currentModeId.value)! : null;
 })
 
 watch(pdfql, () => {
@@ -123,28 +125,91 @@ watch(pdfql, () => {
 })
 
 watch(currentModeId, (newModeId) => {
-  const mode = modes.find(m => m.key === newModeId);
+  const mode = modes.value.find(m => m.key === newModeId);
   if (mode)
     pdfql.value = mode.pdfql;
 })
 
 useSeoMeta({
-  title: 'Pdf Query Language Concept (Alpha)',
-  description: 'Extract data from PDF with the Pdf Query language or premade snippets',
+  title: computed(() => t('seoTitle')),
+  description: computed(() => t('seoDescription')),
 })
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "seoTitle": "Pdf Query Language Concept (Alpha)",
+    "seoDescription": "Extract data from PDF with the Pdf Query language or premade snippets",
+    "pageTitle": "Extract objects from PDF",
+    "pageSubtitle": "The service helps to extract PDF parts in the popular formats for free. Registration is not required.",
+    "aboutLink": "About PDF query language (Concept)",
+    "extractTypeLabel": "What do you want to extract?",
+    "queryInputLabel": "Enter PDF query:",
+    "dropzoneText": "Drop PDF here to process or",
+    "dropzoneLink": "click to upload",
+    "processing": "Processing",
+    "start": "Start",
+    "extractionResult": "Extraction Result",
+    "copyToClipboard": "Copy to Clipboard",
+    "copied": "Copied",
+    "howItWorks": "How It Works",
+    "selectTables": "Tables",
+    "selectTableRows": "Table rows",
+    "selectTableCells": "Table cells",
+    "manualQuery": "Write query manually (advanced)",
+    "snippetFirstThreeTables": "Select 3 first tables",
+    "snippetFilterRows": "Select table rows where first cell equals 'Customer'",
+    "step1Title": "Select Extraction Type",
+    "step1Description": "Choose what you want to extract from your PDF document.",
+    "step2Title": "Upload PDF",
+    "step2Description": "Upload your PDF document using the file browser or drag and drop.",
+    "step3Title": "Get Results",
+    "step3Description": "Click \"Start Extraction\" and view your extracted data in the results area."
+  },
+  "ru": {
+    "seoTitle": "Pdf Query Language Concept (Alpha)",
+    "seoDescription": "Извлекайте данные из PDF с помощью языка Pdf Query или готовых сниппетов",
+    "pageTitle": "Извлечение структурированных данных из PDF",
+    "pageSubtitle": "Сервис помогает бесплатно извлекать данные из PDF, используя специализированный запрос",
+    "aboutLink": "О языке запросов PDF (Концепт)",
+    "extractTypeLabel": "Что вы хотите извлечь?",
+    "queryInputLabel": "Введите PDF запрос:",
+    "dropzoneText": "Перетащите PDF сюда для обработки или",
+    "dropzoneLink": "нажмите для загрузки",
+    "processing": "Обработка",
+    "start": "Начать",
+    "extractionResult": "Результат извлечения",
+    "copyToClipboard": "Копировать",
+    "copied": "Скопировано",
+    "howItWorks": "Как это работает",
+    "selectTables": "Таблицы",
+    "selectTableRows": "Строки таблиц",
+    "selectTableCells": "Ячейки таблиц",
+    "manualQuery": "Написать запрос вручную (продвинутый уровень)",
+    "snippetFirstThreeTables": "Выбрать 3 первые таблицы",
+    "snippetFilterRows": "Выбрать строки таблиц, где первая ячейка равна 'Customer'",
+    "step1Title": "Выберите, что извлечь",
+    "step1Description": "Таблицы, параграфы или что-нибудь еще.",
+    "step2Title": "Загрузите PDF",
+    "step2Description": "Загрузите PDF документ через файловый менеджер или перетащив файл в зону загрузки контента.",
+    "step3Title": "Получите результат",
+    "step3Description": "Нажмите \"Старт\" и смотрите, что получилось."
+  }
+}
+</i18n>
 
 <template>
   <div class="container">
     <header>
-      <h1>Extract objects from PDF</h1>
-      <p class="subtitle">The service helps to extract PDF parts in the popular formats for free. Registration is not required.</p>
-      <nuxt-link class="doc-link" to="blog/projects/pdf-query-language">About PDF query language</nuxt-link>
+      <h1>{{ t('pageTitle') }}</h1>
+      <p class="subtitle">{{ t('pageSubtitle') }}</p>
+      <nuxt-link class="doc-link" to="blog/projects/pdf-query-language">{{ t('aboutLink') }}</nuxt-link>
     </header>
 
     <div class="content">
       <div class="form-group">
-        <label for="extract-type">What do you want to extract?</label>
+        <label for="extract-type">{{ t('extractTypeLabel') }}</label>
         <l-select
             :options="modes"
             v-model="currentModeId">
@@ -152,7 +217,7 @@ useSeoMeta({
       </div>
 
       <div  v-if="currentMode?.key === 'manual'" class="form-group">
-        <label for="query-input">Enter PDF query:</label>
+        <label for="query-input">{{ t('queryInputLabel') }}</label>
         <textarea id="query-input" v-model="pdfql"></textarea>
       </div>
 
@@ -168,7 +233,7 @@ useSeoMeta({
             <font-awesome :icon="faUpload" />
           </el-icon>
           <div class="el-upload__text">
-            Drop PDF here to process or <em>click to upload</em>
+            {{ t('dropzoneText') }} <em>{{ t('dropzoneLink') }}</em>
           </div>
         </el-upload>
       </div>
@@ -176,23 +241,23 @@ useSeoMeta({
       <div id="error-message" class="error"></div>
 
       <button
-        :disabled="isLoading"
-        v-if="pdfql.length > 0 && file"
-        class="btn"
-        @click="run"
-        v-loading="isLoading">
-        {{ isLoading ? 'Processing' : 'Start' }}
+          :disabled="isLoading"
+          v-if="pdfql.length > 0 && file"
+          class="btn"
+          @click="run"
+          v-loading="isLoading">
+        {{ isLoading ? t('processing') : t('start') }}
       </button>
 
       <div id="result-container" class="result-container" v-if="result.errors.length > 0 || result.result">
         <div class="result-header">
-          <h3>Extraction Result</h3>
+          <h3>{{ t('extractionResult') }}</h3>
           <button
-            @click="copyToClipBoard"
-            class="copy-btn"
-            v-if="result.result"
-            :class="{copied: isCopied}">
-            {{ isCopied ? 'Copied' : 'Copy to Clipboard' }}
+              @click="copyToClipBoard"
+              class="copy-btn"
+              v-if="result.result"
+              :class="{copied: isCopied}">
+            {{ isCopied ? t('copied') : t('copyToClipboard') }}
           </button>
         </div>
         <div class="result-content">
@@ -207,35 +272,35 @@ useSeoMeta({
           <div>
             <div v-if="result.result" class="execution-result__result">
               <vue-json-pretty
-                :data="result.result"
-                :deep="1"
-                :collapsed-node-length="20" />
+                  :data="result.result"
+                  :deep="1"
+                  :collapsed-node-length="20" />
             </div>
           </div>
         </div>
       </div>
 
       <div class="steps">
-        <h3>How It Works</h3>
+        <h3>{{ t('howItWorks') }}</h3>
         <div class="step">
           <div class="step-number">1</div>
           <div class="step-content">
-            <h4>Select Extraction Type</h4>
-            <p>Choose what you want to extract from your PDF document.</p>
+            <h4>{{ t('step1Title') }}</h4>
+            <p>{{ t('step1Description') }}</p>
           </div>
         </div>
         <div class="step">
           <div class="step-number">2</div>
           <div class="step-content">
-            <h4>Upload PDF</h4>
-            <p>Upload your PDF document using the file browser or drag and drop.</p>
+            <h4>{{ t('step2Title') }}</h4>
+            <p>{{ t('step2Description') }}</p>
           </div>
         </div>
         <div class="step">
           <div class="step-number">3</div>
           <div class="step-content">
-            <h4>Get Results</h4>
-            <p>Click "Start Extraction" and view your extracted data in the results area.</p>
+            <h4>{{ t('step3Title') }}</h4>
+            <p>{{ t('step3Description') }}</p>
           </div>
         </div>
       </div>
@@ -244,7 +309,6 @@ useSeoMeta({
 </template>
 
 <style scoped>
-
 .container {
   margin: 0 auto;
   background: white;
@@ -442,7 +506,6 @@ textarea {
 }
 
 @media (max-width: 600px) {
-
   .content {
     padding: 20px;
   }
