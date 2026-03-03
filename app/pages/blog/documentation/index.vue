@@ -14,8 +14,11 @@ definePageMeta({
 })
 
 const { loadDocumentationItemsList } = useBlogApi()
+const { locale } = useI18n()
+
 const loadPage = async () => {
   const data = await loadDocumentationItemsList(
+      locale.value,
       0,
       16,
       selectedProject.value,
@@ -49,20 +52,37 @@ const computedItems = computed<Article[]>(() => items.value
     }
   }))
 
+const { t } = useI18n()
 const title = computed(() => {
-  let result = "Laraue Documentation"
+  let result = t('documentation')
   if (selectedProject.value)
-    result += " related to project '" + selectedProject.value + "'"
+    result += " " + t('ofProject') + " '" + selectedProject.value + "'"
 
   return result
 })
 
 useSeoMeta({
   title: title,
+  ogTitle: title,
   description: 'All documentation of the Laraue organization',
 })
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "seoDescription": "The whole documentation in the Blog. Use the filters to find only you interested in.",
+    "documentation": "Documentation",
+    "ofProject": "related to project"
+  },
+  "ru": {
+    "documentation": "Документация",
+    "ofProject": "проекта",
+    "seoDescription": "Вся документация, доступная в блоге. Испольуйте фильтры, чтобы найти только интересующие элементы."
+  }
+}
+</i18n>
 
 <template>
   <l-filters-section>

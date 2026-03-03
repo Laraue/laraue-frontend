@@ -10,11 +10,12 @@ definePageMeta({
   layout: 'blog',
 })
 
+const { locale } = useI18n();
 const selectedTag = ref("")
 const { loadProjects } = useBlogApi();
 const projects = ref<ProjectListRow[]>([]);
 const loadPage = async () => {
-  projects.value = await loadProjects(0, 8, selectedTag.value);
+  projects.value = await loadProjects(locale.value, 0, 8, selectedTag.value);
 }
 
 await loadPage();
@@ -43,19 +44,36 @@ const computedItems = computed<Article[]>(() => (projects.value ?? [])
       }
     }))
 
+const { t } = useI18n()
 const title = computed(() => {
-  let result = "Laraue Projects"
+  let result = t('projects')
   if (selectedTag.value)
-    result += " with tag '" + selectedTag.value + "'"
+    result += " " + t('byTag') + " '" + selectedTag.value + "'"
 
   return result
 })
 
 useSeoMeta({
   title: title,
+  ogTitle: title,
   description: 'All projects of the Laraue organization',
 })
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "seoDescription": "The whole projects list in the Blog. Use the filters to find only you interested in.",
+    "projects": "Projects",
+    "byTag": "with tag"
+  },
+  "ru": {
+    "projects": "Проекты",
+    "byTag": "c тегом",
+    "seoDescription": "Все описания проектов, доступные в блоге. Испольуйте фильтры, чтобы найти только интересующие элементы."
+  }
+}
+</i18n>
 
 <template>
   <l-filters-section>

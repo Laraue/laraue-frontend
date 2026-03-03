@@ -56,6 +56,7 @@ export interface ArticleDetails {
     updatedAt: string;
     innerLinks: InnerLink[] | undefined;
     length: number;
+    description: string;
 }
 
 export interface ProjectDetails {
@@ -100,17 +101,30 @@ export interface MenuItem{
 export const useBlogApi = () => {
     const client = useBlogClient()
 
-    const loadProject = async (id: string) : Promise<ProjectDetails> => {
+    const loadProject = async (
+        languageCode: string,
+        id: string)
+        : Promise<ProjectDetails> => {
         return client<ProjectDetails>('blog/single', {
             method: 'POST',
             body: {
+                languageCode: languageCode,
                 path: PathUtil.getPath(["projects"].concat(id)),
-                properties: ["title", "content", formattedDate("createdAt"), formattedDate("updatedAt"), "tags", "length(content)", "innerLinks", "description"],
+                properties: [
+                    "title",
+                    "content",
+                    formattedDate("createdAt"),
+                    formattedDate("updatedAt"),
+                    "tags",
+                    "length(content)",
+                    "innerLinks",
+                    "description"],
             }
         });
     }
 
     const loadArticlesList = async (
+        languageCode: string,
         page: number,
         perPage: number,
         selectedProject: string | undefined,
@@ -139,6 +153,7 @@ export const useBlogApi = () => {
         const result = await client<PaginationData<ArticleListRow>>('blog/list', {
             method: 'POST',
             body: {
+                languageCode: languageCode,
                 properties: ["fileName", "description", "projects", "title", "length(content)", "path"],
                 pagination: {
                     page: page,
@@ -152,6 +167,7 @@ export const useBlogApi = () => {
     }
 
     const loadProjects = async (
+        languageCode: string,
         page: number,
         perPage: number,
         selectedTag: string | null) : Promise<ProjectListRow[]> => {
@@ -172,6 +188,7 @@ export const useBlogApi = () => {
         const result = await client<PaginationData<ProjectListRow>>('blog/list', {
             method: 'POST',
             body: {
+                languageCode: languageCode,
                 properties: ["fileName", "description", "title", "tags", "length(content)", "path"],
                 pagination: {
                     page: page,
@@ -184,40 +201,44 @@ export const useBlogApi = () => {
         return result.data;
     }
 
-    const countPropertyValues = async (propertyName: string, fromPath: string[] = []) => {
+    const countPropertyValues = async (languageCode: string, propertyName: string, fromPath: string[] = []) => {
         return await client<CountPropertyRow[]>('blog/property-values-count', {
             method: 'POST',
             body: {
+                languageCode: languageCode,
                 property: propertyName,
                 fromPath: fromPath
             }
         });
     }
 
-    const loadArticle = (id: string) => {
+    const loadArticle = (languageCode: string, id: string) => {
         return client<ArticleDetails>('blog/single', {
             method: 'POST',
             body: {
+                languageCode: languageCode,
                 path: PathUtil.getPath(["articles", id]),
-                properties: ["title", "content", "projects", "tags", formattedDate("createdAt"), formattedDate("updatedAt"), "innerLinks", "length(content)"],
+                properties: ["title", "content", "projects", "tags", formattedDate("createdAt"), formattedDate("updatedAt"), "innerLinks", "length(content)", "description"],
             }
         });
     }
 
-    const loadDocumentation = async (id: string[]) : Promise<DocumentationDetails> => {
+    const loadDocumentation = async (languageCode: string, id: string[]) : Promise<DocumentationDetails> => {
         return client<DocumentationDetails>('blog/single', {
             method: 'POST',
             body: {
+                languageCode: languageCode,
                 path: PathUtil.getPath(["documentation"].concat(id)),
                 properties: ["title", "content", formattedDate("createdAt"), formattedDate("updatedAt"), "length(content)"],
             }
         });
     }
 
-    const loadMenu = (fromPath: string[], depth: number) => {
+    const loadMenu = (languageCode: string, fromPath: string[], depth: number) => {
         return client<MenuItem[]>('blog/sections', {
             method: 'POST',
             body: {
+                "languageCode": languageCode,
                 "fromPath": fromPath,
                 "depth": depth,
             }
@@ -225,6 +246,7 @@ export const useBlogApi = () => {
     }
 
     const loadDocumentationItemsList = (
+        languageCode: string,
         page: number,
         perPage: number,
         selectedProject: string | null,
@@ -260,6 +282,7 @@ export const useBlogApi = () => {
         return client<PaginationData<DocumentationItem>>('blog/list', {
             method: 'POST',
             body: {
+                languageCode: languageCode,
                 properties: ["fileName", "description", "contentType", "title", "length(content)", "path"],
                 pagination: {
                     page: page,
@@ -270,10 +293,11 @@ export const useBlogApi = () => {
         });
     }
 
-    const loadSelectOptions = async (contentType: string, page: number, perPage: number) : Promise<SelectItem[]> => {
+    const loadSelectOptions = async (languageCode: string, contentType: string, page: number, perPage: number) : Promise<SelectItem[]> => {
         const result = await client<PaginationData<SelectItem>>('blog/list', {
             method: 'POST',
             body: {
+                languageCode: languageCode,
                 properties: ["fileName", "title"],
                 pagination: {
                     page: page,
@@ -290,10 +314,11 @@ export const useBlogApi = () => {
         return result.data;
     }
 
-    const loadSidebarItems = async (contentType: string, count: number) : Promise<SidebarItemRow[]> => {
+    const loadSidebarItems = async (languageCode: string, contentType: string, count: number) : Promise<SidebarItemRow[]> => {
         const result = await client<PaginationData<SidebarItemRow>>('blog/list', {
             method: 'POST',
             body: {
+                languageCode: languageCode,
                 properties: ["fileName", "title"],
                 pagination: {
                     page: 0,

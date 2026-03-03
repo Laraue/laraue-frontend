@@ -14,6 +14,7 @@ definePageMeta({
 const items = ref<DocumentationItem[]>([])
 
 const route = useRoute();
+const { locale } = useI18n();
 
 const selectedProject = ref("")
 const selectedTag = ref<string>(route.query.tag as string)
@@ -26,6 +27,7 @@ watch(() => route.query.tag, (newTag) => {
 const { loadDocumentationItemsList } = useBlogApi();
 const loadPage = async () => {
   const data = await loadDocumentationItemsList(
+      locale.value,
       0,
       16,
       selectedProject.value,
@@ -34,12 +36,14 @@ const loadPage = async () => {
   items.value = data.data
 }
 
+const { t } = useI18n()
+
 const title = computed(() => {
-  let result = "All content"
+  let result = t('all')
   if (selectedTag.value)
-    result += " by tag '" + selectedTag.value + "'"
+    result += " " + t('byTag') + " '" + selectedTag.value + "'"
   if (selectedContentType.value)
-    result += " of type '" + selectedContentType.value + "'"
+    result += " " + t('ofType') + " '" + selectedContentType.value + "'"
 
   return result
 })
@@ -75,10 +79,28 @@ const computedItems = computed<Article[]>(() => items.value
 
 useSeoMeta({
   title: title,
-  description: 'All blog posts of the Laraue organization',
+  ogTitle: computed(() => t('seoTitle')),
+  description: t('seoDescription'),
 })
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "all": "All content",
+    "byTag": "with tag",
+    "ofType": "with type",
+    "seoDescription": "All blog posts of the Blog. Use the filters by tags or projects to find exact you need."
+  },
+  "ru": {
+    "all": "Весь контент",
+    "byTag": "c тегом",
+    "ofType": "с типом",
+    "seoDescription": "Все публикации блога. Используйте фильтры по тегами или проектам, чтобы найти что-то конкретное."
+  }
+}
+</i18n>
 
 <template>
   <l-filters-section>

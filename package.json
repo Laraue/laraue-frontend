@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxtjs/i18n": "10.2.3",
     "@vesp/nuxt-fontawesome": "2.0.0",
     "dayjs": "^1.11.19",
     "element-plus": "^2.11.8",

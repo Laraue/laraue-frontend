@@ -4,13 +4,15 @@
     menuItems: Array<MenuItem>,
     relativePath: Array<string>,
   })
+
+  const localeRoute = useLocaleRoute()
 </script>
 
 <template>
   <ul v-for="item in menuItems">
     <li>
       <template v-if="item.hasContent">
-        <nuxt-link :to="PathUtil.getAbsolutePathString(item.fullPath)">
+        <nuxt-link :to="localeRoute(PathUtil.getAbsolutePathString(item.fullPath))">
           {{ item.title ?? item.fileName }}
         </nuxt-link>
       </template>

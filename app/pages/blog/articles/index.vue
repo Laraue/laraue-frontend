@@ -9,6 +9,7 @@ const articles = ref<ArticleListRow[]>([])
 import { useBlogApi } from "~/composables/blogApi";
 
 const { loadArticlesList } = useBlogApi();
+const { locale } = useI18n();
 
 definePageMeta({
   layout: 'blog',
@@ -17,7 +18,7 @@ definePageMeta({
 const selectedProject = ref("")
 
 const loadPage = async () => {
-  articles.value = await loadArticlesList(0, 8, selectedProject.value, undefined);
+  articles.value = await loadArticlesList(locale.value, 0, 8, selectedProject.value, undefined);
 }
 await loadPage();
 
@@ -45,20 +46,37 @@ const computedArticles = computed<Article[]>(() => articles.value
       }
     }))
 
+const { t } = useI18n()
 const title = computed(() => {
-  let result = "All content"
+  let result = t('all');
   if (selectedProject.value)
-    result += " of project '" + selectedProject.value + "'"
+    result += " " + t('ofProject') + " '" + selectedProject.value + "'"
 
   return result
 })
 
 useSeoMeta({
   title: title.value,
-  description: 'The whole articles list in the Blog. Use the filters to find only you interested in.',
+  ogTitle: title.value,
+  description: computed(() => t('seoDescription'))
 })
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "seoDescription": "The whole articles list in the Blog. Use the filters to find only you interested in.",
+    "all": "All articles",
+    "ofProject": "related to project"
+  },
+  "ru": {
+    "all": "Все статьи",
+    "ofProject": "с проектом",
+    "seoDescription": "Весь список статей в блоге. Испольуйте фильтры, чтобы найти интересующие материалы."
+  }
+}
+</i18n>
 
 <template>
   <l-filters-section>

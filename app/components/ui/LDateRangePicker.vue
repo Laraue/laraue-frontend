@@ -7,6 +7,7 @@ import {computed} from "vue";
   }>()
 
   const emit = defineEmits(["update:minDate", "update:maxDate"])
+  const { t } = useI18n()
 
   const computedValue = computed({
     get() {
@@ -18,9 +19,9 @@ import {computed} from "vue";
     }
   })
 
-  const shortcuts = [
+  const shortcuts = ref([
     {
-      text: 'Last week',
+      text: t('lastWeek'),
       value: () => {
         const end = new Date()
         const start = new Date()
@@ -29,7 +30,7 @@ import {computed} from "vue";
       },
     },
     {
-      text: 'Last month',
+      text: t('lastMonth'),
       value: () => {
         const end = new Date()
         const start = new Date()
@@ -38,7 +39,7 @@ import {computed} from "vue";
       },
     },
     {
-      text: 'Last 3 months',
+      text: t('lastThreeMonths'),
       value: () => {
         const end = new Date()
         const start = new Date()
@@ -46,9 +47,30 @@ import {computed} from "vue";
         return [start, end]
       },
     },
-  ]
+  ])
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "lastWeek": "Last week",
+    "lastMonth": "Last Month",
+    "lastThreeMonths": "Last 3 Months",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "rangeSeparator": "To"
+  },
+  "ru": {
+    "lastWeek": "Последняя неделя",
+    "lastMonth": "Последний месяц",
+    "lastThreeMonths": "Последние три месяца",
+    "startDate": "С",
+    "endDate": "По",
+    "rangeSeparator": "до"
+  }
+}
+</i18n>
 
 <template>
   <el-date-picker
@@ -56,9 +78,9 @@ import {computed} from "vue";
     v-model="computedValue"
     type="daterange"
     unlink-panels
-    range-separator="To"
-    start-placeholder="Start date"
-    end-placeholder="End date"
+    :range-separator="t('rangeSeparator')"
+    :start-placeholder="t('startDate')"
+    :end-placeholder="t('endDate')"
     :shortcuts="shortcuts"
   />
 </template>

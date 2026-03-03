@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-12-05',
   devtools: { enabled: true },
-  modules: ['@element-plus/nuxt', '@vesp/nuxt-fontawesome', 'nuxt-gtag'],
+  modules: ['@element-plus/nuxt', '@vesp/nuxt-fontawesome', 'nuxt-gtag', '@nuxtjs/i18n'],
   elementPlus: {
     // Disable automatic import of dayjs to avoid conflicts
     importStyle: 'css'
@@ -47,6 +47,15 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       ]
     },
+  },
+  i18n: {
+    strategy: 'prefix_except_default',
+    locales: [
+      { code: 'en', name: 'English', language: 'en-US', file: "en.json" },
+      { code: 'ru', name: 'Русский', language: 'ru-RU', file: "ru.json" },
+    ],
+    defaultLocale: 'en',
+    baseUrl: 'https://laraue.com',
   },
   runtimeConfig: {
     public: {

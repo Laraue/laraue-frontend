@@ -8,8 +8,10 @@ const route = useRoute();
 const projectId = route.params.id as string;
 
 const { loadProject, loadArticlesList } = useBlogApi();
-const project = await loadProject(projectId);
-const relatedArticles = await loadArticlesList(0, 5, projectId, undefined);
+const { locale } = useI18n();
+
+const project = await loadProject(locale.value, projectId);
+const relatedArticles = await loadArticlesList(locale.value, 0, 5, projectId, undefined);
 
 const computedItems = computed<Article[]>(() => relatedArticles
   .map((article) => {
@@ -28,9 +30,9 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: () => `Laraue Project: ${project.title}`,
-  ogTitle: () => `Laraue Project: ${project.title}`,
-  description: () => project.description,
+  title: () => project.title,
+  ogTitle: () => project.title,
+  description: () => project.description
 })
 
 </script>

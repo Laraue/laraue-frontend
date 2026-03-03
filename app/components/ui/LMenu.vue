@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import LLanguageSelector from "~/components/ui/LLanguageSelector.vue";
+
 interface MenuItem {
   text: string;
   link?: string;
@@ -6,45 +8,49 @@ interface MenuItem {
   id: string
 }
 
-const menuItems: MenuItem[] = [
-  {
-    text: "Apps",
-    id: "1",
-    children: [
-      {
-        text: "Markdown to HTML Converter",
-        link: "/markdown-converter",
-        id: "1-1",
-      },
-      {
-        text: "AI-Ranked Apartments",
-        link: "/crawled-apartments",
-        id: "1-2",
-      },
-      {
-        text: "Pdf Query Language Concept",
-        link: "/pdf-extractor",
-        id: "1-3",
-      }
-    ]
-  },
-  {
-    text: "Telegram Bots",
-    id: "2",
-    children: [
-      {
-        text: "Increase Vocabulary with Flashcards",
-        link: "/learn-language-bot",
-        id: "2-1"
-      },
-    ]
-  },
-  {
-    text: "Blog",
-    id: "3",
-    link: "/blog",
-  }
-]
+const localePath = useLocalePath();
+
+const menuItems = computed<MenuItem[]>(() => {
+  return [
+    {
+      text: $t('apps'),
+      id: "1",
+      children: [
+        {
+          text: $t('markdownConverter'),
+          link: localePath("/markdown-converter"),
+          id: "1-1",
+        },
+        {
+          text: $t('apartmentsAggregator'),
+          link: localePath("/crawled-apartments"),
+          id: "1-2",
+        },
+        {
+          text: $t("pdfExtractor"),
+          link: localePath("/pdf-extractor"),
+          id: "1-3",
+        }
+      ]
+    },
+    {
+      text: $t('telegramBots'),
+      id: "2",
+      children: [
+        {
+          text: $t('vocabularyBot'),
+          link: localePath("/learn-language-bot"),
+          id: "2-1"
+        },
+      ]
+    },
+    {
+      text: $t('blog'),
+      id: "3",
+      link: localePath("/blog"),
+    }
+  ]
+});
 
 const isMobileMenuActive = ref(false);
 const activeItem: Ref<string | undefined> = ref(undefined);
@@ -53,10 +59,30 @@ const removeActiveItem = () => activeItem.value = undefined;
 
 </script>
 
+<i18n lang="json">
+{
+  "en": {
+    "apps": "Apps",
+    "telegramBots": "Telegram Bots",
+    "blog": "Blog"
+  },
+  "ru": {
+    "apps": "Приложения",
+    "telegramBots": "Telegram Боты",
+    "blog": "Блог"
+  }
+}
+</i18n>
+
 <template>
   <nav class="navbar">
     <div class="nav-container">
-      <a href="/" class="site-name">Laraue Tools</a>
+      <div class="left-navbar">
+        <a href="/" class="site-name">Laraue Tools</a>
+        <a class="left-navbar-language-selector">
+          <l-language-selector />
+        </a>
+      </div>
       <div class="hamburger" @click="isMobileMenuActive = !isMobileMenuActive">
         <span></span>
         <span></span>
@@ -82,12 +108,23 @@ const removeActiveItem = () => activeItem.value = undefined;
             </a>
           </div>
         </li>
+
       </ul>
     </div>
   </nav>
 </template>
 
 <style scoped>
+.left-navbar{
+  display: flex;
+}
+
+.left-navbar-language-selector{
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
 .navbar {
   background: #251645;
   position: sticky;

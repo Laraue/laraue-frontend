@@ -7,10 +7,11 @@ import {useBlogApi} from "~/composables/blogApi";
 const tagsCount = ref<CountPropertyRow[]>([])
 
 const { countPropertyValues } = useBlogApi();
+const { t, locale } = useI18n();
 
 const computedTags = computed(() => {
   const options = tagsCount.value.map(x => { return { title: x.key, key: x.key } as ISelectOption })
-  options.unshift({ title: "Tag", key: "" });
+  options.unshift({ title: t("tag"), key: "" });
   return options;
 })
 
@@ -24,9 +25,20 @@ const update = (state: string) => {
   emit('update:modelValue', state)
 }
 
-tagsCount.value = await countPropertyValues("tags", props.fromPath);
+tagsCount.value = await countPropertyValues(locale.value, "tags", props.fromPath);
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "tag": "Tag"
+  },
+  "ru": {
+    "tag": "Тег"
+  }
+}
+</i18n>
 
 <template>
   <l-select

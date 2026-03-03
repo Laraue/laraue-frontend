@@ -11,7 +11,25 @@ defineProps({
   tags: Array<string>,
 })
 
+const { t } = useI18n();
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "created": "Created",
+    "updated": "Updated",
+    "tags": "Tags",
+    "tableOfContent": "Table of content"
+  },
+  "ru": {
+    "created": "Создан",
+    "updated": "Обновлен",
+    "tags": "Теги",
+    "tableOfContent": "Содержание"
+  }
+}
+</i18n>
 
 <template>
   <article>
@@ -20,8 +38,8 @@ defineProps({
         <h1 class="article-title">{{ title }}</h1>
         <div class="article-meta">
           <span><read-time :content-length="content?.length"/></span>
-          <span>Created: <strong>{{ createdAt }}</strong></span>
-          <span>Updated: <strong>{{ updatedAt }}</strong></span>
+          <span>{{ t('created') }}: <strong>{{ createdAt }}</strong></span>
+          <span>{{ t('updated') }}: <strong>{{ updatedAt }}</strong></span>
         </div>
 
         <slot name="after-header"></slot>
@@ -30,7 +48,7 @@ defineProps({
       <slot name="before-content"></slot>
 
       <div class="tags" v-if="tags">
-        <h3>Tags</h3>
+        <h3>{{ t('tags') }}</h3>
         <div class="tag-list">
           <span class="tag-item" v-for="tag in tags">
             {{ tag }}
@@ -39,7 +57,7 @@ defineProps({
       </div>
 
       <div class="toc" v-if="innerLinks">
-        <h3>Table of content</h3>
+        <h3>{{ t('tableOfContent') }}</h3>
         <ul>
           <li v-for="link in innerLinks" :class="'toc-level-' + link.level">
             <a :href="link.link">{{ link.title }}</a>

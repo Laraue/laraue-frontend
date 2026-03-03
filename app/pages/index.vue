@@ -1,8 +1,7 @@
 <script setup lang="ts">
-useSeoMeta({
-  title: 'Laraue Blog and Demonstrations',
-  description: 'The technical Blog of Ilya Belyansky, a .NET developer who likes to write different libraries, test concepts and share thoughts.',
-})
+
+import {computed} from "vue";
+
 interface Item{
   title: string;
   description: string;
@@ -15,70 +14,129 @@ interface Section{
   description: string;
   items: Item[];
 }
-const sections: Section[] = [
+
+const { t, tm, rt } = useI18n()
+const localePath = useLocalePath();
+
+const sections = computed<Section[]>(() => [
   {
-    title: "Applications",
-    description: "The list of currently deployed applications",
+    title: t("applicationsTitle"),
+    description: t("applicationsDescription"),
     items: [
       {
-        title: "PDF Extractor",
-        description: "Easily extract text, images, and data from PDF files with a fast, user-friendly tool. Simplify document processing on any device.",
-        link: '/pdf-extractor',
-        image: '/images/pdf-extractor.jfif',
-      },
-      {
-        title: "Language Learning Platform",
-        description: "Master languages (RU-EN, JA-EN, FR-EN) with quiz and view modes. Track progress and learn anywhere via Telegram.",
-        link: '/learn-language-bot',
+        title: t("vocabularyBot"),
+        description: t("learnLanguageBotDescription"),
+        link: localePath('/learn-language-bot'),
         image: '/images/learn-language.jpg',
       },
       {
-        title: "Advertisements Collector",
-        description: "This application collects and displays advertisements from various sources and ranking them with AI.",
-        link: '/crawled-apartments',
+        title: t('apartmentsAggregator'),
+        description: t("advertisementsCollectorDescription"),
+        link: localePath('/crawled-apartments'),
         image: '/images/crawled-advertisements.png',
-      }
+      },
+      {
+        title: t("pdfExtractor"),
+        description: t("pdfExtractorDescription"),
+        link: localePath('/pdf-extractor'),
+        image: '/images/pdf-extractor.jfif',
+      },
     ]
   },
   {
-    title: "Libraries",
-    description: "Open-source modules that can be used in real applications",
+    title: t("librariesTitle"),
+    description: t("librariesDescription"),
     items: [
       {
         title: "Laraue.EfCoreTriggers",
-        description: "Allows to work with triggers via C# code.",
-        link: '/blog/projects/ef-core-triggers',
+        description: t("efCoreTriggersDescription"),
+        link: localePath("/blog/projects/ef-core-triggers"),
         tags: [".NET", "EF Core", "Database Triggers"]
       },
       {
         title: "Laraue.PdfQL",
-        description: "PDF Query Language - A powerful language for querying and manipulating PDF documents.",
-        link: '/blog/projects/pdf-query-language',
+        description: t("pdfqlDescription"),
+        link: localePath('/blog/projects/pdf-query-language'),
         tags: [".NET", "PDF", "Interpreter", "Query language"]
       },
       {
         title: "Laraue.Crawling",
-        description: "A robust and flexible web crawling library for .NET.",
-        link: '/blog/projects/crawler',
+        description: t("crawlingLibraryDescription"),
+        link: localePath('/blog/projects/crawler'),
         tags: [".NET", "Web Crawling", "Scraping"]
       },
       {
         title: "Laraue.Telegram.NET",
-        description: "Work with telegram via Telegram controllers.",
-        link: '/blog/projects/telegram-net',
+        description: t("telegramNetLibraryDescription"),
+        link: localePath('/blog/projects/telegram-net'),
         tags: [".NET", "Telegram Bot API"]
       }
     ]
   }
-]
+])
+
+useSeoMeta({
+  title: computed(() => t('seoTitle')),
+  ogTitle: computed(() => t('seoTitle')),
+  description: computed(() => t('seoDescription')),
+})
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "seoTitle": "I.Belyansky Blog and Apps",
+    "seoDescription": "The technical Blog of .NET developer who likes software development.",
+    "devName": "I. Belyansky",
+    "devDescription": "Backend Developer",
+    "aboutTitle": "About Resource",
+    "aboutDescription": [
+      "I am a software engineer with 8+ years experience that was born in Russia. The technologies I often use are C# + Postgres + Vue.",
+      "The Website is a platform where I demonstrate my projects, and it is also a Blog where I tell how I was implementing them."
+    ],
+    "applicationsTitle": "Applications",
+    "applicationsDescription": "The entire list of applications",
+    "pdfExtractorDescription": "Easily extract text, images, and data from PDF files with a fast, user-friendly tool.",
+    "learnLanguageBotDescription": "Master languages (RU-EN, JA-EN, FR-EN) with flashcards. Track progress and learn anywhere via Telegram.",
+    "advertisementsCollectorDescription": "This application collects and displays advertisements from various sources and ranking them with AI.",
+    "librariesTitle": "Libraries",
+    "librariesDescription": "Open-source modules that can be used in real applications",
+    "efCoreTriggersDescription": "Allows to define triggers without SQL using only C# code.",
+    "pdfqlDescription": "PDF Query Language (Concept) - A powerful language for querying and manipulating PDF documents.",
+    "crawlingLibraryDescription": "A robust and flexible web crawling library for .NET.",
+    "telegramNetLibraryDescription": "The library to write Telegram bots in MVC style"
+  },
+  "ru": {
+    "seoTitle": "Блог и приложения И. Белянского",
+    "seoDescription": "Технический Блог .NET разработчика, которому просто нравится программирование.",
+    "devName": "И. Белянский",
+    "devDescription": "Backend разработчик",
+    "aboutTitle": "О сайте",
+    "aboutDescription": [
+      "Я - разработчик ПО из России с более чем 8-ми летним опытом. Мой базовый стек - C# + Postgres + Vue.",
+      "Данный сайт является платформой для демонстрации реализованных проектов и блогом, где я рассказываю о том, как эти проекты создавались."
+    ],
+    "applicationsTitle": "Приложения",
+    "applicationsDescription": "Список доступных приложений",
+    "pdfExtractorDescription": "Извлеките текст, изображения, таблицы из PDF с помощью данной утилиты.",
+    "learnLanguageBotDescription": "Пополняйте словарный запас (RU-EN, JA-EN, FR-EN) с помощью квизов. Отслеживайте прогресс и обучайтесь в любом месте через Telegram.",
+    "advertisementsCollectorDescription": "Приложение собирает объявления с разных платформ недвижимости и делает их ранжирование с помощью ИИ",
+    "librariesTitle": "Библиотеки",
+    "librariesDescription": "Готовые open-source модули для реальных приложений",
+    "efCoreTriggersDescription": "Позволяет создавать триггеры в базах данных без использования SQL",
+    "pdfqlDescription": "Концепт языка для написания запросов к PDF документам",
+    "crawlingLibraryDescription": "Многофункциональная библиотека для написания парсеров в .NET",
+    "telegramNetLibraryDescription": "Библиотека для написания Telegram ботов в MVC-стиле"
+  }
+}
+</i18n>
 
 <template>
   <div class="container">
     <header class="hero">
       <div class="hero-content">
-        <h1 class="hero-title">Ilya Belyansky</h1>
-        <p class="hero-subtitle">Backend Developer</p>
+        <h1 class="hero-title">{{ t('devName') }}</h1>
+        <p class="hero-subtitle">{{ t('devDescription') }}</p>
         <div class="hero-decorator"></div>
       </div>
     </header>
@@ -86,13 +144,11 @@ const sections: Section[] = [
     <main class="main-content">
       <section class="about-section">
         <div class="section-header">
-          <h2 class="section-title">About Resource</h2>
+          <h2 class="section-title">{{ t('aboutTitle') }}</h2>
           <div class="section-divider"></div>
         </div>
         <div class="about-text">
-          <p>I am yet another one software engineer that was born in Russia. I like to explore different concepts and technologies, and this site serves as a platform where I share my ideas and projects.</p>
-          <p>The site contains my thoughts, tutorials, and the development journey of various projects I've worked on in the <nuxt-link to="/blog" class="link-highlight">Blog section</nuxt-link>. I made this resource to structure all I ever made and provide a reference for other developers who want to create something useful.</p>
-          <p>The resource also contain some deployed apps. To access them I suggest exploring the links above.</p>
+          <p v-for="paragraph in tm('aboutDescription')">{{ rt(paragraph as any) }}</p>
         </div>
       </section>
 

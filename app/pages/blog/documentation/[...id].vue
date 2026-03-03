@@ -16,19 +16,33 @@ const getCurrentDocumentationRoot = computed(() => {
 })
 
 const { loadDocumentation, loadMenu } = useBlogApi();
+const { locale } = useI18n();
 
 const menuPath = getCurrentDocumentationRoot.value
     ? PathUtil.getPath(["documentation"].concat(getCurrentDocumentationRoot.value))
     : PathUtil.getPath("documentation");
 
-const documentation = await loadDocumentation(itemId);
-const menuItems = await loadMenu(menuPath, 5);
+const documentation = await loadDocumentation(locale.value, itemId);
+const menuItems = await loadMenu(locale.value, menuPath, 5);
+const { t } = useI18n();
 
 useSeoMeta({
-  title: () => `Laraue Documentation: ${documentation.title}`,
-  ogTitle: () => `Laraue Documentation: ${documentation.title}`,
+  title: () => documentation.title,
+  ogTitle: () => documentation.title,
+  description: () => t('seoDescription', { title: documentation.title }),
 })
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "seoDescription": "The full documentation about the element '{title}'"
+  },
+  "ru": {
+    "seoDescription": "Подробная документация по элементу '{title}'"
+  }
+}
+</i18n>
 
 <template>
   <doc-view
@@ -38,7 +52,7 @@ useSeoMeta({
       :title="documentation?.title">
     <template #after-content>
       <div class="navigation-menu">
-        <navigation-menu :menuItems="menuItems" title='Pdfql Documentation' />
+        <navigation-menu :menuItems="menuItems" :title=documentation.title />
       </div>
     </template>
   </doc-view>

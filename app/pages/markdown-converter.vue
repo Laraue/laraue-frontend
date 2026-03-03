@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 const markdown = ref('');
 const transpiled = ref('')
@@ -29,93 +29,170 @@ interface Template {
   hint: string;
 }
 
-const templates: Template[] = [
+const { t, tm, rt } = useI18n()
+const templates = ref([
   {
     data: "# Heading 1",
-    text: "Heading 1",
+    text: t('heading1'),
     inlineElement: false,
     hint: "#",
   },
   {
     data: "# Heading 2",
-    text: "Heading 2",
+    text: t('heading2'),
     inlineElement: false,
     hint: "##",
   },
   {
     data: "# Heading 3",
-    text: "Heading 3",
+    text: t('heading3'),
     inlineElement: false,
     hint: "###",
   },
   {
     data: "**bold text**",
-    text: "Bold",
+    text: t('bold'),
     inlineElement: true,
     hint: "** **",
   },
   {
     data: "*italic text*",
-    text: "Italic",
+    text: t('italic'),
     inlineElement: true,
     hint: "* *",
   },
   {
     data: "- List item 1\r\n- List item 2",
-    text: "Unordered List",
+    text: t('unorderedList'),
     inlineElement: false,
     hint: "-",
   },
   {
     data: "1. First\r\n2. Second",
-    text: "Ordered List",
+    text: t('orderedList'),
     inlineElement: false,
     hint: "1.",
   },
   {
     data: "[link text](https://example.com)",
-    text: "Link",
+    text: t('link'),
     inlineElement: true,
     hint: "[]()",
   },
   {
     data: "![alt text](https://picsum.photos/200/300)",
-    text: "Image",
+    text: t('image'),
     inlineElement: true,
     hint: "![]()",
   },
   {
     data: "`inline code`",
-    text: "Inline code",
+    text: t('inlineCode'),
     inlineElement: true,
     hint: "` `",
   },
   {
     data: "```code block```",
-    text: "Code block",
+    text: t('codeBlock'),
     inlineElement: true,
     hint: "``` ```",
   }
-]
+])
 
 useSeoMeta({
-  title: 'Markdown to HTML Converter',
-  description: 'The utility for online Markdown to HTML Converting',
+  title: t('seoTitle'),
+  ogTitle: computed(() => t('seoTitle')),
+  description: t('seoDescription'),
 })
 
 </script>
 
+<i18n lang="json">
+{
+  "en": {
+    "seoTitle": "Markdown to HTML Converter",
+    "seoDescription": "The utility for online Markdown to HTML Converting",
+    "heading1": "Heading 1",
+    "heading2": "Heading 2",
+    "heading3": "Heading 3",
+    "bold": "Bold",
+    "italic": "Italic",
+    "unorderedList": "Unordered List",
+    "orderedList": "Ordered List",
+    "link": "Link",
+    "image": "Image",
+    "inlineCode": "Inline Code",
+    "codeBlock": "Code Block",
+    "markdownWindow": "Markdown Source",
+    "htmlWindow": "HTML View",
+    "rendered": "Rendered",
+    "cheatSheet": "Markdown cheat sheet",
+    "cheatHint": "click on any chip – inserts template at the end of your markdown",
+    "seoDescription1": "is a free online tool for writers, developers, and content creators. Write or paste Markdown in the left panel — see the formatted",
+    "seoDescription2": "HTML Output",
+    "seoDescription3": "live on the right. Use the toggle switch to peek at the raw HTML code or switch back to the rendered view.",
+    "seoDescription4": "Perfect for drafting blog posts, GitHub READMEs, documentation, or any content where you need both human‑friendly editing and clean HTML. The converter supports headings, lists, code blocks, blockquotes, bold, italic, links, and more. All generated HTML is sanitized for safe embedding.",
+    "seoDescription5": "The Converter is based on Open Source library",
+    "footer": "Toggle switch — show rendered HTML or plain code",
+    "seoKeywords": [
+      "markdown to html",
+      "live preview",
+      "html source toggle",
+      "markdown editor",
+      "code converter",
+      "free online tool",
+      "documentation helper",
+      "instant render"
+    ]
+  },
+  "ru": {
+    "seoTitle": "Конвертер Markdown в HTML",
+    "seoDescription": "Простая онлайн утилита для конвертации Markdown в HTML",
+    "heading1": "Заголовок 1",
+    "heading2": "Заголовок 2",
+    "heading3": "Заголовок 3",
+    "bold": "Жирный",
+    "italic": "Курсив",
+    "unorderedList": "Ненумерованный список",
+    "orderedList": "Нумерованный список",
+    "link": "Ссылка",
+    "image": "Изображение",
+    "inlineCode": "Встроенный код",
+    "codeBlock": "Блок кода",
+    "markdownWindow": "Исходный Markdown",
+    "htmlWindow": "HTML Результат",
+    "rendered": "Отрисовка HTML",
+    "cheatSheet": "Шпаргалка по Markdown",
+    "cheatHint": "Нажмите на любой элемент и шаблон элемента будет добавлен в конец файла",
+    "seoDescription1": " - бесплатная утилита для разработчиков и создателей контента. Введите Markdown в панель слева - получите ",
+    "seoDescription2": "HTML Результат",
+    "seoDescription3": "в реальном времени справа. Используйте переключатель, чтобы менять вид окна вывода между отрисованным и неотрисованным HTML.",
+    "seoDescription4": "Подойдет для создания черновиков публикаций, README файлов, документации, или любого контента где нужны одновременно удобный редактор и возможность просмотра HTML. Конвертер поддерживает заголовки, списки, блоки кода, жирный и курсивные тексты, ссылки. Сгенерированный HTML защищен от XSS.",
+    "seoDescription5": "Конвертер базируется на библиотеке",
+    "footer": "Используйте переключатель для отключения отрисовки HTML",
+    "seoKeywords": [
+      "html в markdown",
+      "превью в реальном времени",
+      "переключение меду режими вывода",
+      "редактор markdown",
+      "конвертер кода",
+      "бесплатный онлайн инструмент",
+      "помощник в документации",
+      "мнгновенная отрисовка"
+    ]
+  }
+}
+</i18n>
+
 <template>
   <div class="wrapper">
     <div class="service-container">
-      <h1>Markdown to HTML Converter</h1>
+      <h1>{{ t('markdownConverter') }}</h1>
       <div class="split-panel">
         <!-- left screen: markdown input -->
         <div class="card">
           <div class="card-header">
-            <span>
-                Markdown Source
-            </span>
+            <span>{{ t('markdownWindow') }}</span>
             <span style="color:#64748b; font-size:0.85rem;">.md</span>
           </div>
           <textarea
@@ -126,18 +203,14 @@ useSeoMeta({
 
           <!-- **********  CLICKABLE CHEAT SHEET (right under editor)  ********** -->
           <div class="cheat-sheet">
-            <h3>
-              📋 Markdown cheat sheet
-            </h3>
+            <h3>📋 {{ t('cheatSheet') }} </h3>
             <div class="rules-grid" id="markdownRules">
               <!-- data-template holds the exact markdown snippet to insert -->
               <div v-for="template in templates" class="rule-chip" @click="addToMarkdown(template)">
                 <code>{{ template.hint }}</code> <span class="rule-desc">{{ template.text }}</span>
               </div>
             </div>
-            <div class="insert-hint">
-              ⚡ click on any chip – inserts template at the end of your markdown
-            </div>
+            <div class="insert-hint">⚡ {{ t('cheatHint') }}</div>
           </div>
 
         </div>
@@ -145,12 +218,10 @@ useSeoMeta({
         <!-- right screen: output with toggle -->
         <div class="card">
           <div class="card-header">
-            <span>
-                HTML View
-            </span>
+            <span>{{ t('htmlWindow') }}</span>
             <!-- toggle switch -->
             <div class="toggle-container">
-              <span class="toggle-label" id="toggleModeLabel">Rendered</span>
+              <span class="toggle-label" id="toggleModeLabel">{{ t('rendered') }}</span>
               <label class="toggle-switch">
                 <!-- by default unchecked -> rendered mode active -->
                 <input v-model="renderHtml" type="checkbox" id="viewToggle" aria-label="switch between rendered html and raw text">
@@ -178,35 +249,26 @@ useSeoMeta({
 
       <div class="seo-block">
         <p>
-          <strong>Markdown to HTML Converter</strong> is a free online tool for writers, developers, and content creators.
-          Write or paste Markdown in the left panel — see the formatted <strong>HTML output</strong> live on the right.
-          Use the toggle switch to peek at the raw HTML code or switch back to the rendered view.
+          <strong>{{ t('markdownConverter') }}</strong>
+          {{ t('seoDescription1') }}
+          <strong>{{ t('seoDescription2') }}</strong>
+          {{ t('seoDescription3') }}
         </p>
         <p>
-          Perfect for drafting blog posts, GitHub READMEs, documentation, or any content where you need
-          both human‑friendly editing and clean HTML. The converter supports headings, lists, code blocks,
-          blockquotes, bold, italic, links, and more. All generated HTML is sanitized for safe embedding.
+          {{ t('seoDescription4') }}
         </p>
         <p>
-          The Converter is based on Open Source
-          <a href="https://github.com/win7user10/Laraue.Interpreter">Laraue.Interpreter.Markdown</a> library
-          which is also used as Markdown to HTML generator of the <a href="/blog">Laraue Blog</a>.
+          {{ t('seoDescription5') }}
+          <a href="https://github.com/win7user10/Laraue.Interpreter">Laraue.Interpreter.Markdown</a>.
         </p>
         <div class="seo-keywords">
-          <span>markdown to html</span>
-          <span>live preview</span>
-          <span>html source toggle</span>
-          <span>markdown editor</span>
-          <span>code converter</span>
-          <span>free online tool</span>
-          <span>documentation helper</span>
-          <span>instant render</span>
+          <span v-for="s in tm('seoKeywords')">{{ rt(s as any) }}</span>
         </div>
       </div>
 
       <hr>
       <div class="footer-note">
-        ⚡ Toggle switch — show rendered HTML or plain code
+        ⚡ {{ t('footer') }}
       </div>
     </div>
   </div>

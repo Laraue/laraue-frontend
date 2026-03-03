@@ -5,50 +5,79 @@ import {type SidebarItemRow, useBlogApi} from "~/composables/blogApi";
 
 const sidebarArticles = ref<SidebarItemRow[]>([]);
 const sidebarProjects = ref<SidebarItemRow[]>([]);
-const { countPropertyValues, loadMenu, loadSidebarItems } = useBlogApi();
+const tags = ref<CountPropertyRow[]>([]);
+const documentationMenuItems = ref<MenuItem[]>([]);
 
-onMounted(async () => {
-  sidebarArticles.value = await loadSidebarItems("article", 3)
-  sidebarProjects.value = await loadSidebarItems("project", 10)
+const { countPropertyValues, loadMenu, loadSidebarItems } = useBlogApi();
+const { locale } = useI18n()
+
+watch(locale, async () => {
+  await loadData();
 })
 
-const tags = await countPropertyValues("tags")
-const documentationMenuItems = await loadMenu(PathUtil.getPath("documentation"), 1)
+onMounted(async () => {
+  await loadData();
+})
+
+const loadData = async () => {
+  sidebarArticles.value = await loadSidebarItems(locale.value, "article", 3)
+  sidebarProjects.value = await loadSidebarItems(locale.value,"project", 10)
+  tags.value = await countPropertyValues(locale.value, "tags")
+  documentationMenuItems.value = await loadMenu(locale.value, PathUtil.getPath("documentation"), 1)
+}
+
+const { t } = useI18n();
+const localePath = useLocalePath();
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "projects": "Projects",
+    "articles": "Articles",
+    "documentation": "Documentation"
+  },
+  "ru": {
+    "projects": "Проекты",
+    "articles": "Статьи",
+    "documentation": "Документация"
+  }
+}
+</i18n>
 
 <template>
   <div class="docs">
     <div class="docs-container">
       <div class="sidebar">
         <h2>
-          <nuxt-link to="/blog/projects">Projects</nuxt-link>
+          <nuxt-link :to="localePath('/blog/projects')">{{ t('projects') }}</nuxt-link>
         </h2>
         <ul>
           <li v-for="project in sidebarProjects">
-            <nuxt-link :to="`/blog/projects/${project.fileName}`">
+            <nuxt-link :to="localePath(`/blog/projects/${project.fileName}`)">
               {{ project.title }}
             </nuxt-link>
           </li>
         </ul>
 
         <h2>
-          <nuxt-link to="/blog/articles">Articles</nuxt-link>
+          <nuxt-link :to="localePath('/blog/articles')">{{ t('articles') }}</nuxt-link>
         </h2>
         <ul>
           <li v-for="article in sidebarArticles">
-            <nuxt-link :to="`/blog/articles/${article.fileName}`">
+            <nuxt-link :to="localePath(`/blog/articles/${article.fileName}`)">
               {{ article.title }}
             </nuxt-link>
           </li>
         </ul>
 
         <h2>
-          <nuxt-link to="/blog/documentation">Documentation</nuxt-link>
+          <nuxt-link :to="localePath('/blog/documentation')">{{ t('documentation') }}</nuxt-link>
         </h2>
         <ul>
           <li v-for="menuItem in documentationMenuItems">
-            <nuxt-link :to="`/blog/documentation/${menuItem.fileName}`">
+            <nuxt-link :to="localePath(`/blog/documentation/${menuItem.fileName}`)">
               {{ menuItem.title ?? menuItem.relativePath }}
             </nuxt-link>
           </li>
