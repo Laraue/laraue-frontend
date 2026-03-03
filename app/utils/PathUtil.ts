@@ -5,10 +5,6 @@ export class PathUtil {
         return this.DefaultPath.concat(section);
     }
 
-    static getPathString(sections: string[]) {
-        return sections.join('/');
-    }
-
     static getAbsolutePathString(sections: string[]) {
         return '/' + sections.join('/');
     }

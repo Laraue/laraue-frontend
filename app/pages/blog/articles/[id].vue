@@ -10,8 +10,9 @@ definePageMeta({
 const route = useRoute();
 const articleId = route.params.id as string;
 
+const { locale } = useI18n()
 const { loadArticle } = useBlogApi();
-const article = await loadArticle(articleId);
+const article = await loadArticle(locale.value, articleId);
 
 useSeoMeta({
   title: () => `Laraue Article: ${article.title}`,

@@ -29,74 +29,75 @@ interface Template {
   hint: string;
 }
 
-const templates: Template[] = [
+const { t } = useI18n()
+const templates = ref([
   {
     data: "# Heading 1",
-    text: "Heading 1",
+    text: t('heading1'),
     inlineElement: false,
     hint: "#",
   },
   {
     data: "# Heading 2",
-    text: "Heading 2",
+    text: t('heading2'),
     inlineElement: false,
     hint: "##",
   },
   {
     data: "# Heading 3",
-    text: "Heading 3",
+    text: t('heading3'),
     inlineElement: false,
     hint: "###",
   },
   {
     data: "**bold text**",
-    text: "Bold",
+    text: t('bold'),
     inlineElement: true,
     hint: "** **",
   },
   {
     data: "*italic text*",
-    text: "Italic",
+    text: t('italic'),
     inlineElement: true,
     hint: "* *",
   },
   {
     data: "- List item 1\r\n- List item 2",
-    text: "Unordered List",
+    text: t('unorderedList'),
     inlineElement: false,
     hint: "-",
   },
   {
     data: "1. First\r\n2. Second",
-    text: "Ordered List",
+    text: t('orderedList'),
     inlineElement: false,
     hint: "1.",
   },
   {
     data: "[link text](https://example.com)",
-    text: "Link",
+    text: t('link'),
     inlineElement: true,
     hint: "[]()",
   },
   {
     data: "![alt text](https://picsum.photos/200/300)",
-    text: "Image",
+    text: t('image'),
     inlineElement: true,
     hint: "![]()",
   },
   {
     data: "`inline code`",
-    text: "Inline code",
+    text: t('inlineCode'),
     inlineElement: true,
     hint: "` `",
   },
   {
     data: "```code block```",
-    text: "Code block",
+    text: t('codeBlock'),
     inlineElement: true,
     hint: "``` ```",
   }
-]
+])
 
 useSeoMeta({
   title: 'Markdown to HTML Converter',
@@ -105,17 +106,56 @@ useSeoMeta({
 
 </script>
 
+<i18n lang="json">
+{
+  "en": {
+    "heading1": "Heading 1",
+    "heading2": "Heading 2",
+    "heading3": "Heading 3",
+    "bold": "Bold",
+    "italic": "Italic",
+    "unorderedList": "Unordered List",
+    "orderedList": "Ordered List",
+    "link": "Link",
+    "image": "Image",
+    "inlineCode": "Inline Code",
+    "codeBlock": "Code Block",
+    "markdownWindow": "Markdown Source",
+    "htmlWindow": "HTML View",
+    "rendered": "Rendered",
+    "cheatSheet": "Markdown cheat sheet",
+    "cheatHint": "click on any chip – inserts template at the end of your markdown"
+  },
+  "ru": {
+    "heading1": "Заголовок 1",
+    "heading2": "Заголовок 2",
+    "heading3": "Заголовок 3",
+    "bold": "Жирный",
+    "italic": "Курсив",
+    "unorderedList": "Ненумерованный список",
+    "orderedList": "Нумерованный список",
+    "link": "Ссылка",
+    "image": "Изображение",
+    "inlineCode": "Встроенный код",
+    "codeBlock": "Блок кода",
+    "markdownWindow": "Исходный Markdown",
+    "htmlWindow": "Результат HTML",
+    "rendered": "Отрисовка HTML",
+    "cheatSheet": "Шпаргалка по Markdown",
+    "cheatHint": "Нажмите на любой элемент и шаблон элемента будет добавлен в конец файла"
+  }
+}
+</i18n>
+
 <template>
   <div class="wrapper">
     <div class="service-container">
-      <h1>Markdown to HTML Converter</h1>
+      <h1>{{ t('markdownConverter') }}</h1>
       <div class="split-panel">
         <!-- left screen: markdown input -->
         <div class="card">
           <div class="card-header">
-            <span>
-                Markdown Source
-            </span>
+            <span>{{ t('markdownWindow') }}</span>
             <span style="color:#64748b; font-size:0.85rem;">.md</span>
           </div>
           <textarea
@@ -126,18 +166,14 @@ useSeoMeta({
 
           <!-- **********  CLICKABLE CHEAT SHEET (right under editor)  ********** -->
           <div class="cheat-sheet">
-            <h3>
-              📋 Markdown cheat sheet
-            </h3>
+            <h3>📋 {{ t('cheatSheet') }} </h3>
             <div class="rules-grid" id="markdownRules">
               <!-- data-template holds the exact markdown snippet to insert -->
               <div v-for="template in templates" class="rule-chip" @click="addToMarkdown(template)">
                 <code>{{ template.hint }}</code> <span class="rule-desc">{{ template.text }}</span>
               </div>
             </div>
-            <div class="insert-hint">
-              ⚡ click on any chip – inserts template at the end of your markdown
-            </div>
+            <div class="insert-hint">⚡ {{ t('cheatHint') }}</div>
           </div>
 
         </div>
@@ -145,12 +181,10 @@ useSeoMeta({
         <!-- right screen: output with toggle -->
         <div class="card">
           <div class="card-header">
-            <span>
-                HTML View
-            </span>
+            <span>{{ t('htmlWindow') }}</span>
             <!-- toggle switch -->
             <div class="toggle-container">
-              <span class="toggle-label" id="toggleModeLabel">Rendered</span>
+              <span class="toggle-label" id="toggleModeLabel">{{ t('rendered') }}</span>
               <label class="toggle-switch">
                 <!-- by default unchecked -> rendered mode active -->
                 <input v-model="renderHtml" type="checkbox" id="viewToggle" aria-label="switch between rendered html and raw text">

@@ -14,6 +14,7 @@ definePageMeta({
 const items = ref<DocumentationItem[]>([])
 
 const route = useRoute();
+const { locale } = useI18n();
 
 const selectedProject = ref("")
 const selectedTag = ref<string>(route.query.tag as string)
@@ -26,6 +27,7 @@ watch(() => route.query.tag, (newTag) => {
 const { loadDocumentationItemsList } = useBlogApi();
 const loadPage = async () => {
   const data = await loadDocumentationItemsList(
+      locale.value,
       0,
       16,
       selectedProject.value,

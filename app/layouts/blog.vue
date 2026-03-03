@@ -6,14 +6,15 @@ import {type SidebarItemRow, useBlogApi} from "~/composables/blogApi";
 const sidebarArticles = ref<SidebarItemRow[]>([]);
 const sidebarProjects = ref<SidebarItemRow[]>([]);
 const { countPropertyValues, loadMenu, loadSidebarItems } = useBlogApi();
+const { locale } = useI18n()
 
 onMounted(async () => {
-  sidebarArticles.value = await loadSidebarItems("article", 3)
-  sidebarProjects.value = await loadSidebarItems("project", 10)
+  sidebarArticles.value = await loadSidebarItems(locale.value, "article", 3)
+  sidebarProjects.value = await loadSidebarItems(locale.value,"project", 10)
 })
 
-const tags = await countPropertyValues("tags")
-const documentationMenuItems = await loadMenu(PathUtil.getPath("documentation"), 1)
+const tags = await countPropertyValues(locale.value, "tags")
+const documentationMenuItems = await loadMenu(locale.value, PathUtil.getPath("documentation"), 1)
 const { t } = useI18n();
 const localePath = useLocalePath();
 

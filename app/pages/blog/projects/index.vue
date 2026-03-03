@@ -10,11 +10,12 @@ definePageMeta({
   layout: 'blog',
 })
 
+const { locale } = useI18n();
 const selectedTag = ref("")
 const { loadProjects } = useBlogApi();
 const projects = ref<ProjectListRow[]>([]);
 const loadPage = async () => {
-  projects.value = await loadProjects(0, 8, selectedTag.value);
+  projects.value = await loadProjects(locale.value, 0, 8, selectedTag.value);
 }
 
 await loadPage();

@@ -9,7 +9,7 @@
 
 <template>
   <div class="submenu">
-    <h4>{{ title }} Navigation</h4>
+    <h4>{{ title }}</h4>
     <navigation-sub-menu :menuItems="menuItems" />
   </div>
 </template>

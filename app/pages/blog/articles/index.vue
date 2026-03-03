@@ -9,6 +9,7 @@ const articles = ref<ArticleListRow[]>([])
 import { useBlogApi } from "~/composables/blogApi";
 
 const { loadArticlesList } = useBlogApi();
+const { locale } = useI18n();
 
 definePageMeta({
   layout: 'blog',
@@ -17,7 +18,7 @@ definePageMeta({
 const selectedProject = ref("")
 
 const loadPage = async () => {
-  articles.value = await loadArticlesList(0, 8, selectedProject.value, undefined);
+  articles.value = await loadArticlesList(locale.value, 0, 8, selectedProject.value, undefined);
 }
 await loadPage();
 
@@ -64,11 +65,11 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
-    "all": "All content",
+    "all": "All articles",
     "ofProject": "related to project"
   },
   "ru": {
-    "all": "Весь контент",
+    "all": "Все статьи",
     "ofProject": "с проектом"
   }
 }

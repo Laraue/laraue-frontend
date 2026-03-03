@@ -14,8 +14,11 @@ definePageMeta({
 })
 
 const { loadDocumentationItemsList } = useBlogApi()
+const { locale } = useI18n()
+
 const loadPage = async () => {
   const data = await loadDocumentationItemsList(
+      locale.value,
       0,
       16,
       selectedProject.value,
