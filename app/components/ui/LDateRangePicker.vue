@@ -65,8 +65,8 @@ import {computed} from "vue";
     "lastWeek": "Последняя неделя",
     "lastMonth": "Последний месяц",
     "lastThreeMonths": "Последние три месяца",
-    "startDate": "Начальная дата",
-    "endDate": "Конечная дата",
+    "startDate": "С",
+    "endDate": "По",
     "rangeSeparator": "до"
   }
 }

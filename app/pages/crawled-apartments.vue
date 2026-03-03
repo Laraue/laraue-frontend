@@ -20,6 +20,7 @@ const router = useRouter()
 const route = useRoute()
 
 const { loadApartments } = useApartmentsApi();
+const { t, rt } = useI18n();
 
 const lastLoadedOffset = ref<null | number>(null)
 const lastPageLoaded = ref(false)
@@ -80,9 +81,9 @@ const load = async () => {
       isLoading = true
       await appendNextPagesBatch();
     }
-  finally {
-    isLoading = false
-  }
+    finally {
+      isLoading = false
+    }
 }
 
 const colorRanges: {[key: string]: string} = {
@@ -137,10 +138,119 @@ const getAddressString = (item: Advertisement) => {
 }
 
 useSeoMeta({
-  title: 'AI-Ranked SPB Apartments',
-  description: 'The Cian and Avito advertisements aggregator that automatically rank renovations',
+  title: computed(() => t('seoTitle')),
+  description: computed(() => t('seoDescription')),
 })
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "seoTitle": "AI-Ranked SPB Apartments",
+    "seoDescription": "The Cian and Avito advertisements aggregator that automatically rank renovations",
+    "showFilters": "Show Filters",
+    "hideFilters": "Hide Filters",
+    "city": "City:",
+    "msk": "Moscow",
+    "spb": "Saint-Petersburg",
+    "volgograd": "Volgograd",
+    "sortBy": "Sort By:",
+    "sortOrder": "Sort Order:",
+    "dateRange": "Date range:",
+    "priceRange": "Price Range:",
+    "squareRange": "Square Range:",
+    "renovationRange": "Renovation Rating Range:",
+    "roomsCount": "Rooms Count:",
+    "source": "Source:",
+    "containsInDescription": "Contains in description:",
+    "updateDate": "Update Date",
+    "squareMeterPrice": "Square Meter Price",
+    "square": "Square",
+    "totalPrice": "Total Price",
+    "renovationRating": "Renovation rating",
+    "roomsCountSort": "Rooms Count",
+    "ascending": "Ascending",
+    "descending": "Descending",
+    "min": "Min",
+    "max": "Max",
+    "millionRUB": "M, RUB",
+    "squareMeters": "m²",
+    "ratingScale": "1 - 10",
+    "studio": "Studio",
+    "cian": "Cian",
+    "avito": "Avito",
+    "errorTitle": "The request finished with error. Try to change parameters.",
+    "noResultsTitle": "No one advertisement matches the current criteria. Try to change parameters.",
+    "realEstateListings": "Real Estate Listings",
+    "subtitle": "Discover the perfect property with AI-powered insights and detailed information",
+    "rooms": "room(s)",
+    "floor": "floor",
+    "walk": "walk",
+    "byCar": "by car",
+    "renovationLabel": "Renovation:",
+    "expensive": "{percent}% expensive than estimated",
+    "cheaper": "{percent}% cheaper than estimated",
+    "advantages": "Advantages",
+    "disadvantages": "Disadvantages",
+    "updated": "Updated:",
+    "newListing": "New listing",
+    "updatedListing": "Updated",
+    "select": "Select"
+  },
+  "ru": {
+    "seoTitle": "AI-ранжированные квартиры в СПБ",
+    "seoDescription": "Агрегатор объявлений с Cian и Avito с автоматической оценкой ремонта",
+    "showFilters": "Показать фильтры",
+    "hideFilters": "Скрыть фильтры",
+    "city": "Город:",
+    "msk": "Москва",
+    "spb": "Санкт-Петербург",
+    "volgograd": "Волгоград",
+    "sortBy": "Сортировать по:",
+    "sortOrder": "Порядок сортировки:",
+    "dateRange": "Диапазон дат:",
+    "priceRange": "Диапазон цен:",
+    "squareRange": "Диапазон площади:",
+    "renovationRange": "Рейтинг ремонта:",
+    "roomsCount": "Количество комнат:",
+    "source": "Источник:",
+    "containsInDescription": "Содержит в описании:",
+    "updateDate": "Дата обновления",
+    "squareMeterPrice": "Цена за м²",
+    "square": "Площадь",
+    "totalPrice": "Общая цена",
+    "renovationRating": "Рейтинг ремонта",
+    "roomsCountSort": "Количество комнат",
+    "ascending": "По возрастанию",
+    "descending": "По убыванию",
+    "min": "От",
+    "max": "До",
+    "millionRUB": "млн ₽",
+    "squareMeters": "м²",
+    "ratingScale": "1 - 10",
+    "studio": "Студия",
+    "cian": "Циан",
+    "avito": "Авито",
+    "errorTitle": "Запрос завершился ошибкой. Попробуйте изменить параметры.",
+    "noResultsTitle": "Ни одно объявление не соответствует текущим критериям. Попробуйте изменить параметры.",
+    "realEstateListings": "Уиный поиск квартир",
+    "subtitle": "Площадка с аггрегированными с помощью ИИ методов объявлениями о продаже квартир",
+    "rooms": "комн.",
+    "floor": "этаж",
+    "walk": "пешком",
+    "byCar": "на машине",
+    "renovationLabel": "Ремонт:",
+    "expensive": "на {percent}% дороже оценочной стоимости",
+    "cheaper": "на {percent}% дешевле оценочной стоимости",
+    "advantages": "Преимущества",
+    "disadvantages": "Недостатки",
+    "updated": "Обновлено:",
+    "newListing": "Новое объявление",
+    "updatedListing": "Обновлено",
+    "select": "Выбрать"
+  }
+}
+</i18n>
 
 <template>
   <el-button @click="filtersHidden=!filtersHidden" class="mobile-only expand-button">
@@ -149,39 +259,40 @@ useSeoMeta({
   <div class="container">
     <el-collapse>
       <el-aside class="filters" v-if="!filtersHidden">
-        <label class="filter-label">City:</label>
+        <label class="filter-label">{{ t('city') }}</label>
         <el-select
+            :placeholder="t('select')"
             class="number-input"
             clearable
             v-model="filter.cityId">
-          <el-option :value="3" label="Moscow" />
-          <el-option :value="1" label="Saint-Petersburg" />
-          <el-option :value="2" label="Volgograd" />
+          <el-option :value="3" :label="t('msk')" />
+          <el-option :value="1" :label="t('spb')" />
+          <el-option :value="2" :label="t('volgograd')" />
         </el-select>
 
-        <label class="filter-label">Sort By:</label>
+        <label class="filter-label">{{ t('sortBy') }}</label>
         <el-select
             class="number-input"
             id="sortBy"
             v-model="filter.sortBy">
-          <el-option :value=0 label="Update Date" />
-          <el-option :value=1 label="Square Meter Price" />
-          <el-option :value=2 label="Square" />
-          <el-option :value=3 label="Total Price" />
-          <el-option :value=4 label="Renovation rating" />
-          <el-option :value=6 label="Rooms Count" />
+          <el-option :value=0 :label="t('updateDate')" />
+          <el-option :value=1 :label="t('squareMeterPrice')" />
+          <el-option :value=2 :label="t('square')" />
+          <el-option :value=3 :label="t('totalPrice')" />
+          <el-option :value=4 :label="t('renovationRating')" />
+          <el-option :value=6 :label="t('roomsCountSort')" />
         </el-select>
 
-        <label class="filter-label">Sort Order:</label>
+        <label class="filter-label">{{ t('sortOrder') }}</label>
         <el-select
             class="number-input"
             id="sortOrder"
             v-model="filter.sortOrder">
-          <el-option :value=1 label="Ascending" />
-          <el-option :value=0 label="Descending" />
+          <el-option :value=1 :label="t('ascending')" />
+          <el-option :value=0 :label="t('descending')" />
         </el-select>
 
-        <label class="filter-label">Date range:</label>
+        <label class="filter-label">{{ t('dateRange') }}</label>
         <l-date-range-picker
             style="width: auto"
             :id="['minDate', 'maxDate']"
@@ -189,72 +300,74 @@ useSeoMeta({
             v-model:max-date="filter.maxDate"
         ></l-date-range-picker>
 
-        <label class="filter-label">Price Range:</label>
+        <label class="filter-label">{{ t('priceRange') }}</label>
         <l-number-range-picker
-          v-model:min-value="filter.minPrice"
-          v-model:max-value="filter.maxPrice"
-          min-value-placeholder="Min"
-          max-value-placeholder="Max"
-          postfixText="M, RUB"
-          :step="1"
-          :min="0"
-          :max="1000000"
+            v-model:min-value="filter.minPrice"
+            v-model:max-value="filter.maxPrice"
+            :min-value-placeholder="t('min')"
+            :max-value-placeholder="t('max')"
+            :postfix-text="t('millionRUB')"
+            :step="1"
+            :min="0"
+            :max="1000000"
         ></l-number-range-picker>
 
-        <label class="filter-label">Square Range:</label>
+        <label class="filter-label">{{ t('squareRange') }}</label>
         <l-number-range-picker
-          v-model:min-value="filter.minSquare"
-          v-model:max-value="filter.maxSquare"
-          min-value-placeholder="Min"
-          max-value-placeholder="Max"
-          postfixText="m²"
-          :step="5"
-          :min="0"
-          :max="10000"
+            v-model:min-value="filter.minSquare"
+            v-model:max-value="filter.maxSquare"
+            :min-value-placeholder="t('min')"
+            :max-value-placeholder="t('max')"
+            :postfix-text="t('squareMeters')"
+            :step="5"
+            :min="0"
+            :max="10000"
         ></l-number-range-picker>
 
-        <label class="filter-label">Renovation Rating Range:</label>
+        <label class="filter-label">{{ t('renovationRange') }}</label>
         <l-number-range-picker
             v-model:min-value="filter.minRenovationRating"
             v-model:max-value="filter.maxRenovationRating"
-            min-value-placeholder="Min"
-            max-value-placeholder="Max"
+            :min-value-placeholder="t('min')"
+            :max-value-placeholder="t('max')"
             :step="1"
             :min="0"
             :max="10"
-            postfixText="1 to 10"
+            :postfix-text="t('ratingScale')"
         ></l-number-range-picker>
 
-        <label class="filter-label">Rooms Count:</label>
+        <label class="filter-label">{{ t('roomsCount') }}</label>
         <el-select
+            :placeholder="t('select')"
             class="number-input"
             id="roomsCount"
             multiple
             clearable
             v-model="filter.roomsCount">
-          <el-option :value="0" label="Studio" />
+          <el-option :value="0" :label="t('studio')" />
           <el-option :value="1" label="1" />
           <el-option :value="2" label="2" />
           <el-option :value="3" label="3" />
           <el-option :value="4" label="4" />
         </el-select>
 
-        <label class="filter-label">Source:</label>
+        <label class="filter-label">{{ t('source') }}</label>
         <el-select
+            :placeholder="t('select')"
             class="number-input"
             id="sourceType"
             clearable
             v-model="filter.source">
-          <el-option value="0" label="Cian" />
-          <el-option value="1" label="Avito" />
+          <el-option value="0" :label="t('cian')" />
+          <el-option value="1" :label="t('avito')" />
         </el-select>
 
-        <label class="filter-label">Contains in description:</label>
+        <label class="filter-label">{{ t('containsInDescription') }}</label>
         <el-input
-          class="number-input"
-          id="searchString"
-          clearable
-          v-model="filter.searchString"
+            class="number-input"
+            id="searchString"
+            clearable
+            v-model="filter.searchString"
         ></el-input>
       </el-aside>
     </el-collapse>
@@ -263,23 +376,23 @@ useSeoMeta({
       <header>
         <h1>
           <font-awesome :icon="faHome" />
-          Real Estate Listings
+          {{ t('realEstateListings') }}
         </h1>
-        <p class="subtitle">Discover the perfect property with AI-powered insights and detailed information</p>
+        <p class="subtitle">{{ t('subtitle') }}</p>
       </header>
 
       <div v-if="hasError">
         <el-alert
-          title="The request finished with error. Try to change parameters."
-          type="error"
-          :closable="false" />
+            :title="t('errorTitle')"
+            type="error"
+            :closable="false" />
       </div>
 
       <div v-if="advertisements.length == 0 && hasError === false">
         <el-alert
-          title="No one advertisement matches the current criteria. Try to change parameters."
-          type="info"
-          :closable="false" />
+            :title="t('noResultsTitle')"
+            type="info"
+            :closable="false" />
       </div>
 
       <div class="infinite-scroll grid" v-infinite-scroll="load" v-loading="hasError === null">
@@ -299,7 +412,7 @@ useSeoMeta({
               <a target="_blank"
                  rel="nofollow"
                  :href="item.link">
-                {{ item.sourceType == SourceType.Cian ? "Cian" : "Avito" }} #{{item.sourceId}}
+                {{ item.sourceType == SourceType.Cian ? t('cian') : t('avito') }} #{{item.sourceId}}
               </a>
             </h3>
             <div class="property-price">
@@ -314,19 +427,19 @@ useSeoMeta({
             <div class="property-details">
               <div class="detail-item">
                 <font-awesome :icon="faRulerCombined" />
-                <span>{{ item.square }} m²</span>
+                <span>{{ item.square }} {{ t('squareMeters') }}</span>
               </div>
               <div class="detail-item">
                 <font-awesome :icon="faBed" />
-                <span>{{ item.roomsCount > 0 ? item.roomsCount + ' room(s)' : 'Studio' }} </span>
+                <span>{{ item.roomsCount > 0 ? item.roomsCount + ' ' + t('rooms') : t('studio') }} </span>
               </div>
               <div class="detail-item">
                 <font-awesome :icon="faMoneyBill" />
-                <span>{{ moneyFormatter.format(item.squareMeterPrice) }} m²</span>
+                <span>{{ moneyFormatter.format(item.squareMeterPrice) }}/{{ t('squareMeters') }}</span>
               </div>
               <div class="detail-item">
                 <font-awesome :icon="faLayerGroup" />
-                <span>{{ item.floorNumber }}/{{item.totalFloorsNumber }} floor</span>
+                <span>{{ item.floorNumber }}/{{item.totalFloorsNumber }} {{ t('floor') }}</span>
               </div>
             </div>
 
@@ -337,18 +450,18 @@ useSeoMeta({
                   <svg xmlns="http://www.w3.org/2000/svg" :style="{ width: 8, height: 8 }">
                     <circle cx="3" cy="3" r="3" :fill="metroStation.color" />
                   </svg>
-                  {{ metroStation.name }} - {{ metroStation.distanceInMinutes }} min {{ metroStation.distanceType == 0 ? "walk" : "by car" }}
+                  {{ metroStation.name }} - {{ metroStation.distanceInMinutes }} {{ t('min') }} {{ metroStation.distanceType == 0 ? t('walk') : t('byCar') }}
                 </div>
               </div>
             </div>
 
             <div class="ai-ratings">
               <div class="renovation">
-                <div class="rating-label">Renovation: {{ item.renovationRating }} / 10</div>
+                <div class="rating-label">{{ t('renovationLabel') }} {{ item.renovationRating }} / 10</div>
                 <div class="rating-bar">
                   <div
-                    class="rating-fill"
-                    :style="{
+                      class="rating-fill"
+                      :style="{
                       width: item.renovationRating * 10 + '%',
                       background: getCoefficientColor(item.renovationRating / 10)
                     }">
@@ -356,34 +469,32 @@ useSeoMeta({
                 </div>
               </div>
               <div class="market-price" v-if="item.predictedMarketPrice">
-                The price is
-                <span class="not-in-market" v-if="item.totalPrice > item.predictedMarketPrice">
-                  {{ Math.round((item.totalPrice / item.predictedMarketPrice - 1) * 100) }}% expensive
+                <span v-if="item.totalPrice > item.predictedMarketPrice" class="not-in-market">
+                  {{ t('expensive', { percent: Math.round((item.totalPrice / item.predictedMarketPrice - 1) * 100) }) }} {{ moneyFormatter.format(item.predictedMarketPrice) }}
                 </span>
-                <span class="in-market" v-if="item.totalPrice < item.predictedMarketPrice">
-                  {{ Math.round((item.predictedMarketPrice / item.totalPrice - 1) * 100) }}% cheaper
+                <span v-if="item.totalPrice < item.predictedMarketPrice" class="in-market">
+                  {{ t('cheaper', { percent: Math.round((item.predictedMarketPrice / item.totalPrice - 1) * 100) }) }} {{ moneyFormatter.format(item.predictedMarketPrice) }}
                 </span>
-                than estimated {{ moneyFormatter.format(item.predictedMarketPrice) }}
               </div>
             </div>
 
             <div class="advantages" v-if="item.advantages.length > 0">
-              <h4><i class="fas fa-thumbs-up"></i> Advantages</h4>
+              <h4><i class="fas fa-thumbs-up"></i> {{ t('advantages') }}</h4>
               <ul>
                 <li v-for="advantage in item.advantages">{{ advantage }}</li>
               </ul>
             </div>
 
             <div class="disadvantages" v-if="item.problems.length > 0">
-              <h4><i class="fas fa-exclamation-circle"></i> Disadvantages</h4>
+              <h4><i class="fas fa-exclamation-circle"></i> {{ t('disadvantages') }}</h4>
               <ul>
                 <li v-for="problem in item.problems">{{ problem }}</li>
               </ul>
             </div>
 
             <div class="last-update">
-              <div>Updated: <span class="update-date">{{ formatDate(item.updatedAt) }}</span></div>
-              <div><i class="fas fa-bell"></i> {{ item.crawledAt == item.firstTimeCrawledAt ? 'New listing' : 'Updated' }}</div>
+              <div>{{ t('updated') }} <span class="update-date">{{ formatDate(item.updatedAt) }}</span></div>
+              <div><i class="fas fa-bell"></i> {{ item.crawledAt == item.firstTimeCrawledAt ? t('newListing') : t('updatedListing') }}</div>
             </div>
           </div>
         </article>
