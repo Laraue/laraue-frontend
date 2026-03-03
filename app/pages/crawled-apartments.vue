@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref, watch} from "vue";
+import {computed, reactive, ref, watch} from "vue";
 import LDateRangePicker from "../components/ui/LDateRangePicker.vue";
 import {useRouter} from "vue-router";
 import {
@@ -139,6 +139,7 @@ const getAddressString = (item: Advertisement) => {
 
 useSeoMeta({
   title: computed(() => t('seoTitle')),
+  ogTitle: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),
 })
 </script>

@@ -15,8 +15,9 @@ const { loadArticle } = useBlogApi();
 const article = await loadArticle(locale.value, articleId);
 
 useSeoMeta({
-  title: () => `Laraue Article: ${article.title}`,
-  ogTitle: () => `Laraue Article: ${article.title}`,
+  title: () => article.title,
+  ogTitle: () => article.title,
+  description: () => article.description
 })
 </script>
 

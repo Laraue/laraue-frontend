@@ -30,9 +30,9 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: () => `Laraue Project: ${project.title}`,
-  ogTitle: () => `Laraue Project: ${project.title}`,
-  description: () => project.description,
+  title: () => project.title,
+  ogTitle: () => project.title,
+  description: () => project.description
 })
 
 </script>

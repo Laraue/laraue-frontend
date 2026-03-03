@@ -132,6 +132,7 @@ watch(currentModeId, (newModeId) => {
 
 useSeoMeta({
   title: computed(() => t('seoTitle')),
+  ogTitle: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),
 })
 </script>
@@ -168,7 +169,7 @@ useSeoMeta({
     "step3Description": "Click \"Start Extraction\" and view your extracted data in the results area."
   },
   "ru": {
-    "seoTitle": "Pdf Query Language Concept (Alpha)",
+    "seoTitle": "Конвертер PDF -> JSON (Альфа)",
     "seoDescription": "Извлекайте данные из PDF с помощью языка Pdf Query или готовых сниппетов",
     "pageTitle": "Извлечение структурированных данных из PDF",
     "pageSubtitle": "Сервис помогает бесплатно извлекать данные из PDF, используя специализированный запрос",

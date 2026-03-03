@@ -56,6 +56,7 @@ export interface ArticleDetails {
     updatedAt: string;
     innerLinks: InnerLink[] | undefined;
     length: number;
+    description: string;
 }
 
 export interface ProjectDetails {
@@ -217,7 +218,7 @@ export const useBlogApi = () => {
             body: {
                 languageCode: languageCode,
                 path: PathUtil.getPath(["articles", id]),
-                properties: ["title", "content", "projects", "tags", formattedDate("createdAt"), formattedDate("updatedAt"), "innerLinks", "length(content)"],
+                properties: ["title", "content", "projects", "tags", formattedDate("createdAt"), formattedDate("updatedAt"), "innerLinks", "length(content)", "description"],
             }
         });
     }

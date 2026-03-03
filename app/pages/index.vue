@@ -1,8 +1,7 @@
 <script setup lang="ts">
-useSeoMeta({
-  title: 'Laraue Blog and Demonstrations',
-  description: 'The technical Blog of Ilya Belyansky, a .NET developer who likes to write different libraries, test concepts and share thoughts.',
-})
+
+import {computed} from "vue";
+
 interface Item{
   title: string;
   description: string;
@@ -76,12 +75,19 @@ const sections = computed<Section[]>(() => [
   }
 ])
 
+useSeoMeta({
+  title: computed(() => t('seoTitle')),
+  ogTitle: computed(() => t('seoTitle')),
+  description: computed(() => t('seoDescription')),
+})
 </script>
 
 <i18n lang="json">
 {
   "en": {
-    "devName": "Ilya Belyansky",
+    "seoTitle": "I.Belyansky Blog and Apps",
+    "seoDescription": "The technical Blog of .NET developer who likes software development.",
+    "devName": "I. Belyansky",
     "devDescription": "Backend Developer",
     "aboutTitle": "About Resource",
     "aboutDescription": [
@@ -101,7 +107,9 @@ const sections = computed<Section[]>(() => [
     "telegramNetLibraryDescription": "The library to write Telegram bots in MVC style"
   },
   "ru": {
-    "devName": "Белянский Илья",
+    "seoTitle": "Блог и приложения И. Белянского",
+    "seoDescription": "Технический Блог .NET разработчика, которому просто нравится программирование.",
+    "devName": "И. Белянский",
     "devDescription": "Backend разработчик",
     "aboutTitle": "О сайте",
     "aboutDescription": [

@@ -63,6 +63,7 @@ const title = computed(() => {
 
 useSeoMeta({
   title: title,
+  ogTitle: title,
   description: 'All documentation of the Laraue organization',
 })
 
@@ -71,12 +72,14 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
+    "seoDescription": "The whole documentation in the Blog. Use the filters to find only you interested in.",
     "documentation": "Documentation",
     "ofProject": "related to project"
   },
   "ru": {
     "documentation": "Документация",
-    "ofProject": "проекта"
+    "ofProject": "проекта",
+    "seoDescription": "Вся документация, доступная в блоге. Испольуйте фильтры, чтобы найти только интересующие элементы."
   }
 }
 </i18n>

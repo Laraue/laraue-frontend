@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import {computed} from "vue";
+
 const { t } = useI18n();
 const supportedLanguages = ref([
   {
@@ -76,14 +78,17 @@ const steps = ref([
 ])
 
 useSeoMeta({
-  title: 'Increase Vocabulary with Flashcards Bot',
-  description: 'The telegram bot that helps to learn top 5k used words of English, Japanese, Russian and French languages',
+  title: computed(() => t('seoTitle')),
+  ogTitle: computed(() => t('seoTitle')),
+  description: computed(() => t('seoDescription')),
 })
 </script>
 
 <i18n lang="json">
 {
   "en": {
+    "seoTitle": "Increase Vocabulary with Flashcards Bot",
+    "seoDescription": "The telegram bot that helps to learn top 5k used words of English, Japanese, Russian and French languages",
     "title": "The Telegram bot to increase your vocabulary",
     "description": "Master languages with multiple ways to study vocabulary. Learn anytime, anywhere without installing any app!",
     "start": "Start Learning Now",
@@ -121,6 +126,8 @@ useSeoMeta({
     "spanishEnglish": "Spanish-English"
   },
   "ru": {
+    "seoTitle": "Бот для пополнения словарного запаса",
+    "seoDescription": "Бот позволяет выучить самые часто используемые слова английского, русского, испанского и других языков",
     "title": "Telegram бот для развития словарного запаса",
     "description": "Изучайте слова различных языков с помощью интерактивных карточек. Обучайтесь в любое время без установки дополнительных приложений.",
     "start": "Начать обучение",

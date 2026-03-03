@@ -24,12 +24,25 @@ const menuPath = getCurrentDocumentationRoot.value
 
 const documentation = await loadDocumentation(locale.value, itemId);
 const menuItems = await loadMenu(locale.value, menuPath, 5);
+const { t } = useI18n();
 
 useSeoMeta({
-  title: () => `Documentation: ${documentation.title}`,
-  ogTitle: () => `Documentation: ${documentation.title}`,
+  title: () => documentation.title,
+  ogTitle: () => documentation.title,
+  description: () => t('seoDescription', { title: documentation.title }),
 })
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "seoDescription": "The full documentation about the element '{title}'"
+  },
+  "ru": {
+    "seoDescription": "Подробная документация по элементу '{title}'"
+  }
+}
+</i18n>
 
 <template>
   <doc-view

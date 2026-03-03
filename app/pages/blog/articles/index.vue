@@ -57,7 +57,8 @@ const title = computed(() => {
 
 useSeoMeta({
   title: title.value,
-  description: 'The whole articles list in the Blog. Use the filters to find only you interested in.',
+  ogTitle: title.value,
+  description: computed(() => t('seoDescription'))
 })
 
 </script>
@@ -65,12 +66,14 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
+    "seoDescription": "The whole articles list in the Blog. Use the filters to find only you interested in.",
     "all": "All articles",
     "ofProject": "related to project"
   },
   "ru": {
     "all": "Все статьи",
-    "ofProject": "с проектом"
+    "ofProject": "с проектом",
+    "seoDescription": "Весь список статей в блоге. Испольуйте фильтры, чтобы найти интересующие материалы."
   }
 }
 </i18n>

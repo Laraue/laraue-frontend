@@ -79,7 +79,8 @@ const computedItems = computed<Article[]>(() => items.value
 
 useSeoMeta({
   title: title,
-  description: 'All blog posts of the Laraue organization',
+  ogTitle: computed(() => t('seoTitle')),
+  description: t('seoDescription'),
 })
 
 </script>
@@ -89,12 +90,14 @@ useSeoMeta({
   "en": {
     "all": "All content",
     "byTag": "with tag",
-    "ofType": "with type"
+    "ofType": "with type",
+    "seoDescription": "All blog posts of the Blog. Use the filters by tags or projects to find exact you need."
   },
   "ru": {
     "all": "Весь контент",
     "byTag": "c тегом",
-    "ofType": "с типом"
+    "ofType": "с типом",
+    "seoDescription": "Все публикации блога. Используйте фильтры по тегами или проектам, чтобы найти что-то конкретное."
   }
 }
 </i18n>

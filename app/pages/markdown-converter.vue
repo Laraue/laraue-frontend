@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 const markdown = ref('');
 const transpiled = ref('')
@@ -100,8 +100,9 @@ const templates = ref([
 ])
 
 useSeoMeta({
-  title: 'Markdown to HTML Converter',
-  description: 'The utility for online Markdown to HTML Converting',
+  title: t('seoTitle'),
+  ogTitle: computed(() => t('seoTitle')),
+  description: t('seoDescription'),
 })
 
 </script>
@@ -109,6 +110,8 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
+    "seoTitle": "Markdown to HTML Converter",
+    "seoDescription": "The utility for online Markdown to HTML Converting",
     "heading1": "Heading 1",
     "heading2": "Heading 2",
     "heading3": "Heading 3",
@@ -143,6 +146,8 @@ useSeoMeta({
     ]
   },
   "ru": {
+    "seoTitle": "Конвертер Markdown в HTML",
+    "seoDescription": "Простая онлайн утилита для конвертации Markdown в HTML",
     "heading1": "Заголовок 1",
     "heading2": "Заголовок 2",
     "heading3": "Заголовок 3",
