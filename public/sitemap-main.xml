@@ -20,4 +20,24 @@
 		<loc>https://laraue.com/markdown-converter</loc>
 		<priority>1.0</priority>
 	</url>
+	<url>
+		<loc>https://laraue.com/ru/</loc>
+		<priority>1.0</priority>
+	</url>
+	<url>
+		<loc>https://laraue.com/ru/pdf-extractor</loc>x
+		<priority>1.0</priority>
+	</url>
+	<url>
+		<loc>https://laraue.com/ru/learn-language-bot</loc>
+		<priority>1.0</priority>
+	</url>
+	<url>
+		<loc>https://laraue.com/ru/crawled-apartments</loc>
+		<priority>1.0</priority>
+	</url>
+	<url>
+		<loc>https://laraue.com/ru/markdown-converter</loc>
+		<priority>1.0</priority>
+	</url>
 </urlset>
