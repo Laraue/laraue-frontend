@@ -77,7 +77,12 @@ const removeActiveItem = () => activeItem.value = undefined;
 <template>
   <nav class="navbar">
     <div class="nav-container">
-      <a href="/" class="site-name">Laraue Tools</a>
+      <div class="left-navbar">
+        <a href="/" class="site-name">Laraue Tools</a>
+        <a class="left-navbar-language-selector">
+          <l-language-selector />
+        </a>
+      </div>
       <div class="hamburger" @click="isMobileMenuActive = !isMobileMenuActive">
         <span></span>
         <span></span>
@@ -104,19 +109,22 @@ const removeActiveItem = () => activeItem.value = undefined;
           </div>
         </li>
 
-        <li
-          class="nav-item level-1">
-          <a>
-            <l-language-selector />
-          </a>
-        </li>
-
       </ul>
     </div>
   </nav>
 </template>
 
 <style scoped>
+.left-navbar{
+  display: flex;
+}
+
+.left-navbar-language-selector{
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
 .navbar {
   background: #251645;
   position: sticky;
