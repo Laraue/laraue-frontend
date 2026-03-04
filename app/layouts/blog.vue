@@ -52,12 +52,14 @@ const localePath = useLocalePath();
   "en": {
     "projects": "Projects",
     "articles": "Articles",
-    "documentation": "Documentation"
+    "documentation": "Documentation",
+    "allTags": "All Tags"
   },
   "ru": {
     "projects": "Проекты",
     "articles": "Статьи",
-    "documentation": "Документация"
+    "documentation": "Документация",
+    "allTags": "Все теги"
   }
 }
 </i18n>
@@ -105,10 +107,10 @@ const localePath = useLocalePath();
       </div>
 
       <div class="right-sidebar">
-        <h2>All Tags</h2>
+        <h2>{{ t('allTags') }}</h2>
         <div class="tag-cloud">
           <span class="tag" v-for="tag in tags" :key="tag.key">
-            <nuxt-link :to="'/blog?tag=' + tag.key">
+            <nuxt-link :to="localePath('/blog?tag=' + tag.key)">
               {{ tag.key }}
               <span class="tag-count">
                 {{ tag.count }}
