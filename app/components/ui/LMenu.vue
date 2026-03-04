@@ -25,11 +25,6 @@ const menuItems = computed<MenuItem[]>(() => {
           text: $t('apartmentsAggregator'),
           link: localePath("/crawled-apartments"),
           id: "1-2",
-        },
-        {
-          text: $t("pdfExtractor"),
-          link: localePath("/pdf-extractor"),
-          id: "1-3",
         }
       ]
     },
@@ -45,10 +40,26 @@ const menuItems = computed<MenuItem[]>(() => {
       ]
     },
     {
-      text: $t('blog'),
+      text: $t('prototypes'),
       id: "3",
+      children: [
+        {
+          text: $t("pdfExtractor"),
+          link: localePath("/pdf-extractor"),
+          id: "3-1",
+        },
+        {
+          text: $t("markdownTranslator"),
+          link: localePath("/markdown-translator"),
+          id: "3-2",
+        }
+      ]
+    },
+    {
+      text: $t('blog'),
+      id: "4",
       link: localePath("/blog"),
-    }
+    },
   ]
 });
 
@@ -64,12 +75,14 @@ const removeActiveItem = () => activeItem.value = undefined;
   "en": {
     "apps": "Apps",
     "telegramBots": "Telegram Bots",
-    "blog": "Blog"
+    "blog": "Blog",
+    "prototypes": "Prototypes"
   },
   "ru": {
     "apps": "Приложения",
     "telegramBots": "Telegram Боты",
-    "blog": "Блог"
+    "blog": "Блог",
+    "prototypes": "Прототипы"
   }
 }
 </i18n>

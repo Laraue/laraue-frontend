@@ -21,6 +21,10 @@
 		<priority>1.0</priority>
 	</url>
 	<url>
+		<loc>https://laraue.com/markdown-translator</loc>
+		<priority>1.0</priority>
+	</url>
+	<url>
 		<loc>https://laraue.com/ru/</loc>
 		<priority>1.0</priority>
 	</url>
@@ -38,6 +42,10 @@
 	</url>
 	<url>
 		<loc>https://laraue.com/ru/markdown-converter</loc>
+		<priority>1.0</priority>
+	</url>
+	<url>
+		<loc>https://laraue.com/ru/markdown-translator</loc>
 		<priority>1.0</priority>
 	</url>
 </urlset>

@@ -1,5 +1,6 @@
 {
   "markdownConverter": "Markdown to HTML Converter",
+  "markdownTranslator": "Markdown AI Translator",
   "apartmentsAggregator": "AI Apartments Aggregator",
   "pdfExtractor": "PDF to JSON Converter",
   "vocabularyBot": "Bot to increase vocabulary"

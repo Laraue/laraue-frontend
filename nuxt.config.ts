@@ -56,6 +56,7 @@ export default defineNuxtConfig({
     ],
     defaultLocale: 'en',
     baseUrl: 'https://laraue.com',
+    detectBrowserLanguage: false
   },
   runtimeConfig: {
     public: {
