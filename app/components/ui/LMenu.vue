@@ -78,7 +78,7 @@ const removeActiveItem = () => activeItem.value = undefined;
   <nav class="navbar">
     <div class="nav-container">
       <div class="left-navbar">
-        <a href="/" class="site-name">Laraue Tools</a>
+        <a :href="localePath('/')" class="site-name">Laraue Tools</a>
         <a class="left-navbar-language-selector">
           <l-language-selector />
         </a>
