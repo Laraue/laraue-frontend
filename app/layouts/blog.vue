@@ -11,18 +11,34 @@ const documentationMenuItems = ref<MenuItem[]>([]);
 const { countPropertyValues, loadMenu, loadSidebarItems } = useBlogApi();
 const { locale } = useI18n()
 
-watch(locale, async () => {
-  await loadData();
+watch(locale, () => {
+  loadData();
 })
 
-onMounted(async () => {
-  await loadData();
+onMounted(() => {
+  loadData();
 })
 
-const loadData = async () => {
+const loadData = () => {
+  loadArticlesData();
+  loadSidebarProjectsData();
+  loadTagsData();
+  loadDocumentationData();
+}
+
+const loadArticlesData = async () => {
   sidebarArticles.value = await loadSidebarItems(locale.value, "article", 3)
+}
+
+const loadSidebarProjectsData = async () => {
   sidebarProjects.value = await loadSidebarItems(locale.value,"project", 10)
+}
+
+const loadTagsData = async () => {
   tags.value = await countPropertyValues(locale.value, "tags")
+}
+
+const loadDocumentationData = async () => {
   documentationMenuItems.value = await loadMenu(locale.value, PathUtil.getPath("documentation"), 1)
 }
 
