@@ -79,7 +79,7 @@ const computedItems = computed<Article[]>(() => items.value
 
 useSeoMeta({
   title: title,
-  ogTitle: computed(() => t('seoTitle')),
+  ogTitle: title,
   description: t('seoDescription'),
 })
 
