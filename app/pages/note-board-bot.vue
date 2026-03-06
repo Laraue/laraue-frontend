@@ -129,7 +129,11 @@ useSeoMeta({
 
     "ctaLabel": "Get started",
     "ctaTitle": "Your messages deserve better than chat history",
-    "ctaSub": "Join thousands organizing their Telegram messages visually. Free to start, takes 30 seconds."
+    "ctaSub": "Join thousands organizing their Telegram messages visually. Free to start, takes 30 seconds.",
+    "forwarded": "Forwarded from Work Chat",
+    "deadline": "Deadline: Friday — finalize the Q4 report and send to management.",
+    "nowVisible": "now visible on your board",
+    "savedAs": "Saved in"
   },
   "ru": {
     "seoTitle": "Note Board Bot — Превращайте сообщения Telegram в красивые доски",
@@ -246,7 +250,11 @@ useSeoMeta({
 
     "ctaLabel": "Начните сейчас",
     "ctaTitle": "Ваши сообщения это нечто большее, чем история чата",
-    "ctaSub": "Присоединяйтесь к тысячам людей, которые организуют сообщения Telegram визуально. Бесплатно, займет 30 секунд."
+    "ctaSub": "Присоединяйтесь к тысячам людей, которые организуют сообщения Telegram визуально. Бесплатно, займет 30 секунд.",
+    "forwarded": "Переслано из рабочего чата",
+    "deadline": "Дедлайн: Пятница — закочить отчет за 4-й квартал и отправить начальству.",
+    "nowVisible": "теперь на Kanban доске",
+    "savedAs": "Сохранено в"
   }
 }
 </i18n>
@@ -302,8 +310,8 @@ useSeoMeta({
           </div>
           <div class="tg-messages">
             <div class="tg-msg">
-              <div>Forwarded from Work Chat</div>
-              <div style="margin-top:4px;color:#5b80a8;font-size:10px;">Deadline: Friday — finalize the Q4 report and send to management.</div>
+              <div>{{ t('forwarded') }}</div>
+              <div style="margin-top:4px;color:#5b80a8;font-size:10px;">{{ t('deadline') }}</div>
               <div class="msg-meta">12:41</div>
             </div>
             <div class="tg-msg bot">
@@ -321,8 +329,8 @@ useSeoMeta({
               <div class="msg-meta">12:42</div>
             </div>
             <div class="tg-msg bot">
-              ✅ Saved as {{ t('tasks') }}!<br>
-              <span style="opacity:0.8;font-size:10px;">{{ t('todo') }} → now visible on your board</span>
+              ✅ {{ t('savedAs') }} {{ t('tasks') }}!<br>
+              <span style="opacity:0.8;font-size:10px;">{{ t('todo') }} → {{ t('nowVisible') }}</span>
               <div class="msg-meta">12:42</div>
             </div>
           </div>
