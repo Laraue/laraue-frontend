@@ -418,9 +418,9 @@ useSeoMeta({
   </aside>
 </template>
 
-<style>
+<style scoped>
 
-:root {
+section, aside {
   --blue-900: #0d2240;
   --blue-800: #133366;
   --blue-600: #1a5ab8;

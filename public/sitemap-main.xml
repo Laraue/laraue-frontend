@@ -25,6 +25,10 @@
 		<priority>1.0</priority>
 	</url>
 	<url>
+		<loc>https://laraue.com/note-board-bot</loc>
+		<priority>1.0</priority>
+	</url>
+	<url>
 		<loc>https://laraue.com/ru/</loc>
 		<priority>1.0</priority>
 	</url>
@@ -46,6 +50,10 @@
 	</url>
 	<url>
 		<loc>https://laraue.com/ru/markdown-translator</loc>
+		<priority>1.0</priority>
+	</url>
+	<url>
+		<loc>https://laraue.com/ru/note-board-bot</loc>
 		<priority>1.0</priority>
 	</url>
 </urlset>
