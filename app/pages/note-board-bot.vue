@@ -5,6 +5,64 @@ import { computed } from "vue";
 const { t } = useI18n();
 const botName = '@note_board_bot';
 
+
+import {
+  defineOffer,
+  defineSoftwareApp,
+  useSchemaOrg,
+  defineAggregateRating,
+  defineReview,
+  definePerson,
+} from '@unhead/schema-org/vue'
+
+useSchemaOrg([
+  defineSoftwareApp({
+    name: t('seoTitle'),
+    description: t('seoDescription'),
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Telegram",
+    offers: [
+      defineOffer({
+        price: 0,
+        priceCurrency: "USD",
+        description: '3 message types, 3 statuses per type, up to 100 cards'
+      }),
+      defineOffer({
+        price: 4,
+        priceCurrency: "USD",
+        description: 'Unlimited types, statuses, cards, AI categorization, and CSV/Notion export'
+      })
+    ],
+    aggregateRating: defineAggregateRating({
+      ratingValue: "4.8",
+      reviewCount: 3,
+    }),
+    review: [
+      defineReview({
+        author: definePerson({
+          name: t('testimonial1Name')
+        }),
+        reviewBody: t('testimonial1'),
+        reviewRating: { '@type': 'Rating', ratingValue: '5' }
+      }),
+      defineReview({
+        author: definePerson({
+          name: t('testimonial2Name')
+        }),
+        reviewBody: t('testimonial2'),
+        reviewRating: { '@type': 'Rating', ratingValue: '5' }
+      }),
+      defineReview({
+        author: definePerson({
+          name: t('testimonial3Name')
+        }),
+        reviewBody: t('testimonial3'),
+        reviewRating: { '@type': 'Rating', ratingValue: '5' }
+      })
+    ],
+  })
+])
+
 useSeoMeta({
   title: computed(() => t('seoTitle')),
   ogTitle: computed(() => t('seoTitle')),
