@@ -37,6 +37,11 @@ const menuItems = computed<MenuItem[]>(() => {
           link: localePath("/learn-language-bot"),
           id: "2-1"
         },
+        {
+          text: $t("noteBoardBot"),
+          link: localePath("/note-board-bot"),
+          id: "2-2",
+        },
       ]
     },
     {
@@ -49,14 +54,9 @@ const menuItems = computed<MenuItem[]>(() => {
           id: "3-1",
         },
         {
-          text: $t("noteBoardBot"),
-          link: localePath("/note-board-bot"),
-          id: "3-2",
-        },
-        {
           text: $t("markdownTranslator"),
           link: localePath("/markdown-translator"),
-          id: "3-3",
+          id: "3-2",
         }
       ]
     },

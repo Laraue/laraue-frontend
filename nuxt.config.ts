@@ -39,13 +39,10 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'Laraue Blog and Apps',
-      htmlAttrs: {
-        lang: 'en',
-      },
       viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      ]
+      ],
     },
   },
   i18n: {
