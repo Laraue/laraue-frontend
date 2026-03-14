@@ -1,6 +1,13 @@
 <script setup lang="ts">
 
 import {computed} from "vue";
+import {
+  defineAggregateRating,
+  defineOffer, definePerson,
+  defineReview,
+  defineSoftwareApp,
+  useSchemaOrg
+} from "@unhead/schema-org/vue";
 
 const { t } = useI18n();
 const supportedLanguages = ref([
@@ -77,11 +84,37 @@ const steps = ref([
   }
 ])
 
+const imageUrl = "https://laraue.com/images/quiz-mode.jpg";
 useSeoMeta({
   title: computed(() => t('seoTitle')),
   ogTitle: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),
+  ogImage: imageUrl,
+  ogImageWidth: "470",
+  ogImageHeight: "611",
+  ogImageAlt: t('seoTitle'),
+  twitterCard: "summary_large_image",
+  twitterTitle: computed(() => t('seoTitle')),
+  twitterDescription: computed(() => t('seoDescription')),
+  twitterImage: imageUrl,
+  twitterImageAlt: t('seoTitle')
 })
+
+useSchemaOrg([
+  defineSoftwareApp({
+    name: t('seoTitle'),
+    description: t('seoDescription'),
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Telegram",
+    offers: [
+      defineOffer({
+        price: 0,
+        priceCurrency: "USD",
+        description: 'Unlimited Bot usage'
+      })
+    ]
+  })
+])
 </script>
 
 <i18n lang="json">
