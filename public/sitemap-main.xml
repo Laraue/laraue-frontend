@@ -27,6 +27,7 @@
 	<url>
 		<loc>https://laraue.com/note-board-bot</loc>
 		<priority>1.0</priority>
+		<lastmod>2026-03-14T09:00:00+03:00</lastmod>
 	</url>
 	<url>
 		<loc>https://laraue.com/ru/</loc>
@@ -55,5 +56,6 @@
 	<url>
 		<loc>https://laraue.com/ru/note-board-bot</loc>
 		<priority>1.0</priority>
+		<lastmod>2026-03-14T09:00:00+03:00</lastmod>
 	</url>
 </urlset>

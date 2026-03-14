@@ -4,7 +4,7 @@ import { computed } from "vue";
 
 const { t } = useI18n();
 const botName = '@note_board_bot';
-
+const imageUrl = "https://laraue.com/images/note-board-bot-app.jpg";
 
 import {
   defineOffer,
@@ -65,8 +65,17 @@ useSchemaOrg([
 
 useSeoMeta({
   title: computed(() => t('seoTitle')),
-  ogTitle: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),
+  ogTitle: computed(() => t('seoTitle')),
+  ogImage: imageUrl,
+  ogImageWidth: "891",
+  ogImageHeight: "862",
+  ogImageAlt: t('seoTitle'),
+  twitterCard: "summary_large_image",
+  twitterTitle: computed(() => t('seoTitle')),
+  twitterDescription: computed(() => t('seoDescription')),
+  twitterImage: imageUrl,
+  twitterImageAlt: t('seoTitle')
 })
 </script>
 
