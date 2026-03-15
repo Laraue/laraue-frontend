@@ -3,7 +3,7 @@ import { useI18n } from "vue-i18n";
 import { computed } from "vue";
 
 const { t } = useI18n();
-const botName = '@note_board_bot';
+const botName = 'msgboard_bot';
 const imageUrl = "https://laraue.com/images/note-board-bot-app.jpg";
 
 import {
@@ -337,12 +337,12 @@ useSeoMeta({
         {{ t('heroTitle').replace('Beautiful Boards', '') }}<span>{{ t('heroTitleSpan') }}</span>
       </h1>
       <p class="hero-sub">
-        {{ t('heroSub', { botName: botName }) }}
+        {{ t('heroSub', { botName: '@' + botName }) }}
       </p>
       <div class="hero-ctas">
-        <a href="https://t.me/note_board_bot" class="btn-primary">
+        <a :href="'https://t.me/' + botName" target="_blank" rel="nofollow" class="btn-primary">
           <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 6.628 5.374 12 12 12 6.629 0 12-5.372 12-12C24 5.373 18.629 0 12 0zm5.562 8.247l-2.01 9.465c-.147.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.215-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.48 14.52l-2.95-.924c-.64-.2-.652-.64.135-.948l11.547-4.452c.533-.194 1.001.13.35.051z"/></svg>
-          {{ t('openBot', { botName: botName }) }}
+          {{ t('openBot', { botName: '@' + botName }) }}
         </a>
         <a href="#how-it-works" class="btn-secondary">
           {{ t('howItWorks') }} →
@@ -436,7 +436,7 @@ useSeoMeta({
           <div class="step-num">1</div>
           <div class="step-text">
             <strong>{{ t('step1') }}</strong><br>
-            {{ t('step1Desc', {botName: botName}) }}
+            {{ t('step1Desc', {botName: '@' + botName}) }}
           </div>
         </div>
         <div class="step">
@@ -668,7 +668,7 @@ useSeoMeta({
       <p class="section-sub">{{ t('ctaSub') }}</p>
       <a href="https://t.me/note_board_bot" class="btn-primary" style="display:inline-flex;">
         <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 6.628 5.374 12 12 12 6.629 0 12-5.372 12-12C24 5.373 18.629 0 12 0zm5.562 8.247l-2.01 9.465c-.147.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.215-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.48 14.52l-2.95-.924c-.64-.2-.652-.64.135-.948l11.547-4.452c.533-.194 1.001.13.35.051z"/></svg>
-        {{ t('openBot', { botName: botName }) }}
+        {{ t('openBot', { botName: '@' + botName }) }}
       </a>
     </div>
   </section>
