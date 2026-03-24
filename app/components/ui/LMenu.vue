@@ -28,7 +28,7 @@ const menuItems = computed<MenuItem[]>(() => {
         },
         {
           text: $t("noteBoardBot"),
-          link: localePath("/note-board-bot"),
+          link: localePath("/msgboard"),
           id: "1-3",
         },
       ]

@@ -82,7 +82,7 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
-    "seoTitle": "Note Board Bot — Turn Telegram Messages into Beautiful Boards",
+    "seoTitle": "Message Board — Turn Telegram Messages into Beautiful Boards",
     "seoDescription": "Stop losing important messages in Telegram. Note Board Bot transforms saved messages into visual boards with custom statuses. Free Kanban organization for Telegram.",
 
     "badge": "Web App + Telegram Mini App",
@@ -203,7 +203,7 @@ useSeoMeta({
     "savedAs": "Saved in"
   },
   "ru": {
-    "seoTitle": "Note Board Bot — Превращайте сообщения Telegram в красивые доски",
+    "seoTitle": "Message Board — Превращайте сообщения Telegram в красивые доски",
     "seoDescription": "Перестаньте терять важные сообщения в Telegram. Note Board Bot превращает сохраненные сообщения в визуальные доски с настраиваемыми статусами. Бесплатная Kanban-организация для Telegram.",
 
     "badge": "Web App + Telegram Mini App",
