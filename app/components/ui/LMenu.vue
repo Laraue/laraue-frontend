@@ -25,7 +25,12 @@ const menuItems = computed<MenuItem[]>(() => {
           text: $t('apartmentsAggregator'),
           link: localePath("/crawled-apartments"),
           id: "1-2",
-        }
+        },
+        {
+          text: $t("noteBoardBot"),
+          link: localePath("/note-board-bot"),
+          id: "1-3",
+        },
       ]
     },
     {
@@ -36,11 +41,6 @@ const menuItems = computed<MenuItem[]>(() => {
           text: $t('vocabularyBot'),
           link: localePath("/learn-language-bot"),
           id: "2-1"
-        },
-        {
-          text: $t("noteBoardBot"),
-          link: localePath("/note-board-bot"),
-          id: "2-2",
         },
       ]
     },

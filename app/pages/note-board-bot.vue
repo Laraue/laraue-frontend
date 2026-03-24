@@ -85,7 +85,7 @@ useSeoMeta({
     "seoTitle": "Note Board Bot — Turn Telegram Messages into Beautiful Boards",
     "seoDescription": "Stop losing important messages in Telegram. Note Board Bot transforms saved messages into visual boards with custom statuses. Free Kanban organization for Telegram.",
 
-    "badge": "Telegram Mini App",
+    "badge": "Web App + Telegram Mini App",
     "heroTitle": "Turn Messages into Beautiful Boards",
     "heroTitleSpan": "Beautiful Boards",
     "heroSub": "Stop losing important messages in chat history. Forward to {botName} and organize everything visually — in seconds.",
@@ -206,7 +206,7 @@ useSeoMeta({
     "seoTitle": "Note Board Bot — Превращайте сообщения Telegram в красивые доски",
     "seoDescription": "Перестаньте терять важные сообщения в Telegram. Note Board Bot превращает сохраненные сообщения в визуальные доски с настраиваемыми статусами. Бесплатная Kanban-организация для Telegram.",
 
-    "badge": "Telegram Mini App",
+    "badge": "Web App + Telegram Mini App",
     "heroTitle": "Превращайте сообщения в ",
     "heroTitleSpan": "Kanban доски",
     "heroSub": "Хватит терять важные сообщения в истории чатов. Пересылайте их в {botName} и организуйте все визуально — за секунды.",
