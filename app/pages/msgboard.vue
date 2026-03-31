@@ -696,7 +696,7 @@ section {
 .hero {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: 0;
   position: relative;
   overflow: hidden;
@@ -1447,7 +1447,7 @@ section { position: relative; }
 
 @media (max-width: 640px) {
   .container { padding: 0 20px; }
-  .hero-left { padding: 60px 20px 40px; text-align: center; align-items: center; }
+  .hero-left { padding: 75px 20px 40px; text-align: center; align-items: center; }
   .hero-right { padding: 20px; justify-content: center; }
   .phone-mockup { width: 240px; }
   .phone-screen { height: 460px; }

@@ -172,7 +172,7 @@ useSeoMeta({
     "seoTitle": "Конвертер PDF -> JSON (Альфа)",
     "seoDescription": "Извлекайте данные из PDF с помощью языка Pdf Query или готовых сниппетов",
     "pageTitle": "Извлечение структурированных данных из PDF",
-    "pageSubtitle": "Сервис помогает бесплатно извлекать данные из PDF, используя специализированный запрос",
+    "pageSubtitle": "Сервис помогает бесплатно извлекать данные из PDF, используя специализированный язык",
     "aboutLink": "О языке запросов PDF (Концепт)",
     "extractTypeLabel": "Что вы хотите извлечь?",
     "queryInputLabel": "Введите PDF запрос:",
@@ -316,6 +316,7 @@ useSeoMeta({
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  min-height: 100vh;
 }
 
 header {

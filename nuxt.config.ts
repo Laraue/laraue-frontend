@@ -11,11 +11,6 @@ export default defineNuxtConfig({
     enabled: process.env.NODE_ENV === 'production',
     id: 'G-RGM3JHLBGL'
   },
-  css: [
-    '~/assets/css/reset.css',
-    '~/assets/css/main.css',
-    '@fortawesome/fontawesome-svg-core/styles.css'
-  ],
   fontawesome: {
     icons: {
       solid: [
@@ -31,6 +26,10 @@ export default defineNuxtConfig({
       ]
     }
   },
+  css: [
+    '~/assets/css/main.css',
+    '@fortawesome/fontawesome-svg-core/styles.css',
+  ],
   routeRules: {
     '/': { prerender: true },
     '/crawled-apartments': { ssr: false },
@@ -42,6 +41,10 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,300&subset=latin,cyrillic&display=swap'
+        }
       ],
     },
   },
@@ -53,7 +56,7 @@ export default defineNuxtConfig({
     ],
     defaultLocale: 'en',
     baseUrl: 'https://laraue.com',
-    detectBrowserLanguage: false
+    detectBrowserLanguage: false,
   },
   runtimeConfig: {
     public: {

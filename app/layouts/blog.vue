@@ -102,8 +102,10 @@ const localePath = useLocalePath();
         </ul>
       </div>
 
-      <div class="main-content">
-        <slot />
+      <div class="main-content-wrapper">
+        <div class="main-content">
+          <slot />
+        </div>
       </div>
 
       <div class="right-sidebar">
@@ -127,6 +129,10 @@ const localePath = useLocalePath();
 
 .docs {
   height: 100%;
+}
+
+.docs :deep(a) {
+  text-decoration: none;
 }
 
 .sidebar {
@@ -178,6 +184,11 @@ const localePath = useLocalePath();
   margin: 0 auto;
   background-color: #fff;
   padding: 30px;
+}
+
+.main-content-wrapper {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .tag {
@@ -253,7 +264,7 @@ const localePath = useLocalePath();
     grid-column: 1; /* All items in first column */
     margin: 0;
     padding: 3vw;
-    max-width: 94vw;
+    max-width: 100vw;
   }
 
   .sidebar {

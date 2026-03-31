@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
+import LPageHeader from "~/components/ui/LPageHeader.vue";
+import LSection from "~/components/ui/LSection.vue";
 
 const markdown = ref('');
 const transpiled = ref('')
@@ -186,8 +188,17 @@ useSeoMeta({
 
 <template>
   <div class="wrapper">
-    <div class="service-container">
-      <h1>{{ t('markdownConverter') }}</h1>
+
+    <LPageHeader>
+      <template #title>
+        {{ t('markdownConverter') }}
+      </template>
+      <template #subtitle>
+        Бесплатная интерактивная онлайн-утилита для преобразования md файлов в html. Начините ввод в левом окне - получите результат в правом.
+      </template>
+    </LPageHeader>
+
+    <LSection class="markdown-windows">
       <div class="split-panel">
         <!-- left screen: markdown input -->
         <div class="card">
@@ -196,10 +207,10 @@ useSeoMeta({
             <span style="color:#64748b; font-size:0.85rem;">.md</span>
           </div>
           <textarea
-            id="mdInput"
-            class="markdown-input"
-            v-model="markdown">
-          </textarea>
+              id="mdInput"
+              class="markdown-input"
+              v-model="markdown">
+        </textarea>
 
           <!-- **********  CLICKABLE CHEAT SHEET (right under editor)  ********** -->
           <div class="cheat-sheet">
@@ -246,66 +257,39 @@ useSeoMeta({
           </div>
         </div>
       </div>
+    </LSection>
 
-      <div class="seo-block">
-        <p>
-          <strong>{{ t('markdownConverter') }}</strong>
-          {{ t('seoDescription1') }}
-          <strong>{{ t('seoDescription2') }}</strong>
-          {{ t('seoDescription3') }}
-        </p>
-        <p>
-          {{ t('seoDescription4') }}
-        </p>
-        <p>
-          {{ t('seoDescription5') }}
-          <a href="https://github.com/win7user10/Laraue.Interpreter">Laraue.Interpreter.Markdown</a>.
-        </p>
-        <div class="seo-keywords">
-          <span v-for="s in tm('seoKeywords')">{{ rt(s as any) }}</span>
-        </div>
-      </div>
-
-      <hr>
-      <div class="footer-note">
-        ⚡ {{ t('footer') }}
+    <div class="seo-block">
+      <p>
+        <strong>{{ t('markdownConverter') }}</strong>
+        {{ t('seoDescription1') }}
+        <strong>{{ t('seoDescription2') }}</strong>
+        {{ t('seoDescription3') }}
+      </p>
+      <p>
+        {{ t('seoDescription4') }}
+      </p>
+      <p>
+        {{ t('seoDescription5') }}
+        <a href="https://github.com/win7user10/Laraue.Interpreter">Laraue.Interpreter.Markdown</a>.
+      </p>
+      <div class="seo-keywords">
+        <span v-for="s in tm('seoKeywords')">{{ rt(s as any) }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.wrapper {
-  background: linear-gradient(145deg, #f9fafc 0%, #eef1f5 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-}
 
-.service-container {
-  max-width: 1440px;
-  width: 100%;
-  background: rgba(255,255,255,0.7);
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25), inset 0 1px 2px rgba(255,255,255,0.6);
-  padding: 2rem;
+.wrapper {
+  padding: 30px 20px 30px;
 }
 
 h1 {
-  font-weight: 500;
-  font-size: 1.8rem;
   letter-spacing: -0.02em;
   color: #1e293b;
-  margin-bottom: 1rem;
-  padding-left: 0.5rem;
-}
-.sub {
-  color: #475569;
-  margin-bottom: 2rem;
-  font-weight: 400;
-  font-size: 1rem;
-  border-left: 4px solid #818cf8;
-  padding-left: 1rem;
+  margin: 0;
 }
 
 /* two‑screen grid */
@@ -347,16 +331,6 @@ h1 {
   gap: 8px;
 }
 
-.badge {
-  background: #e0e7ff;
-  color: #4338ca;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.2rem 0.7rem;
-  border-radius: 40px;
-  letter-spacing: 0.3px;
-}
-
 /* input area */
 .markdown-input {
   width: 100%;
@@ -364,7 +338,6 @@ h1 {
   padding: 1.5rem;
   border: none;
   resize: vertical;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
   font-size: 1rem;
   line-height: 1.6;
   background: #ffffff;
@@ -380,7 +353,6 @@ h1 {
 .markdown-input::placeholder {
   color: #94a3b8;
   font-style: italic;
-  font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
 }
 
@@ -476,7 +448,7 @@ h1 {
 
 .rendered-html :deep(h1) { font-size: 2em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
 .rendered-html :deep(h2) { font-size: 1.5em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.2rem; }
-.rendered-html :deep(code) { background: #f1f5f9; padding: 0.2rem 0.4rem; border-radius: 6px; font-family: monospace; }
+.rendered-html :deep(code) { background: #f1f5f9; padding: 0.2rem 0.4rem; border-radius: 6px; }
 .rendered-html :deep(pre) { background: #f1f5f9; padding: 1rem; border-radius: 12px; overflow-x: auto; }
 .rendered-html :deep(blockquote) { border-left: 4px solid #a5b4fc; padding-left: 1rem; color: #334155; }
 .rendered-html :deep(table) { border-collapse: collapse; width: 100%; }
@@ -490,7 +462,6 @@ h1 {
   margin: 0;
   height: 100%;
   background: #fcfcfd;
-  font-family: 'JetBrains Mono', monospace;
   font-size: 0.95rem;
   color: #0f172a;
   border: none;
@@ -580,7 +551,6 @@ h1 {
   background: #ffffffb0;
   padding: 0.2rem 0.7rem;
   border-radius: 40px;
-  font-family: 'JetBrains Mono', monospace;
   font-size: 0.85rem;
   color: #4338ca;
   border: 1px solid #cbd5e1;
@@ -612,7 +582,6 @@ h1 {
   margin-top: 2.5rem;
   padding: 1.5rem 2rem;
   background: #eef2ff66;  /* soft indigo tint */
-  border-radius: 2rem;
   border: 1px solid #ffffff;
   backdrop-filter: blur(2px);
   color: #1e293b;
@@ -678,6 +647,9 @@ hr {
   }
   .output-area, .plain-text-output, .markdown-input {
     min-height: 150px;
+  }
+  .wrapper {
+    padding: 90px 20px 20px;
   }
 }
 </style>

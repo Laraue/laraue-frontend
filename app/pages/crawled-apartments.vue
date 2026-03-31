@@ -235,7 +235,7 @@ useSeoMeta({
     "errorTitle": "Запрос завершился ошибкой. Попробуйте изменить параметры.",
     "noResultsTitle": "Ни одно объявление не соответствует текущим критериям. Попробуйте изменить параметры.",
     "realEstateListings": "Умный поиск квартир",
-    "subtitle": "Площадка с аггрегированными с помощью ИИ объявлениями о продаже квартир",
+    "subtitle": "Площадка с аггрегированными с помощью ИИ объявлениями о продаже недвижимости",
     "rooms": "комн.",
     "floor": "этаж",
     "walk": "пешком",
@@ -396,7 +396,7 @@ useSeoMeta({
             :closable="false" />
       </div>
 
-      <div class="infinite-scroll grid" v-infinite-scroll="load" v-loading="hasError === null">
+      <div class="infinite-scroll grid" v-loading="hasError === null">
         <article class="property-card" v-for="item in advertisements">
           <div class="image-slider">
             <div class="image-container">
@@ -520,6 +520,7 @@ h1 {
   color: #7f8c8d;
   max-width: 700px;
   margin: 0 auto 3vh;
+  text-align: center;
 }
 
 .grid {
@@ -670,7 +671,6 @@ h1 {
 .container {
   display: flex;
   width: 100%;
-  min-height: 100vh;
 }
 
 .filters {
@@ -678,6 +678,7 @@ h1 {
   padding: 20px;
   background-color: #f0f0f0;
   border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
 .filter-label {
@@ -738,6 +739,9 @@ h1 {
   }
   .property-price {
     font-size: 1.4rem;
+  }
+  .container {
+    padding-top: 28px;
   }
 }
 
