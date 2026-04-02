@@ -70,6 +70,13 @@ export interface ItemDetails {
     createdAt: string;
     updatedAt: string | undefined;
     innerLinks: InnerLink[];
+    previous?: NeighborCard;
+    next?: NeighborCard;
+}
+
+export interface NeighborCard {
+    title: string | undefined;
+    path: string[];
 }
 
 export interface ItemListItem {

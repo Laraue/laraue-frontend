@@ -35,12 +35,7 @@ useSeoMeta({
 <template>
   <NuxtLayout name="blog">
     <NuxtLayout name="documentation">
-      <DocView
-          :inner-links="documentation.innerLinks"
-          :content="documentation?.content"
-          :created-at="documentation?.createdAt"
-          :updated-at="documentation?.updatedAt"
-          :title="documentation?.title">
+      <DocView :item="documentation">
       </DocView>
     </NuxtLayout>
   </NuxtLayout>

@@ -27,41 +27,10 @@ useSeoMeta({
 <template>
   <article>
     <DocView
-      :content="article?.content"
-      :created-at="article?.createdAt"
-      :updated-at="article?.updatedAt"
-      :inner-links="article?.innerLinks"
-      :title="article?.title">
+      :item="article">
       </DocView>
   </article>
 </template>
 
 <style scoped>
-
-.related-projects h3, .tags h3 {
-  margin-bottom: 10px;
-}
-
-.project-list{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.project-item {
-  background-color: #e9f7fe;
-  padding: 5px 10px;
-  border-radius: 15px;
-  font-size: 0.85em;
-}
-
-@media screen and (max-width: 1024px) {
-  .related-projects {
-    text-align: center;
-  }
-  .project-list{
-    justify-content: center;
-  }
-}
-
 </style>

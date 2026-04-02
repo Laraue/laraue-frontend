@@ -1,17 +1,12 @@
 <script setup lang="ts">
 
-import {Title} from "#components";
+import type {ItemDetails} from "~/composables/blogApi";
 
-defineProps({
-  title: String,
-  createdAt: String,
-  updatedAt: String,
-  content: String,
-  innerLinks: Array<InnerLink>,
-  tags: Array<string>,
-})
+defineProps<{
+  item: ItemDetails
+}>()
 
-const { t } = useI18n();
+const { localePathFromSegments } = usePathUtil()
 const route = useRoute();
 const { getRouteSegments } = usePathUtil();
 const breadCrumbs = computed(() => {
@@ -57,10 +52,10 @@ const breadCrumbs = computed(() => {
         <span data-i18n="back_to_blog">Back to Blog</span>
       </a>
 
-      <template v-if="innerLinks?.length">
+      <template v-if="item.innerLinks?.length">
         <div class="toc-label" data-i18n="toc_label">On this page</div>
         <ul class="toc-list" id="tocList">
-          <li v-for="link in innerLinks"><a :href="link.link" :id="'toc-' + link.link">{{ link.title }}</a></li>
+          <li v-for="link in item.innerLinks"><a :href="link.link" :id="'toc-' + link.link">{{ link.title }}</a></li>
         </ul>
       </template>
 
@@ -90,7 +85,7 @@ const breadCrumbs = computed(() => {
           <span data-i18n="type_article">Article</span>
         </div>
 
-        <h1 class="article-title">{{ title }}</h1>
+        <h1 class="article-title">{{ item.title }}</h1>
 
         <div class="article-meta">
           <div class="article-meta-item">
@@ -109,7 +104,7 @@ const breadCrumbs = computed(() => {
 
         <!-- BODY -->
         <div class="article-body">
-          <div v-html="content"></div>
+          <div v-html="item.content"></div>
         </div><!-- /article-body -->
         <!-- ARTICLE FOOTER -->
         <div class="article-footer">
@@ -119,11 +114,14 @@ const breadCrumbs = computed(() => {
             <a href="/blog?tag=C%23" class="article-tag">C#</a>
           </div>
           <div class="article-nav">
-            <div><!-- prev placeholder, empty --></div>
-            <a href="/blog/articles/how-i-use-ollama-in-net-projects" class="article-nav-card next">
+            <nuxt-link v-if="item.previous" :to="localePathFromSegments(item.previous.path)" class="article-nav-card next">
+              <div class="article-nav-direction" data-i18n="nav_next">&#8592;Previous</div>
+              <div class="article-nav-title">{{ item.previous.title }}</div>
+            </nuxt-link>
+            <nuxt-link v-if="item.next" :to="localePathFromSegments(item.next.path)" class="article-nav-card next">
               <div class="article-nav-direction" data-i18n="nav_next">Next &#8594;</div>
-              <div class="article-nav-title">How I use Ollama in .NET projects</div>
-            </a>
+              <div class="article-nav-title">{{ item.next.title }}</div>
+            </nuxt-link>
           </div>
         </div>
 
