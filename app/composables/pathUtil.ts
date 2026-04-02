@@ -1,8 +1,12 @@
 export const usePathUtil = () => {
-    const localePath = useLocalePath()
+    const localePathInner = useLocalePath()
 
     const localePathFromSegments = (sections?: string[]) => {
-        return localePath('/' + sections?.join('/'));
+        return localePathInner('/' + sections?.join('/'));
+    }
+
+    const localePath = (path: string) => {
+        return localePathInner(path);
     }
 
     const getRouteSegments = (routePath: string) => {
@@ -11,6 +15,7 @@ export const usePathUtil = () => {
 
     return {
         localePathFromSegments,
+        localePath,
         getRouteSegments,
     }
 }

@@ -8,11 +8,10 @@ const routeSegments = computed(() => {
   return getRouteSegments(route.path)
 })
 
-const { getItemDetails, loadMenu } = useBlogApi();
+const { getItemDetails } = useBlogApi();
 const { locale } = useI18n();
 
 const documentation = await getItemDetails(locale.value, routeSegments.value);
-const menuItems = await loadMenu(locale.value, routeSegments.value, 5);
 const { t } = useI18n();
 
 useSeoMeta({
@@ -37,6 +36,7 @@ useSeoMeta({
   <NuxtLayout name="blog">
     <NuxtLayout name="documentation">
       <DocView
+          :inner-links="documentation.innerLinks"
           :content="documentation?.content"
           :created-at="documentation?.createdAt"
           :updated-at="documentation?.updatedAt"

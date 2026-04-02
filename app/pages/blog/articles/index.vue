@@ -1,22 +1,23 @@
 <script setup lang="ts">
 
 import DocsView, {type Article} from "~/components/docs/DocsView.vue";
-import {computed, type Ref, ref} from "vue";
+import {computed, ref} from "vue";
 
-const articles = ref<ArticleListRow[]>([])
-import { useBlogApi } from "~/composables/blogApi";
+const articles = ref<ItemListItem[]>([])
+const { getItems, getTags } = useBlogApi()
 
-const { loadArticlesList } = useBlogApi();
 const { locale } = useI18n();
 
 definePageMeta({
   layout: 'blog',
 })
 
+const path = ["blog", "articles"];
 const selectedProject = ref("")
 
 const loadPage = async () => {
-  articles.value = await loadArticlesList(locale.value, 0, 8, selectedProject.value, undefined);
+  const result = await getItems(locale.value, path, ["article"], undefined, 0, 8);
+  articles.value = result.data
 }
 await loadPage();
 
@@ -66,10 +67,10 @@ useSeoMeta({
 </i18n>
 
 <template>
-  <docs-view
-      v-if="articles"
-      :title="title"
-      :articles="computedArticles"/>
+  <DocsView
+    v-if="articles"
+    :title="title"
+    :articles="computedArticles"/>
 </template>
 
 <style scoped>

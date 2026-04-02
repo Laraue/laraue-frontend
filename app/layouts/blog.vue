@@ -7,6 +7,7 @@ import type {LinksSection} from "~/components/ui/LSidebar.vue";
 
 const { getCategories, getDocs } = useBlogApi();
 const { locale } = useI18n()
+const route = useRoute()
 const { setCategories, blogState, setDocumentationItems } = useBlogState()
 
 watch(locale, () => {

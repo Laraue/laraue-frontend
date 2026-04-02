@@ -8,18 +8,14 @@ definePageMeta({
   layout: 'blog',
 })
 
-const items = ref<DocumentationItem[]>([])
+const items = ref<ItemListItem[]>([])
 const { locale } = useI18n();
+const route = useRoute();
 
-const { loadDocumentationItemsList } = useBlogApi();
+const path = ["blog"]
+const { getItems } = useBlogApi();
 const loadPage = async () => {
-  const data = await loadDocumentationItemsList(
-      locale.value,
-      0,
-      16,
-      null,
-      null,
-      null)
+  const data = await getItems(locale.value, path, ["article", "project"], route.query.tag as string, 0, 20)
   items.value = data.data
 }
 
@@ -32,7 +28,7 @@ const computedItems = computed<Article[]>(() => items.value
       fileName: article.fileName,
       path: article.path,
       description: article.description,
-      tags: [article.contentType],
+      tags: article.tags ?? article.projects ?? [],
       title: article.title,
       contentLength: article.length,
       contentType: article.contentType,
@@ -43,6 +39,10 @@ useSeoMeta({
   title: t('all'),
   ogTitle: t('all'),
   description: t('seoDescription'),
+})
+
+watch(() => route.query.tag, async () => {
+  await loadPage();
 })
 
 </script>

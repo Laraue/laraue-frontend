@@ -10,12 +10,14 @@ definePageMeta({
 
 const { locale } = useI18n();
 const selectedTag = ref("")
-const { loadProjects } = useBlogApi();
-const projects = ref<ProjectListRow[]>([]);
-const loadPage = async () => {
-  projects.value = await loadProjects(locale.value, 0, 8, selectedTag.value);
-}
+const path = ["blog", "projects"];
+const { getItems } = useBlogApi();
 
+const projects = ref<ItemListItem[]>([]);
+const loadPage = async () => {
+  const result = await getItems(locale.value, path, ["project"], undefined, 0, 8);
+  projects.value = result.data
+}
 await loadPage();
 
 const computedItems = computed<Article[]>(() => (projects.value ?? [])

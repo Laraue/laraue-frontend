@@ -1,5 +1,10 @@
 <script setup lang="ts">
+  defineProps<{
+    menuItems: Array<HierarchicalMenuSection>,
+    rootPath: string[]
+  }>()
 
+  const { localePathFromSegments } = usePathUtil()
 </script>
 
 <template>
@@ -17,70 +22,30 @@
 
       <!-- Overview (no section, direct link) -->
       <ul class="site-sidebar-links" style="list-style:none;padding:8px 0 4px">
-        <li class="doc-item"><a href="/blog/documentation/pdfql" class="active" id="link-overview">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <li class="doc-item">
+          <nuxt-link :to="localePathFromSegments(rootPath)" id="link-overview" active-class="active">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
           <span data-i18n="doc_overview">Overview</span>
-        </a></li>
+        </nuxt-link></li>
       </ul>
 
-      <!-- Stages -->
-      <div class="doc-section" id="sec-stages">
-        <button class="doc-section-header" onclick="toggleSection('sec-stages')" aria-expanded="true">
-          <span data-i18n="sec_stages">Stages</span>
-          <span class="section-badge">9</span>
+      <div v-for="menuItem in menuItems" class="doc-section" id="sec-stages">
+        <button class="doc-section-header">
+          <span data-i18n="sec_stages">{{ menuItem.title }}</span>
+          <span class="section-badge">{{ menuItem.children.length }}</span>
           <svg viewBox="0 0 12 12" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,4 6,8 10,4"/></svg>
         </button>
         <ul class="doc-section-items">
-          <li class="doc-item"><a href="/blog/documentation/pdfql/stages"><span data-i18n="stage_index">Pipeline overview</span></a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/stages/skip">Skip</a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/stages/filter">Filter</a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/stages/selectMany">SelectMany</a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/stages/firstOrDefault">FirstOrDefault</a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/stages/single">Single</a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/stages/first">First</a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/stages/select">Select</a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/stages/map">Map</a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/stages/take">Take</a></li>
-        </ul>
-      </div>
-
-      <!-- Expressions -->
-      <div class="doc-section" id="sec-expressions">
-        <button class="doc-section-header" onclick="toggleSection('sec-expressions')" aria-expanded="true">
-          <span data-i18n="sec_expressions">Expressions</span>
-          <span class="section-badge">5</span>
-          <svg viewBox="0 0 12 12" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,4 6,8 10,4"/></svg>
-        </button>
-        <ul class="doc-section-items">
-          <li class="doc-item"><a href="/blog/documentation/pdfql/expression/binary"><span data-i18n="expr_binary">Binary Expression</span></a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/expression/lambda"><span data-i18n="expr_lambda">Lambda Expression</span></a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/expression/constant"><span data-i18n="expr_constant">Constant Expression</span></a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/expression/new"><span data-i18n="expr_new">New Expression</span></a></li>
-          <li class="doc-item"><a href="/blog/documentation/pdfql/expression/instance-method-call"><span data-i18n="expr_method">Instance Method Call</span></a></li>
-        </ul>
-      </div>
-
-      <!-- Keywords -->
-      <div class="doc-section" id="sec-keywords">
-        <button class="doc-section-header" onclick="toggleSection('sec-keywords')" aria-expanded="true">
-          <span data-i18n="sec_keywords">Keywords</span>
-          <span class="section-badge">1</span>
-          <svg viewBox="0 0 12 12" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,4 6,8 10,4"/></svg>
-        </button>
-        <ul class="doc-section-items">
-          <li class="doc-item"><a href="/blog/documentation/pdfql/keyword/selector"><span data-i18n="kw_selector">Selector token</span></a></li>
-        </ul>
-      </div>
-
-      <!-- Output -->
-      <div class="doc-section" id="sec-output">
-        <button class="doc-section-header" onclick="toggleSection('sec-output')" aria-expanded="true">
-          <span data-i18n="sec_output">Output</span>
-          <span class="section-badge">1</span>
-          <svg viewBox="0 0 12 12" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,4 6,8 10,4"/></svg>
-        </button>
-        <ul class="doc-section-items">
-          <li class="doc-item"><a href="/blog/documentation/pdfql/output/json">JSON</a></li>
+          <li class="doc-item" v-for="link in menuItem.children">
+            <nuxt-link :to="localePathFromSegments(link.path)" active-class="active">
+              <span>{{ link.title }}</span>
+            </nuxt-link>
+          </li>
         </ul>
       </div>
 

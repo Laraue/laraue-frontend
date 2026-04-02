@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import {Title} from "#components";
+
 defineProps({
   title: String,
   createdAt: String,
@@ -10,6 +12,21 @@ defineProps({
 })
 
 const { t } = useI18n();
+const route = useRoute();
+const { getRouteSegments } = usePathUtil();
+const breadCrumbs = computed(() => {
+  const routeSegments = getRouteSegments(route.path);
+  const breadcrumbs = [] as {href: string, title: string}[];
+  let currentPath = '/'
+
+  routeSegments.forEach(segment => {
+    breadcrumbs.push({ href: currentPath + segment, title: segment })
+    currentPath = currentPath + segment + '/'
+  })
+
+  return breadcrumbs
+})
+
 </script>
 
 <i18n lang="json">
@@ -40,10 +57,12 @@ const { t } = useI18n();
         <span data-i18n="back_to_blog">Back to Blog</span>
       </a>
 
-      <div class="toc-label" data-i18n="toc_label">On this page</div>
-      <ul class="toc-list" id="tocList">
-        <li v-for="link in innerLinks"><a :href="link.link" :id="'toc-' + link.link">{{ link.title }}</a></li>
-      </ul>
+      <template v-if="innerLinks?.length">
+        <div class="toc-label" data-i18n="toc_label">On this page</div>
+        <ul class="toc-list" id="tocList">
+          <li v-for="link in innerLinks"><a :href="link.link" :id="'toc-' + link.link">{{ link.title }}</a></li>
+        </ul>
+      </template>
 
       <div class="toc-divider"></div>
 
@@ -60,11 +79,10 @@ const { t } = useI18n();
 
         <!-- HEADER -->
         <nav class="article-breadcrumb" aria-label="Breadcrumb">
-          <a href="/blog" data-i18n="nav_blog">Blog</a>
-          <span class="article-breadcrumb-sep">&#8250;</span>
-          <a href="/blog" data-i18n="breadcrumb_articles">Articles</a>
-          <span class="article-breadcrumb-sep">&#8250;</span>
-          <span>Crawler history</span>
+          <template v-for="(breadcrumb, i) in breadCrumbs">
+            <router-link :to="breadcrumb.href">{{ breadcrumb.title }}</router-link>
+            <span v-if="i < breadCrumbs.length - 1" class="article-breadcrumb-sep">&#8250;</span>
+          </template>
         </nav>
 
         <div class="article-type-badge">
@@ -72,7 +90,7 @@ const { t } = useI18n();
           <span data-i18n="type_article">Article</span>
         </div>
 
-        <h1 class="article-title">The history of the crawler project</h1>
+        <h1 class="article-title">{{ title }}</h1>
 
         <div class="article-meta">
           <div class="article-meta-item">

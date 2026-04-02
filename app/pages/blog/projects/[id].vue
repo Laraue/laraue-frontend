@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {computed} from "vue";
 import DocView from "~/components/docs/DocView.vue";
-import DocsView, {type Article} from "~/components/docs/DocsView.vue";
 import {useBlogApi} from "~/composables/blogApi";
 
 const route = useRoute();
@@ -51,24 +50,10 @@ useSeoMeta({
         {{ project?.description }}
       </p>
     </template>
-    <template #after-content>
-      <div class="related-articles" v-if="relatedArticles.length > 0">
-        <docs-view
-            title="Related Articles"
-            :articles="computedItems">
-        </docs-view>
-      </div>
-    </template>
   </doc-view>
 </template>
 
 <style scoped>
-.related-articles{
-  padding-top: 25px;
-  margin-top: 75px;
-  margin-bottom: 100px;
-  border-top: 1px solid #eee;
-}
 .project-description{
   font-size: 1.1rem;
   line-height: 1.6;
