@@ -1,5 +1,8 @@
 <script setup lang="ts">
-
+  defineProps({
+    title: String,
+    subTitle: String
+  })
 </script>
 
 <template>
@@ -8,8 +11,8 @@
     <div class="blog-hero-bg" aria-hidden="true"></div>
     <div class="blog-hero-inner">
       <div class="section-label reveal" data-i18n="blog_eyebrow">From the team</div>
-      <h1 class="reveal" data-i18n="blog_title">Blog</h1>
-      <p class="blog-hero-sub reveal" data-i18n="blog_sub">Articles, project write-ups and technical documentation. C#, .NET, AI, Telegram and open source.</p>
+      <h1 class="reveal" data-i18n="blog_title">{{ title }}</h1>
+      <p class="blog-hero-sub reveal" data-i18n="blog_sub">{{ subTitle }}</p>
     </div>
   </div>
 </template>

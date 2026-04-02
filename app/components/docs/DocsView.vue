@@ -9,6 +9,8 @@ const { localePathFromSegments } = usePathUtil()
 defineProps({
   articles: Array<Article>,
   tags: Array<Tag>,
+  title: String,
+  subTitle: String
 })
 
 export interface Article {
@@ -24,7 +26,7 @@ export interface Article {
 </script>
 
 <template>
-  <LHero />
+  <LHero :title="title" :subTitle="subTitle" />
   <div class="blog-tabs" role="tablist">
     <router-link :to="localePathFromSegments(item.path)" v-for="item in blogState.otherItems" active-class="active" class="blog-tab">
       {{ item.title }}

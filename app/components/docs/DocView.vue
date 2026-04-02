@@ -22,6 +22,13 @@ const breadCrumbs = computed(() => {
   return breadcrumbs
 })
 
+const backAddress = computed(() => {
+  const previous = breadCrumbs.value.at(1)
+  if (previous?.title == 'documentation')
+    return breadCrumbs.value.at(0)
+  return previous;
+})
+
 </script>
 
 <i18n lang="json">
@@ -47,10 +54,10 @@ const breadCrumbs = computed(() => {
 
     <!-- TOC SIDEBAR -->
     <aside class="toc-sidebar" aria-label="Table of contents">
-      <a href="/blog" class="toc-back">
+      <nuxt-link :to="backAddress?.href" class="toc-back">
         <svg viewBox="0 0 12 12" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="8,2 4,6 8,10"/></svg>
-        <span data-i18n="back_to_blog">Back to Blog</span>
-      </a>
+        <span>Back to {{ backAddress?.title }}</span>
+      </nuxt-link>
 
       <template v-if="item.innerLinks?.length">
         <div class="toc-label" data-i18n="toc_label">On this page</div>
@@ -61,11 +68,13 @@ const breadCrumbs = computed(() => {
 
       <div class="toc-divider"></div>
 
-      <div class="toc-related-label" data-i18n="toc_related">Related project</div>
-      <a href="/blog/projects/crawler" class="toc-related-link">
-        &#128203; Crawler
-        <span class="toc-related-badge" data-i18n="badge_project">project</span>
-      </a>
+      <template v-if="item.projects">
+        <div class="toc-related-label" data-i18n="toc_related">Related projects</div>
+        <nuxt-link v-for="project in item.projects" :to="'/blog/projects/' + project" class="toc-related-link">
+          🚀 {{ project }}
+          <span class="toc-related-badge" data-i18n="badge_project">project</span>
+        </nuxt-link>
+      </template>
     </aside>
 
     <!-- ARTICLE -->
@@ -109,9 +118,7 @@ const breadCrumbs = computed(() => {
         <!-- ARTICLE FOOTER -->
         <div class="article-footer">
           <div class="article-tags">
-            <a href="/blog?tag=Crawler" class="article-tag">Crawler</a>
-            <a href="/blog?tag=.NET" class="article-tag">.NET</a>
-            <a href="/blog?tag=C%23" class="article-tag">C#</a>
+            <nuxt-link v-for="tag in item.tags" :to="'/blog?tag=' + tag" class="article-tag">{{ tag }}</nuxt-link>
           </div>
           <div class="article-nav">
             <nuxt-link v-if="item.previous" :to="localePathFromSegments(item.previous.path)" class="article-nav-card next">
@@ -332,9 +339,9 @@ const breadCrumbs = computed(() => {
 
 /* images */
 .article-body :deep(img){
-  width:100%;border-radius:10px;
+  max-width:100%;
+  border-radius:10px;
   border:1px solid var(--border);
-  margin:28px 0;
   display:block;
 }
 .article-body :deep(figure){margin:32px 0}

@@ -67,6 +67,8 @@ watch(() => route.query.tag, async () => {
 <template>
   <DocsView
     v-if="items"
+    title="Blog"
+    subTitle="Articles, project write-ups and technical documentation. C#, .NET, AI, Telegram and open source."
     :articles="computedItems"/>
 </template>
 

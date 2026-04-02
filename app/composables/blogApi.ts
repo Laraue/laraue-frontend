@@ -72,6 +72,8 @@ export interface ItemDetails {
     innerLinks: InnerLink[];
     previous?: NeighborCard;
     next?: NeighborCard;
+    tags?: string[];
+    projects?: string[];
 }
 
 export interface NeighborCard {

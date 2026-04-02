@@ -4,7 +4,7 @@ import DocsView, {type Article} from "~/components/docs/DocsView.vue";
 import {computed, ref} from "vue";
 
 const articles = ref<ItemListItem[]>([])
-const { getItems, getTags } = useBlogApi()
+const { getItems } = useBlogApi()
 
 const { locale } = useI18n();
 
@@ -13,7 +13,6 @@ definePageMeta({
 })
 
 const path = ["blog", "articles"];
-const selectedProject = ref("")
 
 const loadPage = async () => {
   const result = await getItems(locale.value, path, ["article"], undefined, 0, 8);
@@ -35,13 +34,7 @@ const computedArticles = computed<Article[]>(() => articles.value
     }))
 
 const { t } = useI18n()
-const title = computed(() => {
-  let result = t('all');
-  if (selectedProject.value)
-    result += " " + t('ofProject') + " '" + selectedProject.value + "'"
-
-  return result
-})
+const title = computed(() => t('all'))
 
 useSeoMeta({
   title: title.value,
@@ -55,11 +48,11 @@ useSeoMeta({
 {
   "en": {
     "seoDescription": "The whole articles list in the Blog. Use the filters to find only you interested in.",
-    "all": "All articles",
+    "all": "Articles",
     "ofProject": "related to project"
   },
   "ru": {
-    "all": "Все статьи",
+    "all": "Cтатьи",
     "ofProject": "с проектом",
     "seoDescription": "Весь список статей в блоге. Испольуйте фильтры, чтобы найти интересующие материалы."
   }
@@ -70,6 +63,7 @@ useSeoMeta({
   <DocsView
     v-if="articles"
     :title="title"
+    subTitle="asd"
     :articles="computedArticles"/>
 </template>
 
