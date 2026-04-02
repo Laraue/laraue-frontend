@@ -1,10 +1,7 @@
 <script setup lang="ts">
 
-import ArticlesList, {type Article} from "../../components/docs/ArticlesList.vue";
-import {computed, type Ref, ref, watch} from "vue";
-import LFiltersSection from "../../components/docs/LFiltersSection.vue";
-import LSelectTag from "../../components/docs/LSelectTag.vue";
-import LSelectContentType from "../../components/docs/LSelectContentType.vue";
+import DocsView, {type Article} from "../../components/docs/DocsView.vue";
+import {computed, ref} from "vue";
 import {useBlogApi} from "~/composables/blogApi";
 
 definePageMeta({
@@ -12,17 +9,7 @@ definePageMeta({
 })
 
 const items = ref<DocumentationItem[]>([])
-
-const route = useRoute();
 const { locale } = useI18n();
-
-const selectedProject = ref("")
-const selectedTag = ref<string>(route.query.tag as string)
-const selectedContentType = ref<string>("")
-
-watch(() => route.query.tag, (newTag) => {
-  changeSelectedTag(newTag as string);
-})
 
 const { loadDocumentationItemsList } = useBlogApi();
 const loadPage = async () => {
@@ -30,56 +17,31 @@ const loadPage = async () => {
       locale.value,
       0,
       16,
-      selectedProject.value,
-      selectedTag.value,
-      selectedContentType.value)
+      null,
+      null,
+      null)
   items.value = data.data
 }
 
 const { t } = useI18n()
 
-const title = computed(() => {
-  let result = t('all')
-  if (selectedTag.value)
-    result += " " + t('byTag') + " '" + selectedTag.value + "'"
-  if (selectedContentType.value)
-    result += " " + t('ofType') + " '" + selectedContentType.value + "'"
-
-  return result
-})
-
 await loadPage();
-
-const resetSelects = () => {
-  selectedProject.value = "";
-  selectedTag.value = "";
-  selectedContentType.value = "";
-}
-
-const updateSelectValue = (valueRef: Ref<string, string>, value: string) => {
-  resetSelects();
-  valueRef.value = value;
-  return loadPage();
-}
-
-const changeSelectedTag = (value: string) => updateSelectValue(selectedTag, value)
-const changeSelectedContentType = (value: string) => updateSelectValue(selectedContentType, value)
-
 const computedItems = computed<Article[]>(() => items.value
-    .map((article) => {
-      return {
-        fileName: article.fileName,
-        path: article.path,
-        description: article.description,
-        tags: [article.contentType],
-        title: article.title,
-        contentLength: article.length,
-      }
-    }))
+  .map((article) => {
+    return {
+      fileName: article.fileName,
+      path: article.path,
+      description: article.description,
+      tags: [article.contentType],
+      title: article.title,
+      contentLength: article.length,
+      contentType: article.contentType,
+    }
+  }))
 
 useSeoMeta({
-  title: title,
-  ogTitle: title,
+  title: t('all'),
+  ogTitle: t('all'),
   description: t('seoDescription'),
 })
 
@@ -103,21 +65,9 @@ useSeoMeta({
 </i18n>
 
 <template>
-  <l-filters-section>
-    <l-select-content-type
-        @update:modelValue="changeSelectedContentType"
-        :value="selectedContentType"
-    ></l-select-content-type>
-    <l-select-tag
-        @update:modelValue="changeSelectedTag"
-        :value="selectedTag"
-    ></l-select-tag>
-  </l-filters-section>
-
-  <articles-list
-      v-if="items"
-      :title="title"
-      :articles="computedItems"/>
+  <DocsView
+    v-if="items"
+    :articles="computedItems"/>
 </template>
 
 <style scoped>

@@ -8,11 +8,14 @@ definePageMeta({
 })
 
 const route = useRoute();
-const articleId = route.params.id as string;
+const { getRouteSegments } = usePathUtil();
+const routeSegments = computed(() => {
+  return getRouteSegments(route.path)
+})
 
 const { locale } = useI18n()
-const { loadArticle } = useBlogApi();
-const article = await loadArticle(locale.value, articleId);
+const { getItemDetails } = useBlogApi();
+const article = await getItemDetails(locale.value, routeSegments.value);
 
 useSeoMeta({
   title: () => article.title,
@@ -23,32 +26,17 @@ useSeoMeta({
 
 <template>
   <article>
-    <doc-view
+    <DocView
       :content="article?.content"
       :created-at="article?.createdAt"
       :updated-at="article?.updatedAt"
       :inner-links="article?.innerLinks"
       :title="article?.title">
-        <template #before-content>
-          <div class="related-projects" v-if="article?.projects">
-            <h3>Related Projects</h3>
-            <div class="project-list">
-              <span class="project-item" v-for="project in article?.projects">
-                <nuxt-link :to="`/blog/projects/${project}`">{{ project }}</nuxt-link>
-              </span>
-            </div>
-          </div>
-        </template>
-      </doc-view>
+      </DocView>
   </article>
 </template>
 
 <style scoped>
-
-
-.related-projects {
-  margin: 20px 0;
-}
 
 .related-projects h3, .tags h3 {
   margin-bottom: 10px;

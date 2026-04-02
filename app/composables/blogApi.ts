@@ -1,6 +1,5 @@
 import {useBlogClient} from "~/composables/blogClient";
 import type {PaginationData} from "~/composables/pagination";
-import {PathUtil} from "~/utils/PathUtil";
 
 
 export interface CountPropertyRow {
@@ -12,6 +11,7 @@ export interface ArticleListRow {
     fileName: string;
     title: string;
     description: string;
+    contentType: string;
     projects: string[] | undefined;
     length: number;
     path: string[];
@@ -21,6 +21,7 @@ export interface ProjectListRow {
     fileName: string;
     title: string;
     description: string;
+    contentType: string;
     tags: string[] | undefined;
     length: number;
     path: string[];
@@ -98,6 +99,23 @@ export interface MenuItem{
     hasContent: boolean;
 }
 
+export interface SidebarItem {
+    key: string;
+    title: string;
+    count: number;
+    icon: string;
+    path: string[];
+}
+
+export interface ItemDetails {
+    title: string | undefined;
+    description: string | undefined;
+    content: string | undefined;
+    createdAt: string;
+    updatedAt: string | undefined;
+    innerLinks: InnerLink[];
+}
+
 export const useBlogApi = () => {
     const client = useBlogClient()
 
@@ -109,7 +127,7 @@ export const useBlogApi = () => {
             method: 'POST',
             body: {
                 languageCode: languageCode,
-                path: PathUtil.getPath(["projects"].concat(id)),
+                path: path.getPath(["projects"].concat(id)),
                 properties: [
                     "title",
                     "content",
@@ -154,7 +172,7 @@ export const useBlogApi = () => {
             method: 'POST',
             body: {
                 languageCode: languageCode,
-                properties: ["fileName", "description", "projects", "title", "length(content)", "path"],
+                properties: ["fileName", "description", "projects", "title", "length(content)", "path", "contentType"],
                 pagination: {
                     page: page,
                     perPage: perPage,
@@ -189,7 +207,7 @@ export const useBlogApi = () => {
             method: 'POST',
             body: {
                 languageCode: languageCode,
-                properties: ["fileName", "description", "title", "tags", "length(content)", "path"],
+                properties: ["fileName", "description", "title", "tags", "length(content)", "path", "contentType"],
                 pagination: {
                     page: page,
                     perPage: perPage,
@@ -208,28 +226,6 @@ export const useBlogApi = () => {
                 languageCode: languageCode,
                 property: propertyName,
                 fromPath: fromPath
-            }
-        });
-    }
-
-    const loadArticle = (languageCode: string, id: string) => {
-        return client<ArticleDetails>('blog/single', {
-            method: 'POST',
-            body: {
-                languageCode: languageCode,
-                path: PathUtil.getPath(["articles", id]),
-                properties: ["title", "content", "projects", "tags", formattedDate("createdAt"), formattedDate("updatedAt"), "innerLinks", "length(content)", "description"],
-            }
-        });
-    }
-
-    const loadDocumentation = async (languageCode: string, id: string[]) : Promise<DocumentationDetails> => {
-        return client<DocumentationDetails>('blog/single', {
-            method: 'POST',
-            body: {
-                languageCode: languageCode,
-                path: PathUtil.getPath(["documentation"].concat(id)),
-                properties: ["title", "content", formattedDate("createdAt"), formattedDate("updatedAt"), "length(content)"],
             }
         });
     }
@@ -335,6 +331,41 @@ export const useBlogApi = () => {
         return result.data;
     }
 
+    const getCategories = async (
+        languageCode: string)
+        : Promise<SidebarItem[]> => {
+        return client<SidebarItem[]>('blog/categories', {
+            method: 'GET',
+            query: {
+                languageCode: languageCode,
+            }
+        });
+    }
+
+    const getDocs = async (
+        languageCode: string)
+        : Promise<SidebarItem[]> => {
+        return client<SidebarItem[]>('blog/docs', {
+            method: 'GET',
+            query: {
+                languageCode: languageCode,
+            }
+        });
+    }
+
+    const getItemDetails = async (
+        languageCode: string,
+        path: string[])
+        : Promise<ItemDetails> => {
+        return client<ItemDetails>('blog/details', {
+            method: 'POST',
+            body: {
+                languageCode: languageCode,
+                path: path,
+            }
+        });
+    }
+
     const formattedDate = (propertyName: string) => 'format(' + propertyName + ', "dd MMM yyyy") as ' + propertyName;
 
     return {
@@ -342,11 +373,12 @@ export const useBlogApi = () => {
         loadArticlesList,
         loadProjects,
         countPropertyValues,
-        loadArticle,
-        loadDocumentation,
         loadMenu,
         loadDocumentationItemsList,
         loadSelectOptions,
         loadSidebarItems,
+        getCategories,
+        getDocs,
+        getItemDetails,
     }
 }

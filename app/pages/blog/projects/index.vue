@@ -1,9 +1,7 @@
 <script setup lang="ts">
 
-import ArticlesList, {type Article} from "~/components/docs/ArticlesList.vue";
-import {computed, type Ref, ref} from "vue";
-import LSelectTag from "~/components/docs/LSelectTag.vue";
-import LFiltersSection from "~/components/docs/LFiltersSection.vue";
+import DocsView, {type Article} from "~/components/docs/DocsView.vue";
+import {computed, ref} from "vue";
 import {useBlogApi} from "~/composables/blogApi";
 
 definePageMeta({
@@ -20,18 +18,6 @@ const loadPage = async () => {
 
 await loadPage();
 
-const resetSelects = () => {
-  selectedTag.value = "";
-}
-
-const updateSelectValue = (valueRef: Ref<string, string>, value: string) => {
-  resetSelects();
-  valueRef.value = value;
-  return loadPage();
-}
-
-const changeSelectedTag = (value: string) => updateSelectValue(selectedTag, value)
-
 const computedItems = computed<Article[]>(() => (projects.value ?? [])
     .map((project) => {
       return {
@@ -41,6 +27,7 @@ const computedItems = computed<Article[]>(() => (projects.value ?? [])
         title: project.title,
         contentLength: project.length,
         path: project.path,
+        contentType: project.contentType
       }
     }))
 
@@ -76,15 +63,7 @@ useSeoMeta({
 </i18n>
 
 <template>
-  <l-filters-section>
-    <l-select-tag
-        :from-path="['blog', 'projects']"
-        @update:modelValue="changeSelectedTag"
-        :value="selectedTag"
-    ></l-select-tag>
-  </l-filters-section>
-
-  <articles-list
+  <docs-view
       v-if="projects"
       :title=title
       :articles="computedItems"/>

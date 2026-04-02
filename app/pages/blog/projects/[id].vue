@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {computed} from "vue";
 import DocView from "~/components/docs/DocView.vue";
-import ArticlesList, {type Article} from "~/components/docs/ArticlesList.vue";
+import DocsView, {type Article} from "~/components/docs/DocsView.vue";
 import {useBlogApi} from "~/composables/blogApi";
 
 const route = useRoute();
@@ -22,6 +22,7 @@ const computedItems = computed<Article[]>(() => relatedArticles
       title: article.title,
       contentLength: article.length,
       path: article.path,
+      contentType: article.contentType,
     }
   }))
 
@@ -52,10 +53,10 @@ useSeoMeta({
     </template>
     <template #after-content>
       <div class="related-articles" v-if="relatedArticles.length > 0">
-        <articles-list
+        <docs-view
             title="Related Articles"
             :articles="computedItems">
-        </articles-list>
+        </docs-view>
       </div>
     </template>
   </doc-view>

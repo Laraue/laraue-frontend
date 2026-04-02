@@ -1,9 +1,7 @@
 <script setup lang="ts">
 
-import ArticlesList, {type Article} from "~/components/docs/ArticlesList.vue";
+import DocsView, {type Article} from "~/components/docs/DocsView.vue";
 import {computed, type Ref, ref} from "vue";
-import LFiltersSection from "~/components/docs/LFiltersSection.vue";
-import LSelectProjectType from "~/components/docs/LSelectProjectType.vue";
 
 const articles = ref<ArticleListRow[]>([])
 import { useBlogApi } from "~/composables/blogApi";
@@ -22,18 +20,6 @@ const loadPage = async () => {
 }
 await loadPage();
 
-const resetSelects = () => {
-  selectedProject.value = "";
-}
-
-const updateSelectValue = (valueRef: Ref<string, string>, value: string) => {
-  resetSelects();
-  valueRef.value = value;
-  return loadPage();
-}
-
-const changeSelectedProject = (value: string) => updateSelectValue(selectedProject, value)
-
 const computedArticles = computed<Article[]>(() => articles.value
     .map((article) => {
       return {
@@ -43,6 +29,7 @@ const computedArticles = computed<Article[]>(() => articles.value
         title: article.title,
         contentLength: article.length,
         path: article.path,
+        contentType: article.contentType
       }
     }))
 
@@ -79,14 +66,7 @@ useSeoMeta({
 </i18n>
 
 <template>
-  <l-filters-section>
-    <l-select-project-type
-        @update:modelValue="changeSelectedProject"
-        :value="selectedProject"
-    ></l-select-project-type>
-  </l-filters-section>
-
-  <articles-list
+  <docs-view
       v-if="articles"
       :title="title"
       :articles="computedArticles"/>

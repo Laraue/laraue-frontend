@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import ReadTime from "../../components/docs/ReadTime.vue";
-
 defineProps({
   title: String,
   createdAt: String,
@@ -32,260 +30,352 @@ const { t } = useI18n();
 </i18n>
 
 <template>
-  <article>
-    <div class="main-content">
-      <header class="article-header">
-        <h1 class="article-title">{{ title }}</h1>
+  <!-- ══ PAGE ══ -->
+  <div class="page-layout">
+
+    <!-- TOC SIDEBAR -->
+    <aside class="toc-sidebar" aria-label="Table of contents">
+      <a href="/blog" class="toc-back">
+        <svg viewBox="0 0 12 12" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="8,2 4,6 8,10"/></svg>
+        <span data-i18n="back_to_blog">Back to Blog</span>
+      </a>
+
+      <div class="toc-label" data-i18n="toc_label">On this page</div>
+      <ul class="toc-list" id="tocList">
+        <li v-for="link in innerLinks"><a :href="link.link" :id="'toc-' + link.link">{{ link.title }}</a></li>
+      </ul>
+
+      <div class="toc-divider"></div>
+
+      <div class="toc-related-label" data-i18n="toc_related">Related project</div>
+      <a href="/blog/projects/crawler" class="toc-related-link">
+        &#128203; Crawler
+        <span class="toc-related-badge" data-i18n="badge_project">project</span>
+      </a>
+    </aside>
+
+    <!-- ARTICLE -->
+    <main>
+      <article class="article-wrap">
+
+        <!-- HEADER -->
+        <nav class="article-breadcrumb" aria-label="Breadcrumb">
+          <a href="/blog" data-i18n="nav_blog">Blog</a>
+          <span class="article-breadcrumb-sep">&#8250;</span>
+          <a href="/blog" data-i18n="breadcrumb_articles">Articles</a>
+          <span class="article-breadcrumb-sep">&#8250;</span>
+          <span>Crawler history</span>
+        </nav>
+
+        <div class="article-type-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span data-i18n="type_article">Article</span>
+        </div>
+
+        <h1 class="article-title">The history of the crawler project</h1>
+
         <div class="article-meta">
-          <span><read-time :content-length="content?.length"/></span>
-          <span>{{ t('created') }}: <strong>{{ createdAt }}</strong></span>
-          <span>{{ t('updated') }}: <strong>{{ updatedAt }}</strong></span>
+          <div class="article-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            8 <span data-i18n="min_read">min read</span>
+          </div>
+          <div class="article-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span data-i18n="created">Created</span> 7 Oct 2025
+          </div>
+          <div class="article-meta-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.01-9.85"/></svg>
+            <span data-i18n="updated">Updated</span> 5 Dec 2025
+          </div>
         </div>
 
-        <slot name="after-header"></slot>
-      </header>
-
-      <slot name="before-content"></slot>
-
-      <div class="tags" v-if="tags">
-        <h3>{{ t('tags') }}</h3>
-        <div class="tag-list">
-          <span class="tag-item" v-for="tag in tags">
-            {{ tag }}
-          </span>
+        <!-- BODY -->
+        <div class="article-body">
+          <div v-html="content"></div>
+        </div><!-- /article-body -->
+        <!-- ARTICLE FOOTER -->
+        <div class="article-footer">
+          <div class="article-tags">
+            <a href="/blog?tag=Crawler" class="article-tag">Crawler</a>
+            <a href="/blog?tag=.NET" class="article-tag">.NET</a>
+            <a href="/blog?tag=C%23" class="article-tag">C#</a>
+          </div>
+          <div class="article-nav">
+            <div><!-- prev placeholder, empty --></div>
+            <a href="/blog/articles/how-i-use-ollama-in-net-projects" class="article-nav-card next">
+              <div class="article-nav-direction" data-i18n="nav_next">Next &#8594;</div>
+              <div class="article-nav-title">How I use Ollama in .NET projects</div>
+            </a>
+          </div>
         </div>
-      </div>
 
-      <div class="toc" v-if="innerLinks">
-        <h3>{{ t('tableOfContent') }}</h3>
-        <ul>
-          <li v-for="link in innerLinks" :class="'toc-level-' + link.level">
-            <a :href="link.link">{{ link.title }}</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="article-content" v-html="content"></div>
-      <slot name="after-content"></slot>
-    </div>
-  </article>
+      </article>
+    </main>
+  </div>
 </template>
 
 <style scoped>
-
-.article-title {
-  font-size: 28px;
-  color: #2c3e50;
-  margin-bottom: 10px;
+/* ══ PAGE LAYOUT ══ */
+.page-layout{
+  display:grid;
+  /* TOC | article | right gutter */
+  grid-template-columns:var(--toc-w) 1fr;
+  padding-top:var(--nav-h);
+  min-height:100vh;
+  max-width:1200px;
+  margin:0 auto;
+  gap:0;
 }
 
-.article-header {
-  margin-bottom: 30px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #eee;
+/* ══ TOC SIDEBAR ══ */
+.toc-sidebar{
+  position:sticky;
+  top:var(--nav-h);
+  height:calc(100vh - var(--nav-h));
+  overflow-y:auto;
+  padding:40px 0 40px 0;
+  border-right:1px solid var(--border);
+  flex-shrink:0;
 }
 
-.article-title {
-  font-size: 2em;
-  margin-bottom: 10px;
-  color: #2c3e50;
+.toc-back{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:700;letter-spacing:.04em;
+  color:var(--muted);text-decoration:none;
+  padding:0 24px;margin-bottom:24px;
+  transition:color .15s;
+}
+.toc-back:hover{color:var(--ink)}
+.toc-back svg{width:12px;height:12px;stroke:currentColor;flex-shrink:0}
+
+.toc-label{
+  font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);opacity:.6;padding:0 24px;margin-bottom:8px;
 }
 
-.article-meta {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-  color: #666;
-  font-size: 0.9em;
+.toc-list{list-style:none}
+.toc-list li a{
+  display:block;padding:6px 24px;
+  font-size:12px;font-weight:500;color:var(--muted);
+  text-decoration:none;line-height:1.4;
+  border-left:2px solid transparent;
+  transition:color .15s,background .15s,border-color .15s;
+}
+.toc-list li a:hover{color:var(--ink);background:rgba(15,14,12,.04)}
+.toc-list li a.active{
+  color:var(--ink);font-weight:600;
+  border-left-color:var(--accent);
+  background:rgba(200,75,47,.05);
 }
 
-.tags {
-  margin: 20px 0;
+.toc-divider{height:1px;background:var(--border);margin:20px 24px}
+
+/* related projects */
+.toc-related-label{
+  font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);opacity:.6;padding:0 24px;margin-bottom:8px;
+}
+.toc-related-link{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 24px;font-size:12px;font-weight:600;
+  color:var(--ink);text-decoration:none;
+  transition:background .15s;
+}
+.toc-related-link:hover{background:rgba(15,14,12,.04)}
+.toc-related-badge{
+  font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--accent-light);color:var(--accent);
+  padding:2px 6px;border-radius:4px;
 }
 
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding-top: 10px;
+/* progress bar */
+.reading-progress{
+  position:fixed;top:var(--nav-h);left:0;right:0;height:2px;
+  background:var(--border);z-index:200;
+}
+.reading-progress-bar{
+  height:100%;background:var(--accent);width:0%;
+  transition:width .1s linear;
 }
 
-.tag-item {
-  background-color: #e9f7fe;
-  padding: 5px 10px;
-  border-radius: 15px;
-  font-size: 0.85em;
+/* ══ ARTICLE ══ */
+.article-wrap{
+  padding:52px 72px 100px;
+  min-width:0; /* prevent overflow */
 }
 
-.article-content {
-  line-height: 1.6;
-  color: #444;
-  width: 100%;
+/* article header */
+.article-breadcrumb{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;color:var(--muted);margin-bottom:24px;flex-wrap:wrap;
+}
+.article-breadcrumb a{color:var(--muted);text-decoration:none;transition:color .15s}
+.article-breadcrumb a:hover{color:var(--ink)}
+.article-breadcrumb-sep{color:var(--border)}
+.article-breadcrumb span{color:var(--ink);font-weight:600}
+
+.article-type-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  background:#e8f0fb;color:#4a7fcc;
+  padding:4px 10px;border-radius:5px;margin-bottom:20px;
 }
 
-.article-content :deep(h2) {
-  margin: 30px 0 15px 0;
-  color: #222;
+.article-title{
+  font-family:var(--serif);
+  font-size:clamp(28px,3.5vw,46px);
+  font-weight:800;line-height:1.1;
+  letter-spacing:-.5px;
+  color:var(--ink);
+  margin-bottom:20px;
 }
 
-.article-content :deep(p) {
-  margin-bottom: 15px;
+.article-meta{
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  padding-bottom:28px;border-bottom:1px solid var(--border);
+  margin-bottom:48px;
+}
+.article-meta-item{
+  display:flex;align-items:center;gap:6px;
+  font-size:13px;color:var(--muted);
+}
+.article-meta-item svg{width:14px;height:14px;stroke:currentColor;flex-shrink:0}
+
+/* ══ ARTICLE BODY ══ */
+.article-body{
+  font-size:17px;line-height:1.8;color:#2a2725;
+  font-weight:300;
+  max-width:680px;
 }
 
-.article-content :deep(pre) {
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 4px;
-  padding: 16px;
-  margin: 16px 0;
-  overflow-x: auto;
-  line-height: 1.4;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+.article-body :deep(h2){
+  font-family:var(--serif);
+  font-size:clamp(20px,2.5vw,28px);
+  font-weight:700;line-height:1.2;
+  letter-spacing:-.3px;
+  color:var(--ink);
+  margin:56px 0 18px;
+  padding-top:8px; /* scroll-margin compensation */
+  scroll-margin-top:calc(var(--nav-h) + 24px);
+}
+/* first h2 no top margin */
+.article-body :deep(h2:first-child){margin-top:0}
+
+.article-body :deep(h3),.article-body :deep(h4){
+  font-family:var(--serif);
+  font-size:18px;font-weight:700;
+  color:var(--ink);letter-spacing:-.2px;
+  margin:36px 0 12px;
+  scroll-margin-top:calc(var(--nav-h) + 24px);
+}
+.article-body :deep(h4){font-size:15px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+
+.article-body :deep(p){margin-bottom:22px}
+.article-body :deep(p:last-child){margin-bottom:0}
+
+.article-body :deep(strong){font-weight:600;color:var(--ink)}
+.article-body :deep(em){font-style:italic}
+.article-body :deep(a){color:var(--accent);text-decoration:underline;text-decoration-color:rgba(200,75,47,.3);text-underline-offset:3px;transition:text-decoration-color .15s}
+.article-body :deep(a:hover){text-decoration-color:var(--accent)}
+
+/* ordered/unordered lists */
+.article-body :deep(ol),.article-body :deep(ul){
+  padding-left:28px;margin-bottom:22px;
+}
+.article-body :deep(li){margin-bottom:8px;line-height:1.7}
+.article-body :deep(ol){counter-reset:item}
+.article-body :deep(ol>li){display:block;position:relative;padding-left:8px}
+.article-body :deep(ol>li::before){
+  content:counter(item,decimal)".";
+  counter-increment:item;
+  position:absolute;left:-28px;
+  font-weight:700;color:var(--accent);font-size:14px;
 }
 
-/* Inline code styling */
-.article-content :deep(code) {
-  background-color: #f1f3f5;
-  border: 1px solid #dee2e6;
-  border-radius: 3px;
-  padding: 2px 6px;
-  color: #212529;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+/* inline code */
+.article-body :deep(code){
+  font-family:var(--mono);font-size:.85em;
+  background:var(--cream);border:1px solid var(--border);
+  padding:1px 5px;border-radius:4px;color:var(--ink);
 }
 
-.article-content :deep(img) {
-  max-width: 100%;
+/* code blocks */
+.article-body :deep(pre){
+  background:var(--ink);
+  border-radius:12px;
+  padding:28px 32px;
+  margin:28px 0;
+  overflow-x:auto;
+  position:relative;
+}
+.article-body :deep(pre code){
+  font-family:var(--mono);font-size:13px;line-height:1.75;
+  background:none;border:none;padding:0;
+  color:#d4cfca;white-space:pre;
 }
 
-/* Code block with language class */
-.article-content :deep(pre code) {
-  background: none;
-  border: none;
-  padding: 0;
-  color: #212529;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+/* images */
+.article-body :deep(img){
+  width:100%;border-radius:10px;
+  border:1px solid var(--border);
+  margin:28px 0;
+  display:block;
+}
+.article-body :deep(figure){margin:32px 0}
+.article-body :deep(figcaption){
+  font-size:13px;color:var(--muted);text-align:center;
+  margin-top:10px;font-style:italic;
 }
 
-.article-content :deep(ul) {
-  margin: 15px 0;
-  padding-left: 30px;
-  list-style: disc;
+/* step heading callout */
+.article-body :deep(h4.step){
+  display:flex;align-items:center;gap:10px;
+  font-size:14px;font-weight:700;text-transform:none;
+  letter-spacing:0;color:var(--ink);
+  background:var(--cream);border:1px solid var(--border);
+  border-left:4px solid var(--accent);
+  border-radius:0 8px 8px 0;
+  padding:10px 16px;margin:28px 0 16px;
 }
 
-.article-content :deep(ol) {
-  margin: 15px 0;
-  padding-left: 30px;
-  list-style: decimal;
+/* blockquote */
+.article-body :deep(blockquote){
+  border-left:3px solid var(--accent);
+  padding:16px 20px;margin:28px 0;
+  background:var(--accent-light);border-radius:0 8px 8px 0;
+  font-style:italic;color:var(--muted);
 }
 
-.article-content :deep(table) {
-  border-collapse: collapse;
-  width: 100%;
-  margin: 20px 0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  border-radius: 8px;
-  overflow: hidden;
+/* ══ ARTICLE FOOTER ══ */
+.article-footer{
+  max-width:680px;
+  margin-top:64px;
+  padding-top:40px;
+  border-top:1px solid var(--border);
 }
 
-.article-content :deep(td) {
-  padding: 12px 15px;
-  border-bottom: 1px solid #ddd;
+.article-tags{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:36px}
+.article-tag{
+  font-size:12px;font-weight:600;
+  background:var(--cream);color:var(--muted);
+  border:1px solid var(--border);
+  padding:4px 12px;border-radius:6px;
+  text-decoration:none;
+  transition:background .15s,color .15s,border-color .15s;
 }
+.article-tag:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 
-.article-content :deep(tr:nth-child(even)) {
-  background-color: #f9f9f9;
+.article-nav{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;
 }
-.article-content :deep(tr:last-child td) {
-  border-bottom: none;
+.article-nav-card{
+  border:1px solid var(--border);border-radius:12px;
+  padding:18px 20px;text-decoration:none;color:inherit;
+  transition:border-color .2s,box-shadow .2s,transform .15s;
+  background:#fff;
 }
-
-.article-content :deep(li) {
-  margin-bottom: 8px;
-}
-
-.toc {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 5px;
-  margin: 20px 0;
-  line-height: 1.3;
-}
-
-.toc h3 {
-  margin-bottom: 15px;
-}
-
-.toc ul {
-  list-style-type: none;
-}
-
-.toc .toc-level-2 {
-  padding-left: 10px;
-}
-
-.toc .toc-level-3 {
-  padding-left: 20px;
-}
-
-.toc .toc-level-4 {
-  padding-left: 25px;
-}
-
-.toc li {
-  margin: 8px 0;
-}
-
-.toc a {
-  text-decoration: none;
-  color: #007bff;
-}
-
-.toc a:hover {
-  text-decoration: underline;
-}
-
-@media screen and (max-width: 1024px) {
-  .article-meta{
-    flex-flow: column;
-    align-items: center;
-    gap: 5px;
-    margin-top: 25px;
-  }
-  .article-content :deep(h1),
-  .article-content :deep(h2),
-  .article-content :deep(h3),
-  .article-content :deep(h4),
-  .article-content :deep(h5),
-  .article-content :deep(h6){
-    text-align: center;
-  }
-
-  .article-title{
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  .tags,
-  .toc h3{
-    text-align: center;
-  }
-
-  .tag-list{
-    justify-content: center;
-  }
-
-  .article-content :deep(p, ul, ol, li, pre, code, h1, h2, h3, h4, h5, h6) {
-    margin: 0.75rem 0;
-    padding: 0 0.5rem;
-    font-size: 0.9375rem;
-    text-align: justify;
-    letter-spacing: 0.01em;
-    line-height: 1.4;
-  }
-
-  .article-content :deep(h1, h2, h3, h4, h5, h6) {
-    line-height: 1;
-  }
-}
-
+.article-nav-card:hover{border-color:var(--ink);box-shadow:0 4px 20px rgba(15,14,12,.09);transform:translateY(-2px)}
+.article-nav-direction{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.article-nav-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.35}
+.article-nav-card.next{text-align:right}
 </style>

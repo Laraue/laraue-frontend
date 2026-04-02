@@ -1,5 +1,7 @@
 <script setup lang="ts">
 
+import LMainContent from "~/components/ui/LMainContent.vue";
+
 const { setLocale, t } = useI18n()
 const localPath = useLocalePath();
 
@@ -199,7 +201,7 @@ useSeoMeta({
 </i18n>
 
 <template>
-  <main>
+  <LMainContent>
     <!-- HERO -->
     <section class="hero" aria-labelledby="hero-heading">
       <div class="hero-grid-bg" aria-hidden="true"></div>
@@ -469,7 +471,7 @@ useSeoMeta({
         </div>
       </div>
     </section>
-  </main>
+  </LMainContent>
 </template>
 
 <style scoped>

@@ -11,6 +11,8 @@
     --sans:'Source Sans 3',system-ui,sans-serif;
     --nav-h:60px;
     --sidebar-w:220px;
+    --doc-sidebar-w:0px;  /* doc tree nav width */
+    --toc-w:240px;     /* table of contents sidebar */
 }
 html{scroll-behavior:smooth}
 body{
