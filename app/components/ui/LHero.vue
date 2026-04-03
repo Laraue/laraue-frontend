@@ -3,14 +3,27 @@
     title: String,
     subTitle: String
   })
+
+  const { t } = useI18n();
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "fromTeam": "From the team"
+  },
+  "ru": {
+    "fromTeam": "От команды"
+  }
+}
+</i18n>
 
 <template>
   <!-- BLOG HERO -->
   <div class="blog-hero">
     <div class="blog-hero-bg" aria-hidden="true"></div>
     <div class="blog-hero-inner">
-      <div class="section-label reveal" data-i18n="blog_eyebrow">From the team</div>
+      <div class="section-label reveal" data-i18n="blog_eyebrow">{{ t('fromTeam') }}</div>
       <h1 class="reveal" data-i18n="blog_title">{{ title }}</h1>
       <p class="blog-hero-sub reveal" data-i18n="blog_sub">{{ subTitle }}</p>
     </div>

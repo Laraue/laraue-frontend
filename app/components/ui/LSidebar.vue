@@ -9,13 +9,30 @@
   defineProps<{
     linksSections: LinksSection[]
   }>()
+
+  const { t } = useI18n();
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "home": "Home",
+    "pages": "Pages",
+    "slogan": "Small team, serious craft."
+  },
+  "ru": {
+    "home": "Главная",
+    "pages": "Страницы",
+    "slogan": "Маленькая команда, большие продукты."
+  }
+}
+</i18n>
 
 <template>
   <!-- PERSISTENT SIDEBAR -->
   <aside class="sidebar" aria-label="Blog navigation">
     <template v-for="linksSection in linksSections">
-      <p  class="sidebar-section-label" data-i18n="sidebar_categories">{{ linksSection.title }}</p>
+      <p  class="sidebar-section-label">{{ linksSection.title }}</p>
       <ul class="sidebar-links">
         <li v-for="link in linksSection.links">
           <nuxt-link :to="localePathFromSegments(link.path)" active-class="active" id="sb-all">
@@ -27,14 +44,14 @@
       </ul>
       <div class="sidebar-divider"></div>
     </template>
-    <p class="sidebar-section-label" data-i18n="sidebar_pages">Pages</p>
+    <p class="sidebar-section-label">{{ t('pages') }}</p>
     <ul class="sidebar-links">
-      <li><a href="/"><span class="sidebar-icon">&#127968;</span><span data-i18n="nav_home">Home</span></a></li>
-      <li><a href="/msgboard"><span class="sidebar-icon">&#128203;</span><span>MsgBoard</span></a></li>
+      <li><a href="/"><span class="sidebar-icon">&#127968;</span><span>{{ t('home') }}</span></a></li>
+      <li><a href="/msgboard"><span class="sidebar-icon">&#128203;</span><span>Message Board</span></a></li>
       <li><a href="https://github.com/win7user10" target="_blank" rel="noopener"><span class="sidebar-icon">&#11088;</span><span>GitHub</span></a></li>
     </ul>
     <div class="sidebar-footer">
-      <p data-i18n="sidebar_footer">Laraue Software<br>Small team, serious craft.</p>
+      <p>Laraue Software<br>{{ t('slogan') }}</p>
     </div>
   </aside>
 </template>

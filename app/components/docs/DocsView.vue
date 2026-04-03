@@ -3,6 +3,7 @@
 import LHero from "~/components/ui/LHero.vue";
 import LBlogSidebar from "~/components/docs/LBlogSidebar.vue";
 import ReadTime from "~/components/docs/ReadTime.vue";
+import LContentTypeBadge from "~/components/docs/LContentTypeBadge.vue";
 const { blogState } = useBlogState()
 const { localePathFromSegments } = usePathUtil()
 
@@ -45,9 +46,7 @@ export interface Article {
         <div class="post-thumb type-article"></div>
         <div class="post-body">
           <div class="post-meta">
-            <span class="post-type-badge" :class="[article.contentType]" data-i18n="type_article">
-              {{ article.contentType }}
-            </span>
+            <LContentTypeBadge :content-type="article.contentType" />
             <ReadTime class="post-read-time" :content-length="article.contentLength" />
           </div>
           <div class="post-title">{{ article.title }}</div>
@@ -86,10 +85,6 @@ export interface Article {
 
 .post-body{padding:18px;flex:1;display:flex;flex-direction:column}
 .post-meta{display:flex;align-items:center;gap:8px;margin-bottom:9px}
-.post-type-badge{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border-radius:4px}
-.post-type-badge.article{background:#e8f0fb;color:#4a7fcc}
-.post-type-badge.project{background:var(--accent-light);color:var(--accent)}
-.post-type-badge.documentation{background:#e6f7ee;color:#2d8a55}
 .post-title{font-family:var(--serif);font-size:14px;font-weight:700;line-height:1.35;letter-spacing:-.1px;margin-bottom:7px;color:var(--ink);flex:1}
 .post-excerpt{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:12px}
 .post-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}

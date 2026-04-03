@@ -2,11 +2,14 @@
 
 import type {ItemDetails} from "~/composables/blogApi";
 import ReadTime from "~/components/docs/ReadTime.vue";
+import LContentTypeBadge from "~/components/docs/LContentTypeBadge.vue";
 
 defineProps<{
   item: ItemDetails
 }>()
 
+const { t } = useI18n()
+const localePath = useLocalePath()
 const { localePathFromSegments } = usePathUtil()
 const route = useRoute();
 const { getRouteSegments } = usePathUtil();
@@ -16,7 +19,7 @@ const breadCrumbs = computed(() => {
   let currentPath = '/'
 
   routeSegments.forEach(segment => {
-    breadcrumbs.push({ href: segment == 'documentation' ? undefined : currentPath + segment, title: segment })
+    breadcrumbs.push({ href: segment == 'documentation' ? undefined : localePath(currentPath + segment), title: segment })
     currentPath = currentPath + segment + '/'
   })
 
@@ -35,16 +38,14 @@ const backAddress = computed(() => {
 <i18n lang="json">
 {
   "en": {
-    "created": "Created",
-    "updated": "Updated",
-    "tags": "Tags",
-    "tableOfContent": "Table of content"
+    "onThisPage": "On this page",
+    "backTo": "Back to",
+    "relatedProjects": "Related projects"
   },
   "ru": {
-    "created": "Создан",
-    "updated": "Обновлен",
-    "tags": "Теги",
-    "tableOfContent": "Содержание"
+    "onThisPage": "На этой странице",
+    "backTo": "Назад к",
+    "relatedProjects": "Связанные проекты"
   }
 }
 </i18n>
@@ -57,11 +58,11 @@ const backAddress = computed(() => {
     <aside class="toc-sidebar" aria-label="Table of contents">
       <nuxt-link :to="backAddress?.href" class="toc-back">
         <svg viewBox="0 0 12 12" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="8,2 4,6 8,10"/></svg>
-        <span>Back to {{ backAddress?.title }}</span>
+        <span>{{ t('backTo') }} {{ backAddress?.title }}</span>
       </nuxt-link>
 
       <template v-if="item.innerLinks?.length">
-        <div class="toc-label" data-i18n="toc_label">On this page</div>
+        <div class="toc-label" data-i18n="toc_label">{{ t('onThisPage') }}</div>
         <ul class="toc-list" id="tocList">
           <li v-for="link in item.innerLinks"><a :href="link.link" :id="'toc-' + link.link">{{ link.title }}</a></li>
         </ul>
@@ -70,7 +71,7 @@ const backAddress = computed(() => {
       <div class="toc-divider"></div>
 
       <template v-if="item.projects">
-        <div class="toc-related-label" data-i18n="toc_related">Related projects</div>
+        <div class="toc-related-label" data-i18n="toc_related">{{ t('relatedProjects') }}</div>
         <nuxt-link v-for="project in item.projects" :to="'/blog/projects/' + project" class="toc-related-link">
           🚀 {{ project }}
           <span class="toc-related-badge" data-i18n="badge_project">project</span>
@@ -92,8 +93,7 @@ const backAddress = computed(() => {
         </nav>
 
         <div class="article-type-badge">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <span data-i18n="type_article">Article</span>
+          <LContentTypeBadge :content-type="item.contentType" />
         </div>
 
         <h1 class="article-title">{{ item.title }}</h1>
@@ -240,10 +240,10 @@ const backAddress = computed(() => {
 .article-breadcrumb span{color:var(--ink);font-weight:600}
 
 .article-type-badge{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  background:#e8f0fb;color:#4a7fcc;
-  padding:4px 10px;border-radius:5px;margin-bottom:20px;
+  display:inline-flex;
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:20px;
 }
 
 .article-title{

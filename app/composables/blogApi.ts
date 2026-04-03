@@ -68,6 +68,7 @@ export interface ItemDetails {
     description: string | undefined;
     content: string | undefined;
     createdAt: string;
+    contentType: string;
     updatedAt: string | undefined;
     innerLinks: InnerLink[];
     previous?: NeighborCard;

@@ -6,7 +6,7 @@ import {useBlogState} from "~/composables/blogState";
 import type {LinksSection} from "~/components/ui/LSidebar.vue";
 
 const { getCategories, getDocs } = useBlogApi();
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const { setCategories, blogState, setDocumentationItems } = useBlogState()
 
 watch(locale, () => {
@@ -27,8 +27,8 @@ const loadData = async () => {
 
 const linksSections = computed<LinksSection[]>(() => {
   return [
-    { title: "Categories", links: blogState.value.otherItems },
-    { title: "Documentation", links: blogState.value.documentationItems },
+    { title: t("categories"), links: blogState.value.otherItems },
+    { title: t("documentation"), links: blogState.value.documentationItems },
   ]
 })
 
@@ -37,16 +37,12 @@ const linksSections = computed<LinksSection[]>(() => {
 <i18n lang="json">
 {
   "en": {
-    "projects": "Projects",
-    "articles": "Articles",
-    "documentation": "Documentation",
-    "allTags": "All Tags"
+    "categories": "Categories",
+    "documentation": "Documentation"
   },
   "ru": {
-    "projects": "Проекты",
-    "articles": "Статьи",
-    "documentation": "Документация",
-    "allTags": "Все теги"
+    "categories": "Категории",
+    "documentation": "Документация"
   }
 }
 </i18n>

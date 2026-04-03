@@ -3,23 +3,38 @@
 import LButton from "~/components/ui/LButton.vue";
 const localePath = useLocalePath();
 
-const {locale} = useI18n()
+const {locale, t} = useI18n()
 const { getTags } = useBlogApi()
 const tags = await getTags(locale.value)
 
 const route = useRoute()
-const router = useRouter()
-
 const isTagActive = (tag: string) => {
   return route.query["tag"] === tag;
 }
 
 </script>
 
+<i18n lang="json">
+{
+  "en": {
+    "filterTags": "Filter posts by tag",
+    "wantMore": "Want more?",
+    "try": "Try",
+    "msgBoard": "Message Board is our newest product. Try it free - no credit card needed."
+  },
+  "ru": {
+    "filterTags": "Фильтрация по тегам",
+    "wantMore": "Хотите больше?",
+    "try": "Попробовать",
+    "msgBoard": "Message Board наш новый продукт. Попробуйте бесплатно."
+  }
+}
+</i18n>
+
 <template>
   <aside class="blog-sidebar" aria-label="Tag filters">
     <div class="filter-panel">
-      <div class="filter-panel-title" data-i18n="filter_tags">Filter posts by tag</div>
+      <div class="filter-panel-title" data-i18n="filter_tags">{{ t('filterTags') }}</div>
       <div class="tag-list">
         <nuxt-link :to="localePath({ name: 'blog', query: isTagActive(tag.key) ? {} : {tag: tag.key} })"
           v-for="tag in tags"
@@ -30,10 +45,10 @@ const isTagActive = (tag: string) => {
       </div>
     </div>
     <div class="filter-panel">
-      <div class="filter-panel-title" data-i18n="filter_cta_title">Want more?</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.55" data-i18n="filter_cta_body">Message Board is our newest product. Try it free &#8212; no credit card needed.</p>
+      <div class="filter-panel-title" data-i18n="filter_cta_title">{{ t('wantMore') }}</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.55" data-i18n="filter_cta_body">{{ t('msgBoard') }}</p>
       <LButton :href="localePath('msgboard')">
-        Try Message Board
+        {{ t('try') }}
       </LButton>
     </div>
   </aside>

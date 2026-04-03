@@ -17,7 +17,7 @@ useSeoMeta({
 {
   "en": {
     "seo_title": "Laraue Software — Focused Tools for Productive People",
-    "seo_description": "Laraue Software builds reliable, privacy-first tools for people who work with information. Try MsgBoard — turn Telegram messages into a visual Kanban board in seconds.",
+    "seo_description": "Laraue Software builds reliable, privacy-first tools for people who work with information. Try Message Board — turn Telegram messages into a visual Kanban board in seconds.",
     "hero_eyebrow": "Laraue Software",
     "hero_title_1": "Software built",
     "hero_title_2": "with",
