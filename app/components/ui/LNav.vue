@@ -64,12 +64,6 @@ const menuItems = computed<MenuItem[]>(() => {
           link: localePath("/pdf-extractor"),
           id: "3-1",
           icon: "📄"
-        },
-        {
-          text: t("markdownTranslator"),
-          link: localePath("/markdown-translator"),
-          id: "3-2",
-          icon: "🌍"
         }
       ]
     },

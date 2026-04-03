@@ -12,7 +12,7 @@
   <ul v-for="item in menuItems">
     <li>
       <template v-if="item.hasContent">
-        <nuxt-link :to="localeRoute(PathUtil.getAbsolutePathString(item.fullPath))">
+        <nuxt-link :to="localeRoute(item.fullPath)">
           {{ item.title ?? item.fileName }}
         </nuxt-link>
       </template>

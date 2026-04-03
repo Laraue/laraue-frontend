@@ -24,22 +24,10 @@
 </i18n>
 
 <template>
-  <div class="read-time">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M12 8v4l3 3M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/>
-    </svg>
+  <span class="post-read-time">
     <span>{{ t('readTime', { minutes: readTime }) }}</span>
-  </div>
+  </span>
 </template>
 
 <style scoped>
-.read-time {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.read-time svg {
-  width: 14px;
-  height: 14px;
-}
 </style>

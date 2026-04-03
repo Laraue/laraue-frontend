@@ -30,8 +30,8 @@ import LNav from "~/components/ui/LNav.vue";
 
 <style scoped>
 .page-layout {
+  display: flex;
   padding-top: var(--nav-h);
   min-height: 100vh;
-  position: relative;
 }
 </style>

@@ -170,6 +170,7 @@ useSeoMeta({
   <!-- ══════════════════════════════════
        HERO (H1 with primary keyword)
   ══════════════════════════════════ -->
+  <div class="main">
   <section class="hero" aria-labelledby="hero-heading">
     <div class="hero-badge" role="status">
       <div class="badge-dot" aria-hidden="true"></div>
@@ -416,9 +417,12 @@ useSeoMeta({
       <span class="kw-tag">{{ t('kwI18n') }}</span>
     </div>
   </aside>
+  </div>
 </template>
 
 <style scoped>
+
+.main { width: 100%; }
 
 section, aside {
   --blue-900: #0d2240;

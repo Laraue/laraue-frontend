@@ -1,38 +1,25 @@
 <script setup lang="ts">
 
-import ArticlesList, {type Article} from "~/components/docs/ArticlesList.vue";
-import {computed, type Ref, ref} from "vue";
-import LFiltersSection from "~/components/docs/LFiltersSection.vue";
-import LSelectProjectType from "~/components/docs/LSelectProjectType.vue";
+import DocsView, {type Article} from "~/components/docs/DocsView.vue";
+import {computed, ref} from "vue";
 
-const articles = ref<ArticleListRow[]>([])
-import { useBlogApi } from "~/composables/blogApi";
+const articles = ref<ItemListItem[]>([])
+const { getItems } = useBlogApi()
 
-const { loadArticlesList } = useBlogApi();
 const { locale } = useI18n();
 
 definePageMeta({
   layout: 'blog',
 })
 
-const selectedProject = ref("")
+const path = ["blog", "articles"];
 
 const loadPage = async () => {
-  articles.value = await loadArticlesList(locale.value, 0, 8, selectedProject.value, undefined);
+  const result = await getItems(locale.value, path, ["article"], undefined, 0, 8);
+  articles.value = result.data
 }
+
 await loadPage();
-
-const resetSelects = () => {
-  selectedProject.value = "";
-}
-
-const updateSelectValue = (valueRef: Ref<string, string>, value: string) => {
-  resetSelects();
-  valueRef.value = value;
-  return loadPage();
-}
-
-const changeSelectedProject = (value: string) => updateSelectValue(selectedProject, value)
 
 const computedArticles = computed<Article[]>(() => articles.value
     .map((article) => {
@@ -43,22 +30,18 @@ const computedArticles = computed<Article[]>(() => articles.value
         title: article.title,
         contentLength: article.length,
         path: article.path,
+        contentType: article.contentType
       }
     }))
 
 const { t } = useI18n()
-const title = computed(() => {
-  let result = t('all');
-  if (selectedProject.value)
-    result += " " + t('ofProject') + " '" + selectedProject.value + "'"
-
-  return result
-})
+const title = computed(() => t('all'))
+const description = computed(() => t('seoDescription'))
 
 useSeoMeta({
   title: title.value,
   ogTitle: title.value,
-  description: computed(() => t('seoDescription'))
+  description: description.value,
 })
 
 </script>
@@ -66,30 +49,24 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "The whole articles list in the Blog. Use the filters to find only you interested in.",
-    "all": "All articles",
+    "seoDescription": "Storytelling about our development practices and interesting technical moments that occurred while implementing features.",
+    "all": "Articles",
     "ofProject": "related to project"
   },
   "ru": {
-    "all": "Все статьи",
+    "all": "Cтатьи",
     "ofProject": "с проектом",
-    "seoDescription": "Весь список статей в блоге. Испольуйте фильтры, чтобы найти интересующие материалы."
+    "seoDescription": "Рассказываем о интересных моментах разработки и технических трудностях, которые пришлось преодолеть при создании продуктов."
   }
 }
 </i18n>
 
 <template>
-  <l-filters-section>
-    <l-select-project-type
-        @update:modelValue="changeSelectedProject"
-        :value="selectedProject"
-    ></l-select-project-type>
-  </l-filters-section>
-
-  <articles-list
-      v-if="articles"
-      :title="title"
-      :articles="computedArticles"/>
+  <DocsView
+    v-if="articles"
+    :title="title"
+    :subTitle="description"
+    :articles="computedArticles"/>
 </template>
 
 <style scoped>
