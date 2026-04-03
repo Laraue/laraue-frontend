@@ -74,6 +74,7 @@ export interface ItemDetails {
     next?: NeighborCard;
     tags?: string[];
     projects?: string[];
+    length: number;
 }
 
 export interface NeighborCard {

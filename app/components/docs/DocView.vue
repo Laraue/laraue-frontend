@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import type {ItemDetails} from "~/composables/blogApi";
+import ReadTime from "~/components/docs/ReadTime.vue";
 
 defineProps<{
   item: ItemDetails
@@ -11,11 +12,11 @@ const route = useRoute();
 const { getRouteSegments } = usePathUtil();
 const breadCrumbs = computed(() => {
   const routeSegments = getRouteSegments(route.path);
-  const breadcrumbs = [] as {href: string, title: string}[];
+  const breadcrumbs = [] as {href?: string, title: string}[];
   let currentPath = '/'
 
   routeSegments.forEach(segment => {
-    breadcrumbs.push({ href: currentPath + segment, title: segment })
+    breadcrumbs.push({ href: segment == 'documentation' ? undefined : currentPath + segment, title: segment })
     currentPath = currentPath + segment + '/'
   })
 
@@ -24,7 +25,7 @@ const breadCrumbs = computed(() => {
 
 const backAddress = computed(() => {
   const previous = breadCrumbs.value.at(1)
-  if (previous?.title == 'documentation')
+  if (!previous?.href)
     return breadCrumbs.value.at(0)
   return previous;
 })
@@ -84,7 +85,8 @@ const backAddress = computed(() => {
         <!-- HEADER -->
         <nav class="article-breadcrumb" aria-label="Breadcrumb">
           <template v-for="(breadcrumb, i) in breadCrumbs">
-            <router-link :to="breadcrumb.href">{{ breadcrumb.title }}</router-link>
+            <router-link v-if="breadcrumb.href" :to="breadcrumb.href">{{ breadcrumb.title }}</router-link>
+            <p v-else>{{ breadcrumb.title }}</p>
             <span v-if="i < breadCrumbs.length - 1" class="article-breadcrumb-sep">&#8250;</span>
           </template>
         </nav>
@@ -99,15 +101,15 @@ const backAddress = computed(() => {
         <div class="article-meta">
           <div class="article-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            8 <span data-i18n="min_read">min read</span>
+            <ReadTime :contentLength="item.length" />
           </div>
           <div class="article-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            <span data-i18n="created">Created</span> 7 Oct 2025
+            <span data-i18n="created">Created</span> {{ item.createdAt }}
           </div>
           <div class="article-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.01-9.85"/></svg>
-            <span data-i18n="updated">Updated</span> 5 Dec 2025
+            <span data-i18n="updated">Updated</span> {{ item.updatedAt }}
           </div>
         </div>
 

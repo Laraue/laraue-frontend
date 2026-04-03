@@ -48,7 +48,7 @@ export interface Article {
             <span class="post-type-badge" :class="[article.contentType]" data-i18n="type_article">
               {{ article.contentType }}
             </span>
-            <ReadTime :content-length="article.contentLength" />
+            <ReadTime class="post-read-time" :content-length="article.contentLength" />
           </div>
           <div class="post-title">{{ article.title }}</div>
           <div class="post-excerpt">{{ article.description }}</div>
@@ -97,4 +97,6 @@ export interface Article {
 .post-card:hover .post-tag-chip{background:var(--border)}
 .post-read-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--accent);transition:gap .15s;margin-top:auto}
 .post-card:hover .post-read-link{gap:7px}
+
+.post-read-time{font-size:11px;color:var(--muted)};
 </style>

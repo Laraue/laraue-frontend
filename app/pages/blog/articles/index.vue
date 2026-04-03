@@ -35,11 +35,12 @@ const computedArticles = computed<Article[]>(() => articles.value
 
 const { t } = useI18n()
 const title = computed(() => t('all'))
+const description = computed(() => t('seoDescription'))
 
 useSeoMeta({
   title: title.value,
   ogTitle: title.value,
-  description: computed(() => t('seoDescription'))
+  description: description.value,
 })
 
 </script>
@@ -47,14 +48,14 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "The whole articles list in the Blog. Use the filters to find only you interested in.",
+    "seoDescription": "Storytelling about our development practices and interesting technical moments that occurred while implementing features.",
     "all": "Articles",
     "ofProject": "related to project"
   },
   "ru": {
     "all": "Cтатьи",
     "ofProject": "с проектом",
-    "seoDescription": "Весь список статей в блоге. Испольуйте фильтры, чтобы найти интересующие материалы."
+    "seoDescription": "Рассказываем о интересных моментах разработки и технических трудностях, которые пришлось преодолеть при создании продуктов."
   }
 }
 </i18n>
@@ -63,7 +64,7 @@ useSeoMeta({
   <DocsView
     v-if="articles"
     :title="title"
-    subTitle="asd"
+    :subTitle="description"
     :articles="computedArticles"/>
 </template>
 

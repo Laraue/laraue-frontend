@@ -7,15 +7,11 @@ definePageMeta({
   layout: 'blog',
 })
 
-const route = useRoute();
 const { getRouteSegments } = usePathUtil();
-const routeSegments = computed(() => {
-  return getRouteSegments(route.path)
-})
 
 const { locale } = useI18n()
 const { getItemDetails } = useBlogApi();
-const article = await getItemDetails(locale.value, routeSegments.value);
+const article = await getItemDetails(locale.value, getRouteSegments());
 
 useSeoMeta({
   title: () => article.title,

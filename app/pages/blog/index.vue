@@ -35,10 +35,13 @@ const computedItems = computed<Article[]>(() => items.value
     }
   }))
 
+const title = computed(() => t('all'))
+const description = computed(() => t('seoDescription'))
+
 useSeoMeta({
-  title: t('all'),
-  ogTitle: t('all'),
-  description: t('seoDescription'),
+  title: title,
+  ogTitle: title,
+  description: description,
 })
 
 watch(() => route.query.tag, async () => {
@@ -50,16 +53,12 @@ watch(() => route.query.tag, async () => {
 <i18n lang="json">
 {
   "en": {
-    "all": "All content",
-    "byTag": "with tag",
-    "ofType": "with type",
-    "seoDescription": "All blog posts of the Blog. Use the filters by tags or projects to find exact you need."
+    "all": "Blog",
+    "seoDescription": "Articles, project write-ups and technical documentation. C#, .NET, AI, Telegram and open source."
   },
   "ru": {
-    "all": "Весь контент",
-    "byTag": "c тегом",
-    "ofType": "с типом",
-    "seoDescription": "Все публикации блога. Используйте фильтры по тегами или проектам, чтобы найти что-то конкретное."
+    "all": "Блог",
+    "seoDescription": "Статьи, описание проектов и техническая документация. C#, .NET, AI, Telegram и open source разработка."
   }
 }
 </i18n>
@@ -67,8 +66,8 @@ watch(() => route.query.tag, async () => {
 <template>
   <DocsView
     v-if="items"
-    title="Blog"
-    subTitle="Articles, project write-ups and technical documentation. C#, .NET, AI, Telegram and open source."
+    :title="title"
+    :subTitle="description"
     :articles="computedItems"/>
 </template>
 

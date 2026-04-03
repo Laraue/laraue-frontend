@@ -30,5 +30,4 @@
 </template>
 
 <style scoped>
-.post-read-time{font-size:11px;color:var(--muted)}
 </style>

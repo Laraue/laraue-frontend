@@ -2,16 +2,11 @@
 import DocView from "~/components/docs/DocView.vue";
 import {useBlogApi} from "~/composables/blogApi";
 
-const route = useRoute();
-const { getRouteSegments } = usePathUtil();
-const routeSegments = computed(() => {
-  return getRouteSegments(route.path)
-})
-
 const { getItemDetails } = useBlogApi();
 const { locale } = useI18n();
+const { getRouteSegments } = usePathUtil();
 
-const documentation = await getItemDetails(locale.value, routeSegments.value);
+const documentation = await getItemDetails(locale.value, getRouteSegments());
 const { t } = useI18n();
 
 useSeoMeta({

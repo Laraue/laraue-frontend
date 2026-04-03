@@ -1,5 +1,7 @@
+
 export const usePathUtil = () => {
     const localePathInner = useLocalePath()
+    const { locale } = useI18n()
 
     const localePathFromSegments = (sections?: string[]) => {
         return localePathInner('/' + sections?.join('/'));
@@ -9,9 +11,19 @@ export const usePathUtil = () => {
         return localePathInner(path);
     }
 
-    const getRouteSegments = (routePath: string) => {
+    const getRouteSegmentsByPath = (routePath: string) => {
         return routePath.split('/').filter(segment => segment !== '')
     }
+
+    const getRouteSegments = (() => {
+        const route = useRoute();
+
+        const segments = getRouteSegmentsByPath(route.path);
+        if (segments[0] === locale.value)
+            segments.splice(0 ,1)
+
+        return segments
+    })
 
     return {
         localePathFromSegments,

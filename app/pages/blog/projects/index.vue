@@ -9,7 +9,6 @@ definePageMeta({
 })
 
 const { locale } = useI18n();
-const selectedTag = ref("")
 const path = ["blog", "projects"];
 const { getItems } = useBlogApi();
 
@@ -34,32 +33,25 @@ const computedItems = computed<Article[]>(() => (projects.value ?? [])
     }))
 
 const { t } = useI18n()
-const title = computed(() => {
-  let result = t('projects')
-  if (selectedTag.value)
-    result += " " + t('byTag') + " '" + selectedTag.value + "'"
-
-  return result
-})
+const title = computed(() => t('projects'))
+const description = computed(() => t('seoDescription'))
 
 useSeoMeta({
   title: title,
   ogTitle: title,
-  description: 'All projects of the Laraue organization',
+  description: description,
 })
 </script>
 
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "The whole projects list in the Blog. Use the filters to find only you interested in.",
-    "projects": "Projects",
-    "byTag": "with tag"
+    "seoDescription": "Project portfolio featuring custom C# crawlers, Telegram bot frameworks, PDF query languages, and AI-powered real estate analytics.",
+    "projects": "Projects"
   },
   "ru": {
     "projects": "Проекты",
-    "byTag": "c тегом",
-    "seoDescription": "Все описания проектов, доступные в блоге. Испольуйте фильтры, чтобы найти только интересующие элементы."
+    "seoDescription": "Реализованные проекты, среди которых - бибилотека для краулинга, фреймворк для телеграмма, язык запросов к PDF и многое другое."
   }
 }
 </i18n>
@@ -68,6 +60,7 @@ useSeoMeta({
   <docs-view
       v-if="projects"
       :title=title
+      :subTitle=description
       :articles="computedItems"/>
 </template>
 
