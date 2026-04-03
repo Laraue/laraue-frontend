@@ -3,6 +3,7 @@
 import type {ItemDetails} from "~/composables/blogApi";
 import ReadTime from "~/components/docs/ReadTime.vue";
 import LContentTypeBadge from "~/components/docs/LContentTypeBadge.vue";
+import LMobileToc from "~/components/docs/LMobileToc.vue";
 
 defineProps<{
   item: ItemDetails
@@ -11,10 +12,9 @@ defineProps<{
 const { t } = useI18n()
 const localePath = useLocalePath()
 const { localePathFromSegments } = usePathUtil()
-const route = useRoute();
 const { getRouteSegments } = usePathUtil();
 const breadCrumbs = computed(() => {
-  const routeSegments = getRouteSegments(route.path);
+  const routeSegments = getRouteSegments();
   const breadcrumbs = [] as {href?: string, title: string}[];
   let currentPath = '/'
 
@@ -40,11 +40,19 @@ const backAddress = computed(() => {
   "en": {
     "onThisPage": "On this page",
     "backTo": "Back to",
+    "previous": "Previous",
+    "next": "Next",
+    "created": "Created",
+    "updated": "Updated",
     "relatedProjects": "Related projects"
   },
   "ru": {
     "onThisPage": "На этой странице",
     "backTo": "Назад к",
+    "previous": "Предыдущая",
+    "next": "Следующая",
+    "created": "Создано",
+    "updated": "Обновлено",
     "relatedProjects": "Связанные проекты"
   }
 }
@@ -61,7 +69,7 @@ const backAddress = computed(() => {
         <span>{{ t('backTo') }} {{ backAddress?.title }}</span>
       </nuxt-link>
 
-      <template v-if="item.innerLinks?.length">
+      <template v-if="item.innerLinks?.length > 1">
         <div class="toc-label" data-i18n="toc_label">{{ t('onThisPage') }}</div>
         <ul class="toc-list" id="tocList">
           <li v-for="link in item.innerLinks"><a :href="link.link" :id="'toc-' + link.link">{{ link.title }}</a></li>
@@ -82,6 +90,19 @@ const backAddress = computed(() => {
     <!-- ARTICLE -->
     <main>
       <article class="article-wrap">
+        <nuxt-link :to="backAddress?.href" class="toc-back mobile">
+          <svg viewBox="0 0 12 12" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="8,2 4,6 8,10"/></svg>
+          <span>{{ t('backTo') }} {{ backAddress?.title }}</span>
+        </nuxt-link>
+
+        <!-- mobile TOC toggle -->
+        <LMobileToc :title="t('onThisPage')" v-if="item.innerLinks?.length > 1">
+          <li v-for="link in item.innerLinks">
+            <a :href="link.link">
+              {{ link.title }}
+            </a>
+          </li>
+        </LMobileToc>
 
         <!-- HEADER -->
         <nav class="article-breadcrumb" aria-label="Breadcrumb">
@@ -124,11 +145,11 @@ const backAddress = computed(() => {
           </div>
           <div class="article-nav">
             <nuxt-link v-if="item.previous" :to="localePathFromSegments(item.previous.path)" class="article-nav-card next">
-              <div class="article-nav-direction" data-i18n="nav_next">&#8592;Previous</div>
+              <div class="article-nav-direction" data-i18n="nav_next">&#8592;{{ t('previous') }}</div>
               <div class="article-nav-title">{{ item.previous.title }}</div>
             </nuxt-link>
             <nuxt-link v-if="item.next" :to="localePathFromSegments(item.next.path)" class="article-nav-card next">
-              <div class="article-nav-direction" data-i18n="nav_next">Next &#8594;</div>
+              <div class="article-nav-direction" data-i18n="nav_next">{{ t('next') }} &#8594;</div>
               <div class="article-nav-title">{{ item.next.title }}</div>
             </nuxt-link>
           </div>
@@ -172,6 +193,11 @@ const backAddress = computed(() => {
 }
 .toc-back:hover{color:var(--ink)}
 .toc-back svg{width:12px;height:12px;stroke:currentColor;flex-shrink:0}
+
+.toc-back.mobile {
+  padding: 0;
+  display: none;
+}
 
 .toc-label{
   font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
@@ -403,4 +429,17 @@ const backAddress = computed(() => {
 .article-nav-direction{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .article-nav-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.35}
 .article-nav-card.next{text-align:right}
+
+@media(max-width:1000px){
+  .article-wrap{padding:44px 48px 80px}
+}
+
+@media(max-width:760px){
+  .toc-back.mobile { display:inline-flex; }
+  .page-layout{display: block;padding-top: 0;}
+  .toc-sidebar{display:none}
+  .article-wrap{padding:32px 22px 60px}
+  .article-body{font-size:16px}
+  .article-nav{grid-template-columns:1fr}
+}
 </style>

@@ -38,4 +38,8 @@
 .blog-hero-sub{font-size:17px;color:var(--muted);font-weight:300;max-width:500px;line-height:1.6}
 .section-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--accent);opacity:.5}
+
+@media(max-width:720px){
+  .blog-hero{padding:40px 22px 32px}
+}
 </style>

@@ -93,5 +93,15 @@ export interface Article {
 .post-read-link{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--accent);transition:gap .15s;margin-top:auto}
 .post-card:hover .post-read-link{gap:7px}
 
-.post-read-time{font-size:11px;color:var(--muted)};
+.post-read-time{font-size:11px;color:var(--muted)}
+
+@media(max-width:860px){
+  .blog-body{grid-template-columns:1fr;gap:28px}
+  .post-grid{grid-template-columns:1fr}
+}
+
+@media(max-width:720px){
+  .blog-tabs{padding:0 22px}
+  .blog-body{padding:28px 22px 56px}
+}
 </style>

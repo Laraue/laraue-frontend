@@ -54,9 +54,6 @@
 </template>
 
 <style scoped>
-aside{
-  --doc-sidebar-w:260px;  /* doc tree nav width */
-}
 /* ══ DOC TREE SIDEBAR ══ */
 .doc-sidebar{
   position:fixed;
@@ -64,7 +61,7 @@ aside{
   left:var(--sidebar-w);
   width:var(--doc-sidebar-w);
   z-index:90;
-  background:rgba(247, 244, 238, .72);
+  background:#fff;
   border-right:1px solid var(--border);
   display:flex;flex-direction:column;
   overflow-y:auto;
@@ -166,5 +163,9 @@ aside{
   font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
   background:var(--cream);color:var(--muted);
   padding:2px 6px;border-radius:4px;margin-right:auto;margin-left:8px;
+}
+aside{--doc-sidebar-w:260px;}
+@media(max-width:720px){
+  aside{--doc-sidebar-w:0px;}
 }
 </style>

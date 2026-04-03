@@ -254,6 +254,7 @@ useSeoMeta({
 </i18n>
 
 <template>
+  <main>
   <el-button @click="filtersHidden=!filtersHidden" class="mobile-only expand-button">
     {{ filtersHidden ? '↓' : '↑' }}
   </el-button>
@@ -501,10 +502,13 @@ useSeoMeta({
         </article>
       </div>
     </div>
-  </div>
+  </div></main>
 </template>
 
 <style scoped>
+main {
+  width: 100%;
+}
 
 h1 {
   margin-top: 3vh;
@@ -739,9 +743,6 @@ h1 {
   }
   .property-price {
     font-size: 1.4rem;
-  }
-  .container {
-    padding-top: 28px;
   }
 }
 

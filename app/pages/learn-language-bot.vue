@@ -201,6 +201,7 @@ useSchemaOrg([
 </i18n>
 
 <template>
+  <div class="body">
   <header>
     <h1>{{ t('title') }}</h1>
     <p>{{ t('description') }}</p>
@@ -273,10 +274,13 @@ useSchemaOrg([
       </div>
     </section>
   </main>
+  </div>
 </template>
 
 <style scoped>
-
+.body {
+  width: 100%;
+}
 header {
   background: #f8f9fa;
   color: #343a40;

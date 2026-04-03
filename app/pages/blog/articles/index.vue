@@ -18,6 +18,7 @@ const loadPage = async () => {
   const result = await getItems(locale.value, path, ["article"], undefined, 0, 8);
   articles.value = result.data
 }
+
 await loadPage();
 
 const computedArticles = computed<Article[]>(() => articles.value

@@ -327,6 +327,7 @@ useSeoMeta({
 </i18n>
 
 <template>
+  <main>
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-grid-overlay"></div>
@@ -672,9 +673,13 @@ useSeoMeta({
       </a>
     </div>
   </section>
+  </main>
 </template>
 
 <style scoped>
+main {
+  width: 100%;
+}
 section {
   --ink: #0d1b2a;
   --deep: #0a2540;
