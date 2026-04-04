@@ -3,7 +3,6 @@ import { useI18n } from "vue-i18n";
 import { computed } from "vue";
 
 const { t } = useI18n();
-const botName = 'msgboard_bot';
 const imageUrl = "https://laraue.com/images/note-board-bot-app.jpg";
 
 import {
@@ -14,6 +13,7 @@ import {
   defineReview,
   definePerson,
 } from '@unhead/schema-org/vue'
+import LMainContent from "~/components/ui/LMainContent.vue";
 
 useSchemaOrg([
   defineSoftwareApp({
@@ -31,6 +31,11 @@ useSchemaOrg([
         price: 4,
         priceCurrency: "USD",
         description: 'Unlimited types, statuses, cards, AI categorization, and CSV/Notion export'
+      }),
+      defineOffer({
+        price: 5,
+        priceCurrency: "USD",
+        description: 'Organization mode. Unlimited types, statuses, cards, AI categorization, and CSV/Notion export'
       })
     ],
     aggregateRating: defineAggregateRating({
@@ -82,1387 +87,1048 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
-    "seoTitle": "Message Board — Turn Telegram Messages into Beautiful Boards",
+    "task_label": "Task",
+    "resource_label": "Resource",
+    "idea_label": "Idea",
+    "mockup_task1": "Fix auth bug",
+    "mockup_task2": "Write docs",
+    "mockup_idea1": "Add dark mode",
+    "mockup_task3": "Redesign nav",
+    "mockup_resource1": "Figma file",
+    "mockup_task4": "Set up CI",
+    "mockup_task5": "Deploy v0.1",
+    "seoTitle": "Laraue Boards — Turn Telegram Messages into Beautiful Kanban Boards",
     "seoDescription": "Stop losing important messages in Telegram. Note Board Bot transforms saved messages into visual boards with custom statuses. Free Kanban organization for Telegram.",
-
-    "badge": "Web App + Telegram Mini App",
-    "heroTitle": "Turn Messages into Beautiful Boards",
-    "heroTitleSpan": "Beautiful Boards",
-    "heroSub": "Stop losing important messages in chat history. Forward to {botName} and organize everything visually — in seconds.",
-    "openBot": "Open {botName}",
-    "howItWorks": "How it works",
-
-    "stat1Num": "5",
-    "stat1Label": "Easy Steps",
-    "stat2Num": "4",
-    "stat2Label": "Message Types",
-    "stat3Num": "Free",
-    "stat3Label": "To Start",
-
-    "processLabel": "Process",
-    "howTitle": "From message to board in 5 steps",
-    "howSub": "No new habits to build — just forward messages you already care about.",
-
-    "step1": "Forward a message",
-    "step1Desc": "Send any Telegram message directly to {botName}",
-    "step2": "Choose a type",
-    "step2Desc": "Pick Task, Idea, Resource, or Note with one tap",
-    "step3": "Set a status",
-    "step3Desc": "Bot suggests the right status workflow for your type",
-    "step4": "Open the board",
-    "step4Desc": "All your cards appear on a clean visual Kanban board",
-    "step5": "Drag & progress",
-    "step5Desc": "Move cards across columns as your work advances",
-
-    "featuresLabel": "Features",
-    "featuresTitle": "Everything you need, nothing you don't",
-
-    "feature1Title": "Forward Any Message",
-    "feature1Desc": "Forward links, text, tasks, or ideas from any chat. The bot preserves the original sender, chat name, and timestamp.",
-    "feature2Title": "Visual Kanban Boards",
-    "feature2Desc": "Three-column boards with drag-and-drop cards. Clean, fast, and built right inside Telegram as a mini app.",
-    "feature3Title": "Color-coded Statuses",
-    "feature3Desc": "Every message type has its own workflow. Customize statuses, reorder them, and color-code each label.",
-    "feature4Title": "Instant Search",
-    "feature4Desc": "Find any saved message by keyword. Filter by type, status, or date — all your context is always one search away.",
-    "feature5Title": "Mobile-First Design",
-    "feature5Desc": "Optimized for thumbs. The mini app feels native on iOS and Android — smooth, responsive, and distraction-free.",
-    "feature6Title": "AI Auto-categorization",
-    "feature6Desc": "Premium feature: Let AI suggest the right type and status based on message content. One tap to confirm.",
-
-    "typesLabel": "Message Types",
-    "typesTitle": "Built-in workflows for every context",
-    "typesSub": "Each type comes with a default status workflow — ready to use from day one.",
-
-    "tasks": "Tasks",
-    "todo": "To Do",
-    "doing": "Doing",
-    "done": "Done",
-    "ideas": "Ideas",
-    "raw": "Raw",
-    "developing": "Developing",
-    "ready": "Ready",
-    "resources": "Resources",
-    "toRead": "To Read",
-    "reading": "Reading",
-    "archived": "Archived",
-    "notes": "Notes",
-    "draft": "Draft",
-    "final": "Final",
-    "reference": "Reference",
-
-    "pricingLabel": "Pricing",
-    "pricingTitle": "Simple, honest pricing",
-    "pricingSub": "Start free, upgrade when you need more power.",
-
-    "free": "Free",
-    "forever": "forever",
-    "premium": "Premium",
-    "perMonth": "per month",
-    "mostPopular": "Most Popular",
-
-    "featureTypes3": "3 message types",
-    "featureStatuses3": "3 statuses per type",
-    "featureCards100": "Up to 100 cards",
-    "featureBoard": "Visual Kanban board",
-    "featureSearch": "Keyword search",
-    "featureAIFree": "AI auto-categorization",
-    "featureExportFree": "Export to CSV / Notion",
-
-    "featureTypesUnlimited": "Unlimited message types",
-    "featureStatusesUnlimited": "Unlimited custom statuses",
-    "featureCardsUnlimited": "Unlimited cards",
-    "featureAIPremium": "AI auto-categorization",
-    "featureExportPremium": "Export to CSV / Notion",
-
-    "startFree": "Start for free",
-    "getPremium": "Get Premium",
-
-    "testimonialsLabel": "Testimonials",
-    "testimonialsTitle": "People who stopped losing messages",
-    "testimonialsSub": "Real people, real workflows — finally organized.",
-
-    "testimonial1": "I used to screenshot important messages and forget about them. Now I forward everything to Note Board Bot and my task board is always current. It's become part of my daily PM workflow.",
-    "testimonial1Name": "Sarah K.",
-    "testimonial1Role": "Product Manager, SaaS startup",
-
-    "testimonial2": "As a researcher, I'm constantly saving papers, links, and notes from different Telegram groups. The Resources board with 'To Read → Reading → Archived' is exactly what I needed.",
-    "testimonial2Name": "Marcus T.",
-    "testimonial2Role": "Independent Researcher",
-
-    "testimonial3": "Running a startup means constant idea overflow in chats. Note Board Bot lets me capture every idea instantly and review them properly when I have time. The AI suggestion feature is surprisingly accurate.",
-    "testimonial3Name": "Alex R.",
-    "testimonial3Role": "Founder, early-stage startup",
-
-    "ctaLabel": "Get started",
-    "ctaTitle": "Your messages deserve better than chat history",
-    "ctaSub": "Join thousands organizing their Telegram messages visually. Free to start, takes 30 seconds.",
-    "forwarded": "Forwarded from Work Chat",
-    "deadline": "Deadline: Friday — finalize the Q4 report and send to management.",
-    "nowVisible": "now visible on your board",
-    "savedAs": "Saved in"
+    "nav_home": "Home",
+    "nav_products": "Products",
+    "nav_bots": "Bots",
+    "nav_oss": "Open Source",
+    "nav_blog": "Blog",
+    "nav_github": "GitHub Profile",
+    "nav_repos": "All Repositories",
+    "nav_cta_Laraue Boards": "Open App",
+    "badge_flagship": "Flagship",
+    "tool1n": "Markdown Converter",
+    "tool2n": "AI Apartments",
+    "tool3n": "Vocabulary Bot",
+    "tool4n": "PDF to JSON",
+    "tool5n": "Markdown Translator",
+    "sidebar_label": "On this page",
+    "sidebar_open": "Open",
+    "sidebar_footer": "Laraue Software\nSmall team, serious craft.",
+    "sec_top": "Overview",
+    "sec_use_cases": "Use cases",
+    "sec_platforms": "Platforms",
+    "sec_features": "Features",
+    "sec_how": "How it works",
+    "sec_pricing": "Pricing",
+    "open_webapp": "Web App",
+    "hero_eyebrow": "Boards by Laraue Software",
+    "hero_title": "Kanban boards\nwithout the complexity",
+    "hero_sub": "Track tasks, capture ideas, manage projects — for yourself or your team. No Jira complexity, no Notion learning curve. Just clean boards that work.",
+    "hero_cta_web": "Open Web App",
+    "stat_free": "Free",
+    "stat_free_label": "to start",
+    "stat_types_label": "board types",
+    "stat_modes_label": "modes: personal & team",
+    "stat_setup_label": "s. to get started",
+    "mockup_title": "My Board — Sprint 3",
+    "k_todo": "To Do",
+    "k_doing": "Doing",
+    "k_done": "Done",
+    "org_badge": "3 team members online",
+    "uc_label": "Built for two worlds",
+    "uc_title": "Personal productivity\nor team coordination",
+    "uc_sub": "Laraue Boards adapts to how you work — solo or with a team. Switch modes anytime.",
+    "uc_personal_title": "Personal use",
+    "uc_personal_desc": "Capture and organize your thoughts, tasks and resources without context switching. Forward Telegram messages directly to your board.",
+    "uc_p1": "Capture Telegram messages with one forward",
+    "uc_p2": "Organize tasks, ideas, notes and reading lists",
+    "uc_p3": "Search everything by keyword instantly",
+    "uc_p4": "AI auto-suggests the right category",
+    "uc_p_cta": "Start with Telegram bot",
+    "uc_teams_title": "Small teams",
+    "uc_teams_desc": "A lightweight Jira alternative for teams that find Jira overwhelming. Create an organization, invite teammates, track work together.",
+    "uc_t1": "Organization mode with shared boards",
+    "uc_t2": "Invite teammates via Telegram",
+    "uc_t3": "Assign tasks, track progress together",
+    "uc_t4": "Export to CSV / Notion anytime",
+    "uc_t_cta": "Open web app",
+    "pl_label": "Two ways to use it",
+    "pl_title": "Web app & Telegram Mini App",
+    "pl_sub": "Start in Telegram, continue in the browser. Your boards are always in sync.",
+    "web_name": "Web App",
+    "web_desc": "Full-featured Kanban experience in the browser. Sign in with your Telegram account — no separate registration needed. Works on desktop and mobile.",
+    "web_f1": "Telegram login — no password",
+    "web_f2": "Full drag-and-drop Kanban",
+    "web_f3": "Organization & team management",
+    "web_f4": "Large screen — see more, do more",
+    "tg_name": "Telegram Mini App",
+    "tg_desc": "Access your boards directly inside Telegram without leaving the app. Forward any message to the bot and it lands on your board in seconds.",
+    "tg_f1": "Forward messages from any chat",
+    "tg_f2": "Native iOS & Android feel",
+    "tg_f3": "Instant — no app to install",
+    "tg_f4": "Same boards as the web app",
+    "feat_label": "Everything you need",
+    "feat_title": "Nothing you don't",
+    "feat_sub": "Deliberately simple. Every feature earns its place.",
+    "f1t": "Visual Kanban Boards",
+    "f1d": "Drag-and-drop cards across columns. Clean, fast, works on any screen.",
+    "f2t": "Organization Mode",
+    "f2d": "Create a shared workspace, invite teammates, manage boards together.",
+    "f3t": "Forward to Board",
+    "f3d": "Send any Telegram message to the bot and it appears as a card instantly.",
+    "f4t": "Custom Workflows",
+    "f4d": "Define your own statuses per board type. Color-code, reorder, rename freely.",
+    "f5t": "Instant Search",
+    "f5d": "Find any card by keyword. Filter by type, status or date in one click.",
+    "f6t": "AI Categorization",
+    "f6d": "Premium: AI reads your message and suggests the right type and status.",
+    "f7t": "Export",
+    "f7d": "Export any board to CSV or Notion. Your data is always portable.",
+    "f8t": "Privacy first",
+    "f8d": "Your data is never sold. Login via Telegram — no new password.",
+    "f9t": "Honest free tier",
+    "f9d": "Real free plan, not a 14-day trial. Upgrade only when you need more.",
+    "how_label": "Getting started",
+    "how_title": "From zero to organized in 5 steps",
+    "step1t": "Open the app",
+    "step1d": "Sign in at Laraue Boards.laraue.com with Telegram, or open",
+    "step2t": "Create a board",
+    "step2d": "Pick a template or start blank. Name your columns.",
+    "step3t": "Add cards",
+    "step3d": "Type a task, or forward any Telegram message directly to the board.",
+    "step4t": "Invite your team",
+    "step4d": "Optional: create an organization and invite teammates via Telegram.",
+    "step5t": "Ship things",
+    "step5d": "Drag cards, track progress, export when you need to.",
+    "wf_label": "Built-in templates",
+    "wf_title": "Ready-to-use workflows",
+    "wf_sub": "Each type ships with a sensible default — customize anytime.",
+    "wf_tasks": "Tasks",
+    "wf_ideas": "Ideas",
+    "wf_resources": "Resources",
+    "wf_notes": "Notes",
+    "wf_todo": "To Do",
+    "wf_doing": "Doing",
+    "wf_done": "Done",
+    "wf_raw": "Raw",
+    "wf_developing": "Developing",
+    "wf_ready": "Ready",
+    "wf_toread": "To Read",
+    "wf_reading": "Reading",
+    "wf_archived": "Archived",
+    "wf_draft": "Draft",
+    "wf_final": "Final",
+    "wf_reference": "Reference",
+    "pr_label": "Simple pricing",
+    "pr_title": "Start free, grow when ready",
+    "pr_sub": "No surprises. No trial periods. The free plan is real.",
+    "tier_free": "Free",
+    "tier_premium": "Premium",
+    "tier_team": "Team",
+    "pr_forever": "forever",
+    "pr_month": "per month",
+    "pr_month_member": "per member / month",
+    "pf1": "4 board types",
+    "pf2": "3 statuses per type",
+    "pf3": "Up to 100 cards",
+    "pf4": "Web app + Telegram",
+    "pf5": "Keyword search",
+    "pf6": "AI categorization",
+    "pf7": "Export to CSV / Notion",
+    "pf8": "Team organization",
+    "pp1": "Unlimited board types",
+    "pp2": "Unlimited custom statuses",
+    "pp3": "Unlimited cards",
+    "pp4": "Web app + Telegram",
+    "pp5": "Keyword search",
+    "pt1": "Everything in Premium",
+    "pt2": "Organization workspace",
+    "pt3": "Shared team boards",
+    "pt4": "Invite via Telegram",
+    "pt5": "Task assignment",
+    "pt6": "Priority support",
+    "pr_start_free": "Start free",
+    "pr_get_premium": "Get Premium",
+    "pr_start_team": "Start team trial",
+    "pr_note": "All plans include Telegram login. No credit card required to start.",
+    "tm_label": "People using it",
+    "tm_title": "What they say",
+    "tm1": "I used to screenshot important messages and forget about them. Now I forward everything and my task board is always current. It became part of my daily PM workflow.",
+    "tm1_role": "Product Manager, SaaS startup",
+    "tm2": "We were using Jira for a 3-person team. Way too much overhead. Laraue Boards gives us exactly what we need — shared boards, no configuration hell.",
+    "tm2_role": "Co-founder, early-stage startup",
+    "tm3": "As a researcher I save papers and notes from different Telegram groups constantly. The Resources board with Reading → Archived is exactly the workflow I needed.",
+    "tm3_role": "Independent Researcher",
+    "cta_label": "Get started today",
+    "cta_title": "Your work deserves\nbetter than chat history",
+    "cta_sub": "Free to start. No credit card. Works in 30 seconds.",
+    "footer_tag": "Small team. Serious craft. Software built to last.",
+    "footer_products": "Other products",
+    "footer_company": "Company",
+    "nav_about": "About",
+    "footer_made": "Built with care, shipped with purpose."
   },
   "ru": {
-    "seoTitle": "Message Board — Превращайте сообщения Telegram в красивые доски",
+    "task_label": "Задача",
+    "resource_label": "Ресурс",
+    "idea_label": "Идея",
+    "mockup_task1": "Пофиксить баг",
+    "mockup_task2": "Написать доки",
+    "mockup_idea1": "Добавить темную тему",
+    "mockup_task3": "Редизайн навигации",
+    "mockup_resource1": "Файл Figma",
+    "mockup_task4": "Настроить CI",
+    "mockup_task5": "Релиз v0.1",
+    "seoTitle": "Laraue Boards — Превращайте сообщения Telegram в красивые Kanban-доски",
     "seoDescription": "Перестаньте терять важные сообщения в Telegram. Note Board Bot превращает сохраненные сообщения в визуальные доски с настраиваемыми статусами. Бесплатная Kanban-организация для Telegram.",
-
-    "badge": "Web App + Telegram Mini App",
-    "heroTitle": "Превращайте сообщения в ",
-    "heroTitleSpan": "Kanban доски",
-    "heroSub": "Хватит терять важные сообщения в истории чатов. Пересылайте их в {botName} и организуйте все визуально — за секунды.",
-    "openBot": "Открыть {botName}",
-    "howItWorks": "Как это работает",
-
-    "stat1Num": "5",
-    "stat1Label": "Шагов",
-    "stat2Num": "4",
-    "stat2Label": "Типа сообщений",
-    "stat3Num": "Бесплатно",
-    "stat3Label": "Для старта",
-
-    "processLabel": "Процесс",
-    "howTitle": "От сообщения до доски за 5 шагов",
-    "howSub": "Никаких новых привычек — просто пересылайте сообщения, которые вам важны.",
-
-    "step1": "Перешлите сообщение",
-    "step1Desc": "Отправьте любое сообщение из Telegram в {botName}",
-    "step2": "Выберите тип",
-    "step2Desc": "Выберите тип - Задача, Идея, Ресурс или Заметка",
-    "step3": "Укажите статус",
-    "step3Desc": "Бот предложит подходящий workflow для вашего типа",
-    "step4": "Откройте доску",
-    "step4Desc": "Все карточки появятся на чистой визуальной Kanban-доске",
-    "step5": "Перетаскивайте",
-    "step5Desc": "Двигайте карточки между колонками по мере прогресса",
-
-    "featuresLabel": "Возможности",
-    "featuresTitle": "Всё необходимое, ничего лишнего",
-
-    "feature1Title": "Пересылайте любые сообщения",
-    "feature1Desc": "Пересылайте ссылки, текст, задачи или идеи из любого чата. Бот сохраняет отправителя, название чата и время.",
-    "feature2Title": "Визуальные Kanban-доски",
-    "feature2Desc": "Доски с карточками, которые можно перетаскивать. Прямо внутри Telegram, в мини-приложении.",
-    "feature3Title": "Цветные статусы",
-    "feature3Desc": "У каждого типа сообщений свой workflow. Настраивайте статусы, меняйте порядок и назначайте цвета.",
-    "feature4Title": "Мгновенный поиск",
-    "feature4Desc": "Находите любое сообщение по ключевым словам. Фильтруйте по типу, статусу или дате.",
-    "feature5Title": "Мобильный дизайн",
-    "feature5Desc": "Оптимизировано для больших пальцев. Мини-приложение работает как нативное и на iOS и на Android — плавно и отзывчиво.",
-    "feature6Title": "AI-категоризация",
-    "feature6Desc": "Платная функция: ИИ предлагает тип и статус на основе содержания сообщения. Одно нажатие для подтверждения.",
-
-    "typesLabel": "Типы сообщений",
-    "typesTitle": "Готовые workflow для любых задач",
-    "typesSub": "У каждого категории задачи предустановленные статусы — можно начать использовать моментально.",
-
-    "tasks": "Задачи",
-    "todo": "К выполнению",
-    "doing": "В процессе",
-    "done": "Готово",
-    "ideas": "Идеи",
-    "raw": "Черновик",
-    "developing": "Разработка",
-    "ready": "Готова",
-    "resources": "Ресурсы",
-    "toRead": "К прочтению",
-    "reading": "Читаю",
-    "archived": "В архиве",
-    "notes": "Заметки",
-    "draft": "Черновик",
-    "final": "Готово",
-    "reference": "Для справки",
-
-    "pricingLabel": "Цены",
-    "pricingTitle": "Простые и честное ценообразование",
-    "pricingSub": "Начните бесплатно, активируйте новый функионал по мере необходимости.",
-
-    "free": "Бесплатно",
-    "forever": "навсегда",
-    "premium": "Премиум",
-    "perMonth": "в месяц",
-    "mostPopular": "Выбор большинства",
-
-    "featureTypes3": "3 типа сообщений",
-    "featureStatuses3": "3 статуса на тип",
-    "featureCards100": "До 100 карточек",
-    "featureBoard": "Визуальная Kanban-доска",
-    "featureSearch": "Поиск по ключевым словам",
-    "featureAIFree": "AI-категоризация",
-    "featureExportFree": "Экспорт в CSV / Notion",
-
-    "featureTypesUnlimited": "Безлимитные типы сообщений",
-    "featureStatusesUnlimited": "Безлимитные статусы",
-    "featureCardsUnlimited": "Безлимитные карточки",
-    "featureAIPremium": "AI-категоризация",
-    "featureExportPremium": "Экспорт в CSV / Notion",
-
-    "startFree": "Начать бесплатно",
-    "getPremium": "Купить Премиум",
-
-    "testimonialsLabel": "Отзывы",
-    "testimonialsTitle": "Люди, которые перестали путаться в сообщениях",
-    "testimonialsSub": "Реальные люди, реальные рабочие процессы.",
-
-    "testimonial1": "Раньше я делал скриншоты важных сообщений и забывал о них. Теперь я пересылаю всё в Note Board Bot, и моя доска задач всегда актуальна. Это стало частью моего ежедневного рабочего процесса.",
-    "testimonial1Name": "Сара К.",
-    "testimonial1Role": "Продакт-менеджер, SaaS-стартап",
-
-    "testimonial2": "Как исследователь, я постоянно сохраняю статьи, ссылки и заметки из разных Telegram-групп. Доска Ресурсов с этапами 'К прочтению → Читаю → В архиве' — это именно то, что мне нужно.",
-    "testimonial2Name": "Маркус Т.",
-    "testimonial2Role": "Независимый исследователь",
-
-    "testimonial3": "Управление стартапом означает постоянный поток идей в чатах. Note Board Bot позволяет мгновенно сохранять каждую идею и просматривать их, когда есть время. AI-функция удивительно точная.",
-    "testimonial3Name": "Алекс Р.",
-    "testimonial3Role": "Основатель, стартап на ранней стадии",
-
-    "ctaLabel": "Начните сейчас",
-    "ctaTitle": "Ваши сообщения это нечто большее, чем история чата",
-    "ctaSub": "Присоединяйтесь к тысячам людей, которые организуют сообщения Telegram визуально. Бесплатно, займет 30 секунд.",
-    "forwarded": "Переслано из рабочего чата",
-    "deadline": "Дедлайн: Пятница — закочить отчет за 4-й квартал и отправить начальству.",
-    "nowVisible": "теперь на Kanban доске",
-    "savedAs": "Сохранено в"
+    "nav_home": "Главная",
+    "nav_products": "Продукты",
+    "nav_bots": "Боты",
+    "nav_oss": "Open Source",
+    "nav_blog": "Блог",
+    "nav_github": "Профиль GitHub",
+    "nav_repos": "Все репозитории",
+    "nav_cta_Laraue Boards": "Открыть приложение",
+    "badge_flagship": "Главный",
+    "tool1n": "Markdown конвертер",
+    "tool2n": "AI квартиры",
+    "tool3n": "Бот-словарь",
+    "tool4n": "PDF в JSON",
+    "tool5n": "Markdown переводчик",
+    "sidebar_label": "На этой странице",
+    "sidebar_open": "Открыть",
+    "sidebar_footer": "Laraue Software\nНебольшая команда, серьёзный подход.",
+    "sec_top": "Обзор",
+    "sec_use_cases": "Кейсы",
+    "sec_platforms": "Платформы",
+    "sec_features": "Функции",
+    "sec_how": "Как это работает",
+    "sec_pricing": "Цены",
+    "open_webapp": "Веб-приложение",
+    "hero_eyebrow": "Boards от Laraue Software",
+    "hero_title": "Kanban-доски\nбез лишней сложности",
+    "hero_sub": "Отслеживайте задачи, сохраняйте идеи, управляйте проектами — для себя или вашей команды. Без сложности Jira и долгого обучения Notion.",
+    "hero_cta_web": "Открыть веб-приложение",
+    "stat_free": "Free",
+    "stat_free_label": "для старта",
+    "stat_types_label": "типа досок",
+    "stat_modes_label": "режима: личный и командный",
+    "stat_setup_label": "сек. чтобы начать",
+    "mockup_title": "Моя доска — Спринт 3",
+    "k_todo": "Сделать",
+    "k_doing": "В работе",
+    "k_done": "Готово",
+    "org_badge": "3 участника онлайн",
+    "uc_label": "Для двух сценариев",
+    "uc_title": "Личная продуктивность\nили командная работа",
+    "uc_sub": "Laraue Boards адаптируются под ваш стиль работы — одиночный или командный режим.",
+    "uc_personal_title": "Личное использование",
+    "uc_personal_desc": "Сохраняйте мысли, задачи и материалы без переключений контекста.",
+    "uc_p1": "Пересылайте сообщения Telegram одним действием",
+    "uc_p2": "Организуйте задачи, идеи, заметки и ресурсы",
+    "uc_p3": "Мгновенный поиск по ключевому слову",
+    "uc_p4": "AI автоматически предлагает категорию",
+    "uc_p_cta": "Начать через Telegram",
+    "uc_teams_title": "Небольшие команды",
+    "uc_teams_desc": "Лёгкая альтернатива Jira для команд, которые ищут более простые и дешевые варианты.",
+    "uc_t1": "Режим организации с общими досками",
+    "uc_t2": "Приглашайте коллег через Telegram",
+    "uc_t3": "Назначайте задачи, отслеживайте прогресс",
+    "uc_t4": "Экспорт в CSV / Notion в любой момент",
+    "uc_t_cta": "Открыть веб-приложение",
+    "pl_label": "Два способа использования",
+    "pl_title": "Веб-приложение и Telegram Mini App",
+    "pl_sub": "Начните в Telegram, продолжайте в браузере. Доски всегда синхронизированы.",
+    "web_name": "Веб-приложение",
+    "web_desc": "Полноценный Kanban в браузере. Вход через аккаунт Telegram без дополнительной регистрации.",
+    "web_f1": "Вход через Telegram — без пароля",
+    "web_f2": "Drag-and-drop Kanban",
+    "web_f3": "Управление организацией и командой",
+    "web_f4": "Адаптация под Большой экран",
+    "tg_name": "Telegram Mini App",
+    "tg_desc": "Доступ к Boards прямо внутри Telegram. Перешлите любое сообщение боту — оно сразу появится на доске.",
+    "tg_f1": "Пересылка сообщений из любого чата",
+    "tg_f2": "Нативный iOS и Android",
+    "tg_f3": "Мгновенно — не нужно ничего устанавливать",
+    "tg_f4": "Те же доски, что в веб-приложении",
+    "feat_label": "Всё, что нужно",
+    "feat_title": "И ничего лишнего",
+    "feat_sub": "Намеренная простота. Каждая функция действительно полезна.",
+    "f1t": "Визуальные Kanban-доски",
+    "f1d": "Drag-and-drop карточки по колонкам.",
+    "f2t": "Режим организации",
+    "f2d": "Создайте общее пространство, приглашайте коллег.",
+    "f3t": "Пересылка на доску",
+    "f3d": "Отправьте сообщение боту — оно станет карточкой.",
+    "f4t": "Пользовательские рабочие процессы",
+    "f4d": "Свои статусы, цвета, порядок колонок.",
+    "f5t": "Мгновенный поиск",
+    "f5d": "Найдите любую карточку по ключевому слову.",
+    "f6t": "AI-категоризация",
+    "f6d": "Premium: AI предлагает тип и статус по содержанию.",
+    "f7t": "Экспорт",
+    "f7d": "Экспорт в CSV или Notion. Данные всегда ваши.",
+    "f8t": "Конфиденциальность",
+    "f8d": "Данные не продаются. Вход через Telegram.",
+    "f9t": "Честный бесплатный тариф",
+    "f9d": "Настоящий бесплатный тариф, а не пробный период.",
+    "how_label": "Начало работы",
+    "how_title": "От нуля до организованности за 5 шагов",
+    "step1t": "Откройте приложение",
+    "step1d": "Авторизуйтесь на msgboard.laraue.com через Telegram или откройте",
+    "step2t": "Создайте доску",
+    "step2d": "Выберите шаблон или настройте самостоятельно.",
+    "step3t": "Добавьте карточки",
+    "step3d": "Напишите задачу или перешлите сообщение из Telegram.",
+    "step4t": "Пригласите команду",
+    "step4d": "Опционально: создайте организацию и пригласите коллег.",
+    "step5t": "Делайте дела",
+    "step5d": "Перетаскивайте карточки, экспортируйте по необходимости.",
+    "wf_label": "Встроенные шаблоны",
+    "wf_title": "Готовые рабочие доски",
+    "wf_sub": "Каждая с предустановленным шаблоном.",
+    "wf_tasks": "Задачи",
+    "wf_ideas": "Идеи",
+    "wf_resources": "Ресурсы",
+    "wf_notes": "Заметки",
+    "wf_todo": "Сделать",
+    "wf_doing": "В работе",
+    "wf_done": "Готово",
+    "wf_raw": "Не проработана",
+    "wf_developing": "В работе",
+    "wf_ready": "Готова",
+    "wf_toread": "К чтению",
+    "wf_reading": "Чтение",
+    "wf_archived": "Архив",
+    "wf_draft": "Черновик",
+    "wf_final": "Готово",
+    "wf_reference": "Для справки",
+    "pr_label": "Простое ценообразование",
+    "pr_title": "Начните бесплатно, переходите на другой тариф, если потребуется",
+    "pr_sub": "Без сюрпризов. Без пробных периодов. Бесплатный тариф не ограничен по времени.",
+    "tier_free": "Бесплатно",
+    "tier_premium": "Premium",
+    "tier_team": "Команда",
+    "pr_forever": "навсегда",
+    "pr_month": "в месяц",
+    "pr_month_member": "за участника / месяц",
+    "pf1": "4 типа досок",
+    "pf2": "3 статуса на тип",
+    "pf3": "До 100 карточек",
+    "pf4": "Веб + Telegram",
+    "pf5": "Поиск по ключевому слову",
+    "pf6": "AI-категоризация",
+    "pf7": "Экспорт в CSV / Notion",
+    "pf8": "Командная организация",
+    "pp1": "Неограниченно типов досок",
+    "pp2": "Неограниченно статусов",
+    "pp3": "Неограниченно карточек",
+    "pp4": "Веб + Telegram",
+    "pp5": "Поиск",
+    "pt1": "Всё из Premium",
+    "pt2": "Пространство организации",
+    "pt3": "Общие доски",
+    "pt4": "Приглашение через Telegram",
+    "pt5": "Назначение задач",
+    "pt6": "Приоритетная поддержка",
+    "pr_start_free": "Начать бесплатно",
+    "pr_get_premium": "Получить Premium",
+    "pr_start_team": "Начать пробный период для команды",
+    "pr_note": "Все планы включают веб-версию с авторизацией через Telegram. Привязка банковской карты не требуется.",
+    "tm_label": "Пользователи",
+    "tm_title": "Что говорят",
+    "tm1": "Я раньше делал скриншоты важных сообщений и забывал о них. Теперь пересылаю всё боту — доска всегда актуальна.",
+    "tm1_role": "Продакт-менеджер",
+    "tm2": "Мы использовали Jira в команде из 3 человек. Слишком много настроек. Laraue Boards даёт ровно то, что нужно.",
+    "tm2_role": "Со-основатель стартапа",
+    "tm3": "Как исследователь я постоянно сохраняю ссылки и заметки из чатов. Доска ресурсов — именно то, что мне нужно.",
+    "tm3_role": "Независимый исследователь",
+    "cta_label": "Начните сегодня",
+    "cta_title": "Ваши заметки заслуживают большего, чем затеряться в чате",
+    "cta_sub": "Бесплатно. Без карты. За 30 секунд.",
+    "footer_tag": "Небольшая команда. Серьёзный подход. Надолго.",
+    "footer_products": "Другие продукты",
+    "footer_company": "Компания",
+    "nav_about": "О нас",
+    "footer_made": "Сделанно с заботой, выпущено с умом."
   }
 }
 </i18n>
 
 <template>
-  <main>
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-grid-overlay"></div>
-
-    <div class="hero-left">
-      <div class="badge">{{ t('badge') }}</div>
-      <h1 class="hero-title">
-        {{ t('heroTitle').replace('Beautiful Boards', '') }}<span>{{ t('heroTitleSpan') }}</span>
-      </h1>
-      <p class="hero-sub">
-        {{ t('heroSub', { botName: '@' + botName }) }}
-      </p>
-      <div class="hero-ctas">
-        <a :href="'https://t.me/' + botName" target="_blank" rel="nofollow" class="btn-primary">
-          <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 6.628 5.374 12 12 12 6.629 0 12-5.372 12-12C24 5.373 18.629 0 12 0zm5.562 8.247l-2.01 9.465c-.147.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.215-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.48 14.52l-2.95-.924c-.64-.2-.652-.64.135-.948l11.547-4.452c.533-.194 1.001.13.35.051z"/></svg>
-          {{ t('openBot', { botName: '@' + botName }) }}
-        </a>
-        <a href="#how-it-works" class="btn-secondary">
-          {{ t('howItWorks') }} →
-        </a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-num">{{ t('stat1Num') }}</div>
-          <div class="stat-label">{{ t('stat1Label') }}</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">{{ t('stat2Num') }}</div>
-          <div class="stat-label">{{ t('stat2Label') }}</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">{{ t('stat3Num') }}</div>
-          <div class="stat-label">{{ t('stat3Label') }}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero-right">
-      <div class="phone-mockup">
-        <div class="phone-screen">
-          <div class="phone-notch"></div>
-          <div class="tg-header">
-            <div class="tg-avatar">📋</div>
+  <LMainContent>
+    <!-- ══ HERO ══ -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-inner">
+        <div>
+          <div class="platform-badges">
+            <span class="platform-badge web">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              Web App
+            </span>
+            <span class="platform-badge tg">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.92c-.12.54-.46.67-.93.42l-2.58-1.9-1.24 1.2c-.14.13-.26.25-.52.25l.18-2.6 4.74-4.28c.2-.18-.05-.28-.32-.1L7.36 14.5l-2.52-.79c-.55-.17-.56-.55.11-.81l9.86-3.8c.46-.17.86.11.83.7z"/></svg>
+              Telegram Mini App
+            </span>
+          </div>
+          <div class="hero-eyebrow">{{ t('hero_eyebrow') }}</div>
+          <h1 class="hero-title" id="hero-heading">{{ t('hero_title') }}</h1>
+          <p class="hero-sub">{{ t('hero_sub') }}</p>
+          <div class="hero-actions">
+            <a target="_blank" href="https://msgboard.laraue.com/" class="btn-primary">{{ t('hero_cta_web') }}
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </a>
+            <a href="https://t.me/msgboard_bot" class="btn-tg" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.92c-.12.54-.46.67-.93.42l-2.58-1.9-1.24 1.2c-.14.13-.26.25-.52.25l.18-2.6 4.74-4.28c.2-.18-.05-.28-.32-.1L7.36 14.5l-2.52-.79c-.55-.17-.56-.55.11-.81l9.86-3.8c.46-.17.86.11.83.7z"/></svg>
+              @msgboard_bot
+            </a>
+          </div>
+          <div class="hero-stats">
             <div>
-              <div class="tg-name">Note Board Bot</div>
-              <div class="tg-status">● online</div>
+              <div class="hero-stat-num">{{ t('stat_free') }}</div>
+              <div class="hero-stat-label">{{ t('stat_free_label') }}</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">4</div>
+              <div class="hero-stat-label">{{ t('stat_types_label') }}</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">2</div>
+              <div class="hero-stat-label">{{ t('stat_modes_label') }}</div>
+            </div>
+            <div>
+              <div class="hero-stat-num">30</div>
+              <div class="hero-stat-label">{{ t('stat_setup_label') }}</div>
             </div>
           </div>
-          <div class="tg-messages">
-            <div class="tg-msg">
-              <div>{{ t('forwarded') }}</div>
-              <div style="margin-top:4px;color:#5b80a8;font-size:10px;">{{ t('deadline') }}</div>
-              <div class="msg-meta">12:41</div>
+        </div>
+
+        <!-- Kanban mockup -->
+        <div class="hero-visual">
+          <div class="kanban-mockup">
+            <div class="kanban-mockup-bar">
+              <div class="kanban-mockup-dots"><span></span><span></span><span></span></div>
+              <span class="kanban-mockup-title">{{ t('mockup_title') }}</span>
             </div>
-            <div class="tg-msg bot">
-              <div>{{ t('step2') }}</div>
-              <div class="tg-types">
-                <div class="tg-type-btn">📋 {{ t('tasks') }}</div>
-                <div class="tg-type-btn">💡 {{ t('ideas') }}</div>
-                <div class="tg-type-btn">📚 {{ t('resources') }}</div>
-                <div class="tg-type-btn">📝 {{ t('notes') }}</div>
+            <div class="kanban-mockup-body">
+              <div class="km-col">
+                <div class="km-col-title">{{ t('k_todo') }}</div>
+                <div class="km-card red"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task1') }}</div>
+                <div class="km-card red"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task2') }}</div>
+                <div class="km-card purple"><div class="km-card-label">{{ t('idea_label') }}</div>{{ t('mockup_idea1') }}</div>
               </div>
-              <div class="msg-meta">12:41</div>
+              <div class="km-col">
+                <div class="km-col-title">{{ t('k_doing') }}</div>
+                <div class="km-card blue"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task3') }}</div>
+                <div class="km-card blue"><div class="km-card-label">{{ t('resource_label') }}</div>{{ t('mockup_resource1') }}</div>
+              </div>
+              <div class="km-col">
+                <div class="km-col-title">{{ t('k_done') }}</div>
+                <div class="km-card green"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task4') }}</div>
+                <div class="km-card green"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task5') }}</div>
+              </div>
             </div>
-            <div class="tg-msg">
-              📋 {{ t('tasks') }}
-              <div class="msg-meta">12:42</div>
+          </div>
+          <div class="org-badge">
+            <div class="org-badge-dot"></div>
+            <span>{{ t('org_badge') }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ USE CASES ══ -->
+    <section class="use-cases" id="use-cases">
+      <div class="use-cases-inner">
+        <div class="section-label reveal">{{ t('uc_label') }}</div>
+        <h2 class="section-title reveal">{{ t('uc_title') }}</h2>
+        <p class="section-sub reveal">{{ t('uc_sub') }}</p>
+        <div class="use-cases-grid">
+
+          <div class="use-case-card personal reveal">
+            <div class="use-case-icon">&#129504;</div>
+            <div class="use-case-title">{{ t('uc_personal_title') }}</div>
+            <p class="use-case-desc">{{ t('uc_personal_desc') }}</p>
+            <ul class="use-case-list">
+              <li>{{ t('uc_p1') }}</li>
+              <li>{{ t('uc_p2') }}</li>
+              <li>{{ t('uc_p3') }}</li>
+              <li>{{ t('uc_p4') }}</li>
+            </ul>
+            <a href="https://t.me/msgboard_bot" class="use-case-link" target="_blank" rel="noopener">{{ t('uc_p_cta') }} &#8594;</a>
+          </div>
+
+          <div class="use-case-card teams reveal">
+            <div class="use-case-icon">&#128101;</div>
+            <div class="use-case-title">{{ t('uc_teams_title') }}</div>
+            <p class="use-case-desc">{{ t('uc_teams_desc') }}</p>
+            <ul class="use-case-list">
+              <li>{{ t('uc_t1') }}</li>
+              <li>{{ t('uc_t2') }}</li>
+              <li>{{ t('uc_t3') }}</li>
+              <li>{{ t('uc_t4') }}</li>
+            </ul>
+            <a target="_blank" href="https://msgboard.laraue.com/" class="use-case-link">{{ t('uc_t_cta') }} &#8594;</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PLATFORMS ══ -->
+    <section class="platforms" id="platforms">
+      <div class="platforms-inner">
+        <div class="section-label reveal">{{ t('pl_label') }}</div>
+        <h2 class="section-title reveal">{{ t('pl_title') }}</h2>
+        <p class="section-sub reveal">{{ t('pl_sub') }}</p>
+        <div class="platforms-grid">
+
+          <div class="platform-card reveal">
+            <div class="platform-card-header">
+              <div class="platform-card-icon web">&#127760;</div>
+              <div>
+                <div class="platform-card-name">{{ t('web_name') }}</div>
+                <div class="platform-card-tag">Laraue Boards.laraue.com</div>
+              </div>
             </div>
-            <div class="tg-msg bot">
-              ✅ {{ t('savedAs') }} {{ t('tasks') }}!<br>
-              <span style="opacity:0.8;font-size:10px;">{{ t('todo') }} → {{ t('nowVisible') }}</span>
-              <div class="msg-meta">12:42</div>
+            <p class="platform-card-desc">{{ t('web_desc') }}</p>
+            <ul class="platform-card-features">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f1') }}</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f2') }}</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f3') }}</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f4') }}</span></li>
+            </ul>
+            <a target="_blank" href="https://msgboard.laraue.com/" class="btn-secondary" style="align-self:flex-start">{{ t('open_webapp') }}</a>
+          </div>
+
+          <div class="platform-card reveal">
+            <div class="platform-card-header">
+              <div class="platform-card-icon tg">&#128172;</div>
+              <div>
+                <div class="platform-card-name">{{ t('tg_name') }}</div>
+                <div class="platform-card-tag">@msgboard_bot</div>
+              </div>
             </div>
+            <p class="platform-card-desc">{{ t('tg_desc') }}</p>
+            <ul class="platform-card-features">
+              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f1') }}</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f2') }}</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f3') }}</span></li>
+              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f4') }}</span></li>
+            </ul>
+            <a href="https://t.me/msgboard_bot" class="btn-tg" style="align-self:flex-start" target="_blank" rel="noopener">&#128172; @msgboard_bot</a>
           </div>
-        </div>
-      </div>
 
-      <div class="board-float">
-        <div class="board-float-title">📋 My Board</div>
-        <div class="mini-col">
-          <div class="mini-col-label">{{ t('todo') }}</div>
-          <div class="mini-card">Q4 Report</div>
-          <div class="mini-card">Team call</div>
-        </div>
-        <div class="mini-col">
-          <div class="mini-col-label">{{ t('doing') }}</div>
-          <div class="mini-card" style="border-color:#22c55e;color:#16a34a;background:#f0fdf4;">Research doc</div>
-        </div>
-        <div class="mini-col">
-          <div class="mini-col-label">{{ t('done') }}</div>
-          <div class="mini-card" style="border-color:#94a3b8;color:#64748b;background:#f8fafc;">Logo brief</div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- HOW IT WORKS -->
-  <section class="how" id="how-it-works">
-    <div class="container">
-      <div class="how-header">
-        <div class="section-label">{{ t('processLabel') }}</div>
-        <h2 class="section-title">{{ t('howTitle') }}</h2>
-        <p class="section-sub">{{ t('howSub') }}</p>
-      </div>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <div class="step-text">
-            <strong>{{ t('step1') }}</strong><br>
-            {{ t('step1Desc', {botName: '@' + botName}) }}
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <div class="step-text">
-            <strong>{{ t('step2') }}</strong><br>
-            {{ t('step2Desc') }}
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <div class="step-text">
-            <strong>{{ t('step3') }}</strong><br>
-            {{ t('step3Desc') }}
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <div class="step-text">
-            <strong>{{ t('step4') }}</strong><br>
-            {{ t('step4Desc') }}
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num">5</div>
-          <div class="step-text">
-            <strong>{{ t('step5') }}</strong><br>
-            {{ t('step5Desc') }}
-          </div>
+    <!-- ══ FEATURES ══ -->
+    <section class="features" id="features">
+      <div class="features-inner">
+        <div class="section-label reveal">{{ t('feat_label') }}</div>
+        <h2 class="section-title reveal">{{ t('feat_title') }}</h2>
+        <p class="section-sub reveal">{{ t('feat_sub') }}</p>
+        <div class="features-grid">
+          <div class="feat-cell reveal"><div class="feat-icon">&#128203;</div><div class="feat-title">{{ t('f1t') }}</div><div class="feat-desc">{{ t('f1d') }}</div></div>
+          <div class="feat-cell reveal"><div class="feat-icon">&#128101;</div><div class="feat-title">{{ t('f2t') }}</div><div class="feat-desc">{{ t('f2d') }}</div></div>
+          <div class="feat-cell reveal"><div class="feat-icon">&#128239;</div><div class="feat-title">{{ t('f3t') }}</div><div class="feat-desc">{{ t('f3d') }}</div></div>
+          <div class="feat-cell reveal"><div class="feat-icon">&#127775;</div><div class="feat-title">{{ t('f4t') }}</div><div class="feat-desc">{{ t('f4d') }}</div></div>
+          <div class="feat-cell reveal"><div class="feat-icon">&#128269;</div><div class="feat-title">{{ t('f5t') }}</div><div class="feat-desc">{{ t('f5d') }}</div></div>
+          <div class="feat-cell reveal"><div class="feat-icon">&#10024;</div><div class="feat-title">{{ t('f6t') }}</div><div class="feat-desc">{{ t('f6d') }}</div></div>
+          <div class="feat-cell reveal"><div class="feat-icon">&#128229;</div><div class="feat-title">{{ t('f7t') }}</div><div class="feat-desc">{{ t('f7d') }}</div></div>
+          <div class="feat-cell reveal"><div class="feat-icon">&#128274;</div><div class="feat-title">{{ t('f8t') }}</div><div class="feat-desc">{{ t('f8d') }}</div></div>
+          <div class="feat-cell reveal"><div class="feat-icon">&#128176;</div><div class="feat-title">{{ t('f9t') }}</div><div class="feat-desc">{{ t('f9d') }}</div></div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FEATURES -->
-  <section class="features" id="features">
-    <div class="container">
-      <div class="section-label">{{ t('featuresLabel') }}</div>
-      <h2 class="section-title">{{ t('featuresTitle') }}</h2>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">📨</div>
-          <div class="feature-title">{{ t('feature1Title') }}</div>
-          <p class="feature-desc">{{ t('feature1Desc') }}</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🗂️</div>
-          <div class="feature-title">{{ t('feature2Title') }}</div>
-          <p class="feature-desc">{{ t('feature2Desc') }}</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🏷️</div>
-          <div class="feature-title">{{ t('feature3Title') }}</div>
-          <p class="feature-desc">{{ t('feature3Desc') }}</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔍</div>
-          <div class="feature-title">{{ t('feature4Title') }}</div>
-          <p class="feature-desc">{{ t('feature4Desc') }}</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📱</div>
-          <div class="feature-title">{{ t('feature5Title') }}</div>
-          <p class="feature-desc">{{ t('feature5Desc') }}</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">✨</div>
-          <div class="feature-title">{{ t('feature6Title') }}</div>
-          <p class="feature-desc">{{ t('feature6Desc') }}</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MESSAGE TYPES -->
-  <section class="types" id="types">
-    <div class="container">
-      <div class="types-header">
-        <div class="section-label">{{ t('typesLabel') }}</div>
-        <h2 class="section-title">{{ t('typesTitle') }}</h2>
-        <p class="section-sub">{{ t('typesSub') }}</p>
-      </div>
-      <div class="types-grid">
-        <div class="type-card">
-          <div class="type-header">
-            <div class="type-emoji">📋</div>
-            <div class="type-name">{{ t('tasks') }}</div>
-          </div>
-          <div class="type-stages">
-            <div class="stage"><div class="stage-dot"></div>{{ t('todo') }}</div>
-            <div class="stage"><div class="stage-dot"></div>{{ t('doing') }}</div>
-            <div class="stage"><div class="stage-dot"></div>{{ t('done') }}</div>
-          </div>
-        </div>
-        <div class="type-card">
-          <div class="type-header">
-            <div class="type-emoji">💡</div>
-            <div class="type-name">{{ t('ideas') }}</div>
-          </div>
-          <div class="type-stages">
-            <div class="stage"><div class="stage-dot"></div>{{ t('raw') }}</div>
-            <div class="stage"><div class="stage-dot"></div>{{ t('developing') }}</div>
-            <div class="stage"><div class="stage-dot"></div>{{ t('ready') }}</div>
-          </div>
-        </div>
-        <div class="type-card">
-          <div class="type-header">
-            <div class="type-emoji">📚</div>
-            <div class="type-name">{{ t('resources') }}</div>
-          </div>
-          <div class="type-stages">
-            <div class="stage"><div class="stage-dot"></div>{{ t('toRead') }}</div>
-            <div class="stage"><div class="stage-dot"></div>{{ t('reading') }}</div>
-            <div class="stage"><div class="stage-dot"></div>{{ t('archived') }}</div>
-          </div>
-        </div>
-        <div class="type-card">
-          <div class="type-header">
-            <div class="type-emoji">📝</div>
-            <div class="type-name">{{ t('notes') }}</div>
-          </div>
-          <div class="type-stages">
-            <div class="stage"><div class="stage-dot"></div>{{ t('draft') }}</div>
-            <div class="stage"><div class="stage-dot"></div>{{ t('final') }}</div>
-            <div class="stage"><div class="stage-dot"></div>{{ t('reference') }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section class="pricing" id="pricing">
-    <div class="container">
-      <div class="pricing-header">
-        <div class="section-label">{{ t('pricingLabel') }}</div>
-        <h2 class="section-title">{{ t('pricingTitle') }}</h2>
-        <p class="section-sub">{{ t('pricingSub') }}</p>
-      </div>
-      <div class="pricing-grid">
-        <div class="price-card">
-          <div class="price-tier">{{ t('free') }}</div>
-          <div class="price-amount">$0</div>
-          <div class="price-period">{{ t('forever') }}</div>
-          <div class="price-divider"></div>
-          <div class="price-features">
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureTypes3') }}</span></div>
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureStatuses3') }}</span></div>
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureCards100') }}</span></div>
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureBoard') }}</span></div>
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureSearch') }}</span></div>
-            <div class="pf pf-x"><div class="pf-check">✕</div><span>{{ t('featureAIFree') }}</span></div>
-            <div class="pf pf-x"><div class="pf-check">✕</div><span>{{ t('featureExportFree') }}</span></div>
-          </div>
-          <a target="_blank" rel="nofollow" :href="'https://t.me/' + botName" class="btn-price">{{ t('startFree') }}</a>
-        </div>
-        <div class="price-card featured">
-          <div class="price-popular">{{ t('mostPopular') }}</div>
-          <div class="price-tier">{{ t('premium') }}</div>
-          <div class="price-amount">$4</div>
-          <div class="price-period">{{ t('perMonth') }}</div>
-          <div class="price-divider"></div>
-          <div class="price-features">
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureTypesUnlimited') }}</span></div>
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureStatusesUnlimited') }}</span></div>
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureCardsUnlimited') }}</span></div>
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureBoard') }}</span></div>
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureSearch') }}</span></div>
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureAIPremium') }}</span></div>
-            <div class="pf"><div class="pf-check">✓</div><span>{{ t('featureExportPremium') }}</span></div>
-          </div>
-          <a target="_blank" rel="nofollow" :href="'https://t.me/' + botName" class="btn-price">{{ t('getPremium') }}</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section class="testimonials" id="testimonials">
-    <div class="container">
-      <div class="t-header">
-        <div class="section-label">{{ t('testimonialsLabel') }}</div>
-        <h2 class="section-title">{{ t('testimonialsTitle') }}</h2>
-        <p class="section-sub">{{ t('testimonialsSub') }}</p>
-      </div>
-      <div class="t-grid">
-        <div class="t-card">
-          <div class="t-quote-mark">"</div>
-          <p class="t-text">{{ t('testimonial1') }}</p>
-          <div class="t-author">
-            <div class="t-avatar">S</div>
+    <!-- ══ HOW IT WORKS ══ -->
+    <section class="how" id="how">
+      <div class="how-inner">
+        <div class="section-label reveal">{{ t('how_label') }}</div>
+        <h2 class="section-title reveal">{{ t('how_title') }}</h2>
+        <div class="how-steps">
+          <div class="how-step reveal">
+            <div class="how-step-num">1</div>
             <div>
-              <div class="t-name">{{ t('testimonial1Name') }}</div>
-              <div class="t-role">{{ t('testimonial1Role') }}</div>
+              <div class="how-step-title">{{ t('step1t') }}</div>
+              <div class="how-step-desc">{{ t('step1d') }} @msgboard_bot.</div>
             </div>
           </div>
-        </div>
-        <div class="t-card">
-          <div class="t-quote-mark">"</div>
-          <p class="t-text">{{ t('testimonial2') }}</p>
-          <div class="t-author">
-            <div class="t-avatar">M</div>
+          <div class="how-step reveal">
+            <div class="how-step-num">2</div>
             <div>
-              <div class="t-name">{{ t('testimonial2Name') }}</div>
-              <div class="t-role">{{ t('testimonial2Role') }}</div>
+              <div class="how-step-title">{{ t('step2t') }}</div>
+              <div class="how-step-desc">{{ t('step2d') }}</div>
             </div>
           </div>
-        </div>
-        <div class="t-card">
-          <div class="t-quote-mark">"</div>
-          <p class="t-text">{{ t('testimonial3') }}</p>
-          <div class="t-author">
-            <div class="t-avatar">A</div>
+          <div class="how-step reveal">
+            <div class="how-step-num">3</div>
             <div>
-              <div class="t-name">{{ t('testimonial3Name') }}</div>
-              <div class="t-role">{{ t('testimonial3Role') }}</div>
+              <div class="how-step-title">{{ t('step3t') }}</div>
+              <div class="how-step-desc">{{ t('step3d') }}</div>
+            </div>
+          </div>
+          <div class="how-step reveal">
+            <div class="how-step-num">4</div>
+            <div>
+              <div class="how-step-title">{{ t('step4t') }}</div>
+              <div class="how-step-desc">{{ t('step4d') }}</div>
+            </div>
+          </div>
+          <div class="how-step reveal">
+            <div class="how-step-num">5</div>
+            <div>
+              <div class="how-step-title">{{ t('step5t') }}</div>
+              <div class="how-step-desc">{{ t('step5d') }}</div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- FINAL CTA -->
-  <section class="final-cta">
-    <div class="final-cta-inner">
-      <div class="section-label">{{ t('ctaLabel') }}</div>
-      <h2 class="section-title">{{ t('ctaTitle') }}</h2>
-      <p class="section-sub">{{ t('ctaSub') }}</p>
-      <a target="_blank" rel="nofollow" :href="'https://t.me/' + botName" class="btn-primary" style="display:inline-flex;">
-        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 6.628 5.374 12 12 12 6.629 0 12-5.372 12-12C24 5.373 18.629 0 12 0zm5.562 8.247l-2.01 9.465c-.147.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.215-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.48 14.52l-2.95-.924c-.64-.2-.652-.64.135-.948l11.547-4.452c.533-.194 1.001.13.35.051z"/></svg>
-        {{ t('openBot', { botName: '@' + botName }) }}
-      </a>
-    </div>
-  </section>
-  </main>
+    <!-- ══ WORKFLOWS ══ -->
+    <section class="workflows" id="workflows">
+      <div class="workflows-inner">
+        <div class="section-label reveal">{{ t('wf_label') }}</div>
+        <h2 class="section-title reveal">{{ t('wf_title') }}</h2>
+        <p class="section-sub reveal">{{ t('wf_sub') }}</p>
+        <div class="workflows-grid">
+          <div class="workflow-card reveal">
+            <div class="workflow-icon">&#128203;</div>
+            <div class="workflow-name">{{ t('wf_tasks') }}</div>
+            <div class="workflow-stages">
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#e0a653"></div><span>{{ t('wf_todo') }}</span></div>
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#6ab0f0"></div><span>{{ t('wf_doing') }}</span></div>
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#6edd9a"></div><span>{{ t('wf_done') }}</span></div>
+            </div>
+          </div>
+          <div class="workflow-card reveal">
+            <div class="workflow-icon">&#128161;</div>
+            <div class="workflow-name">{{ t('wf_ideas') }}</div>
+            <div class="workflow-stages">
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#b48ef5"></div><span>{{ t('wf_raw') }}</span></div>
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#6ab0f0"></div><span>{{ t('wf_developing') }}</span></div>
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#6edd9a"></div><span>{{ t('wf_ready') }}</span></div>
+            </div>
+          </div>
+          <div class="workflow-card reveal">
+            <div class="workflow-icon">&#128218;</div>
+            <div class="workflow-name">{{ t('wf_resources') }}</div>
+            <div class="workflow-stages">
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#e0a653"></div><span>{{ t('wf_toread') }}</span></div>
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#6ab0f0"></div><span>{{ t('wf_reading') }}</span></div>
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#aaa"></div><span>{{ t('wf_archived') }}</span></div>
+            </div>
+          </div>
+          <div class="workflow-card reveal">
+            <div class="workflow-icon">&#128221;</div>
+            <div class="workflow-name">{{ t('wf_notes') }}</div>
+            <div class="workflow-stages">
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#e0a653"></div><span>{{ t('wf_draft') }}</span></div>
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#6ab0f0"></div><span>{{ t('wf_final') }}</span></div>
+              <div class="workflow-stage"><div class="workflow-dot" style="background:#6edd9a"></div><span>{{ t('wf_reference') }}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PRICING ══ -->
+    <section class="pricing" id="pricing">
+      <div class="pricing-inner">
+        <div class="section-label reveal">{{ t('pr_label') }}</div>
+        <h2 class="section-title reveal">{{ t('pr_title') }}</h2>
+        <p class="section-sub reveal">{{ t('pr_sub') }}</p>
+        <div class="pricing-grid">
+
+          <!-- Free -->
+          <div class="pricing-card reveal">
+            <div class="pricing-tier">{{ t('tier_free') }}</div>
+            <div class="pricing-price">$0</div>
+            <div class="pricing-period">{{ t('pr_forever') }}</div>
+            <ul class="pricing-features">
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf1') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf2') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf3') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf4') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf5') }}</span></li>
+              <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>{{ t('pf6') }}</span></li>
+              <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>{{ t('pf7') }}</span></li>
+              <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>{{ t('pf8') }}</span></li>
+            </ul>
+            <a target="_blank" href="https://msgboard.laraue.com/" class="pricing-btn dark">{{ t('pr_start_free') }}</a>
+          </div>
+
+          <!-- Premium -->
+          <div class="pricing-card featured reveal">
+            <div class="pricing-tier">{{ t('tier_premium') }}</div>
+            <div class="pricing-price"><sup>$</sup>4</div>
+            <div class="pricing-period">{{ t('pr_month') }}</div>
+            <ul class="pricing-features">
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pp1') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pp2') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pp3') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pp4') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pp5') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf6') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf7') }}</span></li>
+              <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>{{ t('pf8') }}</span></li>
+            </ul>
+            <a target="_blank" href="https://msgboard.laraue.com/" class="pricing-btn accent">{{ t('pr_get_premium') }}</a>
+          </div>
+
+          <!-- Team -->
+          <div class="pricing-card reveal">
+            <div class="pricing-tier">{{ t('tier_team') }}</div>
+            <div class="pricing-price"><sup>$</sup>5</div>
+            <div class="pricing-period">{{ t('pr_month_member') }}</div>
+            <ul class="pricing-features">
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt1') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt2') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt3') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt4') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt5') }}</span></li>
+              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt6') }}</span></li>
+            </ul>
+            <a target="_blank" href="https://msgboard.laraue.com/" class="pricing-btn outline">{{ t('pr_start_team') }}</a>
+          </div>
+
+        </div>
+        <p class="pricing-note reveal">{{ t('pr_note') }}</p>
+      </div>
+    </section>
+
+    <!-- ══ TESTIMONIALS ══ -->
+    <section class="testimonials">
+      <div class="testimonials-inner">
+        <div class="section-label reveal">{{ t('tm_label') }}</div>
+        <h2 class="section-title reveal">{{ t('tm_title') }}</h2>
+        <div class="testimonials-grid">
+          <div class="testimonial-card reveal">
+            <div class="testimonial-quote">{{ t('tm1') }}</div>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">S</div>
+              <div>
+                <div class="testimonial-name">Sergey C.</div>
+                <div class="testimonial-role">{{ t('tm1_role') }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal">
+            <div class="testimonial-quote">{{ t('tm2') }}</div>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">D</div>
+              <div>
+                <div class="testimonial-name">Daniel M.</div>
+                <div class="testimonial-role">{{ t('tm2_role') }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card reveal">
+            <div class="testimonial-quote">{{ t('tm3') }}</div>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">M</div>
+              <div>
+                <div class="testimonial-name">Marcus T.</div>
+                <div class="testimonial-role">{{ t('tm3_role') }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ CTA ══ -->
+    <section class="cta-section">
+      <div class="cta-inner">
+        <div class="cta-label">{{ t('cta_label') }}</div>
+        <h2 class="cta-title">{{ t('cta_title') }}</h2>
+        <p class="cta-sub">{{ t('cta_sub') }}</p>
+        <div class="cta-actions">
+          <a target="_blank" href="https://msgboard.laraue.com/" class="btn-primary">{{ t('hero_cta_web') }}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </a>
+          <a href="https://t.me/msgboard_bot" class="btn-outline-white" target="_blank" rel="noopener">
+            &#128172; @msgboard_bot
+          </a>
+        </div>
+      </div>
+    </section>
+  </LMainContent>
 </template>
 
 <style scoped>
-main {
-  width: 100%;
-}
 section {
-  --ink: #0d1b2a;
-  --deep: #0a2540;
-  --mid: #1a4a7a;
-  --sky: #2563eb;
-  --azure: #3b82f6;
-  --mist: #93c5fd;
-  --frost: #dbeafe;
-  --white: #f8fbff;
-  --card: #ffffff;
-  --subtle: #e0eeff;
-  --text: #1e3a5f;
-  --muted: #5b80a8;
-  --radius: 16px;
-  --shadow: 0 4px 24px rgba(10, 37, 64, 0.09);
-  --shadow-lg: 0 16px 56px rgba(10, 37, 64, 0.13);
-}
-/* ── HERO ── */
-.hero {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background:
-      radial-gradient(ellipse 80% 70% at 70% -10%, #bfdbfe 0%, transparent 55%),
-      radial-gradient(ellipse 50% 60% at 100% 80%, #dbeafe 0%, transparent 50%),
-      linear-gradient(160deg, #f0f7ff 0%, #e8f2ff 60%, #d6eaff 100%);
-  z-index: 0;
-}
-
-.hero-grid-overlay {
-  position: absolute;
-  inset: 0;
-  background-image:
-      linear-gradient(rgba(37, 99, 235, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(37, 99, 235, 0.05) 1px, transparent 1px);
-  background-size: 48px 48px;
-  z-index: 0;
-}
-
-.hero-left {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 80px 56px 80px 72px;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(37, 99, 235, 0.1);
-  border: 1px solid rgba(37, 99, 235, 0.2);
-  color: var(--sky);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  border-radius: 100px;
-  width: fit-content;
-  margin-bottom: 28px;
-}
-
-.badge::before {
-  content: '';
-  width: 6px; height: 6px;
-  background: var(--sky);
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
-}
-
-.hero-title {
-  font-size: clamp(38px, 4.5vw, 60px);
-  font-weight: 800;
-  line-height: 1.08;
-  color: var(--deep);
-  margin-bottom: 20px;
-  letter-spacing: -0.02em;
-}
-
-.hero-title span {
-  background: linear-gradient(135deg, var(--sky) 0%, #60a5fa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-sub {
-  font-size: 18px;
-  color: var(--muted);
-  font-weight: 300;
-  max-width: 440px;
-  margin-bottom: 40px;
-  line-height: 1.7;
-}
-
-.hero-ctas {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--sky);
-  color: white;
-  font-size: 15px;
-  font-weight: 500;
-  padding: 14px 28px;
-  border-radius: 12px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.35);
-}
-
-.btn-primary:hover {
-  background: var(--mid);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.45);
-}
-
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: white;
-  color: var(--sky);
-  font-size: 15px;
-  font-weight: 500;
-  padding: 14px 28px;
-  border-radius: 12px;
-  text-decoration: none;
-  border: 1.5px solid var(--mist);
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.btn-secondary:hover {
-  border-color: var(--sky);
-  background: var(--frost);
-  transform: translateY(-2px);
-}
-
-.hero-stats {
-  display: flex;
-  gap: 32px;
-  margin-top: 52px;
-  padding-top: 32px;
-  border-top: 1px solid rgba(37, 99, 235, 0.12);
-}
-
-.stat-item { display: flex; flex-direction: column; gap: 2px; }
-.stat-num {
-  font-size: 26px;
-  font-weight: 700;
-  color: var(--deep);
-}
-.stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
-
-/* ── HERO RIGHT — MOCKUP ── */
-.hero-right {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  padding: 60px 40px;
-}
-
-.phone-mockup {
-  width: 280px;
-  background: #1a1a2e;
-  border-radius: 40px;
-  padding: 12px;
-  box-shadow:
-      0 40px 100px rgba(10, 37, 64, 0.25),
-      0 0 0 1px rgba(255,255,255,0.08);
-  position: relative;
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(-1deg); }
-  50% { transform: translateY(-14px) rotate(0deg); }
-}
-
-.phone-screen {
-  background: #f0f4ff;
-  border-radius: 30px;
-  overflow: hidden;
-  height: 540px;
-  display: flex;
-  flex-direction: column;
-}
-
-.phone-notch {
-  background: #1a1a2e;
-  height: 28px;
-  border-radius: 0 0 18px 18px;
-  width: 100px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 10;
-  flex-shrink: 0;
-}
-
-.tg-header {
-  background: white;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid #e8efff;
-  flex-shrink: 0;
-}
-
-.tg-avatar {
-  width: 34px; height: 34px;
-  background: linear-gradient(135deg, var(--sky), #60a5fa);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-}
-
-.tg-name { font-size: 13px; font-weight: 600; color: var(--deep); }
-.tg-status { font-size: 10px; color: #22c55e; }
-
-.tg-messages { padding: 12px; display: flex; flex-direction: column; gap: 8px; flex: 1; overflow: hidden; }
-
-.tg-msg {
-  background: white;
-  border-radius: 12px 12px 12px 4px;
-  padding: 10px 12px;
-  font-size: 11px;
-  color: var(--text);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  max-width: 82%;
-  line-height: 1.5;
-}
-
-.tg-msg.bot {
-  background: linear-gradient(135deg, var(--sky), #60a5fa);
-  color: white;
-  border-radius: 12px 12px 4px 12px;
-  align-self: flex-end;
-}
-
-.tg-msg .msg-meta { font-size: 9px; opacity: 0.55; margin-top: 3px; }
-
-.tg-types {
-  display: flex;
-  gap: 5px;
-  flex-wrap: wrap;
-  margin-top: 4px;
-}
-
-.tg-type-btn {
-  background: rgba(255,255,255,0.25);
-  border: 1px solid rgba(255,255,255,0.4);
-  color: white;
-  border-radius: 8px;
-  padding: 4px 8px;
-  font-size: 9px;
-  font-weight: 500;
-}
-
-/* Board floating card */
-.board-float {
-  position: absolute;
-  left: 370px;
-  top: 30%;
-  background: white;
-  border-radius: 14px;
-  padding: 14px;
-  box-shadow: var(--shadow-lg);
-  width: 160px;
-  animation: float2 5s ease-in-out infinite;
-  border: 1px solid var(--subtle);
-}
-
-@keyframes float2 {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-.board-float-title { font-size: 10px; font-weight: 700; color: var(--deep); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.06em; }
-
-.mini-col { margin-bottom: 6px; }
-.mini-col-label { font-size: 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-.mini-card {
-  background: var(--frost);
-  border-radius: 6px;
-  padding: 5px 8px;
-  font-size: 9px;
-  color: var(--sky);
-  font-weight: 500;
-  margin-bottom: 3px;
-  border-left: 2px solid var(--azure);
-}
-
-/* ── SECTION BASE ── */
-section { position: relative; }
-.container { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
-
-.section-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--sky);
-  margin-bottom: 12px;
-}
-
-.section-title {
-  font-size: clamp(28px, 3vw, 42px);
-  font-weight: 700;
-  color: var(--deep);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  margin-bottom: 16px;
-}
-
-.section-sub {
-  font-size: 17px;
-  color: var(--muted);
-  font-weight: 300;
-  max-width: 560px;
-  line-height: 1.7;
-}
-
-/* ── HOW IT WORKS ── */
-.how {
-  padding: 100px 0;
-  background: white;
-}
-
-.how-header { text-align: center; margin-bottom: 72px; }
-.how-header .section-sub { margin: 0 auto; }
-
-.steps {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0;
-  position: relative;
-}
-
-.steps::before {
-  content: '';
-  position: absolute;
-  top: 32px;
-  left: calc(10% + 24px);
-  right: calc(10% + 24px);
-  height: 2px;
-  background: linear-gradient(90deg, var(--mist), var(--sky), var(--mist));
-  z-index: 0;
-}
-
-.step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 0 16px;
-  position: relative;
-  z-index: 1;
-}
-
-.step-num {
-  width: 64px; height: 64px;
-  border-radius: 20px;
-  background: linear-gradient(135deg, var(--sky), #60a5fa);
-  color: white;
-  font-size: 22px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.3);
-  margin-bottom: 20px;
-  flex-shrink: 0;
-}
-
-.step:nth-child(2) .step-num { background: linear-gradient(135deg, #3b82f6, #93c5fd); }
-.step:nth-child(3) .step-num { background: linear-gradient(135deg, #1d4ed8, #3b82f6); }
-.step:nth-child(4) .step-num { background: linear-gradient(135deg, #1e40af, #2563eb); }
-.step:nth-child(5) .step-num { background: linear-gradient(135deg, #0a2540, #1a4a7a); }
-
-.step-text { font-size: 13.5px; color: var(--muted); line-height: 1.6; }
-.step-text strong { display: block; font-size: 14px; color: var(--deep); margin-bottom: 6px; font-weight: 600; }
-
-/* ── FEATURES ── */
-.features {
-  padding: 100px 0;
-  background: linear-gradient(180deg, #f0f7ff 0%, white 100%);
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 60px;
-}
-
-.feature-card {
-  background: white;
-  border-radius: var(--radius);
-  padding: 32px;
-  border: 1px solid var(--subtle);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--sky), var(--mist));
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.feature-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--mist);
-}
-
-.feature-card:hover::before { opacity: 1; }
-
-.feature-icon {
-  width: 48px; height: 48px;
-  background: var(--frost);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  margin-bottom: 20px;
-}
-
-.feature-title {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--deep);
-  margin-bottom: 10px;
-}
-
-.feature-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
-
-/* ── MESSAGE TYPES ── */
-.types {
-  padding: 100px 0;
-  background: white;
-}
-
-.types-header { margin-bottom: 60px; }
-
-.types-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-.type-card {
-  border-radius: var(--radius);
-  overflow: hidden;
-  border: 1px solid var(--subtle);
-  transition: all 0.3s ease;
-}
-
-.type-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-.type-header {
-  padding: 20px 20px 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.type-card:nth-child(1) .type-header { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
-.type-card:nth-child(2) .type-header { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
-.type-card:nth-child(3) .type-header { background: linear-gradient(135deg, #fff7ed, #fed7aa); }
-.type-card:nth-child(4) .type-header { background: linear-gradient(135deg, #faf5ff, #e9d5ff); }
-
-.type-emoji { font-size: 22px; }
-.type-name { font-size: 15px; font-weight: 700; color: var(--deep); }
-
-.type-stages { padding: 16px 20px 20px; background: white; }
-
-.stage {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 0;
-  border-bottom: 1px solid var(--subtle);
-  font-size: 13px;
-  color: var(--text);
-}
-
-.stage:last-child { border-bottom: none; }
-
-.stage-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.type-card:nth-child(1) .stage-dot { background: var(--sky); }
-.type-card:nth-child(2) .stage-dot { background: #22c55e; }
-.type-card:nth-child(3) .stage-dot { background: #f97316; }
-.type-card:nth-child(4) .stage-dot { background: #a855f7; }
-
-/* ── PRICING ── */
-.pricing {
-  padding: 100px 0;
-  background: linear-gradient(180deg, #f0f7ff 0%, white 100%);
-}
-
-.pricing-header { text-align: center; margin-bottom: 60px; }
-.pricing-header .section-sub { margin: 0 auto; }
-
-.pricing-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 28px;
-  max-width: 840px;
-  margin: 0 auto;
-}
-
-.price-card {
-  background: white;
-  border-radius: 24px;
-  padding: 40px;
-  border: 1.5px solid var(--subtle);
-  position: relative;
-}
-
-.price-card.featured {
-  background: linear-gradient(155deg, var(--deep) 0%, var(--mid) 100%);
-  border-color: transparent;
-  color: white;
-}
-
-.price-popular {
-  position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(90deg, var(--sky), #60a5fa);
-  color: white;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  padding: 5px 18px;
-  border-radius: 100px;
-  white-space: nowrap;
-}
-
-.price-tier { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; margin-bottom: 8px; }
-.price-card .price-tier { color: var(--muted); }
-.price-card.featured .price-tier { color: var(--mist); }
-
-.price-amount {
-  font-size: 48px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.price-card .price-amount { color: var(--deep); }
-.price-card.featured .price-amount { color: white; }
-
-.price-period { font-size: 14px; margin-bottom: 28px; }
-.price-card .price-period { color: var(--muted); }
-.price-card.featured .price-period { color: rgba(255,255,255,0.6); }
-
-.price-divider { height: 1px; margin-bottom: 24px; }
-.price-card .price-divider { background: var(--subtle); }
-.price-card.featured .price-divider { background: rgba(255,255,255,0.15); }
-
-.price-features { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
-
-.pf {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.price-card .pf { color: var(--text); }
-.price-card.featured .pf { color: rgba(255,255,255,0.85); }
-
-.pf-check {
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.price-card .pf-check { background: var(--frost); color: var(--sky); }
-.price-card.featured .pf-check { background: rgba(255,255,255,0.2); color: white; }
-
-.pf-x { opacity: 0.4; }
-
-.btn-price {
-  display: block;
-  text-align: center;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.25s;
-  cursor: pointer;
-  border: none;
-}
-
-.price-card .btn-price {
-  background: var(--frost);
-  color: var(--sky);
-  border: 1.5px solid var(--mist);
-}
-.price-card .btn-price:hover { background: var(--sky); color: white; border-color: var(--sky); }
-
-.price-card.featured .btn-price {
-  background: white;
-  color: var(--sky);
-}
-.price-card.featured .btn-price:hover { background: var(--frost); }
-
-/* ── TESTIMONIALS ── */
-.testimonials {
-  padding: 100px 0;
-  background: white;
-}
-
-.t-header { text-align: center; margin-bottom: 60px; }
-.t-header .section-sub { margin: 0 auto; }
-
-.t-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.t-card {
-  background: var(--white);
-  border-radius: var(--radius);
-  padding: 32px;
-  border: 1px solid var(--subtle);
-  position: relative;
-  transition: all 0.3s ease;
-}
-
-.t-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
-
-.t-quote-mark {
-  font-size: 64px;
-  color: var(--mist);
-  line-height: 0.8;
-  margin-bottom: 16px;
-  font-weight: 700;
-}
-
-.t-text { font-size: 15px; color: var(--text); line-height: 1.75; margin-bottom: 24px; font-style: italic; font-weight: 300; }
-
-.t-author { display: flex; align-items: center; gap: 12px; }
-
-.t-avatar {
-  width: 42px; height: 42px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-  color: white;
-  flex-shrink: 0;
-}
-
-.t-card:nth-child(1) .t-avatar { background: linear-gradient(135deg, var(--sky), #60a5fa); }
-.t-card:nth-child(2) .t-avatar { background: linear-gradient(135deg, #1d4ed8, #3b82f6); }
-.t-card:nth-child(3) .t-avatar { background: linear-gradient(135deg, #0a2540, #1a4a7a); }
-
-.t-name { font-size: 14px; font-weight: 600; color: var(--deep); }
-.t-role { font-size: 12px; color: var(--muted); margin-top: 1px; }
-
-/* ── FINAL CTA ── */
-.final-cta {
-  padding: 100px 40px;
-  text-align: center;
-  background: linear-gradient(135deg, var(--deep) 0%, var(--mid) 60%, #1e40af 100%);
-  position: relative;
-  overflow: hidden;
-}
-
-.final-cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
-.final-cta-inner { position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
-
-.final-cta .section-label { color: var(--mist); }
-.final-cta .section-title { color: white; }
-.final-cta .section-sub { color: rgba(255,255,255,0.6); margin: 16px auto 40px; }
-
-.final-cta .btn-primary {
-  background: white;
-  color: var(--sky);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  font-size: 16px;
-  padding: 16px 36px;
-}
-
-.final-cta .btn-primary:hover {
-  background: var(--frost);
-  color: var(--deep);
-}
-
-/* ── RESPONSIVE ── */
-@media (max-width: 1024px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; }
-  .hero-left { padding: 80px 40px 40px; }
-  .hero-right { padding: 40px; justify-content: flex-start; }
-  .board-float { display: none; }
-  .steps { grid-template-columns: 1fr 1fr; gap: 32px; }
-  .steps::before { display: none; }
-  .features-grid { grid-template-columns: 1fr 1fr; }
-  .types-grid { grid-template-columns: 1fr 1fr; }
-  .t-grid { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 640px) {
-  .container { padding: 0 20px; }
-  .hero-left { padding: 75px 20px 40px; text-align: center; align-items: center; }
-  .hero-right { padding: 20px; justify-content: center; }
-  .phone-mockup { width: 240px; }
-  .phone-screen { height: 460px; }
-  .hero-stats { gap: 20px; }
-  .hero-ctas { flex-flow: column; align-items: center; }
-  .steps { grid-template-columns: 1fr; }
-  .features-grid { grid-template-columns: 1fr; }
-  .types-grid { grid-template-columns: 1fr 1fr; }
-  .pricing-grid { grid-template-columns: 1fr; }
-  .t-grid { grid-template-columns: 1fr; }
-  section { padding: 0; }
+  --msg-blue:#2d7dd2; --msg-blue-light:#e8f2fc;
+  --msg-green:#2d8a55; --msg-green-light:#e6f7ee;
+}
+
+/* ══ SHARED UTILS ══ */
+.btn-primary{background:var(--accent);color:#fff;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .15s,box-shadow .2s;box-shadow:0 2px 14px rgba(200,75,47,.3)}
+.btn-primary:hover{background:#b03d24;transform:translateY(-2px);box-shadow:0 6px 24px rgba(200,75,47,.4)}
+.btn-secondary{background:transparent;color:var(--ink);padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;border:1.5px solid var(--border);display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,background .2s,transform .15s}
+.btn-secondary:hover{border-color:var(--ink);background:var(--cream);transform:translateY(-2px)}
+.btn-outline-white{background:transparent;color:#fff;padding:13px 26px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;border:1.5px solid rgba(255,255,255,.4);display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,background .2s}
+.btn-outline-white:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+.btn-tg{background:#229ed9;color:#fff;padding:13px 26px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .15s}
+.btn-tg:hover{background:#1a8abf;transform:translateY(-1px)}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--accent);opacity:.5}
+.section-title{font-family:var(--serif);font-size:clamp(26px,3vw,42px);line-height:1.12;letter-spacing:-.3px;margin-bottom:16px}
+.section-sub{font-size:17px;color:var(--muted);font-weight:300;line-height:1.7;max-width:560px}
+
+/* ══ HERO ══ */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:100px 60px 80px;position:relative;overflow:hidden;
+  background:var(--ink);
+}
+/* grid overlay */
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:52px 52px}
+/* radial glow */
+.hero::after{content:'';position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(45,125,210,.25) 0%,transparent 70%);pointer-events:none}
+
+.hero-inner{position:relative;z-index:1;max-width:1060px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+
+/* platform badges */
+.platform-badges{display:flex;align-items:center;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.platform-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.04em}
+.platform-badge.web{background:rgba(45,125,210,.2);color:#6ab0f0;border:1px solid rgba(45,125,210,.3)}
+.platform-badge.tg{background:rgba(34,158,217,.2);color:#7dd3f5;border:1px solid rgba(34,158,217,.3)}
+.platform-badge svg{width:12px;height:12px;flex-shrink:0}
+
+.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,238,.4);margin-bottom:16px}
+
+.hero-title{
+  font-family:var(--serif);
+  font-size:clamp(32px,4vw,56px);
+  line-height:1.05;letter-spacing:-.5px;
+  color:#fff;margin-bottom:12px;
+  animation:fadeUp .8s .1s ease both;
+}
+.hero-title em{font-style:italic;color:#6ab0f0}
+.hero-title .accent{color:var(--accent)}
+
+.hero-sub{font-size:18px;color:rgba(247,244,238,.6);line-height:1.65;max-width:460px;margin-bottom:36px;font-weight:300;animation:fadeUp .8s .2s ease both}
+
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
+
+/* hero stats */
+.hero-stats{display:flex;gap:32px;margin-top:44px;animation:fadeUp .8s .4s ease both;flex-wrap:wrap}
+.hero-stat-num{font-family:var(--serif);font-size:28px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.hero-stat-label{font-size:12px;color:rgba(247,244,238,.45);margin-top:2px;font-weight:500}
+
+/* hero kanban visual */
+.hero-visual{animation:fadeUp .9s .25s ease both;position:relative}
+
+.kanban-mockup{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;overflow:hidden;
+  backdrop-filter:blur(8px);
+}
+.kanban-mockup-bar{
+  background:rgba(255,255,255,.08);
+  padding:10px 16px;display:flex;align-items:center;gap:8px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.kanban-mockup-dots{display:flex;gap:5px}
+.kanban-mockup-dots span{width:8px;height:8px;border-radius:50%}
+.kanban-mockup-dots span:nth-child(1){background:#e05353}
+.kanban-mockup-dots span:nth-child(2){background:#e0a653}
+.kanban-mockup-dots span:nth-child(3){background:#53e07a}
+.kanban-mockup-title{font-size:11px;color:rgba(255,255,255,.4);margin:0 auto;font-weight:600;letter-spacing:.03em}
+
+.kanban-mockup-body{padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.km-col{}
+.km-col-title{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px;padding:0 2px}
+.km-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:9px 11px;margin-bottom:7px;font-size:11px;color:rgba(255,255,255,.8);line-height:1.4;border-left-width:3px}
+.km-card.red{border-left-color:var(--accent)}
+.km-card.blue{border-left-color:#6ab0f0}
+.km-card.green{border-left-color:#6edd9a}
+.km-card.purple{border-left-color:#b48ef5}
+.km-card-label{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;opacity:.5}
+
+/* org badge floating */
+.org-badge{
+  position:absolute;bottom:-16px;right:-16px;
+  background:#fff;border:1px solid var(--border);border-radius:12px;
+  padding:10px 14px;box-shadow:0 4px 20px rgba(15,14,12,.15);
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap;
+}
+.org-badge-dot{width:8px;height:8px;border-radius:50%;background:#53e07a;flex-shrink:0;box-shadow:0 0 0 3px rgba(83,224,122,.2)}
+
+/* ══ USE CASES ══ */
+.use-cases{padding:80px 60px;background:var(--cream);border-bottom:1px solid var(--border)}
+.use-cases-inner{max-width:1060px;margin:0 auto}
+.use-cases-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+
+.use-case-card{
+  background:#fff;border:1px solid var(--border);border-radius:16px;
+  padding:36px 36px 32px;overflow:hidden;position:relative;
+  transition:box-shadow .2s,transform .2s;
+}
+.use-case-card:hover{box-shadow:0 8px 32px rgba(15,14,12,.1);transform:translateY(-3px)}
+.use-case-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.use-case-card.personal::before{background:linear-gradient(90deg,var(--msg-blue),#6ab0f0)}
+.use-case-card.teams::before{background:linear-gradient(90deg,var(--accent),#e0572e)}
+
+.use-case-icon{font-size:36px;margin-bottom:16px}
+.use-case-title{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:-.2px;margin-bottom:10px}
+.use-case-desc{font-size:15px;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:24px}
+.use-case-list{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:28px}
+.use-case-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--muted);line-height:1.4}
+.use-case-list li::before{content:'✓';font-weight:700;color:var(--msg-green);flex-shrink:0;margin-top:1px}
+.use-case-card.teams .use-case-list li::before{color:var(--accent)}
+
+.use-case-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;text-decoration:none;transition:gap .15s}
+.use-case-card.personal .use-case-link{color:var(--msg-blue)}
+.use-case-card.teams .use-case-link{color:var(--accent)}
+.use-case-card:hover .use-case-link{gap:10px}
+
+/* ══ PLATFORMS ══ */
+.platforms{padding:80px 60px;border-bottom:1px solid var(--border)}
+.platforms-inner{max-width:1060px;margin:0 auto}
+.platforms-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+
+.platform-card{
+  border:1px solid var(--border);border-radius:16px;
+  padding:36px;background:#fff;
+  display:flex;flex-direction:column;
+  transition:box-shadow .2s,transform .2s;
+}
+.platform-card:hover{box-shadow:0 8px 32px rgba(15,14,12,.09);transform:translateY(-3px)}
+
+.platform-card-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.platform-card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.platform-card-icon.web{background:var(--msg-blue-light)}
+.platform-card-icon.tg{background:#e0f4fd}
+.platform-card-name{font-family:var(--serif);font-size:18px;font-weight:700;letter-spacing:-.2px}
+.platform-card-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.platform-card-desc{font-size:15px;color:var(--muted);line-height:1.65;font-weight:300;flex:1;margin-bottom:24px}
+.platform-card-features{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:28px}
+.platform-card-features li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.platform-card-features li svg{width:14px;height:14px;stroke:var(--msg-green);flex-shrink:0}
+
+/* ══ FEATURES ══ */
+.features{padding:80px 60px;background:var(--ink);position:relative;overflow:hidden}
+.features::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px}
+.features-inner{max-width:1060px;margin:0 auto;position:relative;z-index:1}
+.features .section-label{color:rgba(247,244,238,.4)}
+.features .section-label::after{background:rgba(247,244,238,.2)}
+.features .section-title{color:#fff}
+.features .section-sub{color:rgba(247,244,238,.5)}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:52px}
+.feat-cell{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:30px 26px;transition:background .2s}
+.feat-cell:hover{background:rgba(255,255,255,.07)}
+.feat-icon{font-size:26px;margin-bottom:14px}
+.feat-title{font-weight:700;font-size:14px;color:#fff;margin-bottom:9px;letter-spacing:-.1px}
+.feat-desc{font-size:13px;color:rgba(247,244,238,.45);line-height:1.6}
+
+/* ══ HOW IT WORKS ══ */
+.how{padding:80px 60px;border-bottom:1px solid var(--border)}
+.how-inner{max-width:1060px;margin:0 auto}
+.how-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:52px;position:relative}
+.how-steps::before{content:'';position:absolute;top:20px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--border),var(--border),transparent);z-index:0}
+.how-step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 12px;position:relative;z-index:1}
+.how-step-num{width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--serif);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border:3px solid var(--paper);box-shadow:0 0 0 1px var(--border);flex-shrink:0}
+.how-step-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
+.how-step-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* ══ WORKFLOW TYPES ══ */
+.workflows{padding:80px 60px;background:var(--cream);border-bottom:1px solid var(--border)}
+.workflows-inner{max-width:1060px;margin:0 auto}
+.workflows-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.workflow-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px;transition:box-shadow .2s,transform .15s}
+.workflow-card:hover{box-shadow:0 6px 24px rgba(15,14,12,.09);transform:translateY(-2px)}
+.workflow-icon{font-size:28px;margin-bottom:12px}
+.workflow-name{font-family:var(--serif);font-size:16px;font-weight:700;margin-bottom:12px;letter-spacing:-.1px}
+.workflow-stages{display:flex;flex-direction:column;gap:5px}
+.workflow-stage{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
+.workflow-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ══ PRICING ══ */
+.pricing{padding:80px 60px;border-bottom:1px solid var(--border)}
+.pricing-inner{max-width:1060px;margin:0 auto}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:52px}
+.pricing-card{border:1px solid var(--border);border-radius:16px;padding:32px;background:#fff;position:relative;transition:box-shadow .2s,transform .15s}
+.pricing-card:hover{box-shadow:0 8px 32px rgba(15,14,12,.09);transform:translateY(-3px)}
+.pricing-card.featured{border-color:var(--ink);box-shadow:0 4px 24px rgba(15,14,12,.12)}
+.pricing-card.featured::before{content:'Most popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 14px;border-radius:12px;white-space:nowrap}
+.pricing-tier{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.pricing-price{font-family:var(--serif);font-size:42px;font-weight:800;color:var(--ink);letter-spacing:-1.5px;line-height:1}
+.pricing-price sup{font-size:18px;font-weight:700;letter-spacing:0;vertical-align:top;margin-top:8px;display:inline-block}
+.pricing-period{font-size:13px;color:var(--muted);margin-top:4px;margin-bottom:24px}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.pricing-features li{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--muted);line-height:1.4}
+.pricing-features li svg{width:14px;height:14px;flex-shrink:0;margin-top:2px}
+.pricing-features li.yes svg{stroke:var(--msg-green)}
+.pricing-features li.no{opacity:.45}
+.pricing-features li.no svg{stroke:var(--muted)}
+.pricing-btn{display:block;text-align:center;padding:13px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;transition:background .2s,transform .15s}
+.pricing-btn.dark{background:var(--ink);color:#fff}
+.pricing-btn.dark:hover{background:var(--accent);transform:translateY(-1px)}
+.pricing-btn.accent{background:var(--accent);color:#fff;box-shadow:0 3px 14px rgba(200,75,47,.3)}
+.pricing-btn.accent:hover{background:#b03d24;transform:translateY(-1px)}
+.pricing-btn.outline{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
+.pricing-btn.outline:hover{border-color:var(--ink);background:var(--cream)}
+
+/* pricing note */
+.pricing-note{text-align:center;margin-top:28px;font-size:13px;color:var(--muted)}
+
+/* ══ TESTIMONIALS ══ */
+.testimonials{padding:80px 60px;background:var(--cream);border-bottom:1px solid var(--border)}
+.testimonials-inner{max-width:1060px;margin:0 auto}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.testimonial-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:28px;display:flex;flex-direction:column}
+.testimonial-quote{font-size:15px;color:var(--ink);line-height:1.7;font-weight:300;flex:1;margin-bottom:20px;font-style:italic}
+.testimonial-quote::before{content:'\201C';font-family:var(--serif);font-size:48px;line-height:.5;color:var(--border);display:block;margin-bottom:12px}
+.testimonial-author{display:flex;align-items:center;gap:12px}
+.testimonial-avatar{width:36px;height:36px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:14px;font-weight:700;flex-shrink:0}
+.testimonial-name{font-weight:700;font-size:13px}
+.testimonial-role{font-size:11px;color:var(--muted)}
+
+/* ══ CTA ══ */
+.cta-section{padding:100px 60px;background:var(--ink);position:relative;overflow:hidden;text-align:center}
+.cta-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px}
+.cta-section::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(200,75,47,.18) 0%,transparent 70%);pointer-events:none}
+.cta-inner{position:relative;z-index:1;max-width:640px;margin:0 auto}
+.cta-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,238,.35);margin-bottom:20px}
+.cta-title{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:800;color:#fff;line-height:1.08;letter-spacing:-.5px;margin-bottom:16px}
+.cta-sub{font-size:17px;color:rgba(247,244,238,.5);font-weight:300;line-height:1.6;margin-bottom:40px}
+.cta-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1100px){
+  .sidebar-links li a span:not(.sidebar-icon){display:none}
+  .sidebar-badge,.sidebar-section-label,.sidebar-footer{display:none}
+  .sidebar-divider{margin:10px 8px}
+  .sidebar-links li a{padding:11px;justify-content:center;border-left:none;border-radius:8px;margin:0 4px}
+  .sidebar-links li a.active{background:rgba(200,75,47,.1)}
+  .sidebar-links li a .sidebar-icon{width:auto;font-size:16px}
+}
+@media(max-width:900px){
+  .use-cases-grid,.platforms-grid,.pricing-grid,.testimonials-grid{grid-template-columns:1fr}
+  .features-grid{grid-template-columns:1fr 1fr}
+  .how-steps{grid-template-columns:1fr;gap:24px}
+  .how-steps::before{display:none}
+  .how-step{flex-direction:row;text-align:left;gap:16px;align-items:flex-start}
+  .workflows-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:720px){
+  .hero{padding:80px 22px 60px}
+  .hero-inner{grid-template-columns:1fr;gap:48px}
+  .hero-visual{order:-1}
+  .use-cases,.platforms,.features,.how,.workflows,.pricing,.testimonials,.cta-section{padding:60px 22px}
+  .features-grid{grid-template-columns:1fr}
+  .workflows-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .workflows-grid{grid-template-columns:1fr}
 }
 </style>

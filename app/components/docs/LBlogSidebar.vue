@@ -20,13 +20,13 @@ const isTagActive = (tag: string) => {
     "filterTags": "Filter posts by tag",
     "wantMore": "Want more?",
     "try": "Try",
-    "msgBoard": "Message Board is our newest product. Try it free - no credit card needed."
+    "msgBoard": "Laraue Boards is our newest product. Try it free - no credit card needed."
   },
   "ru": {
     "filterTags": "Фильтрация по тегам",
     "wantMore": "Хотите больше?",
     "try": "Попробовать",
-    "msgBoard": "Message Board наш новый продукт. Попробуйте бесплатно."
+    "msgBoard": "Laraue Boards наш новый продукт. Попробуйте бесплатно."
   }
 }
 </i18n>

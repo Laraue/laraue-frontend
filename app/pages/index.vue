@@ -17,14 +17,14 @@ useSeoMeta({
 {
   "en": {
     "seo_title": "Laraue Software — Focused Tools for Productive People",
-    "seo_description": "Laraue Software builds reliable, privacy-first tools for people who work with information. Try Message Board — turn Telegram messages into a visual Kanban board in seconds.",
+    "seo_description": "Laraue Software builds reliable, privacy-first tools for people who work with information. Try Laraue Boards — turn Telegram messages into a visual Kanban board in seconds.",
     "hero_eyebrow": "Laraue Software",
     "hero_title_1": "Software built",
     "hero_title_2": "with",
     "hero_title_3": "purpose",
     "hero_title_4": "not noise.",
     "hero_sub": "We build focused, reliable tools for people who work with information. Small team, long-term thinking, honest software.",
-    "hero_cta1": "Try Message Board →",
+    "hero_cta1": "Try Laraue Boards →",
     "hero_cta2": "Learn about us",
     "card_tag": "Featured product",
     "card_desc": "Turn Telegram messages into a visual Kanban board — in seconds.",
@@ -108,14 +108,14 @@ useSeoMeta({
   },
   "ru": {
     "seo_title": "Laraue Software — Приложения и билиотеки для увеличения продуктивности",
-    "seo_description": "Laraue Software создаёт узкоспециализированные, надёжные инструменты. Попробуйте Message Board — превратите сообщения Telegram в Kanban доски за секунды.",
+    "seo_description": "Laraue Software создаёт узкоспециализированные, надёжные инструменты. Попробуйте Laraue Boards — превратите сообщения Telegram в Kanban доски за секунды.",
     "hero_eyebrow": "Laraue Software",
     "hero_title_1": "ПО, созданное",
     "hero_title_2": "с",
     "hero_title_3": "целью",
     "hero_title_4": "а не для галочки",
     "hero_sub": "Мы создаём узкоспециализированные, надёжные инструменты. Небольшая команда, долгосрочные планы, честный софт.",
-    "hero_cta1": "Попробовать Message Board →",
+    "hero_cta1": "Попробовать Laraue Boards →",
     "hero_cta2": "О компании",
     "card_tag": "Главный продукт",
     "card_desc": "Превращайте сообщения Telegram в Kanban-доску — за секунды.",
@@ -216,15 +216,15 @@ useSeoMeta({
             <a href="#about" class="btn-secondary">{{ t('hero_cta2') }}</a>
           </div>
         </div>
-        <div class="hero-visual" aria-label="Message Board product preview">
+        <div class="hero-visual" aria-label="Laraue Boards product preview">
           <div class="product-card">
             <div class="product-card-header">
               <div class="product-card-dots"><span></span><span></span><span></span></div>
-              <span class="product-card-title-bar">Message Board — My Board</span>
+              <span class="product-card-title-bar">Laraue Boards — My Board</span>
             </div>
             <div class="product-card-body">
               <span class="product-tag">{{ t('card_tag') }}</span>
-              <div class="product-card-name">Message Board</div>
+              <div class="product-card-name">Laraue Boards</div>
               <div class="product-card-desc">{{ t('card_desc') }}</div>
               <div class="kanban-mini">
                 <div class="kanban-col">
@@ -285,7 +285,7 @@ useSeoMeta({
     <section class="product-section" id="products" aria-labelledby="product-heading">
       <div class="product-section-inner">
         <div class="section-label reveal" data-i18n="prod_label">{{ t('prod_label') }}</div>
-        <h2 class="section-title reveal" id="product-heading">Message Board</h2>
+        <h2 class="section-title reveal" id="product-heading">Laraue Boards</h2>
         <p class="product-section-sub reveal" data-i18n="prod_sub">{{ t('prod_sub') }}</p>
         <div class="features-grid reveal">
           <div class="feature-cell"><div class="feature-cell-icon">📨</div><div class="feature-cell-title" data-i18n="f1t">{{ t('f1t') }}</div><div class="feature-cell-text" data-i18n="f1d">{{ t('f1d') }}</div></div>

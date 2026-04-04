@@ -47,7 +47,7 @@
     <p class="sidebar-section-label">{{ t('pages') }}</p>
     <ul class="sidebar-links">
       <li><a href="/"><span class="sidebar-icon">&#127968;</span><span>{{ t('home') }}</span></a></li>
-      <li><a href="/msgboard"><span class="sidebar-icon">&#128203;</span><span>Message Board</span></a></li>
+      <li><a href="/msgboard"><span class="sidebar-icon">&#128203;</span><span>Laraue Boards</span></a></li>
       <li><a href="https://github.com/win7user10" target="_blank" rel="noopener"><span class="sidebar-icon">&#11088;</span><span>GitHub</span></a></li>
     </ul>
     <div class="sidebar-footer">
