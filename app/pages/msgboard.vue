@@ -14,6 +14,13 @@ import {
   definePerson,
 } from '@unhead/schema-org/vue'
 import LMainContent from "~/components/ui/LMainContent.vue";
+import LLandingIntro from "~/components/landins/LLandingIntro.vue";
+import LActionButton from "~/components/landins/LActionButton.vue";
+import LSection from "~/components/landins/LSection.vue";
+import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
+import LSteps from "~/components/landins/LSteps.vue";
+import LPlatformBadge from "~/components/landins/LPlatformBadge.vue";
+import LCallToAction from "~/components/landins/LCallToAction.vue";
 
 useSchemaOrg([
   defineSoftwareApp({
@@ -99,23 +106,6 @@ useSeoMeta({
     "mockup_task5": "Deploy v0.1",
     "seoTitle": "Laraue Boards — Turn Telegram Messages into Beautiful Kanban Boards",
     "seoDescription": "Stop losing important messages in Telegram. Note Board Bot transforms saved messages into visual boards with custom statuses. Free Kanban organization for Telegram.",
-    "nav_home": "Home",
-    "nav_products": "Products",
-    "nav_bots": "Bots",
-    "nav_oss": "Open Source",
-    "nav_blog": "Blog",
-    "nav_github": "GitHub Profile",
-    "nav_repos": "All Repositories",
-    "nav_cta_Laraue Boards": "Open App",
-    "badge_flagship": "Flagship",
-    "tool1n": "Markdown Converter",
-    "tool2n": "AI Apartments",
-    "tool3n": "Vocabulary Bot",
-    "tool4n": "PDF to JSON",
-    "tool5n": "Markdown Translator",
-    "sidebar_label": "On this page",
-    "sidebar_open": "Open",
-    "sidebar_footer": "Laraue Software\nSmall team, serious craft.",
     "sec_top": "Overview",
     "sec_use_cases": "Use cases",
     "sec_platforms": "Platforms",
@@ -131,7 +121,7 @@ useSeoMeta({
     "stat_free_label": "to start",
     "stat_types_label": "board types",
     "stat_modes_label": "modes: personal & team",
-    "stat_setup_label": "s. to get started",
+    "stat_setup_label": "sec. to get started",
     "mockup_title": "My Board — Sprint 3",
     "k_todo": "To Do",
     "k_doing": "Doing",
@@ -263,12 +253,7 @@ useSeoMeta({
     "tm3_role": "Independent Researcher",
     "cta_label": "Get started today",
     "cta_title": "Your work deserves\nbetter than chat history",
-    "cta_sub": "Free to start. No credit card. Works in 30 seconds.",
-    "footer_tag": "Small team. Serious craft. Software built to last.",
-    "footer_products": "Other products",
-    "footer_company": "Company",
-    "nav_about": "About",
-    "footer_made": "Built with care, shipped with purpose."
+    "cta_sub": "Free to start. No credit card. Works in 30 seconds."
   },
   "ru": {
     "task_label": "Задача",
@@ -283,23 +268,6 @@ useSeoMeta({
     "mockup_task5": "Релиз v0.1",
     "seoTitle": "Laraue Boards — Превращайте сообщения Telegram в красивые Kanban-доски",
     "seoDescription": "Перестаньте терять важные сообщения в Telegram. Note Board Bot превращает сохраненные сообщения в визуальные доски с настраиваемыми статусами. Бесплатная Kanban-организация для Telegram.",
-    "nav_home": "Главная",
-    "nav_products": "Продукты",
-    "nav_bots": "Боты",
-    "nav_oss": "Open Source",
-    "nav_blog": "Блог",
-    "nav_github": "Профиль GitHub",
-    "nav_repos": "Все репозитории",
-    "nav_cta_Laraue Boards": "Открыть приложение",
-    "badge_flagship": "Главный",
-    "tool1n": "Markdown конвертер",
-    "tool2n": "AI квартиры",
-    "tool3n": "Бот-словарь",
-    "tool4n": "PDF в JSON",
-    "tool5n": "Markdown переводчик",
-    "sidebar_label": "На этой странице",
-    "sidebar_open": "Открыть",
-    "sidebar_footer": "Laraue Software\nНебольшая команда, серьёзный подход.",
     "sec_top": "Обзор",
     "sec_use_cases": "Кейсы",
     "sec_platforms": "Платформы",
@@ -447,248 +415,228 @@ useSeoMeta({
     "tm3_role": "Независимый исследователь",
     "cta_label": "Начните сегодня",
     "cta_title": "Ваши заметки заслуживают большего, чем затеряться в чате",
-    "cta_sub": "Бесплатно. Без карты. За 30 секунд.",
-    "footer_tag": "Небольшая команда. Серьёзный подход. Надолго.",
-    "footer_products": "Другие продукты",
-    "footer_company": "Компания",
-    "nav_about": "О нас",
-    "footer_made": "Сделанно с заботой, выпущено с умом."
+    "cta_sub": "Бесплатно. Без карты. За 30 секунд."
   }
 }
 </i18n>
 
 <template>
   <LMainContent>
-    <!-- ══ HERO ══ -->
-    <section class="hero" aria-labelledby="hero-heading">
-      <div class="hero-inner">
-        <div>
-          <div class="platform-badges">
-            <span class="platform-badge web">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-              Web App
-            </span>
-            <span class="platform-badge tg">
-              <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.92c-.12.54-.46.67-.93.42l-2.58-1.9-1.24 1.2c-.14.13-.26.25-.52.25l.18-2.6 4.74-4.28c.2-.18-.05-.28-.32-.1L7.36 14.5l-2.52-.79c-.55-.17-.56-.55.11-.81l9.86-3.8c.46-.17.86.11.83.7z"/></svg>
-              Telegram Mini App
-            </span>
-          </div>
-          <div class="hero-eyebrow">{{ t('hero_eyebrow') }}</div>
-          <h1 class="hero-title" id="hero-heading">{{ t('hero_title') }}</h1>
-          <p class="hero-sub">{{ t('hero_sub') }}</p>
-          <div class="hero-actions">
-            <a target="_blank" href="https://msgboard.laraue.com/" class="btn-primary">{{ t('hero_cta_web') }}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            </a>
-            <a href="https://t.me/msgboard_bot" class="btn-tg" target="_blank" rel="noopener">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.92c-.12.54-.46.67-.93.42l-2.58-1.9-1.24 1.2c-.14.13-.26.25-.52.25l.18-2.6 4.74-4.28c.2-.18-.05-.28-.32-.1L7.36 14.5l-2.52-.79c-.55-.17-.56-.55.11-.81l9.86-3.8c.46-.17.86.11.83.7z"/></svg>
-              @msgboard_bot
-            </a>
-          </div>
-          <div class="hero-stats">
-            <div>
-              <div class="hero-stat-num">{{ t('stat_free') }}</div>
-              <div class="hero-stat-label">{{ t('stat_free_label') }}</div>
-            </div>
-            <div>
-              <div class="hero-stat-num">4</div>
-              <div class="hero-stat-label">{{ t('stat_types_label') }}</div>
-            </div>
-            <div>
-              <div class="hero-stat-num">2</div>
-              <div class="hero-stat-label">{{ t('stat_modes_label') }}</div>
-            </div>
-            <div>
-              <div class="hero-stat-num">30</div>
-              <div class="hero-stat-label">{{ t('stat_setup_label') }}</div>
-            </div>
-          </div>
-        </div>
-
+    <LLandingIntro
+      :pre-title="t('hero_eyebrow')"
+      :title="t('hero_title')"
+      :post-title="t('hero_sub')"
+      :statistics="[
+        {
+          num: t('stat_free'),
+          label: t('stat_free_label')
+        },
+        {
+          num: 4,
+          label: t('stat_types_label')
+        },
+        {
+          num: 2,
+          label: t('stat_modes_label')
+        },
+        {
+          num: 30,
+          label: t('stat_setup_label')
+        }
+      ]">
+      <template #badges>
+        <LPlatformBadge type="web" title="Web App" />
+        <LPlatformBadge type="tg" title="Telegram Mini App" />
+      </template>
+      <template #actions>
+        <LActionButton :title="t('hero_cta_web')" link="https://msgboard.laraue.com/" type="site" />
+        <LActionButton title="@msgboard_bot" link="https://t.me/msgboard_bot" type="telegram" />
+      </template>
+      <template #visual>
         <!-- Kanban mockup -->
-        <div class="hero-visual">
-          <div class="kanban-mockup">
-            <div class="kanban-mockup-bar">
-              <div class="kanban-mockup-dots"><span></span><span></span><span></span></div>
-              <span class="kanban-mockup-title">{{ t('mockup_title') }}</span>
-            </div>
-            <div class="kanban-mockup-body">
-              <div class="km-col">
-                <div class="km-col-title">{{ t('k_todo') }}</div>
-                <div class="km-card red"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task1') }}</div>
-                <div class="km-card red"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task2') }}</div>
-                <div class="km-card purple"><div class="km-card-label">{{ t('idea_label') }}</div>{{ t('mockup_idea1') }}</div>
-              </div>
-              <div class="km-col">
-                <div class="km-col-title">{{ t('k_doing') }}</div>
-                <div class="km-card blue"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task3') }}</div>
-                <div class="km-card blue"><div class="km-card-label">{{ t('resource_label') }}</div>{{ t('mockup_resource1') }}</div>
-              </div>
-              <div class="km-col">
-                <div class="km-col-title">{{ t('k_done') }}</div>
-                <div class="km-card green"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task4') }}</div>
-                <div class="km-card green"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task5') }}</div>
-              </div>
-            </div>
+        <div class="kanban-mockup">
+          <div class="kanban-mockup-bar">
+            <div class="kanban-mockup-dots"><span></span><span></span><span></span></div>
+            <span class="kanban-mockup-title">{{ t('mockup_title') }}</span>
           </div>
-          <div class="org-badge">
-            <div class="org-badge-dot"></div>
-            <span>{{ t('org_badge') }}</span>
+          <div class="kanban-mockup-body">
+            <div class="km-col">
+              <div class="km-col-title">{{ t('k_todo') }}</div>
+              <div class="km-card red"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task1') }}</div>
+              <div class="km-card red"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task2') }}</div>
+              <div class="km-card purple"><div class="km-card-label">{{ t('idea_label') }}</div>{{ t('mockup_idea1') }}</div>
+            </div>
+            <div class="km-col">
+              <div class="km-col-title">{{ t('k_doing') }}</div>
+              <div class="km-card blue"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task3') }}</div>
+              <div class="km-card blue"><div class="km-card-label">{{ t('resource_label') }}</div>{{ t('mockup_resource1') }}</div>
+            </div>
+            <div class="km-col">
+              <div class="km-col-title">{{ t('k_done') }}</div>
+              <div class="km-card green"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task4') }}</div>
+              <div class="km-card green"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task5') }}</div>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+        <div class="org-badge">
+          <div class="org-badge-dot"></div>
+          <span>{{ t('org_badge') }}</span>
+        </div>
+      </template>
+    </LLandingIntro>
 
     <!-- ══ USE CASES ══ -->
-    <section class="use-cases" id="use-cases">
-      <div class="use-cases-inner">
-        <div class="section-label reveal">{{ t('uc_label') }}</div>
-        <h2 class="section-title reveal">{{ t('uc_title') }}</h2>
-        <p class="section-sub reveal">{{ t('uc_sub') }}</p>
-        <div class="use-cases-grid">
-
-          <div class="use-case-card personal reveal">
-            <div class="use-case-icon">&#129504;</div>
-            <div class="use-case-title">{{ t('uc_personal_title') }}</div>
-            <p class="use-case-desc">{{ t('uc_personal_desc') }}</p>
-            <ul class="use-case-list">
-              <li>{{ t('uc_p1') }}</li>
-              <li>{{ t('uc_p2') }}</li>
-              <li>{{ t('uc_p3') }}</li>
-              <li>{{ t('uc_p4') }}</li>
-            </ul>
-            <a href="https://t.me/msgboard_bot" class="use-case-link" target="_blank" rel="noopener">{{ t('uc_p_cta') }} &#8594;</a>
-          </div>
-
-          <div class="use-case-card teams reveal">
-            <div class="use-case-icon">&#128101;</div>
-            <div class="use-case-title">{{ t('uc_teams_title') }}</div>
-            <p class="use-case-desc">{{ t('uc_teams_desc') }}</p>
-            <ul class="use-case-list">
-              <li>{{ t('uc_t1') }}</li>
-              <li>{{ t('uc_t2') }}</li>
-              <li>{{ t('uc_t3') }}</li>
-              <li>{{ t('uc_t4') }}</li>
-            </ul>
-            <a target="_blank" href="https://msgboard.laraue.com/" class="use-case-link">{{ t('uc_t_cta') }} &#8594;</a>
-          </div>
-
+    <LSection :pre-title="t('uc_label')" :title="t('uc_title')" :post-title="t('uc_sub')" type="cream">
+      <div class="use-cases-grid">
+        <div class="use-case-card personal reveal">
+          <div class="use-case-icon">&#129504;</div>
+          <div class="use-case-title">{{ t('uc_personal_title') }}</div>
+          <p class="use-case-desc">{{ t('uc_personal_desc') }}</p>
+          <ul class="use-case-list">
+            <li>{{ t('uc_p1') }}</li>
+            <li>{{ t('uc_p2') }}</li>
+            <li>{{ t('uc_p3') }}</li>
+            <li>{{ t('uc_p4') }}</li>
+          </ul>
+          <a href="https://t.me/msgboard_bot" class="use-case-link" target="_blank" rel="noopener">{{ t('uc_p_cta') }} &#8594;</a>
+        </div>
+        <div class="use-case-card teams reveal">
+          <div class="use-case-icon">&#128101;</div>
+          <div class="use-case-title">{{ t('uc_teams_title') }}</div>
+          <p class="use-case-desc">{{ t('uc_teams_desc') }}</p>
+          <ul class="use-case-list">
+            <li>{{ t('uc_t1') }}</li>
+            <li>{{ t('uc_t2') }}</li>
+            <li>{{ t('uc_t3') }}</li>
+            <li>{{ t('uc_t4') }}</li>
+          </ul>
+          <a target="_blank" href="https://msgboard.laraue.com/" class="use-case-link">{{ t('uc_t_cta') }} &#8594;</a>
         </div>
       </div>
-    </section>
+    </LSection>
 
     <!-- ══ PLATFORMS ══ -->
-    <section class="platforms" id="platforms">
-      <div class="platforms-inner">
-        <div class="section-label reveal">{{ t('pl_label') }}</div>
-        <h2 class="section-title reveal">{{ t('pl_title') }}</h2>
-        <p class="section-sub reveal">{{ t('pl_sub') }}</p>
-        <div class="platforms-grid">
-
-          <div class="platform-card reveal">
-            <div class="platform-card-header">
-              <div class="platform-card-icon web">&#127760;</div>
-              <div>
-                <div class="platform-card-name">{{ t('web_name') }}</div>
-                <div class="platform-card-tag">Laraue Boards.laraue.com</div>
-              </div>
+    <LSection :pre-title="t('pl_label')" :title="t('pl_title')" :post-title="t('pl_sub')" type="light">
+      <div class="platforms-grid">
+        <div class="platform-card reveal">
+          <div class="platform-card-header">
+            <div class="platform-card-icon web">&#127760;</div>
+            <div>
+              <div class="platform-card-name">{{ t('web_name') }}</div>
+              <div class="platform-card-tag">Laraue Boards.laraue.com</div>
             </div>
-            <p class="platform-card-desc">{{ t('web_desc') }}</p>
-            <ul class="platform-card-features">
-              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f1') }}</span></li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f2') }}</span></li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f3') }}</span></li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f4') }}</span></li>
-            </ul>
-            <a target="_blank" href="https://msgboard.laraue.com/" class="btn-secondary" style="align-self:flex-start">{{ t('open_webapp') }}</a>
           </div>
-
-          <div class="platform-card reveal">
-            <div class="platform-card-header">
-              <div class="platform-card-icon tg">&#128172;</div>
-              <div>
-                <div class="platform-card-name">{{ t('tg_name') }}</div>
-                <div class="platform-card-tag">@msgboard_bot</div>
-              </div>
-            </div>
-            <p class="platform-card-desc">{{ t('tg_desc') }}</p>
-            <ul class="platform-card-features">
-              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f1') }}</span></li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f2') }}</span></li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f3') }}</span></li>
-              <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f4') }}</span></li>
-            </ul>
-            <a href="https://t.me/msgboard_bot" class="btn-tg" style="align-self:flex-start" target="_blank" rel="noopener">&#128172; @msgboard_bot</a>
-          </div>
-
+          <p class="platform-card-desc">{{ t('web_desc') }}</p>
+          <ul class="platform-card-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f1') }}</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f2') }}</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f3') }}</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f4') }}</span></li>
+          </ul>
+          <a target="_blank" href="https://msgboard.laraue.com/" class="btn-secondary" style="align-self:flex-start">{{ t('open_webapp') }}</a>
         </div>
+
+        <div class="platform-card reveal">
+          <div class="platform-card-header">
+            <div class="platform-card-icon tg">&#128172;</div>
+            <div>
+              <div class="platform-card-name">{{ t('tg_name') }}</div>
+              <div class="platform-card-tag">@msgboard_bot</div>
+            </div>
+          </div>
+          <p class="platform-card-desc">{{ t('tg_desc') }}</p>
+          <ul class="platform-card-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f1') }}</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f2') }}</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f3') }}</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f4') }}</span></li>
+          </ul>
+          <a href="https://t.me/msgboard_bot" class="btn-tg" style="align-self:flex-start" target="_blank" rel="noopener">&#128172; @msgboard_bot</a>
+        </div>
+
       </div>
-    </section>
+    </LSection>
 
     <!-- ══ FEATURES ══ -->
-    <section class="features" id="features">
-      <div class="features-inner">
-        <div class="section-label reveal">{{ t('feat_label') }}</div>
-        <h2 class="section-title reveal">{{ t('feat_title') }}</h2>
-        <p class="section-sub reveal">{{ t('feat_sub') }}</p>
-        <div class="features-grid">
-          <div class="feat-cell reveal"><div class="feat-icon">&#128203;</div><div class="feat-title">{{ t('f1t') }}</div><div class="feat-desc">{{ t('f1d') }}</div></div>
-          <div class="feat-cell reveal"><div class="feat-icon">&#128101;</div><div class="feat-title">{{ t('f2t') }}</div><div class="feat-desc">{{ t('f2d') }}</div></div>
-          <div class="feat-cell reveal"><div class="feat-icon">&#128239;</div><div class="feat-title">{{ t('f3t') }}</div><div class="feat-desc">{{ t('f3d') }}</div></div>
-          <div class="feat-cell reveal"><div class="feat-icon">&#127775;</div><div class="feat-title">{{ t('f4t') }}</div><div class="feat-desc">{{ t('f4d') }}</div></div>
-          <div class="feat-cell reveal"><div class="feat-icon">&#128269;</div><div class="feat-title">{{ t('f5t') }}</div><div class="feat-desc">{{ t('f5d') }}</div></div>
-          <div class="feat-cell reveal"><div class="feat-icon">&#10024;</div><div class="feat-title">{{ t('f6t') }}</div><div class="feat-desc">{{ t('f6d') }}</div></div>
-          <div class="feat-cell reveal"><div class="feat-icon">&#128229;</div><div class="feat-title">{{ t('f7t') }}</div><div class="feat-desc">{{ t('f7d') }}</div></div>
-          <div class="feat-cell reveal"><div class="feat-icon">&#128274;</div><div class="feat-title">{{ t('f8t') }}</div><div class="feat-desc">{{ t('f8d') }}</div></div>
-          <div class="feat-cell reveal"><div class="feat-icon">&#128176;</div><div class="feat-title">{{ t('f9t') }}</div><div class="feat-desc">{{ t('f9d') }}</div></div>
-        </div>
-      </div>
-    </section>
+    <LFeaturesGrid
+      :pre-title="t('feat_label')"
+      :title="t('feat_title')"
+      :post-title="t('feat_sub')"
+      type="dark"
+      :features="[
+      {
+        title: t('f1t'),
+        icon: '&#128203;',
+        description: t('f1d')
+      },
+      {
+        title: t('f2t'),
+        icon: '&#128101;',
+        description: t('f2d')
+      },
+      {
+        title: t('f3t'),
+        icon: '&#128239;',
+        description: t('f3d')
+      },
+      {
+        title: t('f4t'),
+        icon: '&#127775;',
+        description: t('f4d')
+      },
+      {
+        title: t('f5t'),
+        icon: '&#128269;',
+        description: t('f5d')
+      },
+      {
+        title: t('f6t'),
+        icon: '&#10024;',
+        description: t('f6d')
+      },
+      {
+        title: t('f7t'),
+        icon: '&#128229;',
+        description: t('f7d')
+      },
+      {
+        title: t('f8t'),
+        icon: '&#128274;',
+        description: t('f8d')
+      },
+      {
+        title: t('f9t'),
+        icon: '&#128176;',
+        description: t('f9d')
+      }
+    ]" />
 
     <!-- ══ HOW IT WORKS ══ -->
-    <section class="how" id="how">
-      <div class="how-inner">
-        <div class="section-label reveal">{{ t('how_label') }}</div>
-        <h2 class="section-title reveal">{{ t('how_title') }}</h2>
-        <div class="how-steps">
-          <div class="how-step reveal">
-            <div class="how-step-num">1</div>
-            <div>
-              <div class="how-step-title">{{ t('step1t') }}</div>
-              <div class="how-step-desc">{{ t('step1d') }} @msgboard_bot.</div>
-            </div>
-          </div>
-          <div class="how-step reveal">
-            <div class="how-step-num">2</div>
-            <div>
-              <div class="how-step-title">{{ t('step2t') }}</div>
-              <div class="how-step-desc">{{ t('step2d') }}</div>
-            </div>
-          </div>
-          <div class="how-step reveal">
-            <div class="how-step-num">3</div>
-            <div>
-              <div class="how-step-title">{{ t('step3t') }}</div>
-              <div class="how-step-desc">{{ t('step3d') }}</div>
-            </div>
-          </div>
-          <div class="how-step reveal">
-            <div class="how-step-num">4</div>
-            <div>
-              <div class="how-step-title">{{ t('step4t') }}</div>
-              <div class="how-step-desc">{{ t('step4d') }}</div>
-            </div>
-          </div>
-          <div class="how-step reveal">
-            <div class="how-step-num">5</div>
-            <div>
-              <div class="how-step-title">{{ t('step5t') }}</div>
-              <div class="how-step-desc">{{ t('step5d') }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <LSteps
+      :pre-title="t('how_label')"
+      :title="t('how_title')"
+      :steps="[
+        {
+          title: t('step1t'),
+          description: t('step1d') + ' @msgboard_bot.',
+        },
+        {
+          title: t('step2t'),
+          description: t('step2d'),
+        },
+        {
+          title: t('step3t'),
+          description: t('step3d'),
+        },
+        {
+          title: t('step4t'),
+          description: t('step4d'),
+        },
+        {
+          title: t('step5t'),
+          description: t('step5d'),
+        },
+      ]"/>
 
     <!-- ══ WORKFLOWS ══ -->
     <section class="workflows" id="workflows">
@@ -843,21 +791,10 @@ useSeoMeta({
     </section>
 
     <!-- ══ CTA ══ -->
-    <section class="cta-section">
-      <div class="cta-inner">
-        <div class="cta-label">{{ t('cta_label') }}</div>
-        <h2 class="cta-title">{{ t('cta_title') }}</h2>
-        <p class="cta-sub">{{ t('cta_sub') }}</p>
-        <div class="cta-actions">
-          <a target="_blank" href="https://msgboard.laraue.com/" class="btn-primary">{{ t('hero_cta_web') }}
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          </a>
-          <a href="https://t.me/msgboard_bot" class="btn-outline-white" target="_blank" rel="noopener">
-            &#128172; @msgboard_bot
-          </a>
-        </div>
-      </div>
-    </section>
+    <LCallToAction :title="t('cta_title')" :pre-title="t('cta_label')" :post-title="t('cta_sub')">
+      <LActionButton :title="t('hero_cta_web')" link="https://msgboard.laraue.com/" type="site" />
+      <LActionButton title="&#128172; @msgboard_bot" link="https://t.me/msgboard_bot" type="telegram" />
+    </LCallToAction>
   </LMainContent>
 </template>
 
@@ -881,47 +818,8 @@ section {
 .section-title{font-family:var(--serif);font-size:clamp(26px,3vw,42px);line-height:1.12;letter-spacing:-.3px;margin-bottom:16px}
 .section-sub{font-size:17px;color:var(--muted);font-weight:300;line-height:1.7;max-width:560px}
 
-/* ══ HERO ══ */
-.hero{
-  min-height:100vh;display:flex;align-items:center;
-  padding:100px 60px 80px;position:relative;overflow:hidden;
-  background:var(--ink);
-}
-/* grid overlay */
-.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:52px 52px}
-/* radial glow */
-.hero::after{content:'';position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(45,125,210,.25) 0%,transparent 70%);pointer-events:none}
-
-.hero-inner{position:relative;z-index:1;max-width:1060px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
-
-/* platform badges */
-.platform-badges{display:flex;align-items:center;gap:10px;margin-bottom:28px;flex-wrap:wrap}
-.platform-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.04em}
-.platform-badge.web{background:rgba(45,125,210,.2);color:#6ab0f0;border:1px solid rgba(45,125,210,.3)}
-.platform-badge.tg{background:rgba(34,158,217,.2);color:#7dd3f5;border:1px solid rgba(34,158,217,.3)}
-.platform-badge svg{width:12px;height:12px;flex-shrink:0}
-
-.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,238,.4);margin-bottom:16px}
-
-.hero-title{
-  font-family:var(--serif);
-  font-size:clamp(32px,4vw,56px);
-  line-height:1.05;letter-spacing:-.5px;
-  color:#fff;margin-bottom:12px;
-  animation:fadeUp .8s .1s ease both;
-}
 .hero-title em{font-style:italic;color:#6ab0f0}
 .hero-title .accent{color:var(--accent)}
-
-.hero-sub{font-size:18px;color:rgba(247,244,238,.6);line-height:1.65;max-width:460px;margin-bottom:36px;font-weight:300;animation:fadeUp .8s .2s ease both}
-
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
-
-/* hero stats */
-.hero-stats{display:flex;gap:32px;margin-top:44px;animation:fadeUp .8s .4s ease both;flex-wrap:wrap}
-.hero-stat-num{font-family:var(--serif);font-size:28px;font-weight:800;color:#fff;letter-spacing:-.5px}
-.hero-stat-label{font-size:12px;color:rgba(247,244,238,.45);margin-top:2px;font-weight:500}
-
 /* hero kanban visual */
 .hero-visual{animation:fadeUp .9s .25s ease both;position:relative}
 
@@ -944,7 +842,6 @@ section {
 .kanban-mockup-title{font-size:11px;color:rgba(255,255,255,.4);margin:0 auto;font-weight:600;letter-spacing:.03em}
 
 .kanban-mockup-body{padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.km-col{}
 .km-col-title{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px;padding:0 2px}
 .km-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:9px 11px;margin-bottom:7px;font-size:11px;color:rgba(255,255,255,.8);line-height:1.4;border-left-width:3px}
 .km-card.red{border-left-color:var(--accent)}
@@ -964,8 +861,6 @@ section {
 .org-badge-dot{width:8px;height:8px;border-radius:50%;background:#53e07a;flex-shrink:0;box-shadow:0 0 0 3px rgba(83,224,122,.2)}
 
 /* ══ USE CASES ══ */
-.use-cases{padding:80px 60px;background:var(--cream);border-bottom:1px solid var(--border)}
-.use-cases-inner{max-width:1060px;margin:0 auto}
 .use-cases-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
 
 .use-case-card{
@@ -992,8 +887,6 @@ section {
 .use-case-card:hover .use-case-link{gap:10px}
 
 /* ══ PLATFORMS ══ */
-.platforms{padding:80px 60px;border-bottom:1px solid var(--border)}
-.platforms-inner{max-width:1060px;margin:0 auto}
 .platforms-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
 
 .platform-card{
@@ -1014,31 +907,6 @@ section {
 .platform-card-features{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:28px}
 .platform-card-features li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
 .platform-card-features li svg{width:14px;height:14px;stroke:var(--msg-green);flex-shrink:0}
-
-/* ══ FEATURES ══ */
-.features{padding:80px 60px;background:var(--ink);position:relative;overflow:hidden}
-.features::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px}
-.features-inner{max-width:1060px;margin:0 auto;position:relative;z-index:1}
-.features .section-label{color:rgba(247,244,238,.4)}
-.features .section-label::after{background:rgba(247,244,238,.2)}
-.features .section-title{color:#fff}
-.features .section-sub{color:rgba(247,244,238,.5)}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:52px}
-.feat-cell{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:30px 26px;transition:background .2s}
-.feat-cell:hover{background:rgba(255,255,255,.07)}
-.feat-icon{font-size:26px;margin-bottom:14px}
-.feat-title{font-weight:700;font-size:14px;color:#fff;margin-bottom:9px;letter-spacing:-.1px}
-.feat-desc{font-size:13px;color:rgba(247,244,238,.45);line-height:1.6}
-
-/* ══ HOW IT WORKS ══ */
-.how{padding:80px 60px;border-bottom:1px solid var(--border)}
-.how-inner{max-width:1060px;margin:0 auto}
-.how-steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:52px;position:relative}
-.how-steps::before{content:'';position:absolute;top:20px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--border),var(--border),transparent);z-index:0}
-.how-step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 12px;position:relative;z-index:1}
-.how-step-num{width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--serif);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border:3px solid var(--paper);box-shadow:0 0 0 1px var(--border);flex-shrink:0}
-.how-step-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
-.how-step-desc{font-size:12px;color:var(--muted);line-height:1.5}
 
 /* ══ WORKFLOW TYPES ══ */
 .workflows{padding:80px 60px;background:var(--cream);border-bottom:1px solid var(--border)}
@@ -1093,39 +961,20 @@ section {
 .testimonial-name{font-weight:700;font-size:13px}
 .testimonial-role{font-size:11px;color:var(--muted)}
 
-/* ══ CTA ══ */
-.cta-section{padding:100px 60px;background:var(--ink);position:relative;overflow:hidden;text-align:center}
-.cta-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px}
-.cta-section::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(200,75,47,.18) 0%,transparent 70%);pointer-events:none}
-.cta-inner{position:relative;z-index:1;max-width:640px;margin:0 auto}
-.cta-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,238,.35);margin-bottom:20px}
-.cta-title{font-family:var(--serif);font-size:clamp(28px,4vw,48px);font-weight:800;color:#fff;line-height:1.08;letter-spacing:-.5px;margin-bottom:16px}
-.cta-sub{font-size:17px;color:rgba(247,244,238,.5);font-weight:300;line-height:1.6;margin-bottom:40px}
-.cta-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
-
 /* ══ RESPONSIVE ══ */
 @media(max-width:1100px){
   .sidebar-links li a span:not(.sidebar-icon){display:none}
-  .sidebar-badge,.sidebar-section-label,.sidebar-footer{display:none}
-  .sidebar-divider{margin:10px 8px}
   .sidebar-links li a{padding:11px;justify-content:center;border-left:none;border-radius:8px;margin:0 4px}
   .sidebar-links li a.active{background:rgba(200,75,47,.1)}
   .sidebar-links li a .sidebar-icon{width:auto;font-size:16px}
 }
 @media(max-width:900px){
   .use-cases-grid,.platforms-grid,.pricing-grid,.testimonials-grid{grid-template-columns:1fr}
-  .features-grid{grid-template-columns:1fr 1fr}
-  .how-steps{grid-template-columns:1fr;gap:24px}
-  .how-steps::before{display:none}
-  .how-step{flex-direction:row;text-align:left;gap:16px;align-items:flex-start}
   .workflows-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:720px){
-  .hero{padding:80px 22px 60px}
-  .hero-inner{grid-template-columns:1fr;gap:48px}
   .hero-visual{order:-1}
-  .use-cases,.platforms,.features,.how,.workflows,.pricing,.testimonials,.cta-section{padding:60px 22px}
-  .features-grid{grid-template-columns:1fr}
+  .workflows,.pricing,.testimonials{padding:60px 22px}
   .workflows-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:480px){
