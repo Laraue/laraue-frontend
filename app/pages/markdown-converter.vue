@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import {computed, ref} from "vue";
-import LPageHeader from "~/components/ui/LPageHeader.vue";
-import LSection from "~/components/ui/LSection.vue";
+import LMainContent from "~/components/ui/LMainContent.vue";
+import LHero from "~/components/ui/LHero.vue";
+import {defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const markdown = ref('');
 const transpiled = ref('')
-const renderHtml = ref(true)
 
 const { transpile } = useMarkdownApi();
 
@@ -31,73 +31,73 @@ interface Template {
   hint: string;
 }
 
-const { t, tm, rt } = useI18n()
+const { t } = useI18n()
 const templates = ref([
   {
     data: "# Heading 1",
     text: t('heading1'),
     inlineElement: false,
-    hint: "#",
+    hint: "# H1",
   },
   {
     data: "# Heading 2",
     text: t('heading2'),
     inlineElement: false,
-    hint: "##",
+    hint: "## H2",
   },
   {
     data: "# Heading 3",
     text: t('heading3'),
     inlineElement: false,
-    hint: "###",
+    hint: "### H3",
   },
   {
     data: "**bold text**",
     text: t('bold'),
     inlineElement: true,
-    hint: "** **",
+    hint: "**bold**",
   },
   {
-    data: "*italic text*",
+    data: "*italic*",
     text: t('italic'),
     inlineElement: true,
-    hint: "* *",
+    hint: "*italic*",
   },
   {
     data: "- List item 1\r\n- List item 2",
     text: t('unorderedList'),
     inlineElement: false,
-    hint: "-",
+    hint: "- list",
   },
   {
     data: "1. First\r\n2. Second",
     text: t('orderedList'),
     inlineElement: false,
-    hint: "1.",
+    hint: "1. list",
   },
   {
     data: "[link text](https://example.com)",
     text: t('link'),
     inlineElement: true,
-    hint: "[]()",
+    hint: "[link]()",
   },
   {
     data: "![alt text](https://picsum.photos/200/300)",
     text: t('image'),
     inlineElement: true,
-    hint: "![]()",
+    hint: "![image]()",
   },
   {
     data: "`inline code`",
     text: t('inlineCode'),
     inlineElement: true,
-    hint: "` `",
+    hint: "`code`",
   },
   {
-    data: "```code block```",
+    data: "```\r\ncode block\r\n```",
     text: t('codeBlock'),
     inlineElement: true,
-    hint: "``` ```",
+    hint: "```block",
   }
 ])
 
@@ -107,6 +107,132 @@ useSeoMeta({
   description: t('seoDescription'),
 })
 
+useSchemaOrg([
+  defineSoftwareApp({
+    name: t('seoTitle'),
+    description: t('seoDescription'),
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Browser",
+    offers: [
+      defineOffer({
+        price: 0,
+        priceCurrency: "USD",
+        description: 'Unlimited converter usage '
+      })
+    ]
+  })
+])
+
+/* ── ACTIONS ── */
+const clearEditor = () => {
+  if(confirm('Clear the editor?'))
+    markdown.value = "";
+}
+
+const downloadHtml = () => {
+  if (!transpiled.value)
+    alert('Nothing to download yet — write some Markdown first.'); return;
+
+  const full = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Converted Document</title>
+<style>
+  body{font-family:system-ui,sans-serif;max-width:780px;margin:40px auto;padding:0 24px;line-height:1.7;color:#1a1a1a}
+  h1,h2,h3{font-weight:700;margin:1.4em 0 .5em;line-height:1.2}
+  h1{font-size:2em} h2{font-size:1.4em;border-bottom:1px solid #ddd;padding-bottom:.3em} h3{font-size:1.15em}
+  code{font-family:monospace;background:#f4f4f4;padding:2px 6px;border-radius:3px;font-size:.9em}
+  pre{background:#1a1a2e;color:#d4cfca;padding:16px 20px;border-radius:8px;overflow-x:auto}
+  pre code{background:none;padding:0;color:inherit}
+  blockquote{border-left:3px solid #3b5bdb;padding:10px 16px;margin:16px 0;background:#eef2ff;border-radius:0 6px 6px 0}
+  table{border-collapse:collapse;width:100%;margin:16px 0}
+  th,td{padding:8px 12px;border:1px solid #ddd;text-align:left}
+  th{background:#f4f4f4}
+  a{color:#3b5bdb}
+  img{max-width:100%;border-radius:6px}
+  hr{border:none;border-top:1px solid #ddd;margin:24px 0}
+</style>
+</head>
+<body>
+${transpiled.value}
+</body>
+</html>`;
+
+  const blob=new Blob([full],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='converted.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+const copyHtml = () => {
+  navigator.clipboard.writeText(transpiled.value);
+}
+
+const SAMPLE = `# The Quick Brown Fox
+
+Welcome to the **Markdown to HTML Converter** by Laraue Software.
+
+## Features
+
+- *Live preview* as you type
+- Toggle between **Rendered** view and **HTML source**
+- One-click templates via the toolbar chips
+- **Copy** or **Download** the generated HTML
+
+## Code Example
+
+\`\`\`javascript
+function greet(name) {
+  return \`Hello, \${name}!\`;
+}
+
+console.log(greet("world"));
+\`\`\`
+
+## Blockquote
+
+> "Any fool can write code that a computer can understand.
+> Good programmers write code that humans can understand."
+> — Martin Fowler
+
+## Table
+
+| Language | Paradigm    | Year |
+|----------|-------------|------|
+| C#       | OOP / FP    | 2000 |
+| Python   | Multi       | 1991 |
+| Rust     | Systems     | 2010 |
+
+---
+
+Made with ❤️ by [Laraue Software](https://laraue.com)
+`;
+
+const loadSample = () => {
+  markdown.value = SAMPLE;
+}
+
+const pasteFromClipboard = () => {
+  navigator.clipboard.readText().then(text=>{
+    markdown.value = text;
+  }).catch(()=>{
+    document.execCommand('paste');
+  });
+}
+
+const currentView = ref("rendered")
+const setView = (view: string) =>{
+  currentView.value = view;
+}
+
+const copyMarkdown = () => {
+  navigator.clipboard.writeText(markdown.value);
+}
+
 </script>
 
 <i18n lang="json">
@@ -114,542 +240,410 @@ useSeoMeta({
   "en": {
     "seoTitle": "Markdown to HTML Converter",
     "seoDescription": "The utility for online Markdown to HTML Converting",
-    "heading1": "Heading 1",
-    "heading2": "Heading 2",
-    "heading3": "Heading 3",
-    "bold": "Bold",
-    "italic": "Italic",
-    "unorderedList": "Unordered List",
-    "orderedList": "Ordered List",
-    "link": "Link",
-    "image": "Image",
-    "inlineCode": "Inline Code",
-    "codeBlock": "Code Block",
-    "markdownWindow": "Markdown Source",
-    "htmlWindow": "HTML View",
-    "rendered": "Rendered",
-    "cheatSheet": "Markdown cheat sheet",
-    "cheatHint": "click on any chip – inserts template at the end of your markdown",
-    "seoDescription1": "is a free online tool for writers, developers, and content creators. Write or paste Markdown in the left panel — see the formatted",
-    "seoDescription2": "HTML Output",
-    "seoDescription3": "live on the right. Use the toggle switch to peek at the raw HTML code or switch back to the rendered view.",
-    "seoDescription4": "Perfect for drafting blog posts, GitHub READMEs, documentation, or any content where you need both human‑friendly editing and clean HTML. The converter supports headings, lists, code blocks, blockquotes, bold, italic, links, and more. All generated HTML is sanitized for safe embedding.",
-    "seoDescription5": "The Converter is based on Open Source library",
-    "footer": "Toggle switch — show rendered HTML or plain code",
-    "seoKeywords": [
-      "markdown to html",
-      "live preview",
-      "html source toggle",
-      "markdown editor",
-      "code converter",
-      "free online tool",
-      "documentation helper",
-      "instant render"
-    ]
+    "sidebar_label": "Tool",
+    "sidebar_other": "Other tools",
+    "sidebar_footer": "Laraue Software\nSmall team, serious craft.",
+    "sec_editor": "Editor",
+    "sec_about": "About",
+    "page_title": "Markdown to HTML Converter",
+    "page_desc": "Write or paste Markdown on the left — see formatted HTML on the right, live. Toggle between rendered preview and raw HTML source.",
+    "panel_md": "Markdown Source",
+    "btn_clear": "Clear",
+    "btn_sample": "Sample",
+    "btn_download": "Download .html",
+    "btn_paste": "Paste",
+    "btn_copy_md": "Copy",
+    "btn_copy_html": "Copy HTML",
+    "view_rendered": "Rendered",
+    "view_source": "HTML",
+    "placeholder_text": "Start typing Markdown on the left\nand the HTML preview will appear here.",
+    "about_label": "About this tool",
+    "about_title": "What it does",
+    "about_text": "Markdown to HTML Converter is a free online tool for writers, developers, and content creators. Write or paste Markdown in the left panel — see formatted HTML output live on the right.",
+    "about_text2": "Perfect for drafting blog posts, GitHub READMEs, documentation, or any content where you need both human-friendly editing and clean HTML.",
+    "oss_label": "Open source",
+    "oss_title": "Built on Laraue.Interpreter",
+    "oss_text": "The converter is powered by the open-source",
+    "oss_text2": "library — a C# Markdown parser built by Laraue Software. All generated HTML is sanitized for safe embedding.",
+    "placeholder": "Start typing Markdown here…\n\nType or paste your Markdown and see it render live on the right."
   },
   "ru": {
     "seoTitle": "Конвертер Markdown в HTML",
     "seoDescription": "Простая онлайн утилита для конвертации Markdown в HTML",
-    "heading1": "Заголовок 1",
-    "heading2": "Заголовок 2",
-    "heading3": "Заголовок 3",
-    "bold": "Жирный",
-    "italic": "Курсив",
-    "unorderedList": "Ненумерованный список",
-    "orderedList": "Нумерованный список",
-    "link": "Ссылка",
-    "image": "Изображение",
-    "inlineCode": "Встроенный код",
-    "codeBlock": "Блок кода",
-    "markdownWindow": "Исходный Markdown",
-    "htmlWindow": "HTML Результат",
-    "rendered": "Отрисовка HTML",
-    "cheatSheet": "Шпаргалка по Markdown",
-    "cheatHint": "Нажмите на любой элемент и шаблон элемента будет добавлен в конец файла",
-    "seoDescription1": " - бесплатная утилита для разработчиков и создателей контента. Введите Markdown в панель слева - получите ",
-    "seoDescription2": "HTML Результат",
-    "seoDescription3": "в реальном времени справа. Используйте переключатель, чтобы менять вид окна вывода между отрисованным и неотрисованным HTML.",
-    "seoDescription4": "Подойдет для создания черновиков публикаций, README файлов, документации, или любого контента где нужны одновременно удобный редактор и возможность просмотра HTML. Конвертер поддерживает заголовки, списки, блоки кода, жирный и курсивные тексты, ссылки. Сгенерированный HTML защищен от XSS.",
-    "seoDescription5": "Конвертер базируется на библиотеке",
-    "footer": "Используйте переключатель для отключения отрисовки HTML",
-    "seoKeywords": [
-      "html в markdown",
-      "превью в реальном времени",
-      "переключение меду режими вывода",
-      "редактор markdown",
-      "конвертер кода",
-      "бесплатный онлайн инструмент",
-      "помощник в документации",
-      "мнгновенная отрисовка"
-    ]
+    "sec_editor": "Редактор",
+    "sec_about": "Об инструменте",
+    "page_title": "Markdown → HTML конвертер",
+    "page_desc": "Напишите или вставьте Markdown слева — получите HTML справа. Переключайтесь между превью и исходным HTML.",
+    "panel_md": "Исходный Markdown",
+    "btn_clear": "Очистить",
+    "btn_sample": "Пример",
+    "btn_download": "Скачать .html",
+    "btn_paste": "Вставить",
+    "btn_copy_md": "Копировать",
+    "btn_copy_html": "Копировать HTML",
+    "view_rendered": "Превью",
+    "view_source": "HTML",
+    "placeholder_text": "Начните ввод Markdown слева\n— превью появится здесь.",
+    "about_label": "Об инструменте",
+    "about_title": "Что делает",
+    "about_text": "Markdown to HTML Converter — бесплатный онлайн-инструмент для преобразования Markdown в HTML в режиме реального времени.",
+    "about_text2": "Подходит для блогов и README, документации, любого контента где используется Markdown, но нужно получить HTML.",
+    "oss_label": "Open source",
+    "oss_title": "Основан на Laraue.Interpreter",
+    "oss_text": "Конвертер построен на open-source библиотеке",
+    "oss_text2": ". Это C# Markdown парсер, сделанный Laraue Software. Весь HTML экранируется перед отрисовкой в браузере.",
+    "placeholder": "Начните ввод здесь…\n\nНапишите или вставьте сюда Markdown и наблюдайте за результатом справа."
   }
 }
 </i18n>
 
 <template>
-  <div class="wrapper">
+  <LMainContent>
+    <LHero :title="t('page_title')" :sub-title="t('page_desc')" />
 
-    <LPageHeader>
-      <template #title>
-        {{ t('markdownConverter') }}
-      </template>
-      <template #subtitle>
-        Бесплатная интерактивная онлайн-утилита для преобразования md файлов в html. Начините ввод в левом окне - получите результат в правом.
-      </template>
-    </LPageHeader>
-
-    <LSection class="markdown-windows">
-      <div class="split-panel">
-        <!-- left screen: markdown input -->
-        <div class="card">
-          <div class="card-header">
-            <span>{{ t('markdownWindow') }}</span>
-            <span style="color:#64748b; font-size:0.85rem;">.md</span>
-          </div>
-          <textarea
-              id="mdInput"
-              class="markdown-input"
-              v-model="markdown">
-        </textarea>
-
-          <!-- **********  CLICKABLE CHEAT SHEET (right under editor)  ********** -->
-          <div class="cheat-sheet">
-            <h3>📋 {{ t('cheatSheet') }} </h3>
-            <div class="rules-grid" id="markdownRules">
-              <!-- data-template holds the exact markdown snippet to insert -->
-              <div v-for="template in templates" class="rule-chip" @click="addToMarkdown(template)">
-                <code>{{ template.hint }}</code> <span class="rule-desc">{{ template.text }}</span>
-              </div>
-            </div>
-            <div class="insert-hint">⚡ {{ t('cheatHint') }}</div>
-          </div>
-
-        </div>
-
-        <!-- right screen: output with toggle -->
-        <div class="card">
-          <div class="card-header">
-            <span>{{ t('htmlWindow') }}</span>
-            <!-- toggle switch -->
-            <div class="toggle-container">
-              <span class="toggle-label" id="toggleModeLabel">{{ t('rendered') }}</span>
-              <label class="toggle-switch">
-                <!-- by default unchecked -> rendered mode active -->
-                <input v-model="renderHtml" type="checkbox" id="viewToggle" aria-label="switch between rendered html and raw text">
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
-
-          <!-- output container: two views, only one active at a time -->
-          <div class="output-area" id="outputArea">
-            <!-- rendered html view (hidden initially) -->
-            <div v-if="renderHtml" id="renderedView" class="render-view active">
-              <div id="renderedContent" class="rendered-html" v-html="transpiled">
-              </div>
-            </div>
-            <!-- plain text html view (active initially) -->
-            <div v-else id="textView" class="text-view">
-              <div class="plain-text-output">
-                {{ transpiled }}
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- TOOLBAR -->
+    <div class="converter-toolbar" role="toolbar" aria-label="Formatting shortcuts">
+      <div class="cheat-chips" id="cheatChips" role="group" aria-label="Insert template">
+        <button v-for="template in templates" class="cheat-chip" :title="template.text" @click="addToMarkdown(template)">{{ template.hint }}</button>
       </div>
-    </LSection>
-
-    <div class="seo-block">
-      <p>
-        <strong>{{ t('markdownConverter') }}</strong>
-        {{ t('seoDescription1') }}
-        <strong>{{ t('seoDescription2') }}</strong>
-        {{ t('seoDescription3') }}
-      </p>
-      <p>
-        {{ t('seoDescription4') }}
-      </p>
-      <p>
-        {{ t('seoDescription5') }}
-        <a href="https://github.com/win7user10/Laraue.Interpreter">Laraue.Interpreter.Markdown</a>.
-      </p>
-      <div class="seo-keywords">
-        <span v-for="s in tm('seoKeywords')">{{ rt(s as any) }}</span>
+      <div class="toolbar-sep"></div>
+      <div class="toolbar-actions">
+        <button class="toolbar-btn" @click="clearEditor" title="Clear editor">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          <span>{{ t('btn_clear') }}</span>
+        </button>
+        <button class="toolbar-btn" @click="loadSample" title="Load sample">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span>{{ t('btn_sample') }}</span>
+        </button>
+        <button class="toolbar-btn" @click="downloadHtml" title="Download HTML file">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>{{ t('btn_download') }}</span>
+        </button>
       </div>
     </div>
-  </div>
+
+    <!-- EDITOR AREA -->
+    <div class="editor-area converter-shell" id="editorArea">
+
+      <!-- LEFT: Markdown input -->
+      <div class="editor-panel">
+        <div class="panel-header">
+          <span class="panel-label">{{ t('panel_md') }}</span>
+          <div class="panel-actions">
+            <button class="panel-btn" id="pasteBtn" @click="pasteFromClipboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+              <span>{{ t('btn_paste') }}</span>
+            </button>
+            <button class="panel-btn" id="copyMdBtn" @click="copyMarkdown">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>{{ t('btn_copy_md') }}</span>
+            </button>
+          </div>
+        </div>
+        <textarea
+          class="md-textarea"
+          id="mdInput"
+          v-model="markdown"
+          :placeholder="t('placeholder')"
+          spellcheck="false"
+          autocomplete="off"
+          aria-label="Markdown input"
+        ></textarea>
+      </div>
+
+      <!-- RIGHT: HTML output -->
+      <div class="editor-panel output-panel">
+        <div class="panel-header">
+          <span class="panel-label" id="outputPanelLabel">HTML Output</span>
+          <div class="panel-actions">
+            <div class="view-toggle" role="group" aria-label="Output view">
+              <button class="view-toggle-btn" :class="{ active: currentView === 'rendered' }" @click="setView('rendered')">{{ t('view_rendered') }}</button>
+              <div class="view-toggle-sep"></div>
+              <button class="view-toggle-btn" :class="{ active: currentView === 'source' }" @click="setView('source')">{{ t('view_source') }}</button>
+            </div>
+            <button class="panel-btn" id="copyHtmlBtn" @click="copyHtml">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>{{ t('btn_copy_html') }}</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- rendered preview -->
+        <div class="rendered-view" v-if="transpiled && currentView === 'rendered'" v-html="transpiled"></div>
+        <div class="rendered-view" v-else-if="!transpiled">
+          <div class="rendered-placeholder">
+            <div>
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              <p>{{ t('placeholder_text') }}</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- raw HTML source -->
+        <div v-else class="source-view" aria-label="HTML source output">{{ transpiled }}</div>
+      </div>
+
+    </div><!-- /editor-area -->
+
+    <!-- ABOUT SECTION -->
+    <div class="about-section" id="about">
+      <div class="about-section-inner">
+        <div>
+          <div class="about-block-label">{{ t('about_label') }}</div>
+          <h2 class="about-block-title">{{ t('about_title') }}</h2>
+          <p class="about-block-text">
+            {{ t('about_text') }}
+          </p>
+          <p class="about-block-text" style="margin-top:12px">
+            {{ t('about_text2') }}
+          </p>
+          <div class="about-tags">
+            <span class="about-tag">markdown to html</span>
+            <span class="about-tag">live preview</span>
+            <span class="about-tag">html source</span>
+            <span class="about-tag">markdown editor</span>
+            <span class="about-tag">free online tool</span>
+            <span class="about-tag">documentation helper</span>
+          </div>
+        </div>
+        <div>
+          <div class="about-block-label">{{ t('oss_label') }}</div>
+          <h2 class="about-block-title">{{ t('oss_title') }}</h2>
+          <p class="about-block-text">
+            {{ t('oss_text') }}
+            <a href="https://github.com/win7user10/Laraue.Interpreter" target="_blank" rel="noopener">
+              Laraue.Interpreter.Markdown
+            </a>
+            {{ t('oss_text2') }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </LMainContent>
 </template>
 
 <style scoped>
+/* toolbar */
+.converter-toolbar{
+  display:flex;align-items:center;gap:0;
+  padding:0 48px;
+  background:var(--cream);
+  border-bottom:1px solid var(--border);
+  height:48px;
+  flex-shrink:0;
+  overflow-x:auto;
+}
+/* cheat sheet chips */
+.cheat-chips{display:flex;align-items:center;gap:6px;flex:1;overflow-x:auto;padding:6px 0}
+.cheat-chip{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 9px;
+  background:#fff;border:1px solid var(--border);border-radius:5px;
+  font-family:var(--mono);font-size:11px;color:var(--ink);
+  cursor:pointer;white-space:nowrap;flex-shrink:0;
+  transition:border-color .12s,background .12s,color .12s;
+}
+.cheat-chip:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-light)}
+.cheat-chip-label{font-family:var(--sans);font-size:10px;color:var(--muted);font-weight:600}
 
-.wrapper {
-  padding: 30px 20px 30px;
+.toolbar-sep{width:1px;height:24px;background:var(--border);margin:0 8px;flex-shrink:0}
+
+/* toolbar action buttons */
+.toolbar-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.toolbar-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:5px 12px;border-radius:6px;border:1px solid var(--border);
+  background:#fff;font-family:var(--sans);font-size:12px;font-weight:600;
+  color:var(--muted);cursor:pointer;white-space:nowrap;
+  transition:border-color .15s,color .15s,background .15s;
+}
+.toolbar-btn:hover{border-color:var(--ink);color:var(--ink);background:var(--paper)}
+.toolbar-btn svg{width:13px;height:13px;stroke:currentColor;flex-shrink:0}
+.toolbar-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+/* view toggle */
+.view-toggle{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;flex-shrink:0}
+.view-toggle-btn{padding:4px 10px;font-size:11px;font-weight:700;letter-spacing:.03em;background:none;border:none;cursor:pointer;font-family:var(--sans);color:var(--muted);transition:background .15s,color .15s}
+.view-toggle-btn:hover{background:var(--cream);color:var(--ink)}
+.view-toggle-btn.active{background:var(--ink);color:#fff}
+.view-toggle-sep{width:1px;background:var(--border)}
+
+/* ══ EDITOR AREA ══ */
+.editor-area{
+  flex:1;display:grid;grid-template-columns:1fr 1fr;
+  min-height:0; /* critical for flex children */
 }
 
-h1 {
-  letter-spacing: -0.02em;
-  color: #1e293b;
-  margin: 0;
+/* panel */
+.editor-panel{
+  display:flex;flex-direction:column;
+  min-height:0;overflow:hidden;
+  border-right:1px solid var(--border);
 }
+.editor-panel:last-child{border-right:none}
 
-/* two‑screen grid */
-.split-panel {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.8rem;
+.panel-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 18px;
+  background:var(--cream);border-bottom:1px solid var(--border);
+  flex-shrink:0;
 }
-
-/* shared card styles */
-.card {
-  background: #ffffffdd;
-  box-shadow: 0 12px 30px -8px rgba(0,20,40,0.15), 0 4px 0 0 #f8fafc inset;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid rgba(255,255,255,0.7);
-  transition: transform 0.1s ease;
+.panel-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.panel-actions{display:flex;align-items:center;gap:6px}
+.panel-btn{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 10px;border-radius:5px;border:1px solid var(--border);
+  background:#fff;font-size:11px;font-weight:600;color:var(--muted);
+  cursor:pointer;font-family:var(--sans);
+  transition:border-color .15s,color .15s,background .15s;
 }
+.panel-btn:hover{border-color:var(--ink);color:var(--ink)}
+.panel-btn svg{width:12px;height:12px;stroke:currentColor;flex-shrink:0}
+.panel-btn.success{border-color:#43b77a;color:#43b77a;background:#f0fbf5}
 
-.card:hover {
-  box-shadow: 0 20px 35px -12px rgba(79, 70, 229, 0.2);
-}
-
-.card-header {
-  padding: 1.2rem 1.8rem;
-  background: #eef2ff66;
-  border-bottom: 1px solid #e2e8f0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 500;
-  color: #0f172a;
-}
-
-.card-header span {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* input area */
-.markdown-input {
-  width: 100%;
-  min-height: 460px;
-  padding: 1.5rem;
-  border: none;
-  resize: vertical;
-  font-size: 1rem;
-  line-height: 1.6;
-  background: #ffffff;
-  color: #1e293b;
-  caret-color: #6366f1;
-  outline: none;
-  overflow: auto;  /* enables both horizontal and vertical scrollbars when needed */
-  white-space: pre;  /* prevents text wrapping, forces horizontal scroll for long lines */
-  word-wrap: normal;  /* ensures long unbroken strings trigger horizontal scroll */
-  box-sizing: border-box;
-}
-
-.markdown-input::placeholder {
-  color: #94a3b8;
-  font-style: italic;
-  font-size: 0.95rem;
+/* markdown textarea */
+.md-textarea{
+  flex:1;width:100%;border:none;outline:none;resize:none;
+  font-family:var(--mono);font-size:13px;line-height:1.7;
+  color:#2a2725;background:#fff;
+  padding:20px 22px;
+  tab-size:2;
 }
 
 /* output panel */
-.output-area {
-  flex: 1;
-  background: #ffffff;
-  min-height: 460px;
-  max-height: 700px;
-}
-
-/* toggle switch (clean, modern) */
-.toggle-container {
+.output-panel {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 
-.toggle-switch {
-  position: relative;
-  display: inline-block;
-  width: 56px;
-  height: 28px;
-  background: #cbd5e1;
-  border-radius: 15px;
-  transition: background 0.2s;
-  cursor: pointer;
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+/* rendered view */
+.rendered-view{
+  flex:1;overflow-y:auto;padding:24px 28px;
+  background:#fff;font-family:var(--sans);
+}
+/* rendered html typography */
+.rendered-view :deep(h1){font-family:var(--serif);font-size:26px;font-weight:800;line-height:1.2;color:var(--ink);margin:0 0 16px;letter-spacing:-.3px}
+.rendered-view :deep(h2){font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.25;color:var(--ink);margin:28px 0 12px;letter-spacing:-.2px;border-bottom:1px solid var(--border);padding-bottom:6px}
+.rendered-view :deep(h3){font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ink);margin:22px 0 8px}
+.rendered-view :deep(h4){font-size:14px;font-weight:700;color:var(--ink);margin:18px 0 6px;text-transform:uppercase;letter-spacing:.04em}
+.rendered-view :deep(p){font-size:15px;line-height:1.7;color:#2a2725;margin-bottom:14px}
+.rendered-view :deep(ul),.rendered-view :deep(ol){padding-left:24px;margin-bottom:14px}
+.rendered-view :deep(li){font-size:15px;line-height:1.6;margin-bottom:4px;color:#2a2725}
+.rendered-view :deep(strong){font-weight:700;color:var(--ink)}
+.rendered-view :deep(em){font-style:italic}
+.rendered-view :deep(a){color:var(--blue);text-decoration:underline;text-decoration-color:rgba(59,91,219,.3);text-underline-offset:2px}
+.rendered-view :deep(a:hover){text-decoration-color:var(--blue)}
+.rendered-view :deep(code){font-family:var(--mono);font-size:.85em;background:var(--cream);border:1px solid var(--border);padding:1px 5px;border-radius:4px;color:var(--ink)}
+.rendered-view :deep(pre){background:var(--ink);border-radius:8px;padding:16px 20px;margin:16px 0;overflow-x:auto}
+.rendered-view :deep(pre code){background:none;border:none;padding:0;color:#d4cfca;font-size:12px;line-height:1.7}
+.rendered-view :deep(blockquote){border-left:3px solid var(--blue);padding:10px 16px;margin:16px 0;background:var(--blue-light);border-radius:0 6px 6px 0}
+.rendered-view :deep(blockquote p){margin:0;color:var(--muted);font-style:italic}
+.rendered-view :deep(table){border-collapse:collapse;width:100%;margin:16px 0;font-size:14px}
+.rendered-view :deep(th){background:var(--cream);font-weight:700;padding:8px 12px;border:1px solid var(--border);text-align:left}
+.rendered-view :deep(td){padding:7px 12px;border:1px solid var(--border)}
+.rendered-view :deep(tr:nth-child(even) td){background:var(--paper)}
+.rendered-view :deep(hr){border:none;border-top:1px solid var(--border);margin:24px 0}
+.rendered-view :deep(img){max-width:100%;border-radius:6px;border:1px solid var(--border);margin:8px 0}
+
+/* source view */
+.source-view{
+  flex:1;overflow-y:auto;padding:20px 22px;
+  background:#1a1a2e;
+  font-family:var(--mono);font-size:12px;line-height:1.7;
+  color:#d4cfca;white-space:pre-wrap;word-break:break-word;
+}
+.source-view.visible{display:block}
+
+/* empty placeholder */
+.rendered-placeholder{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  height:100%;padding:40px;text-align:center;color:var(--muted);gap:12px;
+}
+.rendered-placeholder svg{width:40px;height:40px;stroke:currentColor;opacity:.3}
+.rendered-placeholder p{font-size:14px;line-height:1.5;opacity:.7}
+
+/* ══ BELOW-FOLD CONTENT ══ */
+.about-section{
+  padding:60px 48px;border-top:1px solid var(--border);
+  background:var(--paper);
+}
+.about-section-inner{max-width:860px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.about-block-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.about-block-label::after{content:'';flex:1;max-width:32px;height:1px;background:var(--blue);opacity:.4}
+.about-block-title{font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:12px;letter-spacing:-.2px}
+.about-block-text{font-size:14px;color:var(--muted);line-height:1.7;font-weight:300}
+.about-block-text strong{color:var(--ink);font-weight:600}
+.about-block-text a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(59,91,219,.3)}
+.about-block-text a:hover{text-decoration-color:var(--blue)}
+.about-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.about-tag{font-size:11px;font-weight:600;background:var(--blue-light);color:var(--blue);padding:3px 9px;border-radius:5px}
+
+/* markdown textarea */
+.md-textarea{
+  flex:1;width:100%;border:none;outline:none;resize:none;
+  font-family:var(--mono);font-size:13px;line-height:1.7;
+  color:#2a2725;background:#fff;
+  padding:20px 22px;
+  tab-size:2;
 }
 
-.toggle-switch:has(input:checked) {
-  background: #6366f1;
+/* ══ RESPONSIVE ══ */
+@media(max-width:1100px){
+  .converter-toolbar,.about-section{padding-left:32px;padding-right:32px}
+  footer{padding-left:32px;padding-right:32px}
 }
-
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  position: absolute;
+@media(max-width:840px){
+  .editor-area{grid-template-columns:1fr;grid-template-rows:1fr 1fr}
+  .editor-panel{border-right:none;border-bottom:1px solid var(--border)}
+  .editor-panel:last-child{border-bottom:none}
+  .about-section-inner{grid-template-columns:1fr;gap:36px}
 }
-
-.slider {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 22px;
-  height: 22px;
-  background: white;
-  border-radius: 50%;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  transition: transform 0.2s ease;
-}
-
-.toggle-switch input:checked + .slider {
-  transform: translateX(28px);
-}
-
-.toggle-label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #334155;
-  user-select: none;
-}
-
-.toggle-label .mode-text {
-  background: #f1f5f9;
-  padding: 0.2rem 0.7rem;
-  border-radius: 30px;
-  color: #1e293b;
-}
-
-/* rendered html — style reset inside container */
-.rendered-html {
-  padding: 1.8rem;
-  height: 100%;
-  line-height: 1.6;
-  color: #1e293b;
-  overflow: auto;  /* scrollbars for rendered HTML view */
-  box-sizing: border-box;
-}
-
-.rendered-html :deep(h1),
-.rendered-html :deep(h2),
-.rendered-html :deep(h3),
-.rendered-html :deep(h4),
-.rendered-html :deep(p),
-.rendered-html :deep(ul),
-.rendered-html :deep(ol),
-.rendered-html :deep(blockquote),
-.rendered-html :deep(pre) {
-  margin-bottom: 1rem;
-}
-
-.rendered-html :deep(h1) { font-size: 2em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.3rem; }
-.rendered-html :deep(h2) { font-size: 1.5em; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.2rem; }
-.rendered-html :deep(code) { background: #f1f5f9; padding: 0.2rem 0.4rem; border-radius: 6px; }
-.rendered-html :deep(pre) { background: #f1f5f9; padding: 1rem; border-radius: 12px; overflow-x: auto; }
-.rendered-html :deep(blockquote) { border-left: 4px solid #a5b4fc; padding-left: 1rem; color: #334155; }
-.rendered-html :deep(table) { border-collapse: collapse; width: 100%; }
-.rendered-html :deep(th), .rendered-html :deep(td) { border: 1px solid #cbd5e1; padding: 0.5rem; }
-.rendered-html :deep(ul) { list-style: disc; margin-left: 20px; }
-.rendered-html :deep(ol) { list-style: decimal; margin-left: 20px; }
-
-/* plain text area (inside output) */
-.plain-text-output {
-  padding: 1.8rem;
-  margin: 0;
-  height: 100%;
-  background: #fcfcfd;
-  font-size: 0.95rem;
-  color: #0f172a;
-  border: none;
-  resize: none;
-  width: 100%;
-  min-height: 460px;
-  overflow: auto;  /* scrollbars for plain text view */
-  white-space: pre;  /* keeps code formatting with horizontal scroll */
-  word-wrap: normal;  /* ensures long lines cause horizontal scroll */
-}
-
-/* toggle visibility */
-.render-view, .text-view {
-  height: 100%;
-}
-
-.render-view.active, .text-view.active {
-  display: block;
-}
-
-/* --- MARKDOWN CHEAT SHEET (clickable blocks) --- */
-.cheat-sheet {
-  margin-top: 1.8rem;
-  background: #ffffffd9;
-  padding: 1.5rem 2rem;
-  border: 1px solid #ffffff;
-  box-shadow: 0 12px 25px -16px #1e293b;
-}
-
-.cheat-sheet h3 {
-  font-weight: 500;
-  font-size: 1.3rem;
-  color: #0f172a;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.cheat-sheet h3 span {
-  background: #c7d2fe;
-  color: #1e1b4b;
-  padding: 0.2rem 0.9rem;
-  border-radius: 40px;
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.rules-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem 1.2rem;
-  align-items: center;
-}
-
-.rule-chip {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  padding: 0.5rem 0.7rem;
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #1e293b;
-  cursor: pointer;
-  box-shadow: 0 2px 6px #00000008;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;  /* removes gray tap highlight on iOS */
-  -webkit-touch-callout: none;  /* prevents callout menu */
-  transition: all 0.15s ease;  /* your existing transition */
-}
-
-.rule-chip:hover {
-  background: #e0e7ff;
-  border-color: #818cf8;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 18px -10px #a5b4fc;
-}
-
-.rule-chip:active {
-  transform: translateY(1px);
-  background: #cbd5e1;
-}
-
-.rule-chip code {
-  background: #ffffffb0;
-  padding: 0.2rem 0.7rem;
-  border-radius: 40px;
-  font-size: 0.85rem;
-  color: #4338ca;
-  border: 1px solid #cbd5e1;
-}
-
-/* Remove any default tap highlight color that might persist */
-.rule-chip:focus-visible {
-  outline: none;  /* removes focus outline on tap (optional) */
-}
-
-.rule-desc {
-  font-size: 0.9rem;
-  color: #334155;
-}
-
-.insert-hint {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #475569;
-  background: #f1f4f9;
-  padding: 0.4rem 1.2rem;
-  border-radius: 5px;
-  display: inline-block;
-}
-/* --- end cheat sheet --- */
-
-/* --- SEO BLOCK (new) --- */
-.seo-block {
-  margin-top: 2.5rem;
-  padding: 1.5rem 2rem;
-  background: #eef2ff66;  /* soft indigo tint */
-  border: 1px solid #ffffff;
-  backdrop-filter: blur(2px);
-  color: #1e293b;
-  box-shadow: 0 8px 20px -12px #1e293b40;
-}
-
-.seo-block p {
-  margin-bottom: 0.75rem;
-  line-height: 1.6;
-  font-size: 1rem;
-}
-
-.seo-block strong {
-  color: #4338ca;
-  font-weight: 600;
-}
-
-.seo-keywords {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1rem;
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #334155;
-}
-
-.seo-keywords span {
-  background: white;
-  padding: 0.2rem 1rem;
-  border-radius: 5px;
-  border: 1px solid #c7d2fe;
-  font-weight: 400;
-}
-
-.footer-note {
-  margin-top: 1.2rem;
-  text-align: right;
-  color: #64748b;
-  font-size: 0.85rem;
-}
-
-hr {
-  border: 1px solid #e2e8f0;
-  margin: 1.5rem 0 0.5rem 0;
-  opacity: 0.5;
-}
-
-/* mobile adaptation */
-@media (max-width: 800px) {
-  .split-panel {
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
+@media(max-width:640px){
+  .converter-toolbar {
+    flex-wrap: wrap;        /* allow chips and actions to stack */
+    height: auto;           /* remove fixed height */
+    padding: 8px 12px;      /* comfortable touch spacing */
+    gap: 10px;              /* space between wrapped rows */
+    overflow-x: visible;    /* prevent whole toolbar scrolling */
   }
-  .service-container {
-    padding: 1rem;
+
+  .cheat-chips {
+    width: 100%;            /* full width on top row */
+    order: 1;               /* ensure chips appear first */
+    overflow-x: auto;       /* keep horizontal scroll for many chips */
+    -webkit-overflow-scrolling: touch;
   }
-  .rules-grid {
-    gap: 0.6rem;
+
+  .toolbar-sep {
+    display: none;          /* hide separator on mobile */
   }
-  .rule-chip {
-    padding: 0.4rem 1rem;
-    font-size: 0.9rem;
+
+  .toolbar-actions {
+    width: 100%;            /* full width for action buttons */
+    order: 2;
+    justify-content: space-between; /* spread buttons evenly */
+    gap: 8px;
+    padding-bottom: 6px;
   }
-  .output-area, .plain-text-output, .markdown-input {
-    min-height: 150px;
+
+  .toolbar-btn {
+    flex: 1;                /* make buttons equally wide */
+    justify-content: center;
+    padding: 6px 8px;       /* larger touch target */
+    font-size: 12px;        /* readable but compact */
   }
-  .wrapper {
-    padding: 90px 20px 20px;
-  }
+}
+@media(max-width:720px){
+  .converter-toolbar{padding:0 12px;}
+  .cheat-chips{gap:4px}
+  .about-section{padding:44px 20px}
+}
+@media(max-width:480px){
+  .editor-area{grid-template-rows:auto auto;min-height:600px}
+  .md-textarea{min-height:240px}
 }
 </style>

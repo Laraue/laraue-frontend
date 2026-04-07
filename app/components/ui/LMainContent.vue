@@ -2,7 +2,7 @@
 import LSidebar, {type LinksSection} from "~/components/ui/LSidebar.vue";
 
 defineProps<{
-  linksSections: LinksSection[]
+  linksSections?: LinksSection[]
 }>()
 </script>
 

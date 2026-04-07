@@ -27,6 +27,7 @@
       <h1 class="reveal" data-i18n="blog_title">{{ title }}</h1>
       <p class="blog-hero-sub reveal" data-i18n="blog_sub">{{ subTitle }}</p>
     </div>
+    <slot></slot>
   </div>
 </template>
 
