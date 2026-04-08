@@ -4,6 +4,7 @@ import LSection from "~/components/landins/LSection.vue";
 export interface Step {
   title: string,
   description: string,
+  icon?: string,
 }
 
 defineProps<{
@@ -20,6 +21,7 @@ defineProps<{
       <div class="how-steps">
         <div v-for="(step, i) in steps" class="how-step reveal">
           <div class="how-step-num">{{ i + 1 }}</div>
+          <div class="how-step-icon" v-if="step.icon">{{ step.icon }}</div>
           <div>
             <div class="how-step-title">{{ step.title }}</div>
             <div class="how-step-desc">{{ step.description }}</div>
@@ -40,6 +42,7 @@ defineProps<{
 .how-step-num{width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--serif);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border:3px solid var(--paper);box-shadow:0 0 0 1px var(--border);flex-shrink:0}
 .how-step-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
 .how-step-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.how-step-icon{font-size: 24px;margin-bottom: 10px;}
 
 @media(max-width:900px){
   .how-steps{grid-template-columns:1fr;gap:24px}

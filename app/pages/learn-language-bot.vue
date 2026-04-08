@@ -385,8 +385,7 @@ useSchemaOrg([
         </div>
         <div class="lang-card reveal" style="border-style:dashed;background:transparent;cursor:default;justify-content:center;opacity:.6">
           <div style="text-align:center">
-            <div style="font-size:22px;margin-bottom:4px">&#43;</div>
-            <div class="lang-pair" style="font-size:13px">{{ t('more_coming') }}</div>
+            <div class="lang-pair" style="font-size:13px"> + {{ t('more_coming') }}</div>
           </div>
         </div>
       </div>
