@@ -1,22 +1,18 @@
 <script setup lang="ts">
 import {computed, ref, watch} from 'vue';
-import type {UploadFile, UploadProps} from "element-plus";
 import {type PsqlExecutionResult, usePdfExtractorApi} from "~/composables/pdfExtractorApi";
-import {faUpload} from "@fortawesome/free-solid-svg-icons";
-import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
-import LSelect from "~/components/docs/LSelect.vue";
+import LMainContent from "~/components/ui/LMainContent.vue";
+import LHero from "~/components/ui/LHero.vue";
+import {defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const { runQuery, checkSyntax } = usePdfExtractorApi();
 
-const defaultPsql = `select(tables)`;
-const file = ref<UploadFile | null>(null);
-const pdfql = ref(defaultPsql);
 const isLoading = ref(false);
 const result = ref<PsqlExecutionResult>({ result: null, errors: [] });
-const isSnippetWindowOpened = ref(false);
 
 const { t } = useI18n();
+const localePath = useLocalePath();
 
 const isCopied = ref(false);
 const copyToClipBoard = () => {
@@ -28,18 +24,20 @@ const copyToClipBoard = () => {
 const run = async () => {
   isCopied.value = false;
   try {
-    const bytes = await getBase64(file.value);
+    const bytes = await getBase64(selectedFile.value?.file);
     result.value = await withLoader(() => runQuery(pdfql.value, bytes));
   }
-  catch (e) {
+  catch (e: any) {
     result.value.result = null;
-    if (e instanceof Error) {
-      result.value.errors.push({startPosition: 1, endPosition: 2, startLineNumber: 1, endLineNumber: 1, message: e.message});
-    }
-    else {
-      throw e;
-    }
+    result.value.errors.push({message: e.message});
   }
+}
+
+const downloadResult = () => {
+  if(!result.value.result)return;
+  const blob=new Blob([JSON.stringify(result.value.result)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='extracted.json';a.click();URL.revokeObjectURL(a.href);
 }
 
 const runSyntaxCheck = async () => {
@@ -47,17 +45,11 @@ const runSyntaxCheck = async () => {
   result.value.errors = (await checkSyntax(pdfql.value)).errors;
 }
 
-const handleChange: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
-  if (uploadFiles.length > 1)
-    uploadFiles.shift();
-  file.value = uploadFile
-}
-
-const getBase64 = (file: any) : Promise<string> => {
+const getBase64 = (file: File) : Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.readAsDataURL(file.raw);
-    reader.onload = () => resolve(reader.result?.slice(28) as string);
+    reader.readAsDataURL(file.slice());
+    reader.onload = () => resolve(reader.result?.slice(37) as string);
     reader.onerror = (error) => reject(error);
   });
 };
@@ -75,45 +67,34 @@ const modes = computed(() => [
   {
     title: t('selectTables'),
     pdfql: "select(tables)",
-    key: "tables"
+    key: "tables",
+    icon: "📊",
+    description: t('modeDescTables'),
   },
   {
     title: t('selectTableRows'),
     pdfql: "select(tableRows)",
-    key: "tableRows"
+    key: "tableRows",
+    icon: "➗",
+    description: t('modeDescRows'),
   },
   {
     title: t('selectTableCells'),
     pdfql: "select(tableCells)",
-    key: "tableCells"
+    key: "tableCells",
+    icon: "▦",
+    description: t('modeDescCells'),
   },
   {
     title: t('manualQuery'),
     pdfql: "",
-    key: "manual"
+    key: "manual",
+    icon: "⚙",
+    description: t('modeDescManual'),
   },
-])
+]);
 
-const snippets = [
-  {
-    title: t('snippetFirstThreeTables'),
-    pdfql: "select(tables)\r->take(3)",
-  },
-  {
-    title: t('snippetFilterRows'),
-    pdfql: "select(tableRows)\r->filter(row => row.GetCell(1).Text() == 'Customer')"
-  },
-]
-
-const chooseSnippet = (value: string) => {
-  pdfql.value = value;
-  isSnippetWindowOpened.value = false;
-}
-
-const chooseSuggestion = (id: string) => {
-  currentModeId.value = id;
-  pdfql.value = currentMode.value!.pdfql;
-}
+const pdfql = ref(modes.value[0]!.pdfql);
 
 const currentModeId = ref<string | undefined>("tables");
 const currentMode = computed(() => {
@@ -130,11 +111,64 @@ watch(currentModeId, (newModeId) => {
     pdfql.value = mode.pdfql;
 })
 
+const formatBytes = (b: number) => {
+  if(b<1024)return b+' B';
+  if(b<1024*1024)return (b/1024).toFixed(1)+' KB';
+  return (b/(1024*1024)).toFixed(1)+' MB';
+}
+
+interface SelectedFile {
+  size: string;
+  file: File
+}
+
+const selectedFile = ref<SelectedFile>()
+
+const handleFile = (f?: File) => {
+  if (!f||f.type!=='application/pdf' && !f.name.endsWith('.pdf')){
+    alert('Please select a PDF file.');return;
+  }
+  if (f.size>20*1024*1024){
+    alert('File too large. Maximum size is 20 MB.');
+    return;
+  }
+
+  selectedFile.value = {
+    file: f,
+    size: formatBytes(f.size)
+  }
+}
+
+const clear = () => {
+  result.value.result = null;
+  result.value.errors = [];
+}
+
+const removeFile = () => {
+  selectedFile.value = undefined;
+}
+
 useSeoMeta({
   title: computed(() => t('seoTitle')),
   ogTitle: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),
 })
+
+useSchemaOrg([
+  defineSoftwareApp({
+    name: t('seoTitle'),
+    description: t('seoDescription'),
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Browser",
+    offers: [
+      defineOffer({
+        price: 0,
+        priceCurrency: "USD",
+        description: 'Unlimited extractor usage'
+      })
+    ]
+  })
+])
 </script>
 
 <i18n lang="json">
@@ -143,7 +177,7 @@ useSeoMeta({
     "seoTitle": "Pdf Query Language Concept (Alpha)",
     "seoDescription": "Extract data from PDF with the Pdf Query language or premade snippets",
     "pageTitle": "Extract objects from PDF",
-    "pageSubtitle": "The service helps to extract PDF parts in the popular formats for free. Registration is not required.",
+    "pageSubtitle": "Extract tables, rows, and cells from any PDF document into clean JSON — free, with no registration required. Powered by PdfQL, a declarative PDF query language.",
     "aboutLink": "About PDF query language (Concept)",
     "extractTypeLabel": "What do you want to extract?",
     "queryInputLabel": "Enter PDF query:",
@@ -158,21 +192,51 @@ useSeoMeta({
     "selectTables": "Tables",
     "selectTableRows": "Table rows",
     "selectTableCells": "Table cells",
-    "manualQuery": "Write query manually (advanced)",
-    "snippetFirstThreeTables": "Select 3 first tables",
-    "snippetFilterRows": "Select table rows where first cell equals 'Customer'",
+    "manualQuery": "Write query manually",
+    "modeDescTables": "Full table structure with headers and rows",
+    "modeDescRows": "Flat array of row arrays per table",
+    "modeDescCells": "Individual cell values from all tables",
+    "modeDescManual": "Custom declarative query for advanced use",
     "step1Title": "Select Extraction Type",
     "step1Description": "Choose what you want to extract from your PDF document.",
     "step2Title": "Upload PDF",
     "step2Description": "Upload your PDF document using the file browser or drag and drop.",
     "step3Title": "Get Results",
-    "step3Description": "Click \"Start Extraction\" and view your extracted data in the results area."
+    "step3Description": "Click \"Start Extraction\" and view your extracted data in the results area.",
+    "autoGenerated": "Auto-generated PdfQL query",
+    "stepsTitle": "Getting started",
+    "stepsDesc": "Get PDF content in 3 steps",
+    "uploadPdf": "Upload your PDF",
+    "extract": "Extract",
+    "startExtraction": "Start Extraction",
+    "extractedJson": "Extracted JSON",
+    "errors": "Errors",
+    "copy": "Copy",
+    "downloadJson": "Download .json",
+    "clear": "Clear",
+    "howItWorksTitle": "How it works",
+    "howStep1": "tables, rows, cells, or write a custom PdfQL query.",
+    "howStep2": "Upload your PDF — drag & drop or click to browse. Files are processed on the server and not stored.",
+    "howStep3": "Get JSON results — copy to clipboard or download as a .json file.",
+    "extractionModes": "Extraction modes",
+    "pdfqlConcept": "PdfQL — A Query Language for PDFs",
+    "pdfqlConceptDesc": "Read about the design and goals of PdfQL, a declarative language for extracting structured data from PDF documents.",
+    "readConcept": "Read the concept article →",
+    "alphaNotice": "Alpha notice: This is an early prototype. Complex multi-column layouts and scanned PDFs may produce incomplete results. Files are not stored after processing.",
+    "invalidFileType": "Please select a PDF file.",
+    "fileTooLarge": "File too large. Maximum size is 20 MB.",
+    "noFileSelected": "Please select a PDF file first.",
+    "dropPdfHere": "Drop PDF here to process",
+    "clickToUpload": "click to upload",
+    "pdfOnlyMax": "PDF files only · Max 20 MB",
+    "removeFile": "Remove file",
+    "chooseType": "Choose extraction type"
   },
   "ru": {
     "seoTitle": "Конвертер PDF -> JSON (Альфа)",
     "seoDescription": "Извлекайте данные из PDF с помощью языка Pdf Query или готовых сниппетов",
-    "pageTitle": "Извлечение структурированных данных из PDF",
-    "pageSubtitle": "Сервис помогает бесплатно извлекать данные из PDF, используя специализированный язык",
+    "pageTitle": "Извлечение данных из PDF",
+    "pageSubtitle": "Извлекайте таблицы, их строки и ячейки из любого PDF в формате JSON — бесплатно и без регистрации. Работает на PdfQL, декларативном языке запросов PDF.",
     "aboutLink": "О языке запросов PDF (Концепт)",
     "extractTypeLabel": "Что вы хотите извлечь?",
     "queryInputLabel": "Введите PDF запрос:",
@@ -185,335 +249,423 @@ useSeoMeta({
     "copied": "Скопировано",
     "howItWorks": "Как это работает",
     "selectTables": "Таблицы",
-    "selectTableRows": "Строки таблиц",
-    "selectTableCells": "Ячейки таблиц",
-    "manualQuery": "Написать запрос вручную (продвинутый уровень)",
-    "snippetFirstThreeTables": "Выбрать 3 первые таблицы",
-    "snippetFilterRows": "Выбрать строки таблиц, где первая ячейка равна 'Customer'",
+    "selectTableRows": "Строки",
+    "selectTableCells": "Ячейки",
+    "manualQuery": "Написать запрос вручную",
+    "modeDescTables": "Полная структура таблицы с заголовками и строками",
+    "modeDescRows": "Плоский массив массивов строк для каждой таблицы",
+    "modeDescCells": "Отдельные значения ячеек из всех таблиц",
+    "modeDescManual": "Пользовательский декларативный запрос для продвинутых сценариев",
     "step1Title": "Выберите, что извлечь",
     "step1Description": "Таблицы, параграфы или что-нибудь еще.",
-    "step2Title": "Загрузите PDF",
+    "step2Title": "Выберите PDF",
     "step2Description": "Загрузите PDF документ через файловый менеджер или перетащив файл в зону загрузки контента.",
     "step3Title": "Получите результат",
-    "step3Description": "Нажмите \"Старт\" и смотрите, что получилось."
+    "step3Description": "Нажмите \"Старт\" и смотрите, что получилось.",
+    "autoGenerated": "Сгенерированный PdfQL запрос",
+    "stepsTitle": "Как начать",
+    "stepsDesc": "Получите контент файла в 3 шага",
+    "uploadPdf": "Выберите PDF",
+    "extract": "Запуск",
+    "startExtraction": "Начать извлечение",
+    "extractedJson": "Извлечённый JSON",
+    "errors": "Ошибки",
+    "copy": "Копировать",
+    "downloadJson": "Скачать .json",
+    "clear": "Очистить",
+    "howItWorksTitle": "Как это работает",
+    "howStep1": "таблицы, строки, ячейки или напишите свой запрос PdfQL.",
+    "howStep2": "Выберите PDF — перетащите файл или нажмите для выбора. Файлы обрабатываются на сервере и не хранятся.",
+    "howStep3": "Получите JSON — скопируйте в буфер обмена или скачайте как .json файл.",
+    "extractionModes": "Режимы извлечения",
+    "pdfqlConcept": "PdfQL — язык запросов для PDF",
+    "pdfqlConceptDesc": "Прочитайте о дизайне и целях PdfQL — декларативном языке для извлечения структурированных данных из PDF.",
+    "readConcept": "Читать статью об языке →",
+    "alphaNotice": "Альфа-версия: это ранний прототип. Сложные многоколоночные макеты и сканированные PDF могут давать некорректные результаты. Файлы не хранятся после обработки.",
+    "invalidFileType": "Пожалуйста, выберите PDF файл.",
+    "fileTooLarge": "Файл слишком большой. Максимальный размер 20 МБ.",
+    "noFileSelected": "Сначала выберите PDF файл.",
+    "dropPdfHere": "Перетащите PDF сюда для обработки",
+    "clickToUpload": "нажмите для загрузки",
+    "pdfOnlyMax": "Только PDF · Макс 20 МБ",
+    "removeFile": "Удалить файл",
+    "chooseType": "Выберите режим извлечения"
   }
 }
 </i18n>
 
 <template>
-  <div class="container">
-    <header>
-      <h1>{{ t('pageTitle') }}</h1>
-      <p class="subtitle">{{ t('pageSubtitle') }}</p>
-      <nuxt-link class="doc-link" to="blog/projects/pdf-query-language">{{ t('aboutLink') }}</nuxt-link>
-    </header>
+  <LMainContent>
+    <LHero :title="t('pageTitle')" :sub-title="t('pageSubtitle')" />
+    <!-- TOOL BODY -->
+    <div class="tool-body">
 
-    <div class="content">
-      <div class="form-group">
-        <label for="extract-type">{{ t('extractTypeLabel') }}</label>
-        <l-select
-            :options="modes"
-            v-model="currentModeId">
-        </l-select>
-      </div>
-
-      <div  v-if="currentMode?.key === 'manual'" class="form-group">
-        <label for="query-input">{{ t('queryInputLabel') }}</label>
-        <textarea id="query-input" v-model="pdfql"></textarea>
-      </div>
-
-      <div class="form-group">
-        <el-upload
-            class="pdf-uploader"
-            :on-change="handleChange"
-            :auto-upload="false"
-            accept="application/pdf"
-            drag
-            :limit="2">
-          <el-icon class="el-icon--upload">
-            <font-awesome :icon="faUpload" />
-          </el-icon>
-          <div class="el-upload__text">
-            {{ t('dropzoneText') }} <em>{{ t('dropzoneLink') }}</em>
+      <!-- LEFT: EXTRACTOR -->
+      <div>
+        <!-- Step 1: Extraction type -->
+        <div class="tool-section">
+          <div class="tool-section-header">
+            <div class="tool-section-num">1</div>
+            <span class="tool-section-title">{{ t('extractTypeLabel') }}</span>
           </div>
-        </el-upload>
-      </div>
+          <div class="tool-section-body">
+            <div class="ext-tabs" role="group" :aria-label="t('extractTypeLabel')">
+              <button
+                  v-for="mode in modes"
+                  :key="mode.key"
+                  class="ext-tab"
+                  :class="{ active: currentModeId === mode.key }"
+                  @click="currentModeId = mode.key">
+                <span class="ext-tab-icon">{{ mode.icon }}</span>
+                <span class="ext-tab-label">{{ mode.title }}</span>
+                <span class="ext-tab-sub">{{ mode.description }}</span>
+              </button>
+            </div>
 
-      <div id="error-message" class="error"></div>
+            <!-- Query preview -->
+            <div v-if="currentModeId !== 'manual'" class="query-preview">
+              <span class="q-kw">{{ pdfql }}</span>
+              <span class="q-cmt"> // {{ t('autoGenerated') }}</span>
+            </div>
 
-      <button
-          :disabled="isLoading"
-          v-if="pdfql.length > 0 && file"
-          class="btn"
-          @click="run"
-          v-loading="isLoading">
-        {{ isLoading ? t('processing') : t('start') }}
-      </button>
+            <!-- Manual query textarea -->
+            <div v-if="currentModeId === 'manual'" style="margin-top:12px">
+              <textarea
+                  id="manualQuery"
+                  v-model="pdfql"
+                  class="manual-query"
+                  :placeholder="'select(tableRows)\n->filter(row => row.GetCell(1).Text() == \'Customer\')'"
+                  @focus="($event.target as HTMLTextAreaElement).style.borderColor='var(--rose)'"
+                  @blur="($event.target as HTMLTextAreaElement).style.borderColor='var(--border)'"
+              ></textarea>
 
-      <div id="result-container" class="result-container" v-if="result.errors.length > 0 || result.result">
-        <div class="result-header">
-          <h3>{{ t('extractionResult') }}</h3>
-          <button
-              @click="copyToClipBoard"
-              class="copy-btn"
-              v-if="result.result"
-              :class="{copied: isCopied}">
-            {{ isCopied ? t('copied') : t('copyToClipboard') }}
-          </button>
+              <p style="font-size:11px;color:var(--muted);margin-top:6px">
+                <nuxt-link :to="localePath('/blog/projects/pdf-query-language')" style="color:var(--rose);font-weight:600">
+                  {{ t('readConcept') }}
+                </nuxt-link>
+              </p>
+            </div>
+          </div>
         </div>
-        <div class="result-content">
-          <div v-for="error in result.errors" class="execution-result__item">
-            <p class="execution-result__error-line">
-              {{error.startLineNumber}}:{{error.startPosition}}
-            </p>
-            <p class="execution-result__error-description">
-              {{error.message}}
-            </p>
+
+        <!-- Step 2: Upload -->
+        <div class="tool-section">
+          <div class="tool-section-header">
+            <div class="tool-section-num">2</div>
+            <span class="tool-section-title">{{ t('uploadPdf') }}</span>
           </div>
-          <div>
-            <div v-if="result.result" class="execution-result__result">
-              <vue-json-pretty
-                  :data="result.result"
-                  :deep="1"
-                  :collapsed-node-length="20" />
+          <div class="tool-section-body">
+            <div v-if="!selectedFile" class="dropzone" role="button" :aria-label="t('dropzoneText')" tabindex="0">
+              <input
+                  type="file"
+                  id="fileInput"
+                  accept=".pdf,application/pdf"
+                  :aria-label="t('dropzoneLink')"
+                  @change="handleFile(($event.target as HTMLInputElement).files?.[0])"
+              >
+              <span class="dropzone-icon">📄</span>
+              <div class="dropzone-title">{{ t('dropPdfHere') }}</div>
+              <div class="dropzone-sub">
+                {{ t('or') }} <em>{{ t('clickToUpload') }}</em>
+                <small>{{ t('pdfOnlyMax') }}</small>
+              </div>
+            </div>
+
+            <div v-else class="file-info">
+              <span class="file-info-icon">📄</span>
+              <div>
+                <div class="file-info-name">{{ selectedFile.file.name }}</div>
+                <div class="file-info-size">{{ selectedFile.size }}</div>
+              </div>
+              <button class="file-info-remove" @click="removeFile" :aria-label="t('removeFile')">✕</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Run + Results -->
+        <div class="tool-section">
+          <div class="tool-section-header">
+            <div class="tool-section-num">3</div>
+            <span class="tool-section-title">{{ t('extract') }}</span>
+          </div>
+          <div class="tool-section-body">
+            <div v-if="isLoading" class="loading-bar active"></div>
+
+            <button
+                class="run-btn"
+                :disabled="!selectedFile || isLoading"
+                @click="run"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+              {{ isLoading ? t('processing') : t('startExtraction') }}
+            </button>
+
+            <div v-if="result.result || result.errors.length > 0" class="results-area">
+              <div class="results-header">
+                <div class="results-title">{{ result.result ? t('extractedJson') : t('') }}</div>
+                <div class="results-actions" v-if="result.result">
+                  <button class="results-btn" :class="{ success: isCopied }" @click="copyToClipBoard">
+                    {{ isCopied ? t('copied') : t('copy') }}
+                  </button>
+                  <button class="results-btn" @click="downloadResult">{{ t('downloadJson') }}</button>
+                  <button class="results-btn" @click="clear">{{ t('clear') }}</button>
+                </div>
+              </div>
+
+              <!-- Result -->
+              <div class="results-output" v-if="result.result">
+                {{ result.result }}
+              </div>
+
+              <!-- Syntax Errors -->
+              <div v-if="result.errors.length > 0" class="results-output errors" aria-live="polite">
+                <div v-for="(error, idx) in result.errors" :key="idx" class="error-item">
+                  <template v-if="error.startLineNumber !== undefined">
+                    Lines: [{{ error.startLineNumber }}-{{ error.endLineNumber }}]
+                  </template>
+                  <template v-if="error.startPosition !== undefined">
+                    Position: [{{ error.startPosition }}-{{ error.endPosition }}]
+                  </template>
+                  {{ error.message }}
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
       </div>
 
-      <div class="steps">
-        <h3>{{ t('howItWorks') }}</h3>
-        <div class="step">
-          <div class="step-number">1</div>
-          <div class="step-content">
-            <h4>{{ t('step1Title') }}</h4>
-            <p>{{ t('step1Description') }}</p>
+      <!-- RIGHT: INFO PANEL -->
+      <div class="info-panel">
+        <div class="info-card">
+          <div class="info-card-strip"></div>
+          <div class="info-card-body">
+            <div class="info-card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 8v4l3 3"/>
+              </svg>
+              {{ t('howItWorksTitle') }}
+            </div>
+            <div class="how-steps">
+              <div class="how-step">
+                <div class="how-step-num">1</div>
+                <div class="how-step-text"><strong>{{ t('chooseType') }}</strong> — {{ t('howStep1') }}</div>
+              </div>
+              <div class="how-step">
+                <div class="how-step-num">2</div>
+                <div class="how-step-text"><strong>{{ t('uploadPdf') }}</strong> — {{ t('howStep2') }}</div>
+              </div>
+              <div class="how-step">
+                <div class="how-step-num">3</div>
+                <div class="how-step-text"><strong>{{ t('extractionResult') }}</strong> — {{ t('howStep3') }}</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="step">
-          <div class="step-number">2</div>
-          <div class="step-content">
-            <h4>{{ t('step2Title') }}</h4>
-            <p>{{ t('step2Description') }}</p>
+
+        <div class="info-card">
+          <div class="info-card-strip"></div>
+          <div class="info-card-body">
+            <div class="info-card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M3 9h18M3 15h18M9 3v18"/>
+              </svg>
+              {{ t('extractionModes') }}
+            </div>
+            <div class="type-list">
+              <div class="type-item">
+                <div class="type-dot"></div>
+                <span class="type-name">{{ t('selectTables') }}</span>
+                <span class="type-desc">{{ t('modeDescTables') }}</span>
+              </div>
+              <div class="type-item">
+                <div class="type-dot"></div>
+                <span class="type-name">{{ t('selectTableRows') }}</span>
+                <span class="type-desc">{{ t('modeDescRows') }}</span>
+              </div>
+              <div class="type-item">
+                <div class="type-dot"></div>
+                <span class="type-name">{{ t('selectTableCells') }}</span>
+                <span class="type-desc">{{ t('modeDescCells') }}</span>
+              </div>
+              <div class="type-item">
+                <div class="type-dot"></div>
+                <span class="type-name">PdfQL</span>
+                <span class="type-desc">{{ t('modeDescManual') }}</span>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="step">
-          <div class="step-number">3</div>
-          <div class="step-content">
-            <h4>{{ t('step3Title') }}</h4>
-            <p>{{ t('step3Description') }}</p>
-          </div>
+
+        <nuxt-link :to="localePath('/blog/projects/pdf-query-language')" class="pdfql-card">
+          <div class="pdfql-label">{{ t('aboutLink') }}</div>
+          <div class="pdfql-title">{{ t('pdfqlConcept') }}</div>
+          <div class="pdfql-sub">{{ t('pdfqlConceptDesc') }}</div>
+          <div class="pdfql-read">{{ t('readConcept') }}</div>
+        </nuxt-link>
+
+        <div class="limits-note">
+          <strong>{{ t('alphaNotice').split(':')[0] }}:</strong> {{ t('alphaNotice').split(':')[1] }}
         </div>
       </div>
     </div>
-  </div>
+  </LMainContent>
 </template>
 
 <style scoped>
-.container {
-  margin: 0 auto;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  min-height: 100vh;
+
+/* ══ TOOL BODY ══ */
+.tool-body{padding:40px 48px;display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:start;
+  /* product color — rose/crimson */
+  --rose:#be123c; --rose-light:#fff1f2; --rose-mid:#e11d48;}
+
+/* ── Left column: extractor ── */
+/* Section blocks */
+.tool-section{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px;transition:box-shadow .2s}
+.tool-section:hover{box-shadow:0 4px 20px rgba(15,14,12,.06)}
+.tool-section-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.tool-section-num{width:22px;height:22px;border-radius:50%;background:var(--rose);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--serif)}
+.tool-section-title{font-weight:700;font-size:14px;color:var(--ink)}
+.tool-section-body{padding:20px}
+
+/* Extraction type tabs */
+.ext-tabs{display:grid;grid-template-columns:repeat(4, 1fr);gap:8px;margin-bottom:10px}
+.ext-tab{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:14px 10px;border-radius:10px;border:1.5px solid var(--border);
+  background:#fff;cursor:pointer;text-align:center;
+  transition:border-color .2s,background .2s,box-shadow .2s;
+}
+.ext-tab:hover{border-color:var(--rose);background:var(--rose-light)}
+.ext-tab.active{border-color:var(--rose);background:var(--rose-light);box-shadow:0 0 0 2px rgba(190,18,60,.12)}
+.ext-tab-icon{font-size:22px;line-height:1}
+.ext-tab-label{font-size:12px;font-weight:700;color:var(--ink)}
+.ext-tab-sub{font-size:10px;color:var(--muted);line-height:1.3}
+.ext-advanced .ext-tab-icon{font-size:18px}
+
+/* Query preview */
+.query-preview{margin-top:12px;background:var(--ink);border-radius:8px;padding:14px 16px;font-family:var(--mono);font-size:12px;line-height:1.7;color:#8090a0;position:relative;overflow:hidden}
+.query-preview::before{content:'query preview';position:absolute;top:8px;right:12px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.2)}
+.q-kw{color:#f59e0b}
+.q-str{color:#86efac}
+.q-cmt{color:#4a5568;font-style:italic}
+.q-fn{color:#93c5fd}
+.q-br{color:rgba(255,255,255,.4)}
+
+/* Dropzone */
+.dropzone{
+  border:2px dashed var(--border);border-radius:12px;
+  padding:40px 24px;text-align:center;cursor:pointer;
+  transition:border-color .2s,background .2s;
+  background:#fafaf8;position:relative;
+}
+.dropzone:hover,.dropzone.drag-over{border-color:var(--rose);background:var(--rose-light)}
+.dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dropzone-icon{font-size:40px;margin-bottom:10px;display:block}
+.dropzone-title{font-weight:700;font-size:15px;color:var(--ink);margin-bottom:4px}
+.dropzone-sub{font-size:13px;color:var(--muted)}
+.dropzone-sub em{color:var(--rose);font-style:normal;font-weight:600}
+.dropzone-sub small{display:block;margin-top:4px;font-size:11px;opacity:.7}
+.file-info{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--rose-light);border:1px solid rgba(190,18,60,.2);border-radius:10px;margin-top:12px}
+.file-info-icon{font-size:24px;flex-shrink:0}
+.file-info-name{font-weight:600;font-size:13px;color:var(--ink);word-break:break-all}
+.file-info-size{font-size:11px;color:var(--muted)}
+.file-info-remove{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--rose);font-size:18px;padding:2px 6px;border-radius:4px;transition:background .15s}
+.file-info-remove:hover{background:rgba(190,18,60,.1)}
+
+/* Run button */
+.run-btn{
+  width:100%;padding:15px;border-radius:10px;border:none;
+  background:var(--rose);color:#fff;
+  font-family:var(--serif);font-size:15px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:background .2s,transform .15s,box-shadow .2s;
+  box-shadow:0 2px 12px rgba(190,18,60,.25);
+  margin-top:20px;
+}
+.run-btn:hover:not(:disabled){background:var(--rose-mid);transform:translateY(-2px);box-shadow:0 4px 20px rgba(190,18,60,.35)}
+.run-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.run-btn svg{width:18px;height:18px;stroke:currentColor;flex-shrink:0}
+
+/* Results */
+.results-area{display:block;margin-top:20px}
+.results-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.results-title{font-weight:700;font-size:14px;color:var(--ink)}
+.results-actions{display:flex;gap:8px}
+.results-btn{padding:5px 12px;border-radius:6px;border:1px solid var(--border);background:#fff;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s}
+.results-btn:hover{border-color:var(--ink);color:var(--ink)}
+.results-btn.success{border-color:#43b77a;color:#43b77a}
+.results-output{
+  background:var(--ink);border-radius:10px;padding:18px 20px;
+  font-family:var(--mono);font-size:12px;line-height:1.7;
+  color:#8090a0;max-height:340px;overflow-y:auto;
+  white-space:pre-wrap;word-break:break-word;
 }
 
-header {
-  background: #f8f9fa;
-  color: #343a40;
-  padding: 120px 20px;
-  text-align: center;
-  border-bottom: 1px solid #dee2e6;
+/* Loading state */
+.loading-bar{height:2px;background:linear-gradient(90deg,transparent,var(--rose),transparent);background-size:200% 100%;animation:loading 1.2s infinite;border-radius:1px;display:none}
+.loading-bar.visible{display:block}
+@keyframes loading{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ── Right column: info panel ── */
+.info-panel{display:flex;flex-direction:column;gap:20px;position:sticky;top:calc(var(--nav-h) + 32px)}
+
+.info-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.info-card-strip{height:4px;background:linear-gradient(90deg,var(--rose),var(--rose-mid))}
+.info-card-body{padding:20px}
+.info-card-title{font-family:var(--serif);font-size:14px;font-weight:700;margin-bottom:12px;color:var(--ink);display:flex;align-items:center;gap:8px}
+.info-card-title svg{width:16px;height:16px;stroke:var(--rose);flex-shrink:0}
+
+/* how it works */
+.how-steps{display:flex;flex-direction:column;gap:12px}
+.how-step{display:flex;align-items:flex-start;gap:10px}
+.how-step-num{width:22px;height:22px;border-radius:50%;background:var(--rose-light);color:var(--rose);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--serif);border:1px solid rgba(190,18,60,.2)}
+.how-step-text{font-size:13px;color:var(--muted);line-height:1.5;padding-top:2px}
+.how-step-text strong{color:var(--ink)}
+
+/* supported types */
+.type-list{display:flex;flex-direction:column;gap:8px}
+.type-item{display:flex;align-items:center;gap:8px;font-size:12px}
+.type-dot{width:7px;height:7px;border-radius:50%;background:var(--rose);flex-shrink:0}
+.type-name{font-weight:600;color:var(--ink);min-width:80px}
+.type-desc{color:var(--muted)}
+
+/* pdfql callout */
+.pdfql-card{background:var(--ink);border-radius:14px;padding:20px;color:rgba(247,244,238,.7);text-decoration:none;display:block;transition:transform .2s,box-shadow .2s}
+.pdfql-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(15,14,12,.2)}
+.pdfql-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(190,18,60,.8);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.pdfql-label::before{content:'';width:16px;height:1px;background:rgba(190,18,60,.5)}
+.pdfql-title{font-family:var(--serif);font-size:16px;font-weight:700;color:#fff;margin-bottom:8px;line-height:1.3}
+.pdfql-sub{font-size:12px;line-height:1.6;color:rgba(247,244,238,.45)}
+.pdfql-read{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:rgba(190,18,60,.9);margin-top:12px;transition:gap .15s}
+.pdfql-card:hover .pdfql-read{gap:9px}
+
+/* limits note */
+.limits-note{font-size:11px;color:var(--muted);line-height:1.6;padding:12px;background:var(--cream);border-radius:8px;border:1px solid var(--border)}
+.limits-note strong{color:var(--ink)}
+
+#manualQuery {width:100%;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--ink);background:#fff;resize:vertical;min-height:100px;outline:none;transition:border-color .2s}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1100px){
+  .tool-body{padding-left:32px;padding-right:32px}
 }
-
-h1 {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
+@media(max-width:900px){
+  .tool-body{grid-template-columns:1fr;gap:24px}
+  .info-panel{position:static}
+  .ext-tabs{grid-template-columns:1fr 1fr}
 }
-
-.subtitle {
-  font-size: 1.1rem;
-  opacity: 0.9;
-  margin-bottom: 15px;
+@media(max-width:720px){
+  .tool-body{padding:24px 20px}
 }
-
-.doc-link {
-  background: linear-gradient(135deg, #8c2abf, #a489c3);
-  color: white;
-  padding: 15px 30px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: bold;
-  display: inline-block;
-  margin-top: 20px;
-  transition: opacity 0.3s;
-}
-
-.doc-link:hover {
-  opacity: 0.9;
-}
-
-.content {
-  padding: 30px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.form-group {
-  margin-bottom: 25px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: #444;
-}
-
-select, textarea, .upload-area {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: border-color 0.3s;
-}
-
-select:focus, textarea:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
-}
-
-textarea {
-  min-height: 120px;
-  resize: vertical;
-}
-
-.btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border: none;
-  padding: 14px 25px;
-  font-size: 18px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-}
-
-.btn:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.result-container {
-  margin-top: 30px;
-}
-
-.result-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.result-content {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 5px;
-  padding: 20px;
-  font-family: monospace;
-  white-space: pre-wrap;
-  max-height: 300px;
-  overflow: auto;
-  position: relative;
-}
-
-.copy-btn {
-  min-width: 140px;
-  padding: 8px 15px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.copy-btn:not(.copied):hover {
-  background: #b8d6c6;
-}
-
-.steps {
-  background: #f8f9fa;
-  border-radius: 8px;
-  padding: 25px;
-  margin-top: 30px;
-}
-
-.steps h3 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #444;
-}
-
-.step {
-  display: flex;
-  margin-bottom: 20px;
-  padding: 15px;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.step-number {
-  background: #667eea;
-  color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  margin-right: 15px;
-  flex-shrink: 0;
-}
-
-.step-content h4 {
-  margin-bottom: 5px;
-  color: #444;
-}
-
-.step-content p {
-  color: #666;
-  font-size: 0.95rem;
-}
-
-.error {
-  color: #dc3545;
-  background: #f8d7da;
-  padding: 15px;
-  border-radius: 5px;
-  margin-top: 15px;
-  display: none;
-}
-
-@media (max-width: 600px) {
-  .content {
-    padding: 20px;
-  }
-
-  h1 {
-    font-size: 1.8rem;
+@media(max-width:480px){
+  .ext-tabs{grid-template-columns:1fr}
+  .results-header {
+    flex-flow: column;
   }
 }
 </style>

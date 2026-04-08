@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
-  preTitle: string,
-  title: string,
+  preTitle?: string,
+  title?: string,
   postTitle?: string,
   type: 'light' | 'cream' | 'dark',
 }>()
@@ -10,7 +10,7 @@ defineProps<{
 <template>
   <section class="section" :class="type">
     <div class="section-inner">
-      <div class="section-label reveal">{{ preTitle }}</div>
+      <div class="section-label reveal" v-if="preTitle">{{ preTitle }}</div>
       <h2 class="section-title reveal">{{ title }}</h2>
       <p class="section-sub reveal">{{ postTitle }}</p>
       <slot />

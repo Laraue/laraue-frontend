@@ -7,8 +7,8 @@ export interface Step {
 }
 
 defineProps<{
-  preTitle: string,
-  title: string,
+  preTitle?: string,
+  title?: string,
   postTitle?: string,
   steps: Step[],
 }>()

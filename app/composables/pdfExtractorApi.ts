@@ -11,10 +11,10 @@ export interface CheckQueryResult {
 
 export interface PdfqlError {
     message: string;
-    startPosition: number;
-    endPosition: number;
-    startLineNumber: number;
-    endLineNumber: number;
+    startPosition?: number;
+    endPosition?: number;
+    startLineNumber?: number;
+    endLineNumber?: number;
 }
 
 
