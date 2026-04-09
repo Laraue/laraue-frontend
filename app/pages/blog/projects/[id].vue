@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import DocView from "~/components/docs/DocView.vue";
 import {useBlogApi} from "~/composables/blogApi";
+import {useSchemaOrg} from "@unhead/schema-org/vue";
+import {defineArticle} from "@unhead/schema-org";
 
 const { getRouteSegments } = usePathUtil();
 const { getItemDetails } = useBlogApi();
@@ -16,6 +18,16 @@ useSeoMeta({
   ogTitle: () => project.title,
   description: () => project.description
 })
+
+useSchemaOrg([
+  defineArticle({
+    title: project.title,
+    description: project.description,
+    dateModified: project.updatedAt,
+    datePublished: project.createdAt,
+    inLanguage: locale.value,
+    keywords: project.tags,
+  })])
 
 </script>
 
