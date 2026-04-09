@@ -80,7 +80,7 @@ const backAddress = computed(() => {
 
       <template v-if="item.projects">
         <div class="toc-related-label" data-i18n="toc_related">{{ t('relatedProjects') }}</div>
-        <nuxt-link v-for="project in item.projects" :to="'/blog/projects/' + project" class="toc-related-link">
+        <nuxt-link v-for="project in item.projects" :to="localePath('/blog/projects/' + project)" class="toc-related-link">
           🚀 {{ project }}
           <span class="toc-related-badge" data-i18n="badge_project">project</span>
         </nuxt-link>
