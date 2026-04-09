@@ -117,7 +117,7 @@ useSchemaOrg([
       defineOffer({
         price: 0,
         priceCurrency: "USD",
-        description: 'Unlimited converter usage '
+        description: 'Unlimited converter usage'
       })
     ]
   })

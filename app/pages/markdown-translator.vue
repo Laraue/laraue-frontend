@@ -7,6 +7,7 @@ import LSection from "~/components/landins/LSection.vue";
 import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
 import LFaqSection from "~/components/landins/LFaqSection.vue";
 import LSelect from "~/components/landins/LSelect.vue";
+import {defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const { t } = useI18n();
 
@@ -15,6 +16,37 @@ useSeoMeta({
   ogTitle: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),
 })
+
+useSchemaOrg([
+  defineSoftwareApp({
+    name: t('seoTitle'),
+    description: t('seoDescription'),
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Browser",
+    offers: [
+      defineOffer({
+        price: 0,
+        priceCurrency: "USD",
+        description: 'endless tokens of 3B translation model'
+      }),
+      defineOffer({
+        price: 3,
+        priceCurrency: "USD",
+        description: '10K tokens of 9B translation model'
+      }),
+      defineOffer({
+        price: 9,
+        priceCurrency: "USD",
+        description: '10K tokens of 27B translation model'
+      }),
+      defineOffer({
+        price: 25,
+        priceCurrency: "USD",
+        description: '10K tokens of 81B translation model'
+      })
+    ]
+  })
+])
 
 const from = ref('en')
 const to = ref('es')
@@ -166,6 +198,11 @@ const doTranslate = () => {
     isTranslating.value = false;
     console.log('[Mock] Translation completed');
   }, 500);
+}
+
+const updateSourceStats = () => {
+  // This is automatically handled by computed properties, but we keep it for compatibility
+  console.log('[Mock] Source stats updated');
 }
 
 </script>
