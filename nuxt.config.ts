@@ -34,6 +34,7 @@ export default defineNuxtConfig({
     '/': { prerender: true },
     '/crawled-apartments': { prerender: true },
     '/learn-language-bot': { prerender: true },
+    '/msgboard': { prerender: true },
   },
   app: {
     head: {
