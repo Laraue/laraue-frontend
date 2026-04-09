@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-12-05',
   devtools: { enabled: true },
-  modules: ['@element-plus/nuxt', '@vesp/nuxt-fontawesome', 'nuxt-gtag', '@nuxtjs/i18n'],
+  modules: ['nuxt-gtag', '@nuxtjs/i18n'],
   elementPlus: {
     // Disable automatic import of dayjs to avoid conflicts
     importStyle: 'css'
@@ -28,7 +28,6 @@ export default defineNuxtConfig({
   },
   css: [
     '~/assets/css/main.css',
-    '@fortawesome/fontawesome-svg-core/styles.css',
   ],
   routeRules: {
     '/': { prerender: true },

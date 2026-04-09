@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {computed, ref, watch} from 'vue';
 import {type PsqlExecutionResult, usePdfExtractorApi} from "~/composables/pdfExtractorApi";
-import 'vue-json-pretty/lib/styles.css';
 import LMainContent from "~/components/ui/LMainContent.vue";
 import LHero from "~/components/ui/LHero.vue";
 import {defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
@@ -340,7 +339,7 @@ useSchemaOrg([
               ></textarea>
 
               <p style="font-size:11px;color:var(--muted);margin-top:6px">
-                <nuxt-link :to="localePath('/blog/projects/pdf-query-language')" style="color:var(--rose);font-weight:600">
+                <nuxt-link :to="localePath('/blog/projects/pdf-query-language')" style="color:var(--accent);font-weight:600">
                   {{ t('readConcept') }}
                 </nuxt-link>
               </p>
@@ -519,16 +518,14 @@ useSchemaOrg([
 <style scoped>
 
 /* ══ TOOL BODY ══ */
-.tool-body{padding:40px 48px;display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:start;
-  /* product color — rose/crimson */
-  --rose:#be123c; --rose-light:#fff1f2; --rose-mid:#e11d48;}
+.tool-body{padding:40px 48px;display:grid;grid-template-columns:1fr 360px;gap:32px;align-items:start;}
 
 /* ── Left column: extractor ── */
 /* Section blocks */
 .tool-section{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:20px;transition:box-shadow .2s}
 .tool-section:hover{box-shadow:0 4px 20px rgba(15,14,12,.06)}
 .tool-section-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.tool-section-num{width:22px;height:22px;border-radius:50%;background:var(--rose);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--serif)}
+.tool-section-num{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--serif)}
 .tool-section-title{font-weight:700;font-size:14px;color:var(--ink)}
 .tool-section-body{padding:20px}
 
@@ -540,8 +537,8 @@ useSchemaOrg([
   background:#fff;cursor:pointer;text-align:center;
   transition:border-color .2s,background .2s,box-shadow .2s;
 }
-.ext-tab:hover{border-color:var(--rose);background:var(--rose-light)}
-.ext-tab.active{border-color:var(--rose);background:var(--rose-light);box-shadow:0 0 0 2px rgba(190,18,60,.12)}
+.ext-tab:hover{border-color:var(--accent);background:var(--accent-light)}
+.ext-tab.active{border-color:var(--accent);background:var(--accent-light);box-shadow:0 0 0 2px rgba(190,18,60,.12)}
 .ext-tab-icon{font-size:22px;line-height:1}
 .ext-tab-label{font-size:12px;font-weight:700;color:var(--ink)}
 .ext-tab-sub{font-size:10px;color:var(--muted);line-height:1.3}
@@ -563,31 +560,31 @@ useSchemaOrg([
   transition:border-color .2s,background .2s;
   background:#fafaf8;position:relative;
 }
-.dropzone:hover,.dropzone.drag-over{border-color:var(--rose);background:var(--rose-light)}
+.dropzone:hover,.dropzone.drag-over{border-color:var(--accent);background:var(--accent-light)}
 .dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .dropzone-icon{font-size:40px;margin-bottom:10px;display:block}
 .dropzone-title{font-weight:700;font-size:15px;color:var(--ink);margin-bottom:4px}
 .dropzone-sub{font-size:13px;color:var(--muted)}
-.dropzone-sub em{color:var(--rose);font-style:normal;font-weight:600}
+.dropzone-sub em{color:var(--accent);font-style:normal;font-weight:600}
 .dropzone-sub small{display:block;margin-top:4px;font-size:11px;opacity:.7}
-.file-info{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--rose-light);border:1px solid rgba(190,18,60,.2);border-radius:10px;margin-top:12px}
+.file-info{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--accent-light);border:1px solid rgba(190,18,60,.2);border-radius:10px;margin-top:12px}
 .file-info-icon{font-size:24px;flex-shrink:0}
 .file-info-name{font-weight:600;font-size:13px;color:var(--ink);word-break:break-all}
 .file-info-size{font-size:11px;color:var(--muted)}
-.file-info-remove{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--rose);font-size:18px;padding:2px 6px;border-radius:4px;transition:background .15s}
+.file-info-remove{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--accent);font-size:18px;padding:2px 6px;border-radius:4px;transition:background .15s}
 .file-info-remove:hover{background:rgba(190,18,60,.1)}
 
 /* Run button */
 .run-btn{
   width:100%;padding:15px;border-radius:10px;border:none;
-  background:var(--rose);color:#fff;
+  background:var(--accent);color:#fff;
   font-family:var(--serif);font-size:15px;font-weight:700;
   cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
   transition:background .2s,transform .15s,box-shadow .2s;
   box-shadow:0 2px 12px rgba(190,18,60,.25);
   margin-top:20px;
 }
-.run-btn:hover:not(:disabled){background:var(--rose-mid);transform:translateY(-2px);box-shadow:0 4px 20px rgba(190,18,60,.35)}
+.run-btn:hover:not(:disabled){background:var(--accent-mid);transform:translateY(-2px);box-shadow:0 4px 20px rgba(190,18,60,.35)}
 .run-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .run-btn svg{width:18px;height:18px;stroke:currentColor;flex-shrink:0}
 
@@ -607,7 +604,7 @@ useSchemaOrg([
 }
 
 /* Loading state */
-.loading-bar{height:2px;background:linear-gradient(90deg,transparent,var(--rose),transparent);background-size:200% 100%;animation:loading 1.2s infinite;border-radius:1px;display:none}
+.loading-bar{height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);background-size:200% 100%;animation:loading 1.2s infinite;border-radius:1px;display:none}
 .loading-bar.visible{display:block}
 @keyframes loading{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
@@ -615,22 +612,22 @@ useSchemaOrg([
 .info-panel{display:flex;flex-direction:column;gap:20px;position:sticky;top:calc(var(--nav-h) + 32px)}
 
 .info-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden}
-.info-card-strip{height:4px;background:linear-gradient(90deg,var(--rose),var(--rose-mid))}
+.info-card-strip{height:4px;background:linear-gradient(90deg,var(--accent),var(--accent-mid))}
 .info-card-body{padding:20px}
 .info-card-title{font-family:var(--serif);font-size:14px;font-weight:700;margin-bottom:12px;color:var(--ink);display:flex;align-items:center;gap:8px}
-.info-card-title svg{width:16px;height:16px;stroke:var(--rose);flex-shrink:0}
+.info-card-title svg{width:16px;height:16px;stroke:var(--accent);flex-shrink:0}
 
 /* how it works */
 .how-steps{display:flex;flex-direction:column;gap:12px}
 .how-step{display:flex;align-items:flex-start;gap:10px}
-.how-step-num{width:22px;height:22px;border-radius:50%;background:var(--rose-light);color:var(--rose);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--serif);border:1px solid rgba(190,18,60,.2)}
+.how-step-num{width:22px;height:22px;border-radius:50%;background:var(--accent-light);color:var(--accent);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--serif);border:1px solid rgba(190,18,60,.2)}
 .how-step-text{font-size:13px;color:var(--muted);line-height:1.5;padding-top:2px}
 .how-step-text strong{color:var(--ink)}
 
 /* supported types */
 .type-list{display:flex;flex-direction:column;gap:8px}
 .type-item{display:flex;align-items:center;gap:8px;font-size:12px}
-.type-dot{width:7px;height:7px;border-radius:50%;background:var(--rose);flex-shrink:0}
+.type-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);flex-shrink:0}
 .type-name{font-weight:600;color:var(--ink);min-width:80px}
 .type-desc{color:var(--muted)}
 
