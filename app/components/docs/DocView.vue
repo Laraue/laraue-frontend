@@ -397,6 +397,18 @@ const backAddress = computed(() => {
   font-style:italic;color:var(--muted);
 }
 
+.article-body :deep(table) {
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 28px 0 16px;
+  text-align: left;
+}
+
+.article-body :deep(th),
+.article-body :deep(td) {
+  padding: 3px;
+}
+
 /* ══ ARTICLE FOOTER ══ */
 .article-footer{
   max-width:680px;

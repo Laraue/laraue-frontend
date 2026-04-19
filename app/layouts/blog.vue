@@ -48,9 +48,11 @@ const linksSections = computed<LinksSection[]>(() => {
 </i18n>
 
 <template>
-  <LMainContent :linksSections="linksSections">
-     <slot />
-  </LMainContent>
+  <NuxtLayout name="default">
+    <LMainContent :linksSections="linksSections">
+      <slot />
+    </LMainContent>
+  </NuxtLayout>
 </template>
 
 <style scoped>

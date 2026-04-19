@@ -11,22 +11,24 @@ const menuItems = await loadMenu(locale.value, rootPath);
 </script>
 
 <template>
-  <DocsSidebar :rootPath="rootPath" :menuItems="menuItems" />
-  <div class="mobile-toc">
-    <LMobileToc full-width-button title="Documentation Navigation" style="">
-      <li class="mobile-toc-li" v-for="menuItem in menuItems">
-        <span class="doc-section-header">{{ menuItem.title }}</span>
-        <ul class="doc-section-items">
-          <li class="doc-item" v-for="link in menuItem.children">
-            <nuxt-link :to="localePathFromSegments(link.path)" active-class="active">
-              <span>{{ link.title }}</span>
-            </nuxt-link>
-          </li>
-        </ul>
-      </li>
-    </LMobileToc>
-  </div>
-  <slot />
+  <NuxtLayout name="default">
+    <DocsSidebar :rootPath="rootPath" :menuItems="menuItems" />
+    <div class="mobile-toc">
+      <LMobileToc full-width-button title="Documentation Navigation" style="">
+        <li class="mobile-toc-li" v-for="menuItem in menuItems">
+          <span class="doc-section-header">{{ menuItem.title }}</span>
+          <ul class="doc-section-items">
+            <li class="doc-item" v-for="link in menuItem.children">
+              <nuxt-link :to="localePathFromSegments(link.path)" active-class="active">
+                <span>{{ link.title }}</span>
+              </nuxt-link>
+            </li>
+          </ul>
+        </li>
+      </LMobileToc>
+    </div>
+    <slot />
+  </NuxtLayout>
 </template>
 
 <style scoped>
