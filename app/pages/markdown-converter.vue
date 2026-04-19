@@ -105,6 +105,7 @@ useSeoMeta({
   title: t('seoTitle'),
   ogTitle: computed(() => t('seoTitle')),
   description: t('seoDescription'),
+  ogType: "website"
 })
 
 useSchemaOrg([

@@ -9,6 +9,7 @@ useSeoMeta({
   title: computed(() => t('seo_title')),
   ogTitle: computed(() => t('seo_title')),
   description: computed(() => t('seo_description')),
+  ogType: "website",
 })
 
 </script>

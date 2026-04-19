@@ -56,6 +56,7 @@ useSeoMeta({
   ogImageWidth: "470",
   ogImageHeight: "611",
   ogImageAlt: t('seoTitle'),
+  ogType: "website",
   twitterCard: "summary_large_image",
   twitterTitle: computed(() => t('seoTitle')),
   twitterDescription: computed(() => t('seoDescription')),

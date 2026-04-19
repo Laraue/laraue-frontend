@@ -40,6 +40,8 @@ useSeoMeta({
   title: title,
   ogTitle: title,
   description: description,
+  ogDescription: description,
+  ogType: "website",
 })
 </script>
 

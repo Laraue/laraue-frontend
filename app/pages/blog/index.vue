@@ -41,7 +41,9 @@ const description = computed(() => t('seoDescription'))
 useSeoMeta({
   title: title,
   ogTitle: title,
+  ogDescription: description,
   description: description,
+  ogType: "website",
 })
 
 watch(() => route.query.tag, async () => {

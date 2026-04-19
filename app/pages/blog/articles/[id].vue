@@ -18,7 +18,8 @@ const article = await getItemDetails(locale.value, getRouteSegments());
 useSeoMeta({
   title: () => article.title,
   ogTitle: () => article.title,
-  description: () => article.description
+  description: () => article.description,
+  ogType: "article",
 })
 
 useSchemaOrg([

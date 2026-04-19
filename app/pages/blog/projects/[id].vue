@@ -14,9 +14,10 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: () => project.title,
-  ogTitle: () => project.title,
-  description: () => project.description
+  title: project.title,
+  ogTitle: project.title,
+  description: project.description,
+  ogType: "article",
 })
 
 useSchemaOrg([
@@ -26,7 +27,7 @@ useSchemaOrg([
     dateModified: project.updatedAt,
     datePublished: project.createdAt,
     inLanguage: locale.value,
-    keywords: project.tags,
+    keywords: project.tags
   })])
 
 </script>

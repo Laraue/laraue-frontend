@@ -13,6 +13,8 @@ useSeoMeta({
   title: () => documentation.title,
   ogTitle: () => documentation.title,
   description: () => t('seoDescription', { title: documentation.title }),
+  ogDescription: () => t('seoDescription', { title: documentation.title }),
+  ogType: "website",
 })
 </script>
 
