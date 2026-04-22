@@ -78,6 +78,12 @@ export interface ItemDetails {
     length: number;
 }
 
+export interface ItemMeta {
+    title: string | undefined;
+    description: string | undefined;
+    icon: string | undefined;
+}
+
 export interface NeighborCard {
     title: string | undefined;
     path: string[];
@@ -157,6 +163,19 @@ export const useBlogApi = () => {
         });
     }
 
+    const getItemMeta = async (
+        languageCode: string,
+        path: string[])
+        : Promise<ItemMeta> => {
+        return client<ItemMeta>('blog/meta', {
+            method: 'POST',
+            body: {
+                languageCode: languageCode,
+                path: path,
+            }
+        });
+    }
+
     const getItems = async (
         languageCode: string,
         path: string[],
@@ -198,5 +217,6 @@ export const useBlogApi = () => {
         getItemDetails,
         getItems,
         getTags,
+        getItemMeta,
     }
 }

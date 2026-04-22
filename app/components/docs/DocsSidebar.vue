@@ -1,7 +1,9 @@
 <script setup lang="ts">
   defineProps<{
     menuItems: Array<HierarchicalMenuSection>,
-    rootPath: string[]
+    rootPath: string[],
+    title?: string,
+    icon?: string
   }>()
 
   const { localePathFromSegments } = usePathUtil()
@@ -13,7 +15,7 @@
 
     <div class="doc-sidebar-header">
       <div class="doc-set-name">
-        &#128196; PdfQL
+        {{ icon }} {{ title }}
         <span class="doc-set-version">v1</span>
       </div>
     </div>

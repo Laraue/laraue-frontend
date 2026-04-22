@@ -10,10 +10,10 @@ const documentation = await getItemDetails(locale.value, getRouteSegments());
 const { t } = useI18n();
 
 useSeoMeta({
-  title: () => documentation.title,
-  ogTitle: () => documentation.title,
-  description: () => t('seoDescription', { title: documentation.title }),
-  ogDescription: () => t('seoDescription', { title: documentation.title }),
+  title: documentation.title,
+  ogTitle: documentation.title,
+  description: documentation.description ?? t('seoDescription', { title: documentation.title }),
+  ogDescription: documentation.description ?? t('seoDescription', { title: documentation.title }),
   ogType: "website",
 })
 </script>

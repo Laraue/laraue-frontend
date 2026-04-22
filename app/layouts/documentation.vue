@@ -2,17 +2,18 @@
 import LMobileToc from "~/components/docs/LMobileToc.vue";
 
 const { localePathFromSegments } = usePathUtil()
-const { loadMenu } = useBlogApi()
+const { loadMenu, getItemMeta } = useBlogApi()
 const { locale } = useI18n();
 const route = useRoute();
 const segments = route.params.id as string[]
 const rootPath = ["blog", "documentation", segments[0]!]
 const menuItems = await loadMenu(locale.value, rootPath);
+const item = await getItemMeta(locale.value, rootPath);
 </script>
 
 <template>
   <NuxtLayout name="default">
-    <DocsSidebar :rootPath="rootPath" :menuItems="menuItems" />
+    <DocsSidebar :rootPath="rootPath" :menuItems="menuItems" :title="item.title" :icon="item.icon" />
     <div class="mobile-toc">
       <LMobileToc full-width-button title="Documentation Navigation" style="">
         <li class="mobile-toc-li" v-for="menuItem in menuItems">

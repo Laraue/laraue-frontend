@@ -321,7 +321,7 @@ const backAddress = computed(() => {
 }
 .article-body :deep(h4){font-size:15px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 
-.article-body :deep(p){margin-bottom:22px}
+.article-body :deep(p){margin-bottom:16px}
 .article-body :deep(p:last-child){margin-bottom:0}
 
 .article-body :deep(strong){font-weight:600;color:var(--ink)}
@@ -331,7 +331,7 @@ const backAddress = computed(() => {
 
 /* ordered/unordered lists */
 .article-body :deep(ol),.article-body :deep(ul){
-  padding-left:28px;margin-bottom:22px;
+  padding-left:28px;margin-bottom:16px;
 }
 .article-body :deep(li){margin-bottom:8px;line-height:1.7}
 .article-body :deep(ol){counter-reset:item}
