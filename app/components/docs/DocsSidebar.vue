@@ -7,7 +7,19 @@
   }>()
 
   const { localePathFromSegments } = usePathUtil()
+  const { t } = useI18n()
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "doc_overview": "Overview"
+  },
+  "ru": {
+    "doc_overview": "Обзор"
+  }
+}
+</i18n>
 
 <template>
   <!-- DOC TREE SIDEBAR -->
@@ -32,7 +44,7 @@
               <rect x="3" y="14" width="7" height="7" rx="1"/>
               <rect x="14" y="14" width="7" height="7" rx="1"/>
             </svg>
-          <span data-i18n="doc_overview">Overview</span>
+          <span>{{ t('doc_overview') }}</span>
         </nuxt-link></li>
       </ul>
 

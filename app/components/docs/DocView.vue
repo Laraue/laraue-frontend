@@ -126,11 +126,11 @@ const backAddress = computed(() => {
           </div>
           <div class="article-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            <span data-i18n="created">Created</span> {{ item.createdAt }}
+            <span>{{ t('created') }}</span> {{ item.createdAt }}
           </div>
           <div class="article-meta-item">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.01-9.85"/></svg>
-            <span data-i18n="updated">Updated</span> {{ item.updatedAt }}
+            <span>{{ t('updated') }}</span> {{ item.updatedAt }}
           </div>
         </div>
 
