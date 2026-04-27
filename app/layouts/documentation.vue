@@ -36,7 +36,7 @@ const item = await getItemMeta(locale.value, rootPath);
   .mobile-toc { padding: 32px 22px 0 22px;}
   .mobile-toc-li { margin-bottom: 5px;}
   .doc-section-items { list-style: none;overflow: hidden;}
-  .doc-section-header { padding: 8px 16px;font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);}
+  .doc-section-header { padding: 8px 16px;font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: inline-block;}
   .doc-item a { padding: 7px 16px 7px 28px; font-weight: 500; font-size: 13px;text-decoration: none;gap: 8px; color: var(--muted); }
   .doc-item a.active {
     color: var(--ink);

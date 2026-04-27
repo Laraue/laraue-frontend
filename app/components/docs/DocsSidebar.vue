@@ -50,8 +50,9 @@
 
       <div v-for="menuItem in menuItems" class="doc-section" id="sec-stages">
         <button class="doc-section-header">
-          <span data-i18n="sec_stages">{{ menuItem.title }}</span>
-          <span class="section-badge">{{ menuItem.children.length }}</span>
+          <nuxt-link :to="localePathFromSegments(menuItem.path)" active-class="active">
+            {{ menuItem.title }}
+          </nuxt-link>
           <svg viewBox="0 0 12 12" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,4 6,8 10,4"/></svg>
         </button>
         <ul class="doc-section-items">
@@ -138,6 +139,13 @@
   transition:color .15s;
   border:none;background:none;width:100%;text-align:left;
   font-family:var(--sans);
+}
+.doc-section-header a {
+  text-decoration: none;
+  color: var(--muted);
+}
+.doc-section-header a.active {
+  color: var(--ink);
 }
 .doc-section-header:hover{color:var(--ink)}
 .doc-section-header svg{width:12px;height:12px;stroke:currentColor;transition:transform .2s;flex-shrink:0}
