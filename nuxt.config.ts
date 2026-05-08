@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     '/': { prerender: true },
     '/crawled-apartments': { prerender: true },
     '/learn-language-bot': { prerender: true },
-    '/msgboard': { prerender: true },
+    '/boards': { prerender: true },
   },
   app: {
     head: {

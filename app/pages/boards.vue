@@ -21,6 +21,7 @@ import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
 import LSteps from "~/components/landins/LSteps.vue";
 import LPlatformBadge from "~/components/landins/LPlatformBadge.vue";
 import LCallToAction from "~/components/landins/LCallToAction.vue";
+const localePath = useLocalePath();
 
 useSchemaOrg([
   defineSoftwareApp({
@@ -184,7 +185,7 @@ useSeoMeta({
     "how_label": "Getting started",
     "how_title": "From zero to organized in 5 steps",
     "step1t": "Open the app",
-    "step1d": "Sign in at Laraue Boards.laraue.com with Telegram, or open",
+    "step1d": "Sign in at msgboard.laraue.com with Telegram, or open",
     "step2t": "Create a board",
     "step2d": "Pick a template or start blank. Name your columns.",
     "step3t": "Add cards",
@@ -454,34 +455,36 @@ useSeoMeta({
         <LActionButton title="@msgboard_bot" link="https://t.me/msgboard_bot" type="telegram" />
       </template>
       <template #visual>
-        <!-- Kanban mockup -->
-        <div class="kanban-mockup">
-          <div class="kanban-mockup-bar">
-            <div class="kanban-mockup-dots"><span></span><span></span><span></span></div>
-            <span class="kanban-mockup-title">{{ t('mockup_title') }}</span>
+        <div class="hero-visual">
+          <!-- Kanban mockup -->
+          <div class="kanban-mockup">
+            <div class="kanban-mockup-bar">
+              <div class="kanban-mockup-dots"><span></span><span></span><span></span></div>
+              <span class="kanban-mockup-title">{{ t('mockup_title') }}</span>
+            </div>
+            <div class="kanban-mockup-body">
+              <div class="km-col">
+                <div class="km-col-title">{{ t('k_todo') }}</div>
+                <div class="km-card red"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task1') }}</div>
+                <div class="km-card red"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task2') }}</div>
+                <div class="km-card purple"><div class="km-card-label">{{ t('idea_label') }}</div>{{ t('mockup_idea1') }}</div>
+              </div>
+              <div class="km-col">
+                <div class="km-col-title">{{ t('k_doing') }}</div>
+                <div class="km-card blue"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task3') }}</div>
+                <div class="km-card blue"><div class="km-card-label">{{ t('resource_label') }}</div>{{ t('mockup_resource1') }}</div>
+              </div>
+              <div class="km-col">
+                <div class="km-col-title">{{ t('k_done') }}</div>
+                <div class="km-card green"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task4') }}</div>
+                <div class="km-card green"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task5') }}</div>
+              </div>
+            </div>
           </div>
-          <div class="kanban-mockup-body">
-            <div class="km-col">
-              <div class="km-col-title">{{ t('k_todo') }}</div>
-              <div class="km-card red"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task1') }}</div>
-              <div class="km-card red"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task2') }}</div>
-              <div class="km-card purple"><div class="km-card-label">{{ t('idea_label') }}</div>{{ t('mockup_idea1') }}</div>
-            </div>
-            <div class="km-col">
-              <div class="km-col-title">{{ t('k_doing') }}</div>
-              <div class="km-card blue"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task3') }}</div>
-              <div class="km-card blue"><div class="km-card-label">{{ t('resource_label') }}</div>{{ t('mockup_resource1') }}</div>
-            </div>
-            <div class="km-col">
-              <div class="km-col-title">{{ t('k_done') }}</div>
-              <div class="km-card green"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task4') }}</div>
-              <div class="km-card green"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task5') }}</div>
-            </div>
+          <div class="org-badge">
+            <div class="org-badge-dot"></div>
+            <span>{{ t('org_badge') }}</span>
           </div>
-        </div>
-        <div class="org-badge">
-          <div class="org-badge-dot"></div>
-          <span>{{ t('org_badge') }}</span>
         </div>
       </template>
     </LLandingIntro>
@@ -568,27 +571,32 @@ useSeoMeta({
       {
         title: t('f1t'),
         icon: '&#128203;',
-        description: t('f1d')
+        description: t('f1d'),
+        link: localePath('/blog/documentation/laraue-boards/getting-started/quick-start')
       },
       {
         title: t('f2t'),
         icon: '&#128101;',
-        description: t('f2d')
+        description: t('f2d'),
+        link: localePath('/blog/documentation/laraue-boards/concepts/organizations')
       },
       {
         title: t('f3t'),
         icon: '&#128239;',
-        description: t('f3d')
+        description: t('f3d'),
+        link: localePath('/blog/documentation/laraue-boards/working-alone/telegram-messages')
       },
       {
         title: t('f4t'),
         icon: '&#127775;',
-        description: t('f4d')
+        description: t('f4d'),
+        link: localePath('/blog/documentation/laraue-boards/features/attributes')
       },
       {
         title: t('f5t'),
         icon: '&#128269;',
-        description: t('f5d')
+        description: t('f5d'),
+        link: localePath('/blog/documentation/laraue-boards/features/search')
       },
       {
         title: t('f6t'),
@@ -603,7 +611,8 @@ useSeoMeta({
       {
         title: t('f8t'),
         icon: '&#128274;',
-        description: t('f8d')
+        description: t('f8d'),
+        link: localePath('/blog/documentation/laraue-boards/getting-started/authorization')
       },
       {
         title: t('f9t'),
@@ -794,7 +803,7 @@ useSeoMeta({
     <!-- ══ CTA ══ -->
     <LCallToAction :title="t('cta_title')" :pre-title="t('cta_label')" :post-title="t('cta_sub')">
       <LActionButton :title="t('hero_cta_web')" link="https://msgboard.laraue.com/" type="site" />
-      <LActionButton title="&#128172; @msgboard_bot" link="https://t.me/msgboard_bot" type="telegram" />
+      <LActionButton title="@msgboard_bot" link="https://t.me/msgboard_bot" type="telegram" />
     </LCallToAction>
   </LMainContent>
 </template>
@@ -806,18 +815,14 @@ section {
 }
 
 /* ══ SHARED UTILS ══ */
-.btn-primary{background:var(--accent);color:#fff;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .15s,box-shadow .2s;box-shadow:0 2px 14px rgba(200,75,47,.3)}
-.btn-primary:hover{background:#b03d24;transform:translateY(-2px);box-shadow:0 6px 24px rgba(200,75,47,.4)}
 .btn-secondary{background:transparent;color:var(--ink);padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;border:1.5px solid var(--border);display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,background .2s,transform .15s}
 .btn-secondary:hover{border-color:var(--ink);background:var(--cream);transform:translateY(-2px)}
-.btn-outline-white{background:transparent;color:#fff;padding:13px 26px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;border:1.5px solid rgba(255,255,255,.4);display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,background .2s}
-.btn-outline-white:hover{border-color:#fff;background:rgba(255,255,255,.08)}
 .btn-tg{background:#229ed9;color:#fff;padding:13px 26px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .15s}
 .btn-tg:hover{background:#1a8abf;transform:translateY(-1px)}
 .section-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--accent);opacity:.5}
 .section-title{font-family:var(--serif);font-size:clamp(26px,3vw,42px);line-height:1.12;letter-spacing:-.3px;margin-bottom:16px}
-.section-sub{font-size:17px;color:var(--muted);font-weight:300;line-height:1.7;max-width:560px}
+.section-sub{font-size:17px;color:var(--muted);font-weight:300;line-height:1.7;}
 
 .hero-title em{font-style:italic;color:#6ab0f0}
 .hero-title .accent{color:var(--accent)}

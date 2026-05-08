@@ -37,7 +37,7 @@ const menuItems = computed<MenuItem[]>(() => {
         },
         {
           text: t("noteBoardBot"),
-          link: localePath("/msgboard"),
+          link: localePath("/boards"),
           id: "1-3",
           icon: "📋"
         },

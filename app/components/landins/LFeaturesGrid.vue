@@ -5,6 +5,7 @@ export interface Feature {
   icon: string,
   title: string,
   description: string,
+  link?: string,
 }
 
 defineProps<{
@@ -19,12 +20,12 @@ defineProps<{
 <template>
   <LSection class="features" :pre-title="preTitle" :postTitle="postTitle" :title="title" :type="type" :class="type">
     <div class="features-grid">
-      <div class="feat-cell reveal" v-for="feature in features">
+      <nuxt-link class="feat-cell reveal" :to="feature.link" v-for="feature in features">
         <div class="feat-icon">{{ feature.icon }}</div>
         <div class="feat-title">{{ feature.title }}</div>
         <div class="feat-desc">{{ feature.description }}
         </div>
-      </div>
+      </nuxt-link>
     </div>
   </LSection>
 </template>
@@ -34,7 +35,7 @@ defineProps<{
 .features{padding:80px 60px;background:var(--ink);position:relative;overflow:hidden}
 .features::before{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px}
 .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:52px}
-.feat-cell{padding:30px 26px;transition:background .2s;background: #fff;}
+.feat-cell{padding:30px 26px;transition:background .2s;background: #fff;text-decoration: none;}
 .dark .feat-cell { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08); }
 .dark .feat-cell:hover { background:rgba(255,255,255,.07); }
 .feat-icon{font-size:26px;margin-bottom:14px}

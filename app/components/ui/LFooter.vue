@@ -51,7 +51,7 @@
         <div>
           <div class="footer-col-title">Products</div>
           <ul class="footer-col-links">
-            <li><a :href="localePath('msgboard')">Laraue Boards</a></li>
+            <li><a :href="localePath('boards')">Laraue Boards</a></li>
             <li><a :href="localePath('markdown-converter')">{{ t('tool1n') }}</a></li>
             <li><a :href="localePath('crawled-apartments')">{{ t('tool2n_short') }}</a></li>
             <li><a :href="localePath('learn-language-bot')">{{ t('tool3n') }}</a></li>

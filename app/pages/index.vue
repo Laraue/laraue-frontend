@@ -213,7 +213,7 @@ useSeoMeta({
           <p class="hero-sub">{{ t('hero_sub') }}</p>
           <div class="hero-actions">
 
-            <a :href="localPath('msgboard')" class="btn-primary">{{ t('hero_cta1') }}</a>
+            <a :href="localPath('boards')" class="btn-primary">{{ t('hero_cta1') }}</a>
             <a href="#about" class="btn-secondary">{{ t('hero_cta2') }}</a>
           </div>
         </div>
@@ -298,7 +298,7 @@ useSeoMeta({
         </div>
         <div class="product-cta-row reveal">
           <a rel="nofollow" target="_blank" href="https://t.me/msgboard_bot" class="btn-primary">{{ t('prod_cta1') }} @msgboard_bot →</a>
-          <a rel="nofollow" target="_blank" href="https://laraue.com/msgboard" class="btn-ghost">{{ t('prod_cta2') }}</a>
+          <a rel="nofollow" target="_blank" :href="localPath('boards')" class="btn-ghost">{{ t('prod_cta2') }}</a>
         </div>
       </div>
     </section>

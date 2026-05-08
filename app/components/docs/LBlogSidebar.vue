@@ -20,13 +20,13 @@ const isTagActive = (tag: string) => {
     "filterTags": "Filter posts by tag",
     "wantMore": "Want more?",
     "try": "Try",
-    "msgBoard": "Laraue Boards is our newest product. Try it free - no credit card needed."
+    "boards": "Laraue Boards is our newest product. Try it free - no credit card needed."
   },
   "ru": {
     "filterTags": "Фильтрация по тегам",
     "wantMore": "Хотите больше?",
     "try": "Попробовать",
-    "msgBoard": "Laraue Boards наш новый продукт. Попробуйте бесплатно."
+    "boards": "Laraue Boards наш новый продукт. Попробуйте бесплатно."
   }
 }
 </i18n>
@@ -46,8 +46,8 @@ const isTagActive = (tag: string) => {
     </div>
     <div class="filter-panel">
       <div class="filter-panel-title" data-i18n="filter_cta_title">{{ t('wantMore') }}</div>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.55" data-i18n="filter_cta_body">{{ t('msgBoard') }}</p>
-      <LButton :href="localePath('msgboard')">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.55" data-i18n="filter_cta_body">{{ t('boards') }}</p>
+      <LButton :href="localePath('boards')">
         {{ t('try') }}
       </LButton>
     </div>
