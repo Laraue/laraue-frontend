@@ -33,17 +33,17 @@ useSchemaOrg([
       defineOffer({
         price: 3,
         priceCurrency: "USD",
-        description: '10K tokens of 9B translation model'
+        description: '100K tokens of 9B translation model'
       }),
       defineOffer({
         price: 9,
         priceCurrency: "USD",
-        description: '10K tokens of 27B translation model'
+        description: '100K tokens of 27B translation model'
       }),
       defineOffer({
         price: 25,
         priceCurrency: "USD",
-        description: '10K tokens of 81B translation model'
+        description: '100K tokens of 81B translation model'
       })
     ]
   })
@@ -141,24 +141,24 @@ const pasteToSource = async() => {
 const copySource = async() => {
   try {
     await navigator.clipboard.writeText(sourceText.value);
-    console.log('[Mock] Copied source to clipboard');
+    console.log('Copied source to clipboard');
   } catch (err) {
-    console.error('[Mock] Copy failed:', err);
+    console.error('Copy failed:', err);
   }
 }
 
 const copyOutput = async() => {
   try {
     await navigator.clipboard.writeText(outputText.value);
-    console.log('[Mock] Copied output to clipboard');
+    console.log('Copied output to clipboard');
   } catch (err) {
-    console.error('[Mock] Copy failed:', err);
+    console.error('Copy failed:', err);
   }
 }
 
 const downloadOutput = () => {
   if (!outputText.value) {
-    console.log('[Mock] No output to download');
+    console.log('No output to download');
     return;
   }
   const blob = new Blob([outputText.value], { type: 'text/markdown' });
@@ -170,7 +170,7 @@ const downloadOutput = () => {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  console.log('[Mock] Downloaded output as translated.md');
+  console.log('Downloaded output as translated.md');
 }
 
 const loadSample = (type: 'readme' | 'docs' | 'table') => {
@@ -186,19 +186,26 @@ const loadSample = (type: 'readme' | 'docs' | 'table') => {
   console.log(`[Mock] Loaded ${type} sample`);
 }
 
-const doTranslate = () => {
+const { translate } = useMarkdownApi()
+const doTranslate = async () => {
   if (!sourceText.value.trim()) {
     console.log('[Mock] No source text to translate');
     return;
   }
   isTranslating.value = true;
-  console.log(`[Mock] Translating from ${from.value} to ${to.value}...`);
-  // Simulate API delay
-  setTimeout(() => {
-    outputText.value = `[Mock Translation from ${from.value} to ${to.value}]\n\n${sourceText.value}`;
-    isTranslating.value = false;
-    console.log('[Mock] Translation completed');
-  }, 500);
+
+  console.log(`Translating from ${from.value} to ${to.value}...`);
+
+  const result = await translate({
+    from: from.value,
+    to: to.value,
+    content: sourceText.value,
+  })
+
+  outputText.value = result.content;
+  isTranslating.value = false;
+
+  console.log(`Translation completed`);
 }
 
 const updateSourceStats = () => {

@@ -41,6 +41,12 @@ const menuItems = computed<MenuItem[]>(() => {
           id: "1-3",
           icon: "📋"
         },
+        {
+          text: $t("markdownTranslator"),
+          link: localePath("/markdown-translator"),
+          id: "1-4",
+          icon: "℣"
+        }
       ]
     },
     {
@@ -64,12 +70,6 @@ const menuItems = computed<MenuItem[]>(() => {
           link: localePath("/pdf-extractor"),
           id: "3-1",
           icon: "📄"
-        },
-        {
-          text: $t("markdownTranslator"),
-          link: localePath("/markdown-translator"),
-          id: "3-2",
-          icon: "℣"
         }
       ]
     },

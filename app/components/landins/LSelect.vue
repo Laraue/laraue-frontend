@@ -1,7 +1,7 @@
 <script setup lang="ts">
   interface Option {
-    key: String,
-    title: String,
+    key: string,
+    title: string,
   }
 
   defineProps<{
@@ -9,14 +9,23 @@
     options: Option[];
     modelValue: string;
   }>()
+
+  const emits = defineEmits<{
+    (e: 'update:modelValue', value: string): void,
+  }>()
 </script>
 
 <template>
   <div class="lang-select-wrap">
     <div class="lang-select-label">{{ label }}</div>
-    <select class="lang-select">
-      <option v-for="option in options" :value="option.key" :selected="option.key === modelValue">
-        {{ option.title }}
+    <select
+      class="lang-select"
+      @change="emits('update:modelValue', ($event.target as HTMLSelectElement).value)">
+      <option
+        v-for="option in options"
+        :value="option.key"
+        :selected="option.key === modelValue">
+          {{ option.title }}
       </option>
     </select>
   </div>
