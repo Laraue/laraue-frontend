@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useI18n } from "vue-i18n";
+import {computed} from "vue";
+import {useI18n} from "vue-i18n";
 import LHero from "~/components/ui/LHero.vue";
 import LMainContent from "~/components/ui/LMainContent.vue";
 import LSection from "~/components/landins/LSection.vue";
@@ -8,6 +8,7 @@ import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
 import LFaqSection from "~/components/landins/LFaqSection.vue";
 import LSelect from "~/components/landins/LSelect.vue";
 import {defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
+import {ApiError} from "~/composables/apiError";
 
 const { t } = useI18n();
 
@@ -125,16 +126,15 @@ const renderedOutput = computed(() => {
 const clearAll = () => {
   sourceText.value = '';
   outputText.value = '';
-  console.log('[Mock] Cleared both panes');
+  console.log('Cleared both panes');
 }
 
 const pasteToSource = async() => {
   try {
-    const text = await navigator.clipboard.readText();
-    sourceText.value = text;
-    console.log('[Mock] Pasted from clipboard');
+    sourceText.value = await navigator.clipboard.readText();
+    console.log('Pasted from clipboard');
   } catch (err) {
-    console.error('[Mock] Failed to paste:', err);
+    console.error('Failed to paste:', err);
   }
 }
 
@@ -187,25 +187,42 @@ const loadSample = (type: 'readme' | 'docs' | 'table') => {
 }
 
 const { translate } = useMarkdownApi()
+const errors = ref<{ [key: string]: string[] }>({})
+const generalError = ref<string | null>(null)
+
+watch([sourceText, from, to], () => {
+  errors.value = {}
+  generalError.value = null
+})
+
 const doTranslate = async () => {
   if (!sourceText.value.trim()) {
     console.log('[Mock] No source text to translate');
     return;
   }
-  isTranslating.value = true;
 
+  isTranslating.value = true;
   console.log(`Translating from ${from.value} to ${to.value}...`);
 
-  const result = await translate({
-    from: from.value,
-    to: to.value,
-    content: sourceText.value,
-  })
+  try {
+    const result = await translate({
+      from: from.value,
+      to: to.value,
+      content: sourceText.value,
+    })
 
-  outputText.value = result.content;
-  isTranslating.value = false;
-
-  console.log(`Translation completed`);
+    outputText.value = result.content;
+    console.log(`Translation completed`);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 400) {
+      errors.value = error.errors
+    } else {
+      console.error('Translation failed:', error)
+      generalError.value = error instanceof Error ? error.message : 'Translation failed. Please try again later.'
+    }
+  } finally {
+    isTranslating.value = false;
+  }
 }
 
 const updateSourceStats = () => {
@@ -395,9 +412,9 @@ const updateSourceStats = () => {
 <template>
   <LMainContent>
     <LHero
-        :title="t('heroTitle')"
-        :sub-title="t('heroSub')"
-        :features="[
+      :title="t('heroTitle')"
+      :sub-title="t('heroSub')"
+      :features="[
         t('featurePreserveHeadings'),
         t('featureKeepCode'),
         t('featureRetainTables'),
@@ -455,8 +472,28 @@ const updateSourceStats = () => {
         </span>
       </div>
 
+      <!-- Error Alert -->
+      <div v-if="Object.keys(errors).length || generalError" class="error-alert" role="alert">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <div class="error-content">
+          <strong>Translation error</strong>
+          <ul v-if="Object.keys(errors).length">
+            <li v-for="(msgs, field) in errors" :key="field">
+              <span class="error-field">{{ field }}:</span>
+              <span v-for="msg in msgs" :key="msg" class="error-message">{{ msg }}</span>
+            </li>
+          </ul>
+          <p v-else>{{ generalError }}</p>
+        </div>
+        <button class="error-dismiss" @click="errors = {}; generalError = null" aria-label="Dismiss">✕</button>
+      </div>
+
       <!-- Editor panes -->
-      <div class="editor-panes" style="margin-top:14px">
+      <div class="editor-panes">
         <!-- Left: source -->
         <div class="editor-pane">
           <div class="pane-header">
@@ -635,7 +672,7 @@ const updateSourceStats = () => {
 @keyframes loadbar{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
 /* editor panes */
-.editor-panes{display:grid;grid-template-columns:1fr 1fr;min-height:400px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff}
+.editor-panes{display:grid;grid-template-columns:1fr 1fr;min-height:400px;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:#fff;margin-top:14px;}
 .editor-pane{display:flex;flex-direction:column;border-right:1px solid var(--border)}
 .editor-pane:last-child{border-right:none}
 .pane-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--cream);border-bottom:1px solid var(--border);flex-shrink:0}
@@ -658,7 +695,7 @@ const updateSourceStats = () => {
 .stat-item strong{color:var(--ink);font-weight:600}
 
 /* sample chips */
-.sample-chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.sample-chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;margin-bottom: 14px;}
 .sample-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:var(--accent-light);border:1px solid rgba(15,118,110,.18);border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s}
 .sample-chip:hover{background:var(--accent-light);border-color:var(--accent)}
 
@@ -675,6 +712,61 @@ const updateSourceStats = () => {
 .seo-tags{padding:28px 48px;border-bottom:1px solid var(--border);display:flex;}
 .seo-tags-inner{display:flex;flex-wrap:wrap;gap:6px;margin: 0 auto;}
 .seo-tag{font-size:11px;color:var(--muted);background:var(--cream);border:1px solid var(--border);padding:3px 9px;border-radius:4px}
+
+/* Error alert styling */
+.error-alert {
+  display: flex;
+  gap: 12px;
+  background: #fff2f0;
+  border: 1px solid #e5484d;
+  border-radius: 6px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #b91c1c;
+}
+.error-alert svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.error-content {
+  flex: 1;
+}
+.error-content strong {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.error-content ul {
+  margin: 4px 0 0 0;
+  padding-left: 20px;
+}
+.error-content li {
+  margin: 2px 0;
+}
+.error-field {
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-right: 6px;
+}
+.error-message {
+  color: #b91c1c;
+}
+.error-dismiss {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #b91c1c;
+  opacity: 0.6;
+  padding: 0 4px;
+  line-height: 1;
+}
+.error-dismiss:hover {
+  opacity: 1;
+}
 
 /* ══ RESPONSIVE ══ */
 @media(max-width:1100px){
