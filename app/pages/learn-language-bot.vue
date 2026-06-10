@@ -47,7 +47,8 @@ const supportedLanguages = ref([
   }
 ])
 
-const imageUrl = "https://laraue.com/images/quiz-mode.jpg";
+const configuration = useRuntimeConfig();
+const imageUrl = configuration.public.imagesBaseAddress + "quiz-mode.jpg";
 useSeoMeta({
   title: computed(() => t('seoTitle')),
   ogTitle: computed(() => t('seoTitle')),
@@ -369,7 +370,7 @@ useSchemaOrg([
         <div class="reveal">
           <!-- Real screenshot if available, placeholder otherwise -->
           <div class="screenshot-img">
-            <img src="https://laraue.com/images/quiz-mode.jpg" alt="Quiz Mode screenshot" loading="lazy" />
+            <img :src="configuration.public.imagesBaseAddress + 'quiz-mode.jpg'" alt="Quiz Mode screenshot" loading="lazy" />
           </div>
         </div>
       </div>

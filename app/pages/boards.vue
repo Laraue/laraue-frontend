@@ -3,7 +3,8 @@ import { useI18n } from "vue-i18n";
 import { computed } from "vue";
 
 const { t } = useI18n();
-const imageUrl = "https://laraue.com/images/note-board-bot-app.jpg";
+const config = useRuntimeConfig();
+const imageUrl = config.public.imagesBaseAddress + "note-board-bot-app.jpg";
 
 import {
   defineOffer,

@@ -63,6 +63,7 @@ export default defineNuxtConfig({
       pdfExtractorBaseAddress: process.env.NUXT_PUBLIC_PDF_EXTRACTOR_BASE_ADDRESS || 'https://laraue.com/api/pdfql/v1',
       blogBaseAddress: process.env.NUXT_PUBLIC_BLOG_BASE_ADDRESS || 'https://laraue.com/api/blog',
       markdownBaseAddress: process.env.NUXT_PUBLIC_MARKDOWN_BASE_ADDRESS || 'https://laraue.com/api/markdown-transpiler',
+      imagesBaseAddress: 'https://laraue.com/static/images/'
     },
   }
 })
