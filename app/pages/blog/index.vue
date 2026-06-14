@@ -37,6 +37,7 @@ const computedItems = computed<Article[]>(() => items.value
 
 const title = computed(() => t('all'))
 const description = computed(() => t('seoDescription'))
+const subText = computed(() => t('sub'))
 
 useSeoMeta({
   title: title,
@@ -55,12 +56,14 @@ watch(() => route.query.tag, async () => {
 <i18n lang="json">
 {
   "en": {
-    "all": "Blog",
-    "seoDescription": "Articles, project write-ups and technical documentation. C#, .NET, AI, Telegram and open source."
+    "all": "Laraue Software Blog — C# .NET Development & Open Source",
+    "seoDescription": "Technical articles and open source project writeups from Laraue Software — covering C#, .NET, EF Core, web scraping, Telegram bots, local AI with Ollama, and more.",
+    "sub": "Real code, real decisions, real tradeoffs. We write about what we build — .NET libraries, Telegram bots, AI integrations, and the architecture mistakes worth learning from."
   },
   "ru": {
-    "all": "Блог",
-    "seoDescription": "Статьи, описание проектов и техническая документация. C#, .NET, AI, Telegram и open source разработка."
+    "all": "Блог Laraue Software — C# .NET open source разработка",
+    "seoDescription": "Технические статьи и описания open source проектов от Laraue Software — C#, .NET, EF Core, парсинг сайтов, Telegram-боты, локальный ИИ с Ollama и многое другое.",
+    "sub": "Реальный код, реальные решения, реальные компромиссы. Пишем о том, что строим — .NET библиотеки, Telegram-боты, интеграции с ИИ и архитектурные ошибки, на которых можно учиться."
   }
 }
 </i18n>
@@ -69,7 +72,7 @@ watch(() => route.query.tag, async () => {
   <DocsView
     v-if="items"
     :title="title"
-    :subTitle="description"
+    :subTitle="subText"
     :articles="computedItems"/>
 </template>
 

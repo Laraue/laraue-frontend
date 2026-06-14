@@ -35,6 +35,7 @@ const computedItems = computed<Article[]>(() => (projects.value ?? [])
 const { t } = useI18n()
 const title = computed(() => t('projects'))
 const description = computed(() => t('seoDescription'))
+const sub = computed(() => t('sub'))
 
 useSeoMeta({
   title: title,
@@ -48,22 +49,24 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "Project portfolio featuring custom C# crawlers, Telegram bot frameworks, PDF query languages, and AI-powered real estate analytics.",
-    "projects": "Projects"
+    "seoDescription": "Open source C# and .NET projects — EF Core trigger library, Markdown CMS backend, Telegram bot framework, web scraping library, PdfQL interpreter, and AI apartment search.",
+    "projects": "Open Source .NET Projects — Libraries, Bots & AI Tools",
+    "sub": "Libraries we built because the existing options weren't good enough. All open source, all actively maintained."
   },
   "ru": {
-    "projects": "Проекты",
-    "seoDescription": "Реализованные проекты, среди которых - бибилотека для краулинга, фреймворк для телеграмма, язык запросов к PDF и многое другое."
+    "projects": "Open Source .NET проекты — библиотеки, боты и ИИ",
+    "seoDescription": "Open source проекты на C# и .NET — библиотека триггеров EF Core, CMS-бэкенд для Markdown, Telegram-боты, библиотека парсинга, интерпретатор PdfQL и ИИ-поиск квартир.",
+    "sub": "Libraries we built because the existing options weren't good enough. All open source, all actively maintained."
   }
 }
 </i18n>
 
 <template>
   <docs-view
-      v-if="projects"
-      :title=title
-      :subTitle=description
-      :articles="computedItems"/>
+    v-if="projects"
+    :title=title
+    :subTitle=sub
+    :articles="computedItems"/>
 </template>
 
 <style scoped>

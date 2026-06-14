@@ -37,6 +37,7 @@ const computedArticles = computed<Article[]>(() => articles.value
 const { t } = useI18n()
 const title = computed(() => t('all'))
 const description = computed(() => t('seoDescription'))
+const sub = computed(() => t('sub'))
 
 useSeoMeta({
   title: title.value,
@@ -51,14 +52,14 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "Storytelling about our development practices and interesting technical moments that occurred while implementing features.",
-    "all": "Articles",
-    "ofProject": "related to project"
+    "seoDescription": "In-depth technical articles on C# and .NET — building web scrapers with PuppeteerSharp, integrating Ollama for local AI inference, real estate ranking systems, and more.",
+    "all": "Technical Articles — C# .NET Architecture & AI Integration",
+    "sub": "Architecture decisions, implementation deep-dives, and honest accounts of what went wrong. Written by engineers who shipped the code."
   },
   "ru": {
-    "all": "Cтатьи",
-    "ofProject": "с проектом",
-    "seoDescription": "Рассказываем о интересных моментах разработки и технических трудностях, которые пришлось преодолеть при создании продуктов."
+    "all": "Технические статьи — архитектура C# .NET и интеграция ИИ",
+    "seoDescription": "Глубокие технические статьи о C# и .NET — парсинг сайтов через PuppeteerSharp, интеграция Ollama для локального ИИ-инференса, системы ранжирования недвижимости и не только.",
+    "sub": "Архитектурные решения, разборы реализаций и честные истории о том, что пошло не так. Написано инженерами, которые сами создавали этот код."
   }
 }
 </i18n>
@@ -67,7 +68,7 @@ useSeoMeta({
   <DocsView
     v-if="articles"
     :title="title"
-    :subTitle="description"
+    :subTitle="sub"
     :articles="computedArticles"/>
 </template>
 
