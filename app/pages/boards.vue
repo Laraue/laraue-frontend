@@ -256,7 +256,8 @@ useSeoMeta({
     "tm3_role": "Independent Researcher",
     "cta_label": "Get started today",
     "cta_title": "Your work deserves\nbetter than chat history",
-    "cta_sub": "Free to start. No credit card. Works in 30 seconds."
+    "cta_sub": "Free to start. No credit card. Works in 30 seconds.",
+    "documentation": "More details"
   },
   "ru": {
     "task_label": "Задача",
@@ -418,7 +419,8 @@ useSeoMeta({
     "tm3_role": "Независимый исследователь",
     "cta_label": "Начните сегодня",
     "cta_title": "Ваши заметки заслуживают большего, чем затеряться в чате",
-    "cta_sub": "Бесплатно. Без карты. За 30 секунд."
+    "cta_sub": "Бесплатно. Без карты. За 30 секунд.",
+    "documentation": "Подробнее"
   }
 }
 </i18n>
@@ -453,7 +455,7 @@ useSeoMeta({
       </template>
       <template #actions>
         <LActionButton :title="t('hero_cta_web')" link="https://msgboard.laraue.com/" type="site" />
-        <LActionButton title="@msgboard_bot" link="https://t.me/msgboard_bot" type="telegram" />
+        <LActionButton :title="t('documentation')" :link="localePath('/blog/documentation/laraue-boards')" type="github" />
       </template>
       <template #visual>
         <div class="hero-visual">

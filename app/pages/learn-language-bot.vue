@@ -16,6 +16,7 @@ import LSection from "~/components/landins/LSection.vue";
 import LCallToAction from "~/components/landins/LCallToAction.vue";
 
 const { t } = useI18n();
+const localePath = useLocalePath();
 const supportedLanguages = ref([
   {
     name: t('l1'),
@@ -101,6 +102,7 @@ useSchemaOrg([
     "stat_free": "Free",
     "stat_free_label": "forever",
     "view_github": "View on GitHub",
+    "view_blog": "Read in Blog",
     "feat_label": "What you get",
     "feat_title": "Powerful learning features",
     "feat_sub": "Proven language learning methods, delivered inside the app you already use every day.",
@@ -169,6 +171,7 @@ useSchemaOrg([
     "stat_free": "Бесплатно",
     "stat_free_label": "навсегда",
     "view_github": "Открыть на GitHub",
+    "view_blog": "Подробнее в блоге",
     "feat_label": "Что включено",
     "feat_title": "Мощные функции",
     "feat_sub": "Проверенные методы изучения языков — в приложении, которым вы пользуетесь каждый день.",
@@ -248,7 +251,7 @@ useSchemaOrg([
       </template>
       <template #actions>
         <LActionButton :title="t('hero_cta')" link="https://t.me/learn_lang_bot" type="telegram" />
-        <LActionButton :title="t('view_github')" link="https://github.com/win7user10/Laraue.Apps.LearnLanguage" type="github" />
+        <LActionButton :title="t('view_blog')" :link="localePath('/blog/projects/learn-language')" type="site" />
       </template>
       <template #visual>
         <!-- phone mockup -->
