@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import DocView from "~/components/docs/DocView.vue";
 import {useBlogApi} from "~/composables/blogApi";
+import DocsMobileToc from "~/components/docs/DocsMobileToc.vue";
 
 const { getItemDetails } = useBlogApi();
 const { locale } = useI18n();
 const { getRouteSegments } = usePathUtil();
+const { loadMenu, getItemMeta } = useBlogApi()
+const route = useRoute();
+const segments = route.params.id as string[]
+const rootPath = ["blog", "documentation", segments[0]!]
+const menuItems = await loadMenu(locale.value, rootPath);
+const item = await getItemMeta(locale.value, rootPath);
 
 const documentation = await getItemDetails(locale.value, getRouteSegments());
 const { t } = useI18n();
+
 
 useSeoMeta({
   title: documentation.title,
@@ -31,10 +39,11 @@ useSeoMeta({
 
 <template>
   <NuxtLayout name="blog">
-    <NuxtLayout name="documentation">
-      <DocView :item="documentation">
-      </DocView>
-    </NuxtLayout>
+    <DocsMobileToc :rootPath="rootPath" :menuItems="menuItems" />
+    <DocView :item="documentation" />
+    <template #sidebar>
+      <DocsSidebar :rootPath="rootPath" :menuItems="menuItems" :title="item.title" :icon="item.icon" />
+    </template>
   </NuxtLayout>
 </template>
 

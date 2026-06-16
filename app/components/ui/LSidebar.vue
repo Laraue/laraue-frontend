@@ -60,7 +60,7 @@
 
 <style scoped>
 /* sidebar */
-.sidebar{position:fixed;top:var(--nav-h);bottom:0;left:0;width:var(--sidebar-w);z-index:100;background:rgba(247,244,238,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid rgba(217,212,201,.6);display:flex;flex-direction:column;padding:28px 0 24px;overflow-y:auto;box-shadow:4px 0 24px rgba(15,14,12,.05)}
+.sidebar{position:sticky;top:var(--nav-h);height: calc(100vh - var(--nav-h));bottom:0;left:0;width:var(--sidebar-w);z-index:100;background:rgba(247,244,238,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-right:1px solid rgba(217,212,201,.6);display:flex;flex-direction:column;padding:28px 0 24px;overflow-y:auto;box-shadow:4px 0 24px rgba(15,14,12,.05)}
 .sidebar-section-label{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:0 20px;margin-bottom:6px;margin-top:18px;opacity:.7}
 .sidebar-section-label:first-child{margin-top:0}
 .sidebar-links{list-style:none}

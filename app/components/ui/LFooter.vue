@@ -82,7 +82,7 @@
 
 <style scoped>
 /* FOOTER */
-footer{background:var(--ink);color:rgba(247,244,238,.65);padding:60px 48px 40px}
+footer{background:var(--ink);color:rgba(247,244,238,.65);padding:60px 48px 40px;}
 .footer-inner{max-width:1160px;margin:0 auto}
 .footer-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:48px;gap:40px;flex-wrap:wrap}
 .footer-brand .footer-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--paper);margin-bottom:16px}

@@ -66,15 +66,18 @@
 
     </nav>
   </aside>
+
 </template>
 
 <style scoped>
 /* ══ DOC TREE SIDEBAR ══ */
 .doc-sidebar{
-  position:fixed;
-  top:var(--nav-h);bottom:0;
+  position:sticky;
+  top:var(--nav-h);
+  bottom:0;
   left:var(--sidebar-w);
   width:var(--doc-sidebar-w);
+  height: calc(100vh - var(--nav-h));
   z-index:90;
   background:#fff;
   border-right:1px solid var(--border);

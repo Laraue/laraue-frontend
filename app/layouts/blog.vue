@@ -50,7 +50,10 @@ const linksSections = computed<LinksSection[]>(() => {
 <template>
   <NuxtLayout name="default">
     <LMainContent :linksSections="linksSections">
-      <slot />
+      <slot></slot>
+      <template #sidebar>
+        <slot name="sidebar"></slot>
+      </template>
     </LMainContent>
   </NuxtLayout>
 </template>
