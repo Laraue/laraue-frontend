@@ -24,6 +24,9 @@ useSeoMeta({
   ogDescription: documentation.description ?? t('seoDescription', { title: documentation.title }),
   ogType: "website",
   ogImageUrl: getBlogOgImageUrl(),
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogLocale: locale.value,
 })
 </script>
 

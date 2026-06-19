@@ -19,6 +19,9 @@ useSeoMeta({
   description: project.description,
   ogType: "article",
   ogImageUrl: getBlogOgImageUrl(),
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogLocale: locale.value,
 })
 
 useSchemaOrg([
