@@ -25,9 +25,20 @@ export const usePathUtil = () => {
         return segments
     })
 
+    const getBlogOgImageUrl = () => {
+        const config = useRuntimeConfig()
+        const ogImageUrl = new URL(config.public.blogBaseAddress + "/images/og-image");
+        const routeSegments = getRouteSegments()
+        routeSegments.forEach(id => ogImageUrl.searchParams.append('articlePath', id));
+        ogImageUrl.searchParams.set("languageCode", locale.value);
+
+        return ogImageUrl.toString();
+    }
+
     return {
         localePathFromSegments,
         localePath,
         getRouteSegments,
+        getBlogOgImageUrl,
     }
 }

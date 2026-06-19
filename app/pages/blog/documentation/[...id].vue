@@ -5,7 +5,7 @@ import DocsMobileToc from "~/components/docs/DocsMobileToc.vue";
 
 const { getItemDetails } = useBlogApi();
 const { locale } = useI18n();
-const { getRouteSegments } = usePathUtil();
+const { getRouteSegments, getBlogOgImageUrl } = usePathUtil();
 const { loadMenu, getItemMeta } = useBlogApi()
 const route = useRoute();
 const segments = route.params.id as string[]
@@ -23,6 +23,7 @@ useSeoMeta({
   description: documentation.description ?? t('seoDescription', { title: documentation.title }),
   ogDescription: documentation.description ?? t('seoDescription', { title: documentation.title }),
   ogType: "website",
+  ogImageUrl: getBlogOgImageUrl(),
 })
 </script>
 

@@ -4,7 +4,7 @@ import {useBlogApi} from "~/composables/blogApi";
 import {useSchemaOrg} from "@unhead/schema-org/vue";
 import {defineArticle} from "@unhead/schema-org";
 
-const { getRouteSegments } = usePathUtil();
+const { getRouteSegments, getBlogOgImageUrl } = usePathUtil();
 const { getItemDetails } = useBlogApi();
 const { locale } = useI18n();
 
@@ -18,6 +18,7 @@ useSeoMeta({
   ogTitle: project.title,
   description: project.description,
   ogType: "article",
+  ogImageUrl: getBlogOgImageUrl(),
 })
 
 useSchemaOrg([
