@@ -71,8 +71,8 @@ export interface ItemDetails {
     contentType: string;
     updatedAt: string | undefined;
     innerLinks: InnerLink[];
-    previous?: NeighborCard;
-    next?: NeighborCard;
+    previousLink?: NeighborCard;
+    nextLink?: NeighborCard;
     tags?: string[];
     projects?: string[];
     length: number;

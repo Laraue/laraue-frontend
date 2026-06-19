@@ -144,13 +144,13 @@ const backAddress = computed(() => {
             <nuxt-link v-for="tag in item.tags" :to="'/blog?tag=' + tag" class="article-tag">{{ tag }}</nuxt-link>
           </div>
           <div class="article-nav">
-            <nuxt-link v-if="item.previous" :to="localePathFromSegments(item.previous.path)" class="article-nav-card next">
+            <nuxt-link v-if="item.previousLink" :to="localePathFromSegments(item.previousLink.path)" class="article-nav-card next">
               <div class="article-nav-direction" data-i18n="nav_next">&#8592;{{ t('previous') }}</div>
-              <div class="article-nav-title">{{ item.previous.title }}</div>
+              <div class="article-nav-title">{{ item.previousLink.title }}</div>
             </nuxt-link>
-            <nuxt-link v-if="item.next" :to="localePathFromSegments(item.next.path)" class="article-nav-card next">
+            <nuxt-link v-if="item.nextLink" :to="localePathFromSegments(item.nextLink.path)" class="article-nav-card next">
               <div class="article-nav-direction" data-i18n="nav_next">{{ t('next') }} &#8594;</div>
-              <div class="article-nav-title">{{ item.next.title }}</div>
+              <div class="article-nav-title">{{ item.nextLink.title }}</div>
             </nuxt-link>
           </div>
         </div>
