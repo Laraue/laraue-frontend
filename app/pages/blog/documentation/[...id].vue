@@ -27,6 +27,8 @@ useSeoMeta({
   ogImageWidth: 1200,
   ogImageHeight: 630,
   ogLocale: locale.value,
+  ogImageType: "image/png",
+  twitterCard: "summary_large_image"
 })
 </script>
 
