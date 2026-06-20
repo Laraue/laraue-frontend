@@ -14,7 +14,7 @@ const { getItems } = useBlogApi();
 
 const projects = ref<ItemListItem[]>([]);
 const loadPage = async () => {
-  const result = await getItems(locale.value, path, ["project"], undefined, 0, 8);
+  const result = await getItems(locale.value, path, ["project"], undefined, 0, 16);
   projects.value = result.data
 }
 await loadPage();
