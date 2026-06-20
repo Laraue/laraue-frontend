@@ -23,7 +23,8 @@ useSeoMeta({
   ogImageHeight: 630,
   ogLocale: locale.value,
   ogImageType: "image/png",
-  twitterCard: "summary_large_image"
+  twitterCard: "summary_large_image",
+  robots: 'index, follow, max-image-preview:large',
 })
 
 useSchemaOrg([
@@ -33,7 +34,7 @@ useSchemaOrg([
     dateModified: project.updatedAt,
     datePublished: project.createdAt,
     inLanguage: locale.value,
-    keywords: project.tags
+    keywords: project.tags,
   })])
 
 </script>

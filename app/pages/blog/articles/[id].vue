@@ -26,7 +26,8 @@ useSeoMeta({
   ogImageHeight: 630,
   ogLocale: locale.value,
   ogImageType: "image/png",
-  twitterCard: "summary_large_image"
+  twitterCard: "summary_large_image",
+  robots: 'index, follow, max-image-preview:large',
 })
 
 useSchemaOrg([
