@@ -32,6 +32,28 @@ const linksSections = computed<LinksSection[]>(() => {
   ]
 })
 
+const config = useRuntimeConfig()
+const rssUrl = new URL(config.public.blogBaseAddress + "/rss");
+
+useHead({
+  link: [
+    {
+      rel: 'alternate',
+      type: 'application/rss+xml',
+      hreflang: 'en',
+      title: 'Laraue Blog (EN)',
+      href: `${rssUrl}?languageCode=en`
+    },
+    {
+      rel: 'alternate',
+      type: 'application/rss+xml',
+      hreflang: 'ru',
+      title: 'Laraue Blog (RU)',
+      href: `${rssUrl}?languageCode=ru`
+    }
+  ]
+})
+
 </script>
 
 <i18n lang="json">
