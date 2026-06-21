@@ -51,8 +51,8 @@ export default defineNuxtConfig({
   i18n: {
     strategy: 'prefix_except_default',
     locales: [
-      { code: 'en', name: 'English', language: 'en-US', file: "en.json" },
-      { code: 'ru', name: 'Русский', language: 'ru-RU', file: "ru.json" },
+      { code: 'en', name: 'English', language: 'en', file: "en.json" },
+      { code: 'ru', name: 'Русский', language: 'ru', file: "ru.json" },
     ],
     defaultLocale: 'en',
     baseUrl: 'https://laraue.com',

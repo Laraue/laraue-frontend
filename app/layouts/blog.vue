@@ -40,14 +40,12 @@ useHead({
     {
       rel: 'alternate',
       type: 'application/rss+xml',
-      hreflang: 'en',
       title: 'Laraue Blog (EN)',
       href: `${rssUrl}?languageCode=en`
     },
     {
       rel: 'alternate',
       type: 'application/rss+xml',
-      hreflang: 'ru',
       title: 'Laraue Blog (RU)',
       href: `${rssUrl}?languageCode=ru`
     }
