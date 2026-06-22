@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: '20.x'
           cache: 'pnpm'
-      - run: pnpm i
+      - run: pnpm i --frozen-lockfile
       - run: pnpm nuxt build
 
       - name: Upload
