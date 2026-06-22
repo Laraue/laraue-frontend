@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2026-06-22',
+  compatibilityDate: '2026-06-21',
   devtools: { enabled: true },
   modules: ['nuxt-gtag', '@nuxtjs/i18n'],
   elementPlus: {
