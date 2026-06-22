@@ -23,6 +23,9 @@ importers:
       nuxt-gtag:
         specifier: 4.1.0
         version: 4.1.0(magicast@0.5.1)
+      unhead:
+        specifier: ^3.1.4
+        version: 3.1.4(vite@7.2.4(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.44.1)(yaml@2.8.1))
       vue:
         specifier: ^3.5.24
         version: 3.5.24(typescript@5.9.3)
@@ -2222,6 +2225,9 @@ packages:
   hookable@6.0.1:
     resolution: {integrity: sha512-uKGyY8BuzN/a5gvzvA+3FVWo0+wUjgtfSdnmjtrOVwQCZPHpHDH2WRO3VZSOeluYrHoDCiXFffZXs8Dj1ULWtw==}
 
+  hookable@6.1.1:
+    resolution: {integrity: sha512-U9LYDy1CwhMCnprUfeAZWZGByVbhd54hwepegYTK7Pi5NvqEj63ifz5z+xukznehT7i6NIZRu89Ay1AZmRsLEQ==}
+
   http-errors@2.0.1:
     resolution: {integrity: sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==}
     engines: {node: '>= 0.8'}
@@ -3432,6 +3438,14 @@ packages:
   unhead@2.1.12:
     resolution: {integrity: sha512-iTHdWD9ztTunOErtfUFk6Wr11BxvzumcYJ0CzaSCBUOEtg+DUZ9+gnE99i8QkLFT2q1rZD48BYYGXpOZVDLYkA==}
 
+  unhead@3.1.4:
+    resolution: {integrity: sha512-Whwejfc9dHnzgRkYoOxmDc3wsGtBR+PhdKpVr2neLJmeFfz5RmvrnLK5ctixwJ6ttUBYucmeGWS+0j68I+9WeQ==}
+    peerDependencies:
+      vite: '>=6.4.2'
+    peerDependenciesMeta:
+      vite:
+        optional: true
+
   unicorn-magic@0.3.0:
     resolution: {integrity: sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==}
     engines: {node: '>=18'}
@@ -3460,6 +3474,10 @@ packages:
   unplugin@2.3.10:
     resolution: {integrity: sha512-6NCPkv1ClwH+/BGE9QeoTIl09nuiAt0gS28nn1PvYXsGKRwM2TCbFA2QiilmehPDTXIe684k4rZI1yl3A1PCUw==}
     engines: {node: '>=18.12.0'}
+
+  unplugin@3.0.0:
+    resolution: {integrity: sha512-0Mqk3AT2TZCXWKdcoaufeXNukv2mTrEZExeXlHIOZXdqYoHHr4n51pymnwV8x2BOVxwXbK2HLlI7usrqMpycdg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
 
   unstorage@1.17.3:
     resolution: {integrity: sha512-i+JYyy0DoKmQ3FximTHbGadmIYb8JEpq7lxUjnjeB702bCPum0vzo6oy5Mfu0lpqISw7hCyMW2yj4nWC8bqJ3Q==}
@@ -6039,6 +6057,8 @@ snapshots:
 
   hookable@6.0.1: {}
 
+  hookable@6.1.1: {}
+
   http-errors@2.0.1:
     dependencies:
       depd: 2.0.0
@@ -7460,6 +7480,13 @@ snapshots:
     dependencies:
       hookable: 6.0.1
 
+  unhead@3.1.4(vite@7.2.4(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.44.1)(yaml@2.8.1)):
+    dependencies:
+      hookable: 6.1.1
+      unplugin: 3.0.0
+    optionalDependencies:
+      vite: 7.2.4(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.44.1)(yaml@2.8.1)
+
   unicorn-magic@0.3.0: {}
 
   unimport@5.5.0:
@@ -7519,6 +7546,12 @@ snapshots:
     dependencies:
       '@jridgewell/remapping': 2.3.5
       acorn: 8.15.0
+      picomatch: 4.0.3
+      webpack-virtual-modules: 0.6.2
+
+  unplugin@3.0.0:
+    dependencies:
+      '@jridgewell/remapping': 2.3.5
       picomatch: 4.0.3
       webpack-virtual-modules: 0.6.2
 
