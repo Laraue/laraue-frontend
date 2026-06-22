@@ -6,6 +6,27 @@ const head = useLocaleHead()
 const route = useRoute()
 const { t } = useI18n()
 const pageTitle = computed(() => t(route.meta?.title ?? 'defaultTitle'))
+
+const config = useRuntimeConfig()
+const rssUrl = new URL(config.public.blogBaseAddress + "/rss");
+
+useHead({
+  link: [
+    {
+      rel: 'alternate',
+      type: 'application/rss+xml',
+      title: 'Laraue Blog (EN)',
+      href: `${rssUrl}?languageCode=en`
+    },
+    {
+      rel: 'alternate',
+      type: 'application/rss+xml',
+      title: 'Laraue Blog (RU)',
+      href: `${rssUrl}?languageCode=ru`
+    }
+  ]
+})
+
 </script>
 
 <template>
