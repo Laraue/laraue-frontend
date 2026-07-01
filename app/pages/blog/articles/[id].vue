@@ -15,18 +15,21 @@ const { locale } = useI18n()
 const { getItemDetails } = useBlogApi();
 const routeSegments = getRouteSegments();
 const article = await getItemDetails(locale.value, routeSegments);
+const imageUrl = getBlogOgImageUrl();
 
 useSeoMeta({
-  title: () => article.title,
-  ogTitle: () => article.title,
-  description: () => article.description,
+  title: article.title,
+  ogTitle: article.title,
+  description: article.description,
   ogType: "article",
-  ogImageUrl: getBlogOgImageUrl(),
+  ogImageUrl: imageUrl,
   ogImageWidth: 1200,
   ogImageHeight: 630,
   ogLocale: locale.value,
   ogImageType: "image/png",
   twitterCard: "summary_large_image",
+  twitterTitle: article.title,
+  twitterImage: imageUrl,
   robots: 'index, follow, max-image-preview:large',
 })
 

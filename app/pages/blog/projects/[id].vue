@@ -13,17 +13,21 @@ definePageMeta({
   layout: 'blog',
 })
 
+const imageUrl = getBlogOgImageUrl();
+
 useSeoMeta({
   title: project.title,
   ogTitle: project.title,
   description: project.description,
   ogType: "article",
-  ogImageUrl: getBlogOgImageUrl(),
+  ogImageUrl: imageUrl,
   ogImageWidth: 1200,
   ogImageHeight: 630,
   ogLocale: locale.value,
   ogImageType: "image/png",
   twitterCard: "summary_large_image",
+  twitterTitle: project.title,
+  twitterImage: imageUrl,
   robots: 'index, follow, max-image-preview:large',
 })
 

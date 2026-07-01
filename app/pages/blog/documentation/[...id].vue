@@ -15,7 +15,7 @@ const item = await getItemMeta(locale.value, rootPath);
 
 const documentation = await getItemDetails(locale.value, getRouteSegments());
 const { t } = useI18n();
-
+const imageUrl = getBlogOgImageUrl();
 
 useSeoMeta({
   title: documentation.title,
@@ -23,12 +23,14 @@ useSeoMeta({
   description: documentation.description ?? t('seoDescription', { title: documentation.title }),
   ogDescription: documentation.description ?? t('seoDescription', { title: documentation.title }),
   ogType: "website",
-  ogImageUrl: getBlogOgImageUrl(),
+  ogImageUrl: imageUrl,
   ogImageWidth: 1200,
   ogImageHeight: 630,
   ogLocale: locale.value,
   ogImageType: "image/png",
   twitterCard: "summary_large_image",
+  twitterTitle: documentation.title,
+  twitterImage: imageUrl,
   robots: 'index, follow, max-image-preview:large',
 })
 </script>
