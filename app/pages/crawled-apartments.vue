@@ -171,7 +171,7 @@ useSchemaOrg([
       :post-title="t('hero_sub')">
       <template #actions>
         <LActionButton :title="t('hero_cta_open')" link="https://apartments.laraue.com" type="site" />
-        <LActionButton :title="t('hero_cta_read')" :link="localePath('/blog/articles/how-i-tried-to-rank-flats-by-photos')" type="github" />
+        <LActionButton :title="t('hero_cta_read')" :link="localePath('/blog/articles/building-ai-real-estate-system')" type="github" />
       </template>
       <template #visual>
         <div class="listing-mockup">
