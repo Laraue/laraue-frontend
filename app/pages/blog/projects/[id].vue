@@ -14,13 +14,14 @@ definePageMeta({
 })
 
 const imageUrl = getBlogOgImageUrl();
+const { author } = useConstants()
 
 useSeoMeta({
   title: project.title,
   ogTitle: project.title,
   description: project.description,
   ogType: "article",
-  ogImageUrl: imageUrl,
+  ogImage: imageUrl,
   ogImageWidth: 1200,
   ogImageHeight: 630,
   ogLocale: locale.value,
@@ -33,12 +34,13 @@ useSeoMeta({
 
 useSchemaOrg([
   defineArticle({
-    title: project.title,
+    headline: project.title,
     description: project.description,
     dateModified: project.updatedAt,
     datePublished: project.createdAt,
     inLanguage: locale.value,
     keywords: project.tags,
+    author: author
   })])
 
 </script>

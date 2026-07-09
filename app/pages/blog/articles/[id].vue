@@ -16,17 +16,18 @@ const { getItemDetails } = useBlogApi();
 const routeSegments = getRouteSegments();
 const article = await getItemDetails(locale.value, routeSegments);
 const imageUrl = getBlogOgImageUrl();
+const { author } = useConstants()
 
 useSeoMeta({
   title: article.title,
   ogTitle: article.title,
   description: article.description,
   ogType: "article",
-  ogImageUrl: imageUrl,
+  ogImage: imageUrl,
   ogImageWidth: 1200,
   ogImageHeight: 630,
-  ogLocale: locale.value,
   ogImageType: "image/png",
+  ogLocale: locale.value,
   twitterCard: "summary_large_image",
   twitterTitle: article.title,
   twitterImage: imageUrl,
@@ -35,12 +36,14 @@ useSeoMeta({
 
 useSchemaOrg([
   defineArticle({
-    title: article.title,
+    headline: article.title,
     description: article.description,
-    dateModified: article.updatedAt,
+    image: imageUrl,
     datePublished: article.createdAt,
+    dateModified: article.updatedAt,
     inLanguage: locale.value,
     keywords: article.tags,
+    author: author
   })])
 </script>
 
