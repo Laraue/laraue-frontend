@@ -36,6 +36,7 @@ useSchemaOrg([
   defineArticle({
     headline: project.title,
     description: project.description,
+    image: imageUrl,
     dateModified: project.updatedAt,
     datePublished: project.createdAt,
     inLanguage: locale.value,
