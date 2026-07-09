@@ -299,7 +299,7 @@ useSchemaOrg([
           <div class="tech-card-icon">&#128200;</div>
           <div class="tech-card-name">ASP.NET Core + PostgreSQL</div>
           <p class="tech-card-desc">{{ t('tc3') }}</p>
-          <nuxt-link :to="localePath('/blog/articles/how-i-tried-to-rank-flats-by-photos')" class="tech-card-link">{{ t('tc_article') }}</nuxt-link>
+          <nuxt-link :to="localePath('/blog/projects/real-estate')" class="tech-card-link">{{ t('tc_article') }}</nuxt-link>
         </div>
       </div>
     </LSection>
@@ -307,7 +307,7 @@ useSchemaOrg([
     <!-- ARTICLE CALLOUT -->
     <LSection type="light" :pre-title="t('art_label')" :title="t('art_title')" :post-title="t('art_sub')" horizontal>
       <div class="reveal">
-        <a href="/blog/articles/how-i-tried-to-rank-flats-by-photos" class="article-card">
+        <nuxt-link :to="localePath('/blog/projects/real-estate')" class="article-card">
           <div class="article-card-strip"></div>
           <div class="article-card-body">
             <div class="article-card-type">{{ t('type_article') }}</div>
@@ -320,7 +320,7 @@ useSchemaOrg([
             </div>
             <div class="article-card-read">{{ t('art_read') }}</div>
           </div>
-        </a>
+        </nuxt-link>
       </div>
     </LSection>
 
