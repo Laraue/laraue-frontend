@@ -6,15 +6,15 @@ import LPlatformBadge from "~/components/landins/LPlatformBadge.vue";
 import LSteps from "~/components/landins/LSteps.vue";
 import LSection from "~/components/landins/LSection.vue";
 import LCallToAction from "~/components/landins/LCallToAction.vue";
-import {defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
+import {defineAggregateRating, defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const { t } = useI18n();
 const localePath = useLocalePath();
 
 useSeoMeta({
-  title: computed(() => t('seoTitle')),
-  ogTitle: computed(() => t('seoTitle')),
-  description: computed(() => t('seoDescription')),
+  title: t('seoTitle'),
+  ogTitle: t('seoTitle'),
+  description: t('seoDescription'),
   ogType: "website",
 })
 
@@ -28,9 +28,13 @@ useSchemaOrg([
       defineOffer({
         price: 0,
         priceCurrency: "USD",
-        description: 'Unlimited application usage '
+        description: 'Unlimited application usage'
       })
-    ]
+    ],
+    aggregateRating: defineAggregateRating({
+      ratingValue: "0",
+      reviewCount: 0,
+    }),
   })
 ])
 </script>

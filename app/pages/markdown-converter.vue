@@ -2,7 +2,7 @@
 import {computed, ref} from "vue";
 import LMainContent from "~/components/ui/LMainContent.vue";
 import LHero from "~/components/ui/LHero.vue";
-import {defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
+import {defineAggregateRating, defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const markdown = ref('');
 const transpiled = ref('')
@@ -120,7 +120,11 @@ useSchemaOrg([
         priceCurrency: "USD",
         description: 'Unlimited converter usage'
       })
-    ]
+    ],
+    aggregateRating: defineAggregateRating({
+      ratingValue: "0",
+      reviewCount: 0,
+    })
   })
 ])
 

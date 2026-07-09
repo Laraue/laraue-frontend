@@ -7,7 +7,7 @@ import LSection from "~/components/landins/LSection.vue";
 import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
 import LFaqSection from "~/components/landins/LFaqSection.vue";
 import LSelect from "~/components/landins/LSelect.vue";
-import {defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
+import {defineAggregateRating, defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
 import {ApiError} from "~/composables/apiError";
 
 const { t } = useI18n();
@@ -46,7 +46,11 @@ useSchemaOrg([
         priceCurrency: "USD",
         description: '100K tokens of 81B translation model'
       })
-    ]
+    ],
+    aggregateRating: defineAggregateRating({
+      ratingValue: "0",
+      reviewCount: 0,
+    })
   })
 ])
 

@@ -2,6 +2,7 @@
 
 import {computed} from "vue";
 import {
+  defineAggregateRating,
   defineOffer,
   defineSoftwareApp,
   useSchemaOrg
@@ -78,7 +79,11 @@ useSchemaOrg([
         priceCurrency: "USD",
         description: 'Unlimited Bot usage'
       })
-    ]
+    ],
+    aggregateRating: defineAggregateRating({
+      ratingValue: "0",
+      reviewCount: 0,
+    }),
   })
 ])
 </script>

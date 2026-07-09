@@ -3,7 +3,7 @@ import {computed, ref, watch} from 'vue';
 import {type PsqlExecutionResult, usePdfExtractorApi} from "~/composables/pdfExtractorApi";
 import LMainContent from "~/components/ui/LMainContent.vue";
 import LHero from "~/components/ui/LHero.vue";
-import {defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
+import {defineAggregateRating, defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const { runQuery, checkSyntax } = usePdfExtractorApi();
 
@@ -166,7 +166,11 @@ useSchemaOrg([
         priceCurrency: "USD",
         description: 'Unlimited extractor usage'
       })
-    ]
+    ],
+    aggregateRating: defineAggregateRating({
+      ratingValue: "0",
+      reviewCount: 0,
+    })
   })
 ])
 </script>

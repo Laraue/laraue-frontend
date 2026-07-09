@@ -49,7 +49,7 @@ useSchemaOrg([
     ],
     aggregateRating: defineAggregateRating({
       ratingValue: "4.8",
-      reviewCount: 3,
+      reviewCount: 4,
     }),
     review: [
       defineReview({
