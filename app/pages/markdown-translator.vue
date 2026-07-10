@@ -47,10 +47,6 @@ useSchemaOrg([
         description: '100K tokens of 81B translation model'
       })
     ],
-    aggregateRating: defineAggregateRating({
-      ratingValue: "0",
-      reviewCount: 0,
-    })
   })
 ])
 

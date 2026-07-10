@@ -166,11 +166,7 @@ useSchemaOrg([
         priceCurrency: "USD",
         description: 'Unlimited extractor usage'
       })
-    ],
-    aggregateRating: defineAggregateRating({
-      ratingValue: "0",
-      reviewCount: 0,
-    })
+    ]
   })
 ])
 </script>

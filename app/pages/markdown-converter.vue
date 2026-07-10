@@ -121,10 +121,6 @@ useSchemaOrg([
         description: 'Unlimited converter usage'
       })
     ],
-    aggregateRating: defineAggregateRating({
-      ratingValue: "0",
-      reviewCount: 0,
-    })
   })
 ])
 

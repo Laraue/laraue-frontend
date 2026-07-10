@@ -80,10 +80,6 @@ useSchemaOrg([
         description: 'Unlimited Bot usage'
       })
     ],
-    aggregateRating: defineAggregateRating({
-      ratingValue: "0",
-      reviewCount: 0,
-    }),
   })
 ])
 </script>

@@ -31,10 +31,6 @@ useSchemaOrg([
         description: 'Unlimited application usage'
       })
     ],
-    aggregateRating: defineAggregateRating({
-      ratingValue: "0",
-      reviewCount: 0,
-    }),
   })
 ])
 </script>
