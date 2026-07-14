@@ -10,9 +10,7 @@ import {
   defineOffer,
   defineSoftwareApp,
   useSchemaOrg,
-  defineAggregateRating,
-  defineReview,
-  definePerson,
+  defineQuestion,
 } from '@unhead/schema-org/vue'
 import LMainContent from "~/components/ui/LMainContent.vue";
 import LLandingIntro from "~/components/landins/LLandingIntro.vue";
@@ -28,59 +26,27 @@ useSchemaOrg([
   defineSoftwareApp({
     name: t('seoTitle'),
     description: t('seoDescription'),
-    applicationCategory: "UtilitiesApplication",
-    operatingSystem: "Telegram",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web, Telegram",
     offers: [
       defineOffer({
         price: 0,
         priceCurrency: "USD",
-        description: '3 message types, 3 statuses per type, up to 100 cards'
-      }),
-      defineOffer({
-        price: 4,
-        priceCurrency: "USD",
-        description: 'Unlimited types, statuses, cards, AI categorization, and CSV/Notion export'
-      }),
-      defineOffer({
-        price: 5,
-        priceCurrency: "USD",
-        description: 'Organization mode. Unlimited types, statuses, cards, AI categorization, and CSV/Notion export'
+        description: 'Free: boards, spaces, epics, issues, custom attributes, organizations. Telegram bot, Mini App and web app included.'
       })
-    ],
-    aggregateRating: defineAggregateRating({
-      ratingValue: "4.8",
-      reviewCount: 4,
-    }),
-    review: [
-      defineReview({
-        author: definePerson({
-          name: t('testimonial1Name')
-        }),
-        reviewBody: t('testimonial1'),
-        reviewRating: { '@type': 'Rating', ratingValue: '5' }
-      }),
-      defineReview({
-        author: definePerson({
-          name: t('testimonial2Name')
-        }),
-        reviewBody: t('testimonial2'),
-        reviewRating: { '@type': 'Rating', ratingValue: '5' }
-      }),
-      defineReview({
-        author: definePerson({
-          name: t('testimonial3Name')
-        }),
-        reviewBody: t('testimonial3'),
-        reviewRating: { '@type': 'Rating', ratingValue: '5' }
-      })
-    ],
-  })
+    ]
+  }),
+  defineQuestion({ name: t('faq1q'), acceptedAnswer: t('faq1a') }),
+  defineQuestion({ name: t('faq2q'), acceptedAnswer: t('faq2a') }),
+  defineQuestion({ name: t('faq3q'), acceptedAnswer: t('faq3a') }),
+  defineQuestion({ name: t('faq4q'), acceptedAnswer: t('faq4a') }),
 ])
 
 useSeoMeta({
   title: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),
   ogTitle: computed(() => t('seoTitle')),
+  ogDescription: computed(() => t('seoDescription')),
   ogImage: imageUrl,
   ogImageWidth: "891",
   ogImageHeight: "862",
@@ -107,157 +73,131 @@ useSeoMeta({
     "mockup_resource1": "Figma file",
     "mockup_task4": "Set up CI",
     "mockup_task5": "Deploy v0.1",
-    "seoTitle": "Laraue Boards — Turn Telegram Messages into Beautiful Kanban Boards",
-    "seoDescription": "Stop losing important messages in Telegram. Note Board Bot transforms saved messages into visual boards with custom statuses. Free Kanban organization for Telegram.",
+
+    "seoTitle": "Laraue Boards — Turn Telegram Messages into Kanban Boards",
+    "seoDescription": "Stop losing important messages in Telegram. Laraue Boards turns messages you send to {'@'}msgboard_bot into cards on a kanban board. Free, open source, works as a Telegram Mini App and a web app.",
+
     "sec_top": "Overview",
     "sec_use_cases": "Use cases",
     "sec_platforms": "Platforms",
     "sec_features": "Features",
     "sec_how": "How it works",
-    "sec_pricing": "Pricing",
+    "sec_open": "Open source",
+
     "open_webapp": "Web App",
+
     "hero_eyebrow": "Boards by Laraue Software",
     "hero_title": "Kanban boards\nwithout the complexity",
-    "hero_sub": "Track tasks, capture ideas, manage projects — for yourself or your team. No Jira complexity, no Notion learning curve. Just clean boards that work.",
+    "hero_sub": "Send a message to the bot — it becomes a card. Organise it later on a board, alone or with your team. No Jira complexity, no Notion learning curve.",
     "hero_cta_web": "Open Web App",
+
     "stat_free": "Free",
-    "stat_free_label": "to start",
-    "stat_types_label": "board types",
+    "stat_free_label": "and open source",
+    "stat_types_label": "interfaces: bot, Mini App, web",
     "stat_modes_label": "modes: personal & team",
     "stat_setup_label": "sec. to get started",
+
     "mockup_title": "My Board — Sprint 3",
     "k_todo": "To Do",
     "k_doing": "Doing",
     "k_done": "Done",
-    "org_badge": "3 team members online",
+
     "uc_label": "Built for two worlds",
     "uc_title": "Personal productivity\nor team coordination",
-    "uc_sub": "Laraue Boards adapts to how you work — solo or with a team. Switch modes anytime.",
+    "uc_sub": "Laraue Boards adapts to how you work — solo or with a team.",
     "uc_personal_title": "Personal use",
-    "uc_personal_desc": "Capture and organize your thoughts, tasks and resources without context switching. Forward Telegram messages directly to your board.",
-    "uc_p1": "Capture Telegram messages with one forward",
-    "uc_p2": "Organize tasks, ideas, notes and reading lists",
-    "uc_p3": "Search everything by keyword instantly",
-    "uc_p4": "AI auto-suggests the right category",
-    "uc_p_cta": "Start with Telegram bot",
+    "uc_personal_desc": "Capture thoughts, tasks and links without leaving Telegram. Forward a message to the bot and it lands on your board.",
+    "uc_p1": "Forward any message — text, photo, video or album",
+    "uc_p2": "Edit the message in Telegram, the card updates",
+    "uc_p3": "Search everything by keyword",
+    "uc_p4": "Organise into epics and columns when you have time",
+    "uc_p_cta": "Start with the Telegram bot",
     "uc_teams_title": "Small teams",
     "uc_teams_desc": "A lightweight Jira alternative for teams that find Jira overwhelming. Create an organization, invite teammates, track work together.",
     "uc_t1": "Organization mode with shared boards",
     "uc_t2": "Invite teammates via Telegram",
-    "uc_t3": "Assign tasks, track progress together",
-    "uc_t4": "Export to CSV / Notion anytime",
+    "uc_t3": "Permissions per operation on spaces, epics and issues",
+    "uc_t4": "Custom attributes defined by an admin",
     "uc_t_cta": "Open web app",
+
     "pl_label": "Two ways to use it",
     "pl_title": "Web app & Telegram Mini App",
     "pl_sub": "Start in Telegram, continue in the browser. Your boards are always in sync.",
     "web_name": "Web App",
-    "web_desc": "Full-featured Kanban experience in the browser. Sign in with your Telegram account — no separate registration needed. Works on desktop and mobile.",
+    "web_desc": "Full-featured Kanban in the browser. Sign in with your Telegram account — no separate registration. Works on desktop and mobile.",
     "web_f1": "Telegram login — no password",
     "web_f2": "Full drag-and-drop Kanban",
-    "web_f3": "Organization & team management",
+    "web_f3": "Organization & permission management",
     "web_f4": "Large screen — see more, do more",
     "tg_name": "Telegram Mini App",
-    "tg_desc": "Access your boards directly inside Telegram without leaving the app. Forward any message to the bot and it lands on your board in seconds.",
+    "tg_desc": "Access your boards inside Telegram without leaving the app. Forward any message to the bot and it lands on your board in seconds.",
     "tg_f1": "Forward messages from any chat",
     "tg_f2": "Native iOS & Android feel",
-    "tg_f3": "Instant — no app to install",
-    "tg_f4": "Same boards as the web app",
+    "tg_f3": "Instant — nothing to install",
+    "tg_f4": "The same boards as the web app",
+
     "feat_label": "Everything you need",
     "feat_title": "Nothing you don't",
     "feat_sub": "Deliberately simple. Every feature earns its place.",
     "f1t": "Visual Kanban Boards",
     "f1d": "Drag-and-drop cards across columns. Clean, fast, works on any screen.",
-    "f2t": "Organization Mode",
-    "f2d": "Create a shared workspace, invite teammates, manage boards together.",
-    "f3t": "Forward to Board",
-    "f3d": "Send any Telegram message to the bot and it appears as a card instantly.",
-    "f4t": "Custom Workflows",
-    "f4d": "Define your own statuses per board type. Color-code, reorder, rename freely.",
-    "f5t": "Instant Search",
-    "f5d": "Find any card by keyword. Filter by type, status or date in one click.",
-    "f6t": "AI Categorization",
-    "f6d": "Premium: AI reads your message and suggests the right type and status.",
-    "f7t": "Export",
-    "f7d": "Export any board to CSV or Notion. Your data is always portable.",
+    "f2t": "Forward to Board",
+    "f2d": "Send any Telegram message to the bot and it appears as a card instantly — with a 👍 to confirm.",
+    "f3t": "Media and albums",
+    "f3d": "Photos, videos and whole albums become one card with all the attachments, in original quality.",
+    "f4t": "Edits sync back",
+    "f4d": "Edit the message in Telegram and the card changes with it. The reaction turns into a ❤.",
+    "f5t": "Spaces and issue keys",
+    "f5d": "Group epics into spaces per project. Every issue gets a key like WRK-42 you can quote in a chat.",
+    "f6t": "Custom attributes",
+    "f6d": "An admin defines attributes — task type, due by — and the team fills them in on issues.",
+    "f7t": "Organization & permissions",
+    "f7d": "Shared boards, and permissions set per operation on spaces, epics and issues.",
     "f8t": "Privacy first",
-    "f8d": "Your data is never sold. Login via Telegram — no new password.",
-    "f9t": "Honest free tier",
-    "f9d": "Real free plan, not a 14-day trial. Upgrade only when you need more.",
+    "f8d": "Login via Telegram — no new password. Your data is never sold.",
+    "f9t": "Open source",
+    "f9d": "The backend and the frontend are public. Read exactly what happens to your message.",
+
     "how_label": "Getting started",
-    "how_title": "From zero to organized in 5 steps",
-    "step1t": "Open the app",
-    "step1d": "Sign in at msgboard.laraue.com with Telegram, or open",
-    "step2t": "Create a board",
-    "step2d": "Pick a template or start blank. Name your columns.",
-    "step3t": "Add cards",
-    "step3d": "Type a task, or forward any Telegram message directly to the board.",
+    "how_title": "From zero to organized in 4 steps",
+    "step1t": "Open the bot",
+    "step1d": "Start a chat with",
+    "step2t": "Send a message",
+    "step2d": "Type a task or forward anything from another chat. It becomes a card.",
+    "step3t": "Organise it",
+    "step3d": "Open the Mini App or the web app, drag cards between columns, group them into epics.",
     "step4t": "Invite your team",
-    "step4d": "Optional: create an organization and invite teammates via Telegram.",
-    "step5t": "Ship things",
-    "step5d": "Drag cards, track progress, export when you need to.",
-    "wf_label": "Built-in templates",
-    "wf_title": "Ready-to-use workflows",
-    "wf_sub": "Each type ships with a sensible default — customize anytime.",
-    "wf_tasks": "Tasks",
-    "wf_ideas": "Ideas",
-    "wf_resources": "Resources",
-    "wf_notes": "Notes",
-    "wf_todo": "To Do",
-    "wf_doing": "Doing",
-    "wf_done": "Done",
-    "wf_raw": "Raw",
-    "wf_developing": "Developing",
-    "wf_ready": "Ready",
-    "wf_toread": "To Read",
-    "wf_reading": "Reading",
-    "wf_archived": "Archived",
-    "wf_draft": "Draft",
-    "wf_final": "Final",
-    "wf_reference": "Reference",
-    "pr_label": "Simple pricing",
-    "pr_title": "Start free, grow when ready",
-    "pr_sub": "No surprises. No trial periods. The free plan is real.",
-    "tier_free": "Free",
-    "tier_premium": "Premium",
-    "tier_team": "Team",
-    "pr_forever": "forever",
-    "pr_month": "per month",
-    "pr_month_member": "per member / month",
-    "pf1": "4 board types",
-    "pf2": "3 statuses per type",
-    "pf3": "Up to 100 cards",
-    "pf4": "Web app + Telegram",
-    "pf5": "Keyword search",
-    "pf6": "AI categorization",
-    "pf7": "Export to CSV / Notion",
-    "pf8": "Team organization",
-    "pp1": "Unlimited board types",
-    "pp2": "Unlimited custom statuses",
-    "pp3": "Unlimited cards",
-    "pp4": "Web app + Telegram",
-    "pp5": "Keyword search",
-    "pt1": "Everything in Premium",
-    "pt2": "Organization workspace",
-    "pt3": "Shared team boards",
-    "pt4": "Invite via Telegram",
-    "pt5": "Task assignment",
-    "pt6": "Priority support",
-    "pr_start_free": "Start free",
-    "pr_get_premium": "Get Premium",
-    "pr_start_team": "Start team trial",
-    "pr_note": "All plans include Telegram login. No credit card required to start.",
-    "tm_label": "People using it",
-    "tm_title": "What they say",
-    "tm1": "I used to screenshot important messages and forget about them. Now I forward everything and my task board is always current. It became part of my daily PM workflow.",
-    "tm1_role": "Product Manager, SaaS startup",
-    "tm2": "We were using Jira for a 3-person team. Way too much overhead. Laraue Boards gives us exactly what we need — shared boards, no configuration hell.",
-    "tm2_role": "Co-founder, early-stage startup",
-    "tm3": "As a researcher I save papers and notes from different Telegram groups constantly. The Resources board with Reading → Archived is exactly the workflow I needed.",
-    "tm3_role": "Independent Researcher",
+    "step4d": "Optional: create an organization, invite teammates via Telegram, and set permissions.",
+
+    "os_label": "Built in the open",
+    "os_title": "Open source, mistakes included",
+    "os_sub": "You can read the code — and you can read how it was written.",
+    "os_code_title": "The code is public",
+    "os_code_desc": "Backend and frontend are both on GitHub. People told us they were not ready to trust private notes to a product they did not know — open code is the honest answer to that.",
+    "os_code_cta": "View on GitHub",
+    "os_devlog_title": "The devlog",
+    "os_devlog_desc": "We write down how the product is being built, including what went wrong — the bot that asked too many questions and had to be rolled back, the database decision we got wrong.",
+    "os_devlog_cta": "Read the full story",
+
+    "faq_label": "Questions",
+    "faq_title": "Common questions",
+    "faq1q": "Is it free?",
+    "faq1a": "Yes. Everything on this page is free to use. Paid plans will arrive later, together with the AI features, and what works today stays free.",
+    "faq2q": "Is it really open source?",
+    "faq2a": "Yes. Both the backend and the frontend are public on GitHub, so you can read exactly what happens to a message after you send it.",
+    "faq3q": "How is this different from Telegram Saved Messages?",
+    "faq3a": "Saved Messages is a great place to save something quickly, but a bad place to find it later. Laraue Boards keeps the saving just as easy and gives what you saved a board, columns and statuses.",
+    "faq4q": "Do I need an account or a password?",
+    "faq4a": "No. You log in with Telegram. In the Mini App you are already logged in, and the web version has a Telegram login button.",
+
+    "pr_note": "Laraue Boards is free. Paid plans will come later, alongside the AI features — everything that works today stays free.",
+
     "cta_label": "Get started today",
     "cta_title": "Your work deserves\nbetter than chat history",
-    "cta_sub": "Free to start. No credit card. Works in 30 seconds.",
-    "documentation": "More details"
+    "cta_sub": "Free and open source. Works in 30 seconds.",
+    "documentation": "Documentation",
+    "project_page": "How it's built",
+    "project_description": "More details"
   },
   "ru": {
     "task_label": "Задача",
@@ -270,46 +210,53 @@ useSeoMeta({
     "mockup_resource1": "Файл Figma",
     "mockup_task4": "Настроить CI",
     "mockup_task5": "Релиз v0.1",
-    "seoTitle": "Laraue Boards — Превращайте сообщения Telegram в красивые Kanban-доски",
-    "seoDescription": "Перестаньте терять важные сообщения в Telegram. Note Board Bot превращает сохраненные сообщения в визуальные доски с настраиваемыми статусами. Бесплатная Kanban-организация для Telegram.",
+
+    "seoTitle": "Laraue Boards — превращайте сообщения Telegram в Kanban-доски",
+    "seoDescription": "Перестаньте терять важные сообщения в Telegram. Laraue Boards превращает сообщения, отправленные боту {'@'}msgboard_bot, в карточки на канбан-доске. Бесплатно, открытый код, работает как Telegram Mini App и веб-приложение.",
+
     "sec_top": "Обзор",
     "sec_use_cases": "Кейсы",
     "sec_platforms": "Платформы",
     "sec_features": "Функции",
     "sec_how": "Как это работает",
-    "sec_pricing": "Цены",
+    "sec_open": "Открытый код",
+
     "open_webapp": "Веб-приложение",
+
     "hero_eyebrow": "Boards от Laraue Software",
     "hero_title": "Kanban-доски\nбез лишней сложности",
-    "hero_sub": "Отслеживайте задачи, сохраняйте идеи, управляйте проектами — для себя или вашей команды. Без сложности Jira и долгого обучения Notion.",
+    "hero_sub": "Отправьте сообщение боту — оно станет карточкой. Работайте с ней на доске, в одиночку или в команде. Без сложности Jira и долгого обучения Notion.",
     "hero_cta_web": "Открыть веб-приложение",
-    "stat_free": "Free",
-    "stat_free_label": "для старта",
-    "stat_types_label": "типа досок",
-    "stat_modes_label": "режима: личный и командный",
-    "stat_setup_label": "сек. чтобы начать",
+
+    "stat_free": "0$",
+    "stat_free_label": "открытый код",
+    "stat_types_label": "интерфейса: бот, Mini App, веб",
+    "stat_modes_label": "режима: соло и командный",
+    "stat_setup_label": "секунд чтобы начать",
+
     "mockup_title": "Моя доска — Спринт 3",
     "k_todo": "Сделать",
     "k_doing": "В работе",
     "k_done": "Готово",
-    "org_badge": "3 участника онлайн",
+
     "uc_label": "Для двух сценариев",
     "uc_title": "Личная продуктивность\nили командная работа",
     "uc_sub": "Laraue Boards адаптируются под ваш стиль работы — одиночный или командный режим.",
     "uc_personal_title": "Личное использование",
-    "uc_personal_desc": "Сохраняйте мысли, задачи и материалы без переключений контекста.",
-    "uc_p1": "Пересылайте сообщения Telegram одним действием",
-    "uc_p2": "Организуйте задачи, идеи, заметки и ресурсы",
-    "uc_p3": "Мгновенный поиск по ключевому слову",
-    "uc_p4": "AI автоматически предлагает категорию",
-    "uc_p_cta": "Начать через Telegram",
+    "uc_personal_desc": "Сохраняйте мысли, задачи и ссылки, не выходя из Telegram. Перешлите сообщение боту — оно окажется на доске.",
+    "uc_p1": "Пересылайте что угодно — текст, фото, видео или альбом",
+    "uc_p2": "Отредактировали сообщение в Telegram — карточка обновилась",
+    "uc_p3": "Поиск по ключевому слову",
+    "uc_p4": "Организуйте по эпикам и статусам, когда найдется время",
+    "uc_p_cta": "Начать через Telegram-бота",
     "uc_teams_title": "Небольшие команды",
-    "uc_teams_desc": "Лёгкая альтернатива Jira для команд, которые ищут более простые и дешевые варианты.",
+    "uc_teams_desc": "Лёгкая альтернатива Jira для команд, которым она кажется избыточной. Создайте организацию, пригласите коллег, работайте над задачами вместе.",
     "uc_t1": "Режим организации с общими досками",
     "uc_t2": "Приглашайте коллег через Telegram",
-    "uc_t3": "Назначайте задачи, отслеживайте прогресс",
-    "uc_t4": "Экспорт в CSV / Notion в любой момент",
+    "uc_t3": "Права по операциям над спейсами, эпиками и issues",
+    "uc_t4": "Кастомные атрибуты, настраиваемые админом",
     "uc_t_cta": "Открыть веб-приложение",
+
     "pl_label": "Два способа использования",
     "pl_title": "Веб-приложение и Telegram Mini App",
     "pl_sub": "Начните в Telegram, продолжайте в браузере. Доски всегда синхронизированы.",
@@ -317,110 +264,77 @@ useSeoMeta({
     "web_desc": "Полноценный Kanban в браузере. Вход через аккаунт Telegram без дополнительной регистрации.",
     "web_f1": "Вход через Telegram — без пароля",
     "web_f2": "Drag-and-drop Kanban",
-    "web_f3": "Управление организацией и командой",
-    "web_f4": "Адаптация под Большой экран",
+    "web_f3": "Управление организацией и правами",
+    "web_f4": "Адаптация под большой экран",
     "tg_name": "Telegram Mini App",
-    "tg_desc": "Доступ к Boards прямо внутри Telegram. Перешлите любое сообщение боту — оно сразу появится на доске.",
+    "tg_desc": "Доступ к доскам прямо внутри Telegram. Перешлите любое сообщение боту — оно сразу появится на доске.",
     "tg_f1": "Пересылка сообщений из любого чата",
     "tg_f2": "Нативный iOS и Android",
-    "tg_f3": "Мгновенно — не нужно ничего устанавливать",
+    "tg_f3": "Мгновенно — ничего не нужно устанавливать",
     "tg_f4": "Те же доски, что в веб-приложении",
+
     "feat_label": "Всё, что нужно",
     "feat_title": "И ничего лишнего",
     "feat_sub": "Намеренная простота. Каждая функция действительно полезна.",
     "f1t": "Визуальные Kanban-доски",
-    "f1d": "Drag-and-drop карточки по колонкам.",
-    "f2t": "Режим организации",
-    "f2d": "Создайте общее пространство, приглашайте коллег.",
-    "f3t": "Пересылка на доску",
-    "f3d": "Отправьте сообщение боту — оно станет карточкой.",
-    "f4t": "Пользовательские рабочие процессы",
-    "f4d": "Свои статусы, цвета, порядок колонок.",
-    "f5t": "Мгновенный поиск",
-    "f5d": "Найдите любую карточку по ключевому слову.",
-    "f6t": "AI-категоризация",
-    "f6d": "Premium: AI предлагает тип и статус по содержанию.",
-    "f7t": "Экспорт",
-    "f7d": "Экспорт в CSV или Notion. Данные всегда ваши.",
+    "f1d": "Drag-and-drop карточки по колонкам. Работает на любом экране.",
+    "f2t": "Пересылка на доску",
+    "f2d": "Отправьте сообщение боту — оно станет карточкой, а бот подтвердит это реакцией 👍.",
+    "f3t": "Медиа и альбомы",
+    "f3d": "Фото, видео и целые альбомы становятся одной карточкой со всеми вложениями, в исходном качестве.",
+    "f4t": "Правки синхронизируются",
+    "f4d": "Отредактируйте сообщение в Telegram — карточка изменится. Реакция сменится на ❤.",
+    "f5t": "Спейсы и номера issues",
+    "f5d": "Группируйте эпики в спейсы по проектам. У каждого issue есть номер вида WRK-42 — на него можно сослаться в чате.",
+    "f6t": "Кастомные атрибуты",
+    "f6d": "Админ задаёт атрибуты — тип задачи, выполнить до — а команда заполняет их в issues.",
+    "f7t": "Организация и права",
+    "f7d": "Общие доски и права, настраиваемые по операциям над спейсами, эпиками и issues.",
     "f8t": "Конфиденциальность",
-    "f8d": "Данные не продаются. Вход через Telegram.",
-    "f9t": "Честный бесплатный тариф",
-    "f9d": "Настоящий бесплатный тариф, а не пробный период.",
+    "f8d": "Вход через Telegram — без нового пароля. Данные не продаются.",
+    "f9t": "Открытый код",
+    "f9d": "Бэкенд и фронтенд открыты. Можно проверить, что происходит с сообщением.",
+
     "how_label": "Начало работы",
-    "how_title": "От нуля до организованности за 5 шагов",
-    "step1t": "Откройте приложение",
-    "step1d": "Авторизуйтесь на msgboard.laraue.com через Telegram или откройте",
-    "step2t": "Создайте доску",
-    "step2d": "Выберите шаблон или настройте самостоятельно.",
-    "step3t": "Добавьте карточки",
-    "step3d": "Напишите задачу или перешлите сообщение из Telegram.",
+    "how_title": "От нуля до организованности за 4 шага",
+    "step1t": "Откройте бота",
+    "step1d": "Начните чат с",
+    "step2t": "Отправьте сообщение",
+    "step2d": "Напишите задачу или перешлите что-нибудь из другого чата. Это станет карточкой.",
+    "step3t": "Разберите задачи",
+    "step3d": "Откройте Mini App или веб-версию, перетаскивайте карточки между колонками, группируйте их в эпики.",
     "step4t": "Пригласите команду",
-    "step4d": "Опционально: создайте организацию и пригласите коллег.",
-    "step5t": "Делайте дела",
-    "step5d": "Перетаскивайте карточки, экспортируйте по необходимости.",
-    "wf_label": "Встроенные шаблоны",
-    "wf_title": "Готовые рабочие доски",
-    "wf_sub": "Каждая с предустановленным шаблоном.",
-    "wf_tasks": "Задачи",
-    "wf_ideas": "Идеи",
-    "wf_resources": "Ресурсы",
-    "wf_notes": "Заметки",
-    "wf_todo": "Сделать",
-    "wf_doing": "В работе",
-    "wf_done": "Готово",
-    "wf_raw": "Не проработана",
-    "wf_developing": "В работе",
-    "wf_ready": "Готова",
-    "wf_toread": "К чтению",
-    "wf_reading": "Чтение",
-    "wf_archived": "Архив",
-    "wf_draft": "Черновик",
-    "wf_final": "Готово",
-    "wf_reference": "Для справки",
-    "pr_label": "Простое ценообразование",
-    "pr_title": "Начните бесплатно, переходите на другой тариф, если потребуется",
-    "pr_sub": "Без сюрпризов. Без пробных периодов. Бесплатный тариф не ограничен по времени.",
-    "tier_free": "Бесплатно",
-    "tier_premium": "Premium",
-    "tier_team": "Команда",
-    "pr_forever": "навсегда",
-    "pr_month": "в месяц",
-    "pr_month_member": "за участника / месяц",
-    "pf1": "4 типа досок",
-    "pf2": "3 статуса на тип",
-    "pf3": "До 100 карточек",
-    "pf4": "Веб + Telegram",
-    "pf5": "Поиск по ключевому слову",
-    "pf6": "AI-категоризация",
-    "pf7": "Экспорт в CSV / Notion",
-    "pf8": "Командная организация",
-    "pp1": "Неограниченно типов досок",
-    "pp2": "Неограниченно статусов",
-    "pp3": "Неограниченно карточек",
-    "pp4": "Веб + Telegram",
-    "pp5": "Поиск",
-    "pt1": "Всё из Premium",
-    "pt2": "Пространство организации",
-    "pt3": "Общие доски",
-    "pt4": "Приглашение через Telegram",
-    "pt5": "Назначение задач",
-    "pt6": "Приоритетная поддержка",
-    "pr_start_free": "Начать бесплатно",
-    "pr_get_premium": "Получить Premium",
-    "pr_start_team": "Начать пробный период для команды",
-    "pr_note": "Все планы включают веб-версию с авторизацией через Telegram. Привязка банковской карты не требуется.",
-    "tm_label": "Пользователи",
-    "tm_title": "Что говорят",
-    "tm1": "Я раньше делал скриншоты важных сообщений и забывал о них. Теперь пересылаю всё боту — доска всегда актуальна.",
-    "tm1_role": "Продакт-менеджер",
-    "tm2": "Мы использовали Jira в команде из 3 человек. Слишком много настроек. Laraue Boards даёт ровно то, что нужно.",
-    "tm2_role": "Со-основатель стартапа",
-    "tm3": "Как исследователь я постоянно сохраняю ссылки и заметки из чатов. Доска ресурсов — именно то, что мне нужно.",
-    "tm3_role": "Независимый исследователь",
+    "step4d": "Опционально: создайте организацию, пригласите коллег через Telegram и настройте права.",
+
+    "os_label": "Разработка на виду",
+    "os_title": "Открытый код, включая ошибки",
+    "os_sub": "Можно прочитать код — и то, как он писался.",
+    "os_code_title": "Код открыт",
+    "os_code_desc": "Бэкенд и фронтенд лежат на GitHub. Пользователи писали, что не готовы доверить личные заметки незнакомому продукту, — открытый код честный ответ на это.",
+    "os_code_cta": "Посмотреть на GitHub",
+    "os_devlog_title": "Цикл статей",
+    "os_devlog_desc": "Мы рассказываем, как продукт разрабатывается, включая то, что пошло не так: бот, который задавал слишком много вопросов и был откачен, решение в базе данных, которое оказалось неверным.",
+    "os_devlog_cta": "Читать полную историю",
+
+    "faq_label": "Вопросы",
+    "faq_title": "Частые вопросы",
+    "faq1q": "Это бесплатно?",
+    "faq1a": "Да. Всё, что описано на этой странице, бесплатно. Платные тарифы появятся позже, вместе с ИИ-функциями, а то, что работает сегодня, останется бесплатным.",
+    "faq2q": "Проект действительно опенсорсный?",
+    "faq2a": "Да. Бэкенд и фронтенд открыты на GitHub — можно прочитать, что именно происходит с сообщением после отправки.",
+    "faq3q": "Чем это отличается от «Сохраненных сообщений» в Telegram?",
+    "faq3a": "«Сохраненные сообщения» — отличное место, чтобы что-то быстро сохранить, но плохое, чтобы это потом найти. Laraue Boards оставляет сохранение таким же простым и даёт сохранённому доску, колонки и статусы.",
+    "faq4q": "Нужен ли аккаунт или пароль?",
+    "faq4a": "Нет. Вход через Telegram: в Mini App вы уже авторизованы, а в веб-версии есть кнопка входа через Telegram.",
+
+    "pr_note": "Laraue Boards бесплатен. Платные тарифы появятся позже, вместе с ИИ-функциями, — всё, что работает сегодня, останется бесплатным.",
+
     "cta_label": "Начните сегодня",
-    "cta_title": "Ваши заметки заслуживают большего, чем затеряться в чате",
-    "cta_sub": "Бесплатно. Без карты. За 30 секунд.",
-    "documentation": "Подробнее"
+    "cta_title": "Ваши заметки заслуживают большего,\nчем затеряться в чате",
+    "cta_sub": "Бесплатно и с открытым кодом. За 30 секунд.",
+    "documentation": "Документация",
+    "project_page": "Как это сделано",
+    "project_description": "Подробнее о проекте"
   }
 }
 </i18n>
@@ -428,16 +342,16 @@ useSeoMeta({
 <template>
   <LMainContent>
     <LLandingIntro
-      :pre-title="t('hero_eyebrow')"
-      :title="t('hero_title')"
-      :post-title="t('hero_sub')"
-      :statistics="[
+        :pre-title="t('hero_eyebrow')"
+        :title="t('hero_title')"
+        :post-title="t('hero_sub')"
+        :statistics="[
         {
           num: t('stat_free'),
           label: t('stat_free_label')
         },
         {
-          num: 4,
+          num: 3,
           label: t('stat_types_label')
         },
         {
@@ -455,6 +369,8 @@ useSeoMeta({
       </template>
       <template #actions>
         <LActionButton :title="t('hero_cta_web')" link="https://msgboard.laraue.com/" type="site" />
+        <LActionButton title="@msgboard_bot" link="https://t.me/msgboard_bot" type="telegram" />
+        <LActionButton :title="t('project_description')" :link="localePath('/blog/projects/boards')" type="github" />
         <LActionButton :title="t('documentation')" :link="localePath('/blog/documentation/laraue-boards')" type="github" />
       </template>
       <template #visual>
@@ -483,10 +399,6 @@ useSeoMeta({
                 <div class="km-card green"><div class="km-card-label">{{ t('task_label') }}</div>{{ t('mockup_task5') }}</div>
               </div>
             </div>
-          </div>
-          <div class="org-badge">
-            <div class="org-badge-dot"></div>
-            <span>{{ t('org_badge') }}</span>
           </div>
         </div>
       </template>
@@ -530,7 +442,7 @@ useSeoMeta({
             <div class="platform-card-icon web">&#127760;</div>
             <div>
               <div class="platform-card-name">{{ t('web_name') }}</div>
-              <div class="platform-card-tag">Laraue Boards.laraue.com</div>
+              <div class="platform-card-tag">msgboard.laraue.com</div>
             </div>
           </div>
           <p class="platform-card-desc">{{ t('web_desc') }}</p>
@@ -566,11 +478,11 @@ useSeoMeta({
 
     <!-- ══ FEATURES ══ -->
     <LFeaturesGrid
-      :pre-title="t('feat_label')"
-      :title="t('feat_title')"
-      :post-title="t('feat_sub')"
-      type="dark"
-      :features="[
+        :pre-title="t('feat_label')"
+        :title="t('feat_title')"
+        :post-title="t('feat_sub')"
+        type="dark"
+        :features="[
       {
         title: t('f1t'),
         icon: '&#128203;',
@@ -579,37 +491,36 @@ useSeoMeta({
       },
       {
         title: t('f2t'),
-        icon: '&#128101;',
-        description: t('f2d'),
-        link: localePath('/blog/documentation/laraue-boards/concepts/organizations')
-      },
-      {
-        title: t('f3t'),
         icon: '&#128239;',
-        description: t('f3d'),
+        description: t('f2d'),
         link: localePath('/blog/documentation/laraue-boards/working-alone/telegram-messages')
       },
       {
+        title: t('f3t'),
+        icon: '&#128247;',
+        description: t('f3d')
+      },
+      {
         title: t('f4t'),
-        icon: '&#127775;',
-        description: t('f4d'),
-        link: localePath('/blog/documentation/laraue-boards/features/attributes')
+        icon: '&#9997;',
+        description: t('f4d')
       },
       {
         title: t('f5t'),
-        icon: '&#128269;',
-        description: t('f5d'),
-        link: localePath('/blog/documentation/laraue-boards/features/search')
+        icon: '&#127775;',
+        description: t('f5d')
       },
       {
         title: t('f6t'),
-        icon: '&#10024;',
-        description: t('f6d')
+        icon: '&#127991;',
+        description: t('f6d'),
+        link: localePath('/blog/documentation/laraue-boards/features/attributes')
       },
       {
         title: t('f7t'),
-        icon: '&#128229;',
-        description: t('f7d')
+        icon: '&#128101;',
+        description: t('f7d'),
+        link: localePath('/blog/documentation/laraue-boards/concepts/organizations')
       },
       {
         title: t('f8t'),
@@ -619,16 +530,17 @@ useSeoMeta({
       },
       {
         title: t('f9t'),
-        icon: '&#128176;',
-        description: t('f9d')
+        icon: '&#128187;',
+        description: t('f9d'),
+        link: 'https://github.com/win7user10/Laraue.Apps.Boards'
       }
     ]" />
 
     <!-- ══ HOW IT WORKS ══ -->
     <LSteps
-      :pre-title="t('how_label')"
-      :title="t('how_title')"
-      :steps="[
+        :pre-title="t('how_label')"
+        :title="t('how_title')"
+        :steps="[
         {
           title: t('step1t'),
           description: t('step1d') + ' @msgboard_bot.',
@@ -645,160 +557,53 @@ useSeoMeta({
           title: t('step4t'),
           description: t('step4d'),
         },
-        {
-          title: t('step5t'),
-          description: t('step5d'),
-        },
       ]"/>
 
-    <!-- ══ WORKFLOWS ══ -->
-    <section class="workflows" id="workflows">
-      <div class="workflows-inner">
-        <div class="section-label reveal">{{ t('wf_label') }}</div>
-        <h2 class="section-title reveal">{{ t('wf_title') }}</h2>
-        <p class="section-sub reveal">{{ t('wf_sub') }}</p>
-        <div class="workflows-grid">
-          <div class="workflow-card reveal">
-            <div class="workflow-icon">&#128203;</div>
-            <div class="workflow-name">{{ t('wf_tasks') }}</div>
-            <div class="workflow-stages">
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#e0a653"></div><span>{{ t('wf_todo') }}</span></div>
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#6ab0f0"></div><span>{{ t('wf_doing') }}</span></div>
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#6edd9a"></div><span>{{ t('wf_done') }}</span></div>
-            </div>
-          </div>
-          <div class="workflow-card reveal">
-            <div class="workflow-icon">&#128161;</div>
-            <div class="workflow-name">{{ t('wf_ideas') }}</div>
-            <div class="workflow-stages">
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#b48ef5"></div><span>{{ t('wf_raw') }}</span></div>
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#6ab0f0"></div><span>{{ t('wf_developing') }}</span></div>
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#6edd9a"></div><span>{{ t('wf_ready') }}</span></div>
-            </div>
-          </div>
-          <div class="workflow-card reveal">
-            <div class="workflow-icon">&#128218;</div>
-            <div class="workflow-name">{{ t('wf_resources') }}</div>
-            <div class="workflow-stages">
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#e0a653"></div><span>{{ t('wf_toread') }}</span></div>
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#6ab0f0"></div><span>{{ t('wf_reading') }}</span></div>
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#aaa"></div><span>{{ t('wf_archived') }}</span></div>
-            </div>
-          </div>
-          <div class="workflow-card reveal">
-            <div class="workflow-icon">&#128221;</div>
-            <div class="workflow-name">{{ t('wf_notes') }}</div>
-            <div class="workflow-stages">
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#e0a653"></div><span>{{ t('wf_draft') }}</span></div>
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#6ab0f0"></div><span>{{ t('wf_final') }}</span></div>
-              <div class="workflow-stage"><div class="workflow-dot" style="background:#6edd9a"></div><span>{{ t('wf_reference') }}</span></div>
-            </div>
-          </div>
+    <!-- ══ OPEN SOURCE / BUILT IN THE OPEN ══ -->
+    <LSection :pre-title="t('os_label')" :title="t('os_title')" :post-title="t('os_sub')" type="cream">
+      <div class="use-cases-grid">
+        <div class="use-case-card personal reveal">
+          <div class="use-case-icon">&#128187;</div>
+          <div class="use-case-title">{{ t('os_code_title') }}</div>
+          <p class="use-case-desc">{{ t('os_code_desc') }}</p>
+          <ul class="use-case-list">
+            <li>Laraue.Apps.Boards — .NET 10 / C#, PostgreSQL 18</li>
+            <li>laraue-boards — Nuxt 4, Vue 3, TypeScript</li>
+          </ul>
+          <a href="https://github.com/win7user10/Laraue.Apps.Boards" class="use-case-link" target="_blank" rel="noopener">{{ t('os_code_cta') }} &#8594;</a>
+        </div>
+        <div class="use-case-card teams reveal">
+          <div class="use-case-icon">&#128214;</div>
+          <div class="use-case-title">{{ t('os_devlog_title') }}</div>
+          <p class="use-case-desc">{{ t('os_devlog_desc') }}</p>
+          <a :href="localePath('/blog/articles/building-jira-alternative-solo-why-and-repositories')" class="use-case-link">{{ t('os_devlog_cta') }} &#8594;</a>
         </div>
       </div>
-    </section>
+      <p class="pricing-note reveal">{{ t('pr_note') }}</p>
+    </LSection>
 
-    <!-- ══ PRICING ══ -->
-    <section class="pricing" id="pricing">
-      <div class="pricing-inner">
-        <div class="section-label reveal">{{ t('pr_label') }}</div>
-        <h2 class="section-title reveal">{{ t('pr_title') }}</h2>
-        <p class="section-sub reveal">{{ t('pr_sub') }}</p>
-        <div class="pricing-grid">
-
-          <!-- Free -->
-          <div class="pricing-card reveal">
-            <div class="pricing-tier">{{ t('tier_free') }}</div>
-            <div class="pricing-price">$0</div>
-            <div class="pricing-period">{{ t('pr_forever') }}</div>
-            <ul class="pricing-features">
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf1') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf2') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf3') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf4') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf5') }}</span></li>
-              <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>{{ t('pf6') }}</span></li>
-              <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>{{ t('pf7') }}</span></li>
-              <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>{{ t('pf8') }}</span></li>
-            </ul>
-            <a target="_blank" href="https://msgboard.laraue.com/" class="pricing-btn dark">{{ t('pr_start_free') }}</a>
-          </div>
-
-          <!-- Premium -->
-          <div class="pricing-card featured reveal">
-            <div class="pricing-tier">{{ t('tier_premium') }}</div>
-            <div class="pricing-price"><sup>$</sup>4</div>
-            <div class="pricing-period">{{ t('pr_month') }}</div>
-            <ul class="pricing-features">
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pp1') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pp2') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pp3') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pp4') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pp5') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf6') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pf7') }}</span></li>
-              <li class="no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>{{ t('pf8') }}</span></li>
-            </ul>
-            <a target="_blank" href="https://msgboard.laraue.com/" class="pricing-btn accent">{{ t('pr_get_premium') }}</a>
-          </div>
-
-          <!-- Team -->
-          <div class="pricing-card reveal">
-            <div class="pricing-tier">{{ t('tier_team') }}</div>
-            <div class="pricing-price"><sup>$</sup>5</div>
-            <div class="pricing-period">{{ t('pr_month_member') }}</div>
-            <ul class="pricing-features">
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt1') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt2') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt3') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt4') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt5') }}</span></li>
-              <li class="yes"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('pt6') }}</span></li>
-            </ul>
-            <a target="_blank" href="https://msgboard.laraue.com/" class="pricing-btn outline">{{ t('pr_start_team') }}</a>
-          </div>
-
-        </div>
-        <p class="pricing-note reveal">{{ t('pr_note') }}</p>
-      </div>
-    </section>
-
-    <!-- ══ TESTIMONIALS ══ -->
-    <section class="testimonials">
-      <div class="testimonials-inner">
-        <div class="section-label reveal">{{ t('tm_label') }}</div>
-        <h2 class="section-title reveal">{{ t('tm_title') }}</h2>
-        <div class="testimonials-grid">
-          <div class="testimonial-card reveal">
-            <div class="testimonial-quote">{{ t('tm1') }}</div>
-            <div class="testimonial-author">
-              <div class="testimonial-avatar">S</div>
-              <div>
-                <div class="testimonial-name">Sergey C.</div>
-                <div class="testimonial-role">{{ t('tm1_role') }}</div>
-              </div>
-            </div>
-          </div>
-          <div class="testimonial-card reveal">
-            <div class="testimonial-quote">{{ t('tm2') }}</div>
-            <div class="testimonial-author">
-              <div class="testimonial-avatar">D</div>
-              <div>
-                <div class="testimonial-name">Daniel M.</div>
-                <div class="testimonial-role">{{ t('tm2_role') }}</div>
-              </div>
-            </div>
-          </div>
-          <div class="testimonial-card reveal">
-            <div class="testimonial-quote">{{ t('tm3') }}</div>
-            <div class="testimonial-author">
-              <div class="testimonial-avatar">M</div>
-              <div>
-                <div class="testimonial-name">Marcus T.</div>
-                <div class="testimonial-role">{{ t('tm3_role') }}</div>
-              </div>
-            </div>
-          </div>
+    <!-- ══ FAQ ══ -->
+    <section class="faq" id="faq">
+      <div class="faq-inner">
+        <div class="section-label reveal">{{ t('faq_label') }}</div>
+        <h2 class="section-title reveal">{{ t('faq_title') }}</h2>
+        <div class="faq-list">
+          <details class="faq-item reveal">
+            <summary>{{ t('faq1q') }}</summary>
+            <p>{{ t('faq1a') }}</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>{{ t('faq2q') }}</summary>
+            <p>{{ t('faq2a') }}</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>{{ t('faq3q') }}</summary>
+            <p>{{ t('faq3a') }}</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>{{ t('faq4q') }}</summary>
+            <p>{{ t('faq4a') }}</p>
+          </details>
         </div>
       </div>
     </section>
@@ -859,16 +664,6 @@ section {
 .km-card.purple{border-left-color:#b48ef5}
 .km-card-label{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;opacity:.5}
 
-/* org badge floating */
-.org-badge{
-  position:absolute;bottom:-16px;right:-16px;
-  background:#fff;border:1px solid var(--border);border-radius:12px;
-  padding:10px 14px;box-shadow:0 4px 20px rgba(15,14,12,.15);
-  display:flex;align-items:center;gap:8px;
-  font-size:12px;font-weight:600;color:var(--ink);white-space:nowrap;
-}
-.org-badge-dot{width:8px;height:8px;border-radius:50%;background:#53e07a;flex-shrink:0;box-shadow:0 0 0 3px rgba(83,224,122,.2)}
-
 /* ══ USE CASES ══ */
 .use-cases-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
 
@@ -917,58 +712,20 @@ section {
 .platform-card-features li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
 .platform-card-features li svg{width:14px;height:14px;stroke:var(--msg-green);flex-shrink:0}
 
-/* ══ WORKFLOW TYPES ══ */
-.workflows{padding:80px 60px;background:var(--cream);border-bottom:1px solid var(--border)}
-.workflows-inner{max-width:1060px;margin:0 auto}
-.workflows-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
-.workflow-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px;transition:box-shadow .2s,transform .15s}
-.workflow-card:hover{box-shadow:0 6px 24px rgba(15,14,12,.09);transform:translateY(-2px)}
-.workflow-icon{font-size:28px;margin-bottom:12px}
-.workflow-name{font-family:var(--serif);font-size:16px;font-weight:700;margin-bottom:12px;letter-spacing:-.1px}
-.workflow-stages{display:flex;flex-direction:column;gap:5px}
-.workflow-stage{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
-.workflow-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+/* ══ PRICING NOTE ══ */
+.pricing-note{text-align:center;margin-top:36px;font-size:14px;color:var(--muted)}
 
-/* ══ PRICING ══ */
-.pricing{padding:80px 60px;border-bottom:1px solid var(--border)}
-.pricing-inner{max-width:1060px;margin:0 auto}
-.pricing-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:52px}
-.pricing-card{border:1px solid var(--border);border-radius:16px;padding:32px;background:#fff;position:relative;transition:box-shadow .2s,transform .15s}
-.pricing-card:hover{box-shadow:0 8px 32px rgba(15,14,12,.09);transform:translateY(-3px)}
-.pricing-card.featured{border-color:var(--ink);box-shadow:0 4px 24px rgba(15,14,12,.12)}
-.pricing-card.featured::before{content:'Most popular';position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 14px;border-radius:12px;white-space:nowrap}
-.pricing-tier{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
-.pricing-price{font-family:var(--serif);font-size:42px;font-weight:800;color:var(--ink);letter-spacing:-1.5px;line-height:1}
-.pricing-price sup{font-size:18px;font-weight:700;letter-spacing:0;vertical-align:top;margin-top:8px;display:inline-block}
-.pricing-period{font-size:13px;color:var(--muted);margin-top:4px;margin-bottom:24px}
-.pricing-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
-.pricing-features li{display:flex;align-items:flex-start;gap:9px;font-size:13px;color:var(--muted);line-height:1.4}
-.pricing-features li svg{width:14px;height:14px;flex-shrink:0;margin-top:2px}
-.pricing-features li.yes svg{stroke:var(--msg-green)}
-.pricing-features li.no{opacity:.45}
-.pricing-features li.no svg{stroke:var(--muted)}
-.pricing-btn{display:block;text-align:center;padding:13px;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;transition:background .2s,transform .15s}
-.pricing-btn.dark{background:var(--ink);color:#fff}
-.pricing-btn.dark:hover{background:var(--accent);transform:translateY(-1px)}
-.pricing-btn.accent{background:var(--accent);color:#fff;box-shadow:0 3px 14px rgba(200,75,47,.3)}
-.pricing-btn.accent:hover{background:#b03d24;transform:translateY(-1px)}
-.pricing-btn.outline{background:transparent;color:var(--ink);border:1.5px solid var(--border)}
-.pricing-btn.outline:hover{border-color:var(--ink);background:var(--cream)}
-
-/* pricing note */
-.pricing-note{text-align:center;margin-top:28px;font-size:13px;color:var(--muted)}
-
-/* ══ TESTIMONIALS ══ */
-.testimonials{padding:80px 60px;background:var(--cream);border-bottom:1px solid var(--border)}
-.testimonials-inner{max-width:1060px;margin:0 auto}
-.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
-.testimonial-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:28px;display:flex;flex-direction:column}
-.testimonial-quote{font-size:15px;color:var(--ink);line-height:1.7;font-weight:300;flex:1;margin-bottom:20px;font-style:italic}
-.testimonial-quote::before{content:'\201C';font-family:var(--serif);font-size:48px;line-height:.5;color:var(--border);display:block;margin-bottom:12px}
-.testimonial-author{display:flex;align-items:center;gap:12px}
-.testimonial-avatar{width:36px;height:36px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:14px;font-weight:700;flex-shrink:0}
-.testimonial-name{font-weight:700;font-size:13px}
-.testimonial-role{font-size:11px;color:var(--muted)}
+/* ══ FAQ ══ */
+.faq{padding:80px 60px;border-bottom:1px solid var(--border)}
+.faq-inner{max-width:820px;margin:0 auto}
+.faq-list{display:flex;flex-direction:column;gap:12px;margin-top:40px}
+.faq-item{background:#fff;border:1px solid var(--border);border-radius:12px;padding:20px 24px;transition:box-shadow .2s}
+.faq-item:hover{box-shadow:0 4px 18px rgba(15,14,12,.07)}
+.faq-item summary{font-weight:700;font-size:15px;color:var(--ink);cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary::after{content:'+';font-size:20px;font-weight:400;color:var(--muted);flex-shrink:0;transition:transform .2s}
+.faq-item[open] summary::after{transform:rotate(45deg)}
+.faq-item p{margin-top:14px;font-size:15px;color:var(--muted);line-height:1.7;font-weight:300}
 
 /* ══ RESPONSIVE ══ */
 @media(max-width:1100px){
@@ -978,15 +735,10 @@ section {
   .sidebar-links li a .sidebar-icon{width:auto;font-size:16px}
 }
 @media(max-width:900px){
-  .use-cases-grid,.platforms-grid,.pricing-grid,.testimonials-grid{grid-template-columns:1fr}
-  .workflows-grid{grid-template-columns:1fr 1fr}
+  .use-cases-grid,.platforms-grid{grid-template-columns:1fr}
 }
 @media(max-width:720px){
   .hero-visual{order:-1}
-  .workflows,.pricing,.testimonials{padding:60px 22px}
-  .workflows-grid{grid-template-columns:1fr 1fr}
-}
-@media(max-width:480px){
-  .workflows-grid{grid-template-columns:1fr}
+  .faq{padding:60px 22px}
 }
 </style>
