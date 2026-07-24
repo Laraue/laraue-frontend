@@ -2,29 +2,14 @@
 export default defineNuxtConfig({
   compatibilityDate: '2026-06-21',
   devtools: { enabled: true },
-  modules: ['nuxt-gtag', '@nuxtjs/i18n'],
-  elementPlus: {
-    // Disable automatic import of dayjs to avoid conflicts
-    importStyle: 'css'
-  },
+  modules: ['nuxt-gtag', '@nuxtjs/i18n', 'nuxt-yandex-metrika'],
   gtag: {
     enabled: process.env.NODE_ENV === 'production',
     id: 'G-RGM3JHLBGL'
   },
-  fontawesome: {
-    icons: {
-      solid: [
-        'faBed',
-        'faMoneyBill',
-        'faLayerGroup',
-        'faRulerCombined',
-        'faHome',
-        'faSubway',
-        'faArrowDown',
-        'faUpload',
-        'faLocationDot'
-      ]
-    }
+  yandexMetrika: {
+    id: '111013659',
+    debug: process.env.NODE_ENV !== "production",
   },
   css: [
     '~/assets/css/main.css',

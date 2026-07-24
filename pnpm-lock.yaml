@@ -29,6 +29,10 @@ importers:
       vue-router:
         specifier: 4.6.3
         version: 4.6.3(vue@3.5.38(typescript@5.9.3))
+    devDependencies:
+      nuxt-yandex-metrika:
+        specifier: ^2.0.2
+        version: 2.0.2(@nuxt/scripts@0.13.4(@unhead/vue@2.1.15(vue@3.5.38(typescript@5.9.3)))(db0@0.3.4)(ioredis@5.11.1)(magicast@0.5.3)(typescript@5.9.3)(vue@3.5.38(typescript@5.9.3)))(magicast@0.5.3)(typescript@5.9.3)(vue@3.5.38(typescript@5.9.3))
 
 packages:
 
@@ -958,6 +962,30 @@ packages:
     resolution: {integrity: sha512-igfWuMF0x0Pmx/XwhPwH/bcXgbuwNnjUjqxCAsY6VQhmGKo0e9soJq3Q0ohj+rBkBfX6o2ysTP1/t2M82aK4qA==}
     engines: {node: ^14.18.0 || >=16.10.0}
 
+  '@nuxt/scripts@0.13.4':
+    resolution: {integrity: sha512-VYsoSAA7JIfSHN7f7WgBbSeKunwLFIzIlx171Cep2LTszgLFX20SjsRTeNbw746LuSB2aWjVSN40Sx+/g/6WdA==}
+    peerDependencies:
+      '@googlemaps/markerclusterer': ^2.6.2
+      '@paypal/paypal-js': ^8.1.2 || ^9.0.0
+      '@stripe/stripe-js': ^7.0.0 || ^8.0.0
+      '@types/google.maps': ^3.58.1
+      '@types/vimeo__player': ^2.18.3
+      '@types/youtube': ^0.1.0
+      '@unhead/vue': ^2.0.3
+    peerDependenciesMeta:
+      '@googlemaps/markerclusterer':
+        optional: true
+      '@paypal/paypal-js':
+        optional: true
+      '@stripe/stripe-js':
+        optional: true
+      '@types/google.maps':
+        optional: true
+      '@types/vimeo__player':
+        optional: true
+      '@types/youtube':
+        optional: true
+
   '@nuxt/telemetry@2.8.0':
     resolution: {integrity: sha512-zAwXY24KYvpLTmiV+osagd2EHkfs5IF+7oDZYTQoit5r0kPlwaCNlzHp5I/wUAWT4LBw6lG8gZ6bWidAdv/erQ==}
     engines: {node: '>=18.12.0'}
@@ -1634,6 +1662,10 @@ packages:
   '@poppinss/exception@1.2.2':
     resolution: {integrity: sha512-m7bpKCD4QMlFCjA/nKTs23fuvoVFoA83brRKmObCUNmi/9tVu8Ve3w4YQAnJu4q3Tjf5fr685HYIC/IA2zHRSg==}
 
+  '@prleasing/utility@5.0.1':
+    resolution: {integrity: sha512-U0/1p6qbUQpeNse4HL0pMkUN8AvPRwCanta3tccRnm6iQD09kxbA+sOaPMxZsShm/lG7BsB9/H61stAqp2P40w==}
+    engines: {node: '>=20.11.0'}
+
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
@@ -1884,6 +1916,9 @@ packages:
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
 
+  '@types/web-bluetooth@0.0.21':
+    resolution: {integrity: sha512-oIQLCGWtcFZy2JW77j9k8nHzAOpqMHLQejDA48XXMWH6tjCQHz5RCFz1bzsmROyL6PUm+LLnUiI4BCn221inxA==}
+
   '@typescript-eslint/project-service@8.56.1':
     resolution: {integrity: sha512-TAdqQTzHNNvlVFfR+hu2PDJrURiwKsUvxFn1M0h95BB8ah5jejas08jUWG4dBA68jDMI988IvtfdAI53JzEHOQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -2054,6 +2089,19 @@ packages:
 
   '@vue/shared@3.5.38':
     resolution: {integrity: sha512-FTW0AFZNaK5/mOqvGBwVfUlNLU38TiQn4+DQgIFUnrBBJQ1crMJ82yeGQLV5jyKFsO8yRukpbuP7x+nRbH6aug==}
+
+  '@vueuse/core@14.3.0':
+    resolution: {integrity: sha512-aHfz47g0ZhMtTVHmIzMVpJy8ePhhOy68GY5bv110+5DVtZ+W7BsOx+m61UNQqfrWyPztIHIanWa3E2tib3NFIw==}
+    peerDependencies:
+      vue: ^3.5.0
+
+  '@vueuse/metadata@14.3.0':
+    resolution: {integrity: sha512-BwxmbAzwAVF50+MW57GXOUEV61nFBGnlBvrTqj49PqWJu3uw7hdu72ztXeZ33RdZtDY6kO+bfCAE1PCn88Tktw==}
+
+  '@vueuse/shared@14.3.0':
+    resolution: {integrity: sha512-bZpge9eSXwa4ToSiqJ7j6KRwhAsneMFoSz3LMWKQDkqimm3D/tbFlrklrs/IOqC8tEcYmXQZJ6N0UrjhBirVCg==}
+    peerDependencies:
+      vue: ^3.5.0
 
   abbrev@3.0.1:
     resolution: {integrity: sha512-AO2ac6pjRB3SJmGJo+v5/aK6Omggp6fsLrs6wN9bd35ulu4cCwaAU9+7ZhXjeqHVkaHThLuzH0nZr0YpCDhygg==}
@@ -3021,6 +3069,9 @@ packages:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
     engines: {node: '>= 0.8.0'}
 
+  libphonenumber-js@1.13.9:
+    resolution: {integrity: sha512-VNS5vWMM7r0P66BYv+TQJATxExEgLxN+34hfHDVhDkUsGAE4cRg0shCNSLTXNKm7nIUscC7AfB51TjxEeF7msQ==}
+
   lightningcss-android-arm64@1.32.0:
     resolution: {integrity: sha512-YK7/ClTt4kAK0vo6w3X+Pnm0D2cf2vPHbhOXdoNti1Ga0al1P4TBZhwjATvjNwLEBCnKvjJc2jQgHXH0NEwlAg==}
     engines: {node: '>= 12.0.0'}
@@ -3293,6 +3344,11 @@ packages:
 
   nuxt-gtag@4.1.0:
     resolution: {integrity: sha512-2TL7RUA8N8NYGbY4UZ9IqKyMZMgO9cCGu6yqadUU8RF+Y81PXI+k+1giIA11XXStaJoGXaXeNsBUIJXn1tUy3A==}
+
+  nuxt-yandex-metrika@2.0.2:
+    resolution: {integrity: sha512-2QjZLwPyeI1QP2iBqGYcgxjfM8Iwe9YddPyj2XgW9+d5UgXX0SsGg6IoYo3kpjYW51luolijq4ciOdeCWcbK+g==}
+    peerDependencies:
+      '@nuxt/scripts': ^0.13.2
 
   nuxt@4.4.8:
     resolution: {integrity: sha512-r/DGE4cNkEDclOw9tbJ18zqu+ix3me+7QCfumPdl5lBXGWgCajskzuq/HzDkHKfIZsn7ACVEjMLRNA2teh++bQ==}
@@ -3876,6 +3932,9 @@ packages:
     resolution: {integrity: sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==}
     engines: {node: '>= 0.8'}
 
+  std-env@3.10.0:
+    resolution: {integrity: sha512-5GS12FdOZNliM5mAOxFRg7Ir0pWz8MdpYm6AY6VPkGpbA7ZzmbzNcBJQ0GPvvyWgcY7QAhCgf9Uy89I03faLkg==}
+
   std-env@4.1.0:
     resolution: {integrity: sha512-Rq7ybcX2RuC55r9oaPVEW7/xu3tj8u4GeBYHBWCychFtzMIr86A7e3PPEBPT37sHStKX3+TiX/Fr/ACmJLVlLQ==}
 
@@ -4248,6 +4307,14 @@ packages:
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
+
+  valibot@1.4.2:
+    resolution: {integrity: sha512-gjdCvJ6d3RyHAneqxMYMW9QMCwYMb3jpOO0IyHZV1bnRHFBHrX3VkIILt5XYR0WhwHiH7Mty8ovuPZ/O3gamrg==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   vite-dev-rpc@1.1.0:
     resolution: {integrity: sha512-pKXZlgoXGoE8sEKiKJSng4hI1sQ4wi5YT24FCrwrLt6opmkjlqPPVmiPWWJn8M8byMxRGzp1CrFuqQs4M/Z39A==}
@@ -5439,6 +5506,49 @@ snapshots:
       pkg-types: 2.3.1
       std-env: 4.1.0
 
+  '@nuxt/scripts@0.13.4(@unhead/vue@2.1.15(vue@3.5.38(typescript@5.9.3)))(db0@0.3.4)(ioredis@5.11.1)(magicast@0.5.3)(typescript@5.9.3)(vue@3.5.38(typescript@5.9.3))':
+    dependencies:
+      '@nuxt/kit': 4.4.8(magicast@0.5.3)
+      '@unhead/vue': 2.1.15(vue@3.5.38(typescript@5.9.3))
+      '@vueuse/core': 14.3.0(vue@3.5.38(typescript@5.9.3))
+      consola: 3.4.2
+      defu: 6.1.7
+      h3: 1.15.11
+      magic-string: 0.30.21
+      ofetch: 1.5.1
+      ohash: 2.0.11
+      pathe: 2.0.3
+      pkg-types: 2.3.1
+      sirv: 3.0.2
+      std-env: 3.10.0
+      ufo: 1.6.4
+      unplugin: 2.3.11
+      unstorage: 1.17.5(db0@0.3.4)(ioredis@5.11.1)
+      valibot: 1.4.2(typescript@5.9.3)
+    transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@deno/kv'
+      - '@netlify/blobs'
+      - '@planetscale/database'
+      - '@upstash/redis'
+      - '@vercel/blob'
+      - '@vercel/functions'
+      - '@vercel/kv'
+      - aws4fetch
+      - db0
+      - idb-keyval
+      - ioredis
+      - magicast
+      - typescript
+      - uploadthing
+      - vue
+
   '@nuxt/telemetry@2.8.0(@nuxt/kit@4.4.8(magicast@0.5.3))':
     dependencies:
       '@nuxt/kit': 4.4.8(magicast@0.5.3)
@@ -5936,6 +6046,11 @@ snapshots:
 
   '@poppinss/exception@1.2.2': {}
 
+  '@prleasing/utility@5.0.1':
+    dependencies:
+      dayjs: 1.11.19
+      libphonenumber-js: 1.13.9
+
   '@rolldown/pluginutils@1.0.1': {}
 
   '@rollup/plugin-alias@6.0.0(rollup@4.62.2)':
@@ -6117,6 +6232,8 @@ snapshots:
   '@types/json-schema@7.0.15': {}
 
   '@types/resolve@1.20.2': {}
+
+  '@types/web-bluetooth@0.0.21': {}
 
   '@typescript-eslint/project-service@8.56.1(typescript@5.9.3)':
     dependencies:
@@ -6371,6 +6488,19 @@ snapshots:
   '@vue/shared@3.5.24': {}
 
   '@vue/shared@3.5.38': {}
+
+  '@vueuse/core@14.3.0(vue@3.5.38(typescript@5.9.3))':
+    dependencies:
+      '@types/web-bluetooth': 0.0.21
+      '@vueuse/metadata': 14.3.0
+      '@vueuse/shared': 14.3.0(vue@3.5.38(typescript@5.9.3))
+      vue: 3.5.38(typescript@5.9.3)
+
+  '@vueuse/metadata@14.3.0': {}
+
+  '@vueuse/shared@14.3.0(vue@3.5.38(typescript@5.9.3))':
+    dependencies:
+      vue: 3.5.38(typescript@5.9.3)
 
   abbrev@3.0.1: {}
 
@@ -7370,6 +7500,8 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
 
+  libphonenumber-js@1.13.9: {}
+
   lightningcss-android-arm64@1.32.0:
     optional: true
 
@@ -7715,6 +7847,20 @@ snapshots:
       ufo: 1.6.1
     transitivePeerDependencies:
       - magicast
+
+  nuxt-yandex-metrika@2.0.2(@nuxt/scripts@0.13.4(@unhead/vue@2.1.15(vue@3.5.38(typescript@5.9.3)))(db0@0.3.4)(ioredis@5.11.1)(magicast@0.5.3)(typescript@5.9.3)(vue@3.5.38(typescript@5.9.3)))(magicast@0.5.3)(typescript@5.9.3)(vue@3.5.38(typescript@5.9.3)):
+    dependencies:
+      '@nuxt/kit': 4.4.8(magicast@0.5.3)
+      '@nuxt/scripts': 0.13.4(@unhead/vue@2.1.15(vue@3.5.38(typescript@5.9.3)))(db0@0.3.4)(ioredis@5.11.1)(magicast@0.5.3)(typescript@5.9.3)(vue@3.5.38(typescript@5.9.3))
+      '@prleasing/utility': 5.0.1
+      '@vueuse/core': 14.3.0(vue@3.5.38(typescript@5.9.3))
+      consola: 3.4.2
+      defu: 6.1.7
+      valibot: 1.4.2(typescript@5.9.3)
+    transitivePeerDependencies:
+      - magicast
+      - typescript
+      - vue
 
   nuxt@4.4.8(@babel/plugin-syntax-jsx@7.27.1(@babel/core@7.29.7))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7))(@parcel/watcher@2.5.6)(@vue/compiler-sfc@3.5.24)(cac@6.7.14)(db0@0.3.4)(eslint@10.0.2(jiti@2.7.0))(ioredis@5.11.1)(lightningcss@1.32.0)(magicast@0.5.3)(optionator@0.9.4)(rollup-plugin-visualizer@7.0.1(rollup@4.62.2))(rollup@4.62.2)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.5(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.44.1)(yaml@2.9.0))(yaml@2.9.0):
     dependencies:
@@ -8489,6 +8635,8 @@ snapshots:
 
   statuses@2.0.2: {}
 
+  std-env@3.10.0: {}
+
   std-env@4.1.0: {}
 
   streamx@2.23.0:
@@ -8820,6 +8968,10 @@ snapshots:
       punycode: 2.3.1
 
   util-deprecate@1.0.2: {}
+
+  valibot@1.4.2(typescript@5.9.3):
+    optionalDependencies:
+      typescript: 5.9.3
 
   vite-dev-rpc@1.1.0(vite@7.3.5(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.44.1)(yaml@2.9.0)):
     dependencies:
