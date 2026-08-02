@@ -368,7 +368,7 @@ useSeoMeta({
         <LPlatformBadge type="tg" title="Telegram Mini App" />
       </template>
       <template #actions>
-        <LActionButton :title="t('hero_cta_web')" link="https://msgboard.laraue.com/" type="site" />
+        <LActionButton :title="t('hero_cta_web')" link="https://boards.laraue.com/" type="site" />
         <LActionButton title="@msgboard_bot" link="https://t.me/msgboard_bot" type="telegram" />
         <LActionButton :title="t('project_description')" :link="localePath('/blog/projects/boards')" type="github" />
         <LActionButton :title="t('documentation')" :link="localePath('/blog/documentation/laraue-boards')" type="github" />
@@ -429,7 +429,7 @@ useSeoMeta({
             <li>{{ t('uc_t3') }}</li>
             <li>{{ t('uc_t4') }}</li>
           </ul>
-          <a target="_blank" href="https://msgboard.laraue.com/" class="use-case-link">{{ t('uc_t_cta') }} &#8594;</a>
+          <a target="_blank" href="https://boards.laraue.com/" class="use-case-link">{{ t('uc_t_cta') }} &#8594;</a>
         </div>
       </div>
     </LSection>
@@ -442,7 +442,7 @@ useSeoMeta({
             <div class="platform-card-icon web">&#127760;</div>
             <div>
               <div class="platform-card-name">{{ t('web_name') }}</div>
-              <div class="platform-card-tag">msgboard.laraue.com</div>
+              <div class="platform-card-tag">boards.laraue.com</div>
             </div>
           </div>
           <p class="platform-card-desc">{{ t('web_desc') }}</p>
@@ -452,7 +452,7 @@ useSeoMeta({
             <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f3') }}</span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f4') }}</span></li>
           </ul>
-          <a target="_blank" href="https://msgboard.laraue.com/" class="btn-secondary" style="align-self:flex-start">{{ t('open_webapp') }}</a>
+          <a target="_blank" href="https://boards.laraue.com/" class="btn-secondary" style="align-self:flex-start">{{ t('open_webapp') }}</a>
         </div>
 
         <div class="platform-card reveal">
@@ -610,7 +610,7 @@ useSeoMeta({
 
     <!-- ══ CTA ══ -->
     <LCallToAction :title="t('cta_title')" :pre-title="t('cta_label')" :post-title="t('cta_sub')">
-      <LActionButton :title="t('hero_cta_web')" link="https://msgboard.laraue.com/" type="site" />
+      <LActionButton :title="t('hero_cta_web')" link="https://boards.laraue.com/" type="site" />
       <LActionButton title="@msgboard_bot" link="https://t.me/msgboard_bot" type="telegram" />
     </LCallToAction>
   </LMainContent>
