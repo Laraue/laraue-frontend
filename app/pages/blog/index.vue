@@ -15,7 +15,7 @@ const route = useRoute();
 const path = ["blog"]
 const { getItems } = useBlogApi();
 const loadPage = async () => {
-  const data = await getItems(locale.value, path, ["article", "project"], route.query.tag as string, 0, 20)
+  const data = await getItems(locale.value, path, ["article", "project"], route.query.tag as string, 0, 24)
   items.value = data.data
 }
 

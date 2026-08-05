@@ -15,7 +15,7 @@ definePageMeta({
 const path = ["blog", "articles"];
 
 const loadPage = async () => {
-  const result = await getItems(locale.value, path, ["article"], undefined, 0, 16);
+  const result = await getItems(locale.value, path, ["article"], undefined, 0, 24);
   articles.value = result.data
 }
 
