@@ -337,7 +337,7 @@ useSchemaOrg([
     <!-- CTA -->
     <LCallToAction type="light" :pre-title="t('cta_label')" :title="t('cta_title')" :post-title="t('cta_sub')" horizontal>
       <LActionButton :title="t('hero_cta_open')" link="https://apartments.laraue.com" type="site"/>
-      <LActionButton :title="t('hero_cta_read')" link="/blog/articles/how-i-tried-to-rank-flats-by-photos" type="github"/>
+      <LActionButton :title="t('hero_cta_read')" :link="localePath('/blog/articles/building-ai-real-estate-system')" type="github"/>
     </LCallToAction>
 
   </LMainContent>
