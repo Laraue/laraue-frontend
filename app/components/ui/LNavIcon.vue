@@ -141,6 +141,10 @@ defineProps<{
       <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/>
       <circle cx="12" cy="12" r="3"/>
     </template>
+    <template v-else-if="name === 'table'">
+      <rect x="3.5" y="4.5" width="17" height="15" rx="2"/>
+      <path d="M3.5 10h17M3.5 15h17M9.5 4.5v15M15 4.5v15"/>
+    </template>
   </svg>
 </template>
 

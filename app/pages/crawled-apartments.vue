@@ -1,21 +1,27 @@
 <script setup lang="ts">
 import LMainContent from "~/components/ui/LMainContent.vue";
+import LNavIcon from "~/components/ui/LNavIcon.vue";
 import LLandingIntro from "~/components/landins/LLandingIntro.vue";
 import LActionButton from "~/components/landins/LActionButton.vue";
 import LPlatformBadge from "~/components/landins/LPlatformBadge.vue";
 import LSteps from "~/components/landins/LSteps.vue";
 import LSection from "~/components/landins/LSection.vue";
+import LFaqSection from "~/components/landins/LFaqSection.vue";
 import LCallToAction from "~/components/landins/LCallToAction.vue";
-import {defineAggregateRating, defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
+import {defineOffer, defineSoftwareApp, defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const { t } = useI18n();
 const localePath = useLocalePath();
 
 useSeoMeta({
   title: t('seoTitle'),
-  ogTitle: t('seoTitle'),
   description: t('seoDescription'),
+  ogTitle: t('seoTitle'),
+  ogDescription: t('seoDescription'),
   ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: t('seoTitle'),
+  twitterDescription: t('seoDescription'),
 })
 
 useSchemaOrg([
@@ -31,13 +37,30 @@ useSchemaOrg([
         description: 'Unlimited application usage'
       })
     ],
-  })
+  }),
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_current') },
+    ]
+  }),
+  {
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: t('faq1q'), acceptedAnswer: { '@type': 'Answer', text: t('faq1a') } },
+      { '@type': 'Question', name: t('faq2q'), acceptedAnswer: { '@type': 'Answer', text: t('faq2a') } },
+      { '@type': 'Question', name: t('faq3q'), acceptedAnswer: { '@type': 'Answer', text: t('faq3a') } },
+      { '@type': 'Question', name: t('faq4q'), acceptedAnswer: { '@type': 'Answer', text: t('faq4a') } },
+    ]
+  },
 ])
 </script>
 
 <i18n lang="json">
 {
   "en": {
+    "bc_home": "Home",
+    "bc_current": "AI Apartments Aggregator",
     "seoTitle": "AI-Ranked SPB Apartments",
     "seoDescription": "The Cian and Avito advertisements aggregator that automatically rank renovations",
     "sec_overview": "Overview",
@@ -94,11 +117,23 @@ useSchemaOrg([
     "oss_sub": "The Laraue.Crawler library used to build this project is open-source on GitHub — reusable for any web scraping project in .NET.",
     "oss_card_desc": "A highly customizable C# crawler library with support for static HTML (AngleSharp) and JavaScript-rendered pages (PuppeteerSharp). Schema-based extraction, async pipelines, and proxy support.",
     "view_github": "View on GitHub",
+    "faqLabel": "Questions",
+    "faqHeading": "Frequently Asked Questions",
+    "faq1q": "Is this a finished product or a prototype?",
+    "faq1a": "It's an experiment — a personal project built to explore AI-powered apartment search. It works and is browsable live, but expect rough edges rather than a polished product.",
+    "faq2q": "What cities and listing sources does it cover?",
+    "faq2a": "Currently only Saint Petersburg, Russia, aggregating listings from Cian and Avito.",
+    "faq3q": "How is the AI photo score calculated?",
+    "faq3a": "A local Ollama vision model rates each photo in a listing from 0 to 10 based on quality, and the listing's overall score is the average across all its photos.",
+    "faq4q": "Is any listing data sent to the cloud?",
+    "faq4a": "No. Crawling, storage, and AI scoring all run locally — there are no paid APIs or cloud dependencies involved.",
     "cta_label": "Experiment in progress",
     "cta_title": "See AI-ranked\napartments live",
     "cta_sub": "Browse the current snapshot of Saint Petersburg listings, sorted by AI photo quality. A prototype — but a working one."
   },
   "ru": {
+    "bc_home": "Главная",
+    "bc_current": "AI-агрегатор квартир",
     "seoTitle": "AI-ранжированные квартиры в СПБ",
     "seoDescription": "Агрегатор объявлений с Cian и Avito с автоматической оценкой ремонта",
     "sec_overview": "Обзор",
@@ -155,6 +190,16 @@ useSchemaOrg([
     "oss_sub": "Библиотека Laraue.Crawler, использованная в этом проекте, опубликована на GitHub.",
     "oss_card_desc": "Высоконастраиваемая C#-библиотека с поддержкой AngleSharp и PuppeteerSharp. Схемное извлечение, async-пайплайны, поддержка прокси.",
     "view_github": "Открыть на GitHub",
+    "faqLabel": "Вопросы",
+    "faqHeading": "Часто задаваемые вопросы",
+    "faq1q": "Это готовый продукт или прототип?",
+    "faq1a": "Это эксперимент — пет-проект для изучения AI-поиска квартир. Он работает и доступен вживую, но это не отполированный продукт, а рабочий прототип.",
+    "faq2q": "Какие города и источники объявлений охвачены?",
+    "faq2a": "Пока только Санкт-Петербург, с объявлениями от Cian и Avito.",
+    "faq3q": "Как рассчитывается AI-оценка фото?",
+    "faq3a": "Локальная vision-модель Ollama оценивает каждое фото объявления от 0 до 10, а итоговый балл объявления — это среднее по всем его фото.",
+    "faq4q": "Отправляются ли данные объявлений в облако?",
+    "faq4a": "Нет. Сбор данных, хранение и AI-оценка полностью локальны — никаких платных API или облачных зависимостей.",
     "cta_label": "Эксперимент в процессе",
     "cta_title": "Смотрите AI-ранжированные\nквартиры в живую",
     "cta_sub": "Браузите объявления Санкт-Петербурга, отсортированные по AI-баллу. Прототип — но рабочий."
@@ -241,7 +286,7 @@ useSchemaOrg([
               </div>
             </div>
             <div class="lm-ai-note">
-              <span>&#129302;</span>
+              <LNavIcon name="bot" />
               <span data-i18n="lm_ai_note">Ranked by Ollama vision model &#8212; photo quality score 0&#8211;10</span>
             </div>
           </div>
@@ -261,22 +306,22 @@ useSchemaOrg([
         {
           title: t('step1t'),
           description: t('step1d'),
-          icon: '🕷',
+          icon: 'search',
         },
         {
           title: t('step2t'),
           description: t('step2d'),
-          icon: '📷',
+          icon: 'camera',
         },
         {
           title: t('step3t'),
           description: t('step3d'),
-          icon: '🤖',
+          icon: 'bot',
         },
         {
           title: t('step4t'),
           description: t('step4d'),
-          icon: '📊',
+          icon: 'chart',
         }
       ]" />
 
@@ -284,20 +329,20 @@ useSchemaOrg([
     <LSection type="cream" :pre-title="t('tech_label')"  :title="t('tech_title')" :post-title="t('tech_sub')">
       <div class="tech-grid">
         <div class="tech-card reveal">
-          <div class="tech-card-icon">&#129302;</div>
-          <div class="tech-card-name">Ollama</div>
+          <div class="tech-card-icon"><LNavIcon name="bot" /></div>
+          <h3 class="tech-card-name">Ollama</h3>
           <p class="tech-card-desc">{{ t('tc1') }}</p>
           <nuxt-link to="https://ollama.ai" class="tech-card-link" target="_blank" rel="noopener">{{ t('tc_learn') }}</nuxt-link>
         </div>
         <div class="tech-card reveal">
-          <div class="tech-card-icon">&#128375;</div>
-          <div class="tech-card-name">Laraue.Crawler</div>
+          <div class="tech-card-icon"><LNavIcon name="globe" /></div>
+          <h3 class="tech-card-name">Laraue.Crawler</h3>
           <p class="tech-card-desc">{{ t('tc2') }}</p>
           <nuxt-link :to="localePath('/blog/projects/crawler')" class="tech-card-link">{{ t('tc_project') }}</nuxt-link>
         </div>
         <div class="tech-card reveal">
-          <div class="tech-card-icon">&#128200;</div>
-          <div class="tech-card-name">ASP.NET Core + PostgreSQL</div>
+          <div class="tech-card-icon"><LNavIcon name="code" /></div>
+          <h3 class="tech-card-name">ASP.NET Core + PostgreSQL</h3>
           <p class="tech-card-desc">{{ t('tc3') }}</p>
           <nuxt-link :to="localePath('/blog/projects/real-estate')" class="tech-card-link">{{ t('tc_article') }}</nuxt-link>
         </div>
@@ -311,7 +356,7 @@ useSchemaOrg([
           <div class="article-card-strip"></div>
           <div class="article-card-body">
             <div class="article-card-type">{{ t('type_article') }}</div>
-            <div class="article-card-title">{{ t('art_card_title') }}</div>
+            <h3 class="article-card-title">{{ t('art_card_title') }}</h3>
             <p class="article-card-excerpt">{{ t('art_card_excerpt') }}</p>
             <div class="article-card-meta">
               <span>&#128336; 36 min read</span>
@@ -327,12 +372,24 @@ useSchemaOrg([
     <!-- OSS -->
     <LSection type="cream" :pre-title="t('oss_label')" :title="t('oss_title')" :post-title="t('oss_sub')" horizontal>
       <div class="oss-card">
-        <div class="oss-icon">&#11088;</div>
-        <div class="oss-title">Laraue.Crawler</div>
+        <div class="oss-icon"><LNavIcon name="code" /></div>
+        <h3 class="oss-title">Laraue.Crawler</h3>
         <p class="oss-desc">{{ t('oss_card_desc') }}</p>
         <LActionButton :title="t('view_github')" link="https://github.com/win7user10/Laraue.Crawling" type="github"/>
       </div>
     </LSection>
+
+    <!-- FAQ -->
+    <LFaqSection
+        :pre-title="t('faqLabel')"
+        :title="t('faqHeading')"
+        :items="[
+        { question: t('faq1q'), answer: t('faq1a') },
+        { question: t('faq2q'), answer: t('faq2a') },
+        { question: t('faq3q'), answer: t('faq3a') },
+        { question: t('faq4q'), answer: t('faq4a') }
+      ]"
+    />
 
     <!-- CTA -->
     <LCallToAction type="light" :pre-title="t('cta_label')" :title="t('cta_title')" :post-title="t('cta_sub')" horizontal>
@@ -381,13 +438,14 @@ div {
 .score-low{background:#e05353}
 /* ai badge below cards */
 .lm-ai-note{margin-top:10px;padding:8px 10px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);border-radius:7px;font-size:10px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:6px}
-.lm-ai-note span{font-size:13px}
+.lm-ai-note :deep(.nav-icon-svg){width:13px;height:13px;color:#f59e0b;flex-shrink:0}
 
 /* ══ TECH STACK ══ */
 .tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:52px}
 .tech-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:26px;transition:box-shadow .2s,transform .15s,border-color .2s}
 .tech-card:hover{box-shadow:0 6px 24px rgba(15,14,12,.08);transform:translateY(-2px);border-color:var(--amber)}
-.tech-card-icon{width:44px;height:44px;border-radius:10px;background:var(--amber-light);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+.tech-card-icon{width:44px;height:44px;border-radius:10px;background:var(--amber-light);color:var(--amber);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.tech-card-icon :deep(.nav-icon-svg){width:22px;height:22px}
 .tech-card-name{font-family:var(--serif);font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-.1px}
 .tech-card-desc{font-size:13px;color:var(--muted);line-height:1.6}
 .tech-card-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--amber);margin-top:12px;text-decoration:none;transition:gap .15s}
@@ -410,7 +468,8 @@ div {
 
 /* ══ OSS ══ */
 .oss-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:32px;box-shadow:0 4px 20px rgba(15,14,12,.06)}
-.oss-icon{font-size:40px;margin-bottom:16px}
+.oss-icon{width:44px;height:44px;border-radius:11px;background:var(--amber-light);color:var(--amber);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.oss-icon :deep(.nav-icon-svg){width:22px;height:22px}
 .oss-title{font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:10px;letter-spacing:-.2px}
 .oss-desc{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:24px;font-weight:300}
 .oss-link svg{width:15px;height:15px;fill:currentColor;flex-shrink:0}

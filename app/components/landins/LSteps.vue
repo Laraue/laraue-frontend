@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LSection from "~/components/landins/LSection.vue";
+import LNavIcon from "~/components/ui/LNavIcon.vue";
 
 export interface Step {
   title: string,
@@ -13,6 +14,9 @@ defineProps<{
   postTitle?: string,
   steps: Step[],
 }>()
+
+// Icon names (e.g. "camera", "bot") render via LNavIcon; anything else (emoji) renders as-is.
+const isIconName = (icon: string) => /^[a-z]+$/.test(icon)
 </script>
 
 <template>
@@ -21,7 +25,10 @@ defineProps<{
       <div class="how-steps">
         <div v-for="(step, i) in steps" class="how-step reveal">
           <div class="how-step-num">{{ i + 1 }}</div>
-          <div class="how-step-icon" v-if="step.icon">{{ step.icon }}</div>
+          <div class="how-step-icon" v-if="step.icon" :class="{ 'how-step-icon-svg': isIconName(step.icon) }">
+            <LNavIcon v-if="isIconName(step.icon)" :name="step.icon" />
+            <template v-else>{{ step.icon }}</template>
+          </div>
           <div>
             <h3 class="how-step-title">{{ step.title }}</h3>
             <div class="how-step-desc">{{ step.description }}</div>
@@ -43,6 +50,8 @@ defineProps<{
 .how-step-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
 .how-step-desc{font-size:12px;color:var(--muted);line-height:1.5}
 .how-step-icon{font-size: 24px;margin-bottom: 10px;}
+.how-step-icon-svg{width:44px;height:44px;border-radius:11px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.how-step-icon-svg :deep(.nav-icon-svg){width:22px;height:22px}
 
 @media(max-width:900px){
   .how-steps{grid-template-columns:1fr;gap:24px}

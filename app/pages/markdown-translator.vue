@@ -3,20 +3,26 @@ import {computed} from "vue";
 import {useI18n} from "vue-i18n";
 import LHero from "~/components/ui/LHero.vue";
 import LMainContent from "~/components/ui/LMainContent.vue";
+import LNavIcon from "~/components/ui/LNavIcon.vue";
 import LSection from "~/components/landins/LSection.vue";
 import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
 import LFaqSection from "~/components/landins/LFaqSection.vue";
 import LSelect from "~/components/landins/LSelect.vue";
-import {defineAggregateRating, defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
+import {defineOffer, defineSoftwareApp, defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 import {ApiError} from "~/composables/apiError";
 
 const { t } = useI18n();
+const localePath = useLocalePath();
 
 useSeoMeta({
   title: computed(() => t('seoTitle')),
-  ogTitle: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),
+  ogTitle: computed(() => t('seoTitle')),
+  ogDescription: computed(() => t('seoDescription')),
   ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: computed(() => t('seoTitle')),
+  twitterDescription: computed(() => t('seoDescription')),
 })
 
 useSchemaOrg([
@@ -47,7 +53,23 @@ useSchemaOrg([
         description: '100K tokens of 81B translation model'
       })
     ],
-  })
+  }),
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_current') },
+    ]
+  }),
+  {
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: t('faq1q'), acceptedAnswer: { '@type': 'Answer', text: t('faq1a') } },
+      { '@type': 'Question', name: t('faq2q'), acceptedAnswer: { '@type': 'Answer', text: t('faq2a') } },
+      { '@type': 'Question', name: t('faq3q'), acceptedAnswer: { '@type': 'Answer', text: t('faq3a') } },
+      { '@type': 'Question', name: t('faq4q'), acceptedAnswer: { '@type': 'Answer', text: t('faq4a') } },
+      { '@type': 'Question', name: t('faq5q'), acceptedAnswer: { '@type': 'Answer', text: t('faq5a') } },
+    ]
+  },
 ])
 
 const from = ref('en')
@@ -235,6 +257,8 @@ const updateSourceStats = () => {
 <i18n lang="json">
 {
   "en": {
+    "bc_home": "Home",
+    "bc_current": "Markdown Translator",
     "seoTitle": "Markdown Translator – Structure-Preserving .md Translation",
     "seoDescription": "Free online Markdown translator. Translate .md files between 10+ languages while preserving headings, code blocks, tables, and all Markdown structure. No formatting lost.",
     "heroTitle": "Translate Markdown Files Without Breaking the Format",
@@ -257,9 +281,9 @@ const updateSourceStats = () => {
     "langRussian": "Russian",
     "langHindi": "Hindi",
     "swapLanguages": "Swap source and target languages",
-    "sampleReadme": "📄 Load README sample",
-    "sampleDocs": "📚 Load docs sample",
-    "sampleTable": "📊 Load table sample",
+    "sampleReadme": "Load README sample",
+    "sampleDocs": "Load docs sample",
+    "sampleTable": "Load table sample",
     "srcHeader": "Source Markdown",
     "tgtHeader": "Translated Output",
     "btnPaste": "Paste",
@@ -282,6 +306,7 @@ const updateSourceStats = () => {
     "featureLinksTitle": "Links and references preserved.",
     "featureLinksDesc": "Hyperlink syntax [text](url) is parsed carefully — the URL is never translated, only the display text.",
     "docsHeading": "Translate documentation, READMEs & technical docs",
+    "docsSub": "From a single README to a full documentation site — pick the workflow that fits how you publish.",
     "useCaseReadmeTitle": "README.md files",
     "useCaseReadmeDesc": "Translate open-source README files to reach a global audience of developers without breaking any Markdown formatting.",
     "useCaseDocsTitle": "Documentation sites",
@@ -290,6 +315,7 @@ const updateSourceStats = () => {
     "useCaseBlogDesc": "Translate blog posts written in Markdown for Jekyll, Hugo, Gatsby, Astro, or any static site generator that uses .md files.",
     "useCasePipelineTitle": "Multilingual content pipelines",
     "useCasePipelineDesc": "Add a translation step to content pipelines that doesn't require post-processing, reformatting, or manual cleanup of broken Markdown.",
+    "faqLabel": "Questions",
     "faqHeading": "Frequently Asked Questions",
     "faq1q": "Can I translate a Markdown file without losing formatting?",
     "faq1a": "Yes — that's exactly what Markdown Translator is built for. We parse .md files line-by-line and translate only the text content while preserving all structural syntax: headings, code fences, tables, blockquotes, and lists. The output is valid Markdown in the target language.",
@@ -301,6 +327,9 @@ const updateSourceStats = () => {
     "faq4a": "Yes, completely free with no account or signup required. Simply paste your Markdown, choose your languages, and click Translate.",
     "faq5q": "Can I translate README files for GitHub?",
     "faq5a": "Absolutely. README.md files are one of the most common use cases. Paste your README, choose the target language, and get a translated version that renders correctly on GitHub, GitLab, or any Markdown renderer.",
+    "relatedToolTitle": "Need to convert Markdown to HTML too?",
+    "relatedToolDesc": "Preview your Markdown as clean, sanitized HTML — live, with tables and code blocks fully supported.",
+    "relatedToolCta": "Try Markdown to HTML Converter",
     "relatedTopics": "Related Topics",
     "kwTranslator": "markdown translator",
     "kwTranslateFile": "translate .md file",
@@ -321,6 +350,8 @@ const updateSourceStats = () => {
     "whoFor": "Who it's for"
   },
   "ru": {
+    "bc_home": "Главная",
+    "bc_current": "Переводчик Markdown",
     "seoTitle": "Markdown Переводчик – Сохранение структуры .md файлов",
     "seoDescription": "Бесплатный онлайн переводчик Markdown. Переводите .md файлы между 10+ языками с сохранением заголовков, блоков кода, таблиц и всей структуры Markdown. Без потери форматирования.",
     "heroTitle": "Переводите Markdown файлы без потери форматирования",
@@ -343,9 +374,9 @@ const updateSourceStats = () => {
     "langRussian": "Русский",
     "langHindi": "Хинди",
     "swapLanguages": "Поменять языки местами",
-    "sampleReadme": "📄 Загрузить пример README",
-    "sampleDocs": "📚 Загрузить пример документации",
-    "sampleTable": "📊 Загрузить пример таблицы",
+    "sampleReadme": "Загрузить пример README",
+    "sampleDocs": "Загрузить пример документации",
+    "sampleTable": "Загрузить пример таблицы",
     "srcHeader": "Исходный Markdown",
     "tgtHeader": "Переведенный текст",
     "btnPaste": "Вставить",
@@ -368,6 +399,7 @@ const updateSourceStats = () => {
     "featureLinksTitle": "Ссылки и сноски сохраняются.",
     "featureLinksDesc": "Синтаксис гиперссылок [text](url) тщательно анализируется — URL никогда не переводится, только отображаемый текст.",
     "docsHeading": "Переводите документацию, README и технические документы",
+    "docsSub": "От одного файла README до целого сайта документации — выберите подходящий сценарий работы.",
     "useCaseReadmeTitle": "Файлы README.md",
     "useCaseReadmeDesc": "Переводите README-файлы open-source проектов, чтобы охватить глобальную аудиторию разработчиков без нарушения форматирования Markdown.",
     "useCaseDocsTitle": "Сайты документации",
@@ -376,6 +408,7 @@ const updateSourceStats = () => {
     "useCaseBlogDesc": "Переводите посты блога на Markdown для Jekyll, Hugo, Gatsby, Astro или любого генератора статических сайтов, работающего с .md файлами.",
     "useCasePipelineTitle": "Многоязычные конвейеры контента",
     "useCasePipelineDesc": "Добавьте этап перевода в конвейеры контента, который не требует постобработки, переформатирования или ручного исправления сломанного Markdown.",
+    "faqLabel": "Вопросы",
     "faqHeading": "Часто задаваемые вопросы",
     "faq1q": "Могу ли я перевести Markdown файл без потери форматирования?",
     "faq1a": "Да — именно для этого и создано приложение. Мы анализируем .md файлы построчно и переводим только текстовое содержание, сохраняя структуру: заголовки, блоки кода, таблицы, цитаты и списки. Результат — валидный Markdown.",
@@ -387,6 +420,9 @@ const updateSourceStats = () => {
     "faq4a": "Да, полностью бесплатный, без регистрации и входа. Просто вставьте ваш Markdown, выберите языки и нажмите Перевести.",
     "faq5q": "Могу ли я переводить README файлы для GitHub?",
     "faq5a": "Абсолютно. README.md файлы — один из самых частых случаев использования. Вставьте ваш README, выберите целевой язык и получите переведенную версию, которая корректно отображается на GitHub, GitLab или любом другом сервисе, работающем с Markdown.",
+    "relatedToolTitle": "Нужно ещё и конвертировать Markdown в HTML?",
+    "relatedToolDesc": "Просматривайте Markdown как чистый, безопасный HTML — с поддержкой таблиц и блоков кода.",
+    "relatedToolCta": "Открыть конвертер Markdown в HTML",
     "relatedTopics": "Связанные темы",
     "kwTranslator": "переводчик markdown",
     "kwTranslateFile": "перевести .md файл",
@@ -462,13 +498,13 @@ const updateSourceStats = () => {
       <!-- Sample chips -->
       <div class="sample-chips" id="sampleChips">
         <span class="sample-chip" @click="loadSample('readme')" :title="t('sampleReadme')">
-          {{ t('sampleReadme') }}
+          <LNavIcon name="folder" />{{ t('sampleReadme') }}
         </span>
         <span class="sample-chip" @click="loadSample('docs')" :title="t('sampleDocs')">
-          {{ t('sampleDocs') }}
+          <LNavIcon name="book" />{{ t('sampleDocs') }}
         </span>
         <span class="sample-chip" @click="loadSample('table')" :title="t('sampleTable')">
-          {{ t('sampleTable') }}
+          <LNavIcon name="table" />{{ t('sampleTable') }}
         </span>
       </div>
 
@@ -580,22 +616,22 @@ const updateSourceStats = () => {
       <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-card-icon">#</div>
-          <div class="feature-card-title">{{ t('featureHeadingsTitle') }}</div>
+          <h3 class="feature-card-title">{{ t('featureHeadingsTitle') }}</h3>
           <p class="feature-card-desc" v-html="t('featureHeadingsDesc')"></p>
         </div>
         <div class="feature-card">
           <div class="feature-card-icon">{ }</div>
-          <div class="feature-card-title">{{ t('featureCodeTitle') }}</div>
+          <h3 class="feature-card-title">{{ t('featureCodeTitle') }}</h3>
           <p class="feature-card-desc" v-html="t('featureCodeDesc')"></p>
         </div>
         <div class="feature-card">
           <div class="feature-card-icon">|</div>
-          <div class="feature-card-title">{{ t('featureTablesTitle') }}</div>
+          <h3 class="feature-card-title">{{ t('featureTablesTitle') }}</h3>
           <p class="feature-card-desc" v-html="t('featureTablesDesc')"></p>
         </div>
         <div class="feature-card">
           <div class="feature-card-icon">→</div>
-          <div class="feature-card-title">{{ t('featureLinksTitle') }}</div>
+          <h3 class="feature-card-title">{{ t('featureLinksTitle') }}</h3>
           <p class="feature-card-desc" v-html="t('featureLinksDesc')"></p>
         </div>
       </div>
@@ -606,17 +642,18 @@ const updateSourceStats = () => {
         type="cream"
         :pre-title="t('whoFor')"
         :title="t('docsHeading')"
-        :post-title="t('docsHeading')"
+        :post-title="t('docsSub')"
         :features="[
-        { icon: '📄', title: t('useCaseReadmeTitle'), description: t('useCaseReadmeDesc') },
-        { icon: '📚', title: t('useCaseDocsTitle'), description: t('useCaseDocsDesc') },
-        { icon: '✍️', title: t('useCaseBlogTitle'), description: t('useCaseBlogDesc') },
-        { icon: '🌍', title: t('useCasePipelineTitle'), description: t('useCasePipelineDesc') }
+        { icon: 'folder', title: t('useCaseReadmeTitle'), description: t('useCaseReadmeDesc') },
+        { icon: 'book', title: t('useCaseDocsTitle'), description: t('useCaseDocsDesc') },
+        { icon: 'edit', title: t('useCaseBlogTitle'), description: t('useCaseBlogDesc') },
+        { icon: 'globe', title: t('useCasePipelineTitle'), description: t('useCasePipelineDesc') }
       ]"
     />
 
     <!-- FAQ -->
     <LFaqSection
+        :pre-title="t('faqLabel')"
         :title="t('faqHeading')"
         :items="[
         { question: t('faq1q'), answer: t('faq1a') },
@@ -626,6 +663,18 @@ const updateSourceStats = () => {
         { question: t('faq5q'), answer: t('faq5a') }
       ]"
     />
+
+    <!-- RELATED TOOL -->
+    <div class="related-tool">
+      <div class="related-tool-inner">
+        <div class="related-tool-icon"><LNavIcon name="markdown" /></div>
+        <div class="related-tool-text">
+          <strong>{{ t('relatedToolTitle') }}</strong>
+          <span>{{ t('relatedToolDesc') }}</span>
+        </div>
+        <a :href="localePath('markdown-converter')" class="related-tool-link">{{ t('relatedToolCta') }} &#8594;</a>
+      </div>
+    </div>
 
     <!-- SEO TAGS -->
     <div class="seo-tags" :aria-label="t('relatedTopics')">
@@ -696,7 +745,8 @@ const updateSourceStats = () => {
 
 /* sample chips */
 .sample-chips{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;margin-bottom: 14px;}
-.sample-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:var(--accent-light);border:1px solid rgba(15,118,110,.18);border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s}
+.sample-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;background:var(--accent-light);border:1px solid rgba(15,118,110,.18);border-radius:6px;font-size:12px;font-weight:600;color:var(--accent);cursor:pointer;transition:background .15s,border-color .15s}
+.sample-chip :deep(.nav-icon-svg){width:13px;height:13px;flex-shrink:0}
 .sample-chip:hover{background:var(--accent-light);border-color:var(--accent)}
 
 
@@ -707,6 +757,17 @@ const updateSourceStats = () => {
 .feature-card-icon{width:40px;height:40px;border-radius:10px;background:var(--accent-light);border:1px solid rgba(15,118,110,.12);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:15px;font-weight:700;color:var(--accent);margin-bottom:14px;flex-shrink:0}
 .feature-card-title{font-weight:700;font-size:15px;color:var(--ink);margin-bottom:6px}
 .feature-card-desc{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* ══ RELATED TOOL ══ */
+.related-tool{padding:28px 48px;border-bottom:1px solid var(--border);background:var(--paper)}
+.related-tool-inner{max-width:1060px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.related-tool-icon{width:40px;height:40px;border-radius:10px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.related-tool-icon :deep(.nav-icon-svg){width:20px;height:20px}
+.related-tool-text{flex:1;min-width:200px;display:flex;flex-direction:column;gap:2px}
+.related-tool-text strong{font-size:14px;color:var(--ink)}
+.related-tool-text span{font-size:13px;color:var(--muted)}
+.related-tool-link{font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap}
+.related-tool-link:hover{text-decoration:underline}
 
 /* ══ TAGS (SEO) ══ */
 .seo-tags{padding:28px 48px;border-bottom:1px solid var(--border);display:flex;}
@@ -770,7 +831,7 @@ const updateSourceStats = () => {
 
 /* ══ RESPONSIVE ══ */
 @media(max-width:1100px){
-  .translator-shell,.seo-tags{padding-left:32px;padding-right:32px}
+  .translator-shell,.seo-tags,.related-tool{padding-left:32px;padding-right:32px}
 }
 @media(max-width:820px){
   .editor-panes{grid-template-columns:1fr;min-height:auto}
@@ -781,7 +842,7 @@ const updateSourceStats = () => {
   .btn-translate{flex:1;justify-content:center}
 }
 @media(max-width:720px){
-  .translator-shell,.seo-tags{padding-left:20px;padding-right:20px}
+  .translator-shell,.seo-tags,.related-tool{padding-left:20px;padding-right:20px}
   .translator-shell{padding-top:24px}
   .lang-bar{flex-wrap:wrap}
 }

@@ -118,7 +118,7 @@ useSchemaOrg([
     "feat_title": "Powerful learning features",
     "feat_sub": "Proven language learning methods, delivered inside the app you already use every day.",
     "f1t": "Quiz Mode",
-    "f1d": "Interactive multiple-choice quizzes that make vocabulary stick. Immediate feedback, XP rewards, and streak tracking to keep you motivated.",
+    "f1d": "Interactive multiple-choice quizzes that make vocabulary stick. Immediate feedback and streak tracking to keep you motivated.",
     "f2t": "CEFR Levels",
     "f2d": "Words organized by A1 through C2 proficiency levels. Start where you are, progress at your own pace — no guesswork about difficulty.",
     "f3t": "Progress Tracking",
@@ -137,7 +137,7 @@ useSchemaOrg([
     "step2t": "Pick your language",
     "step2d": "Choose from 7 language pairs and set your CEFR level. Change anytime from settings.",
     "step3t": "Start the quiz",
-    "step3d": "Answer questions, earn XP, build your streak. Come back daily to keep improving.",
+    "step3d": "Answer questions and build your streak. Come back daily to keep improving.",
     "lang_label": "Supported pairs",
     "lang_title": "7 language pairs",
     "lang_sub": "All the most popular languages, all English-based. More pairs coming soon.",
@@ -154,7 +154,7 @@ useSchemaOrg([
     "quiz_desc": "The fastest way to build vocabulary. You see a word, pick the right translation from four options, and get immediate feedback. Wrong answers are revisited automatically.",
     "qf1": "Multiple-choice format proven to improve retention",
     "qf2": "Immediate correct/wrong feedback with explanation",
-    "qf3": "XP system and streak counter to build habit",
+    "qf3": "Streak counter to build the daily habit",
     "qf4": "Adaptive — revisits words you get wrong more often",
     "qf5": "Stats updated after every session",
     "oss_label": "Transparent by design",
@@ -208,7 +208,7 @@ useSchemaOrg([
     "step2t": "Выберите язык",
     "step2d": "Выберите языковую пару, уровень CEFR.",
     "step3t": "Начните квиз",
-    "step3d": "Отвечайте на вопросы, получайте опыт, набирайте серии правильных ответов.",
+    "step3d": "Отвечайте на вопросы и набирайте серии правильных ответов.",
     "lang_label": "Поддерживаемые пары",
     "lang_title": "7 языковых пар",
     "lang_sub": "Самые популярные языковые пары. Постоянно добавляются новые.",
@@ -225,7 +225,7 @@ useSchemaOrg([
     "quiz_desc": "Самый быстрый способ пополнить словарный запас. Выбираете перевод из восьми вариантов для предложенного слова. Неправильные ответы повторяются автоматически.",
     "qf1": "Формат с выбором ответа, проверенный практикой",
     "qf2": "Моментальная обратная связь с объяснением",
-    "qf3": "Система опыта и счётчик правильных ответов подряд для формирования привычки",
+    "qf3": "Счётчик серий правильных ответов для формирования привычки",
     "qf4": "Адаптивность — слова с ошибками повторяются чаще",
     "qf5": "Статистика обновляется после каждой сессии",
     "oss_label": "Абсолютная прозрачность",
@@ -300,7 +300,7 @@ useSchemaOrg([
             </div>
             <div class="bubble bot">
               &#127881; Correct! Streak: <strong style="color:#6edd9a">5</strong><br>
-              <span style="opacity:.6;font-size:11px">+10 XP &#183; Next word in 3s</span>
+              <span style="opacity:.6;font-size:11px">Next word in 3s</span>
               <div class="bubble-time">12:04</div>
             </div>
           </div>

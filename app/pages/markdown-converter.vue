@@ -2,7 +2,12 @@
 import {computed, ref} from "vue";
 import LMainContent from "~/components/ui/LMainContent.vue";
 import LHero from "~/components/ui/LHero.vue";
-import {defineAggregateRating, defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
+import LNavIcon from "~/components/ui/LNavIcon.vue";
+import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
+import LFaqSection from "~/components/landins/LFaqSection.vue";
+import {defineOffer, defineSoftwareApp, defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
+
+const localePath = useLocalePath();
 
 const markdown = ref('');
 const transpiled = ref('')
@@ -103,9 +108,13 @@ const templates = ref([
 
 useSeoMeta({
   title: t('seoTitle'),
-  ogTitle: computed(() => t('seoTitle')),
   description: t('seoDescription'),
-  ogType: "website"
+  ogTitle: computed(() => t('seoTitle')),
+  ogDescription: computed(() => t('seoDescription')),
+  ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: computed(() => t('seoTitle')),
+  twitterDescription: computed(() => t('seoDescription')),
 })
 
 useSchemaOrg([
@@ -121,7 +130,23 @@ useSchemaOrg([
         description: 'Unlimited converter usage'
       })
     ],
-  })
+  }),
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_current') },
+    ]
+  }),
+  {
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: t('faq1q'), acceptedAnswer: { '@type': 'Answer', text: t('faq1a') } },
+      { '@type': 'Question', name: t('faq2q'), acceptedAnswer: { '@type': 'Answer', text: t('faq2a') } },
+      { '@type': 'Question', name: t('faq3q'), acceptedAnswer: { '@type': 'Answer', text: t('faq3a') } },
+      { '@type': 'Question', name: t('faq4q'), acceptedAnswer: { '@type': 'Answer', text: t('faq4a') } },
+      { '@type': 'Question', name: t('faq5q'), acceptedAnswer: { '@type': 'Answer', text: t('faq5a') } },
+    ]
+  },
 ])
 
 /* ── ACTIONS ── */
@@ -239,6 +264,8 @@ const copyMarkdown = () => {
 <i18n lang="json">
 {
   "en": {
+    "bc_home": "Home",
+    "bc_current": "Markdown to HTML Converter",
     "seoTitle": "Markdown to HTML Converter",
     "seoDescription": "The utility for online Markdown to HTML Converting",
     "sidebar_label": "Tool",
@@ -248,6 +275,11 @@ const copyMarkdown = () => {
     "sec_about": "About",
     "page_title": "Markdown to HTML Converter",
     "page_desc": "Write or paste Markdown on the left — see formatted HTML on the right, live. Toggle between rendered preview and raw HTML source.",
+    "heroFeature1": "Live preview",
+    "heroFeature2": "Tables & code blocks",
+    "heroFeature3": "Sanitized HTML output",
+    "heroFeature4": "One-click download",
+    "heroFeature5": "100% free",
     "panel_md": "Markdown Source",
     "btn_clear": "Clear",
     "btn_sample": "Sample",
@@ -266,15 +298,61 @@ const copyMarkdown = () => {
     "oss_title": "Built on Laraue.Interpreter",
     "oss_text": "The converter is powered by the open-source",
     "oss_text2": "library — a C# Markdown parser built by Laraue Software. All generated HTML is sanitized for safe embedding.",
-    "placeholder": "Start typing Markdown here…\n\nType or paste your Markdown and see it render live on the right."
+    "placeholder": "Start typing Markdown here…\n\nType or paste your Markdown and see it render live on the right.",
+    "whoFor": "Who it's for",
+    "useCasesHeading": "Preview Markdown before you publish it as HTML",
+    "useCasesSub": "From a quick README check to drafting a blog post — see the exact HTML before it goes live.",
+    "useCaseReadmeTitle": "README.md files",
+    "useCaseReadmeDesc": "Preview exactly how your README will render — tables, code blocks, and images included — before pushing to GitHub or GitLab.",
+    "useCaseDocsTitle": "Documentation sites",
+    "useCaseDocsDesc": "Draft pages for Hugo, Jekyll, Gatsby, Astro, or any static site generator and check the rendered HTML before you commit.",
+    "useCaseBlogTitle": "Blog posts & drafts",
+    "useCaseBlogDesc": "Write blog posts in Markdown and get clean, sanitized HTML ready to paste into your CMS or blogging platform.",
+    "useCaseEmailTitle": "Emails & newsletters",
+    "useCaseEmailDesc": "Convert Markdown notes into HTML you can paste directly into an email template or newsletter tool.",
+    "faqLabel": "Questions",
+    "faqHeading": "Frequently Asked Questions",
+    "faq1q": "Is this Markdown to HTML converter free to use?",
+    "faq1a": "Yes, completely free with no account or signup required. Paste your Markdown and see the HTML instantly.",
+    "faq2q": "Does it support tables, code blocks, and blockquotes?",
+    "faq2a": "Yes. Headings, bold and italic text, links, images, ordered and unordered lists, code blocks, blockquotes, and tables are all supported.",
+    "faq3q": "Is the generated HTML safe to embed on my site?",
+    "faq3a": "Yes. All HTML output is sanitized before it's rendered, so it's safe to paste into a CMS, blog, or web page.",
+    "faq4q": "Can I download the converted HTML file?",
+    "faq4a": "Yes — click Download .html to get a complete, styled HTML document you can open directly or host as-is.",
+    "faq5q": "Can I use this to preview a README.md before pushing to GitHub?",
+    "faq5a": "Absolutely. Paste your README.md content and see exactly how it will render, including tables and code blocks, before you commit.",
+    "relatedTopics": "Related Topics",
+    "kw1": "markdown to html",
+    "kw2": "html converter",
+    "kw3": "markdown preview",
+    "kw4": "github readme preview",
+    "kw5": "markdown renderer",
+    "kw6": "html from markdown",
+    "kw7": "online markdown editor",
+    "kw8": "free markdown converter",
+    "kw9": "gfm to html",
+    "kw10": "markdown live preview",
+    "kw11": "documentation html export",
+    "kw12": "markdown to html online",
+    "relatedToolTitle": "Need to translate Markdown too?",
+    "relatedToolDesc": "Translate .md files between 10+ languages while preserving all structure — headings, tables, code blocks.",
+    "relatedToolCta": "Try Markdown Translator"
   },
   "ru": {
+    "bc_home": "Главная",
+    "bc_current": "Конвертер Markdown в HTML",
     "seoTitle": "Конвертер Markdown в HTML",
     "seoDescription": "Простая онлайн утилита для конвертации Markdown в HTML",
     "sec_editor": "Редактор",
     "sec_about": "Об инструменте",
     "page_title": "Markdown → HTML конвертер",
     "page_desc": "Напишите или вставьте Markdown слева — получите HTML справа. Переключайтесь между превью и исходным HTML.",
+    "heroFeature1": "Живой превью",
+    "heroFeature2": "Таблицы и блоки кода",
+    "heroFeature3": "Безопасный HTML",
+    "heroFeature4": "Скачивание в один клик",
+    "heroFeature5": "100% бесплатно",
     "panel_md": "Исходный Markdown",
     "btn_clear": "Очистить",
     "btn_sample": "Пример",
@@ -293,14 +371,63 @@ const copyMarkdown = () => {
     "oss_title": "Основан на Laraue.Interpreter",
     "oss_text": "Конвертер построен на open-source библиотеке",
     "oss_text2": ". Это C# Markdown парсер, сделанный Laraue Software. Весь HTML экранируется перед отрисовкой в браузере.",
-    "placeholder": "Начните ввод здесь…\n\nНапишите или вставьте сюда Markdown и наблюдайте за результатом справа."
+    "placeholder": "Начните ввод здесь…\n\nНапишите или вставьте сюда Markdown и наблюдайте за результатом справа.",
+    "whoFor": "Для кого это",
+    "useCasesHeading": "Просматривайте HTML перед публикацией",
+    "useCasesSub": "От быстрой проверки README до черновика статьи — увидьте точный HTML до того, как он опубликован.",
+    "useCaseReadmeTitle": "Файлы README.md",
+    "useCaseReadmeDesc": "Проверьте, как именно будет отображаться README — с таблицами, блоками кода и изображениями — перед публикацией на GitHub или GitLab.",
+    "useCaseDocsTitle": "Сайты документации",
+    "useCaseDocsDesc": "Готовьте страницы для Hugo, Jekyll, Gatsby, Astro или любого генератора статических сайтов и проверяйте HTML перед коммитом.",
+    "useCaseBlogTitle": "Посты блога и черновики",
+    "useCaseBlogDesc": "Пишите посты блога на Markdown и получайте чистый, безопасный HTML, готовый для вставки в вашу CMS.",
+    "useCaseEmailTitle": "Письма и рассылки",
+    "useCaseEmailDesc": "Превращайте заметки на Markdown в HTML, который можно вставить прямо в шаблон письма или рассылки.",
+    "faqLabel": "Вопросы",
+    "faqHeading": "Часто задаваемые вопросы",
+    "faq1q": "Этот конвертер Markdown в HTML бесплатный?",
+    "faq1a": "Да, полностью бесплатный, без регистрации и входа. Вставьте Markdown и сразу увидите HTML.",
+    "faq2q": "Поддерживаются ли таблицы, блоки кода и цитаты?",
+    "faq2a": "Да. Заголовки, жирный и курсивный текст, ссылки, изображения, списки, блоки кода, цитаты и таблицы — всё поддерживается.",
+    "faq3q": "Безопасно ли вставлять полученный HTML на мой сайт?",
+    "faq3a": "Да. Весь HTML экранируется перед отрисовкой, поэтому его безопасно вставлять в CMS, блог или веб-страницу.",
+    "faq4q": "Можно ли скачать полученный HTML-файл?",
+    "faq4a": "Да — нажмите «Скачать .html», чтобы получить готовый HTML-документ, который можно открыть или разместить как есть.",
+    "faq5q": "Можно ли использовать это, чтобы проверить README.md перед публикацией на GitHub?",
+    "faq5a": "Конечно. Вставьте содержимое README.md и увидите точно, как он будет отображаться, включая таблицы и блоки кода, перед коммитом.",
+    "relatedTopics": "Связанные темы",
+    "kw1": "markdown в html",
+    "kw2": "html конвертер",
+    "kw3": "превью markdown",
+    "kw4": "превью readme github",
+    "kw5": "рендер markdown",
+    "kw6": "html из markdown",
+    "kw7": "онлайн редактор markdown",
+    "kw8": "бесплатный конвертер markdown",
+    "kw9": "gfm в html",
+    "kw10": "живой превью markdown",
+    "kw11": "экспорт документации в html",
+    "kw12": "markdown в html онлайн",
+    "relatedToolTitle": "Нужно ещё и перевести Markdown?",
+    "relatedToolDesc": "Переводите .md файлы между 10+ языками с сохранением всей структуры — заголовков, таблиц, блоков кода.",
+    "relatedToolCta": "Открыть Markdown Переводчик"
   }
 }
 </i18n>
 
 <template>
   <LMainContent>
-    <LHero :title="t('page_title')" :sub-title="t('page_desc')" />
+    <LHero
+      :title="t('page_title')"
+      :sub-title="t('page_desc')"
+      :features="[
+        t('heroFeature1'),
+        t('heroFeature2'),
+        t('heroFeature3'),
+        t('heroFeature4'),
+        t('heroFeature5')
+      ]"
+    />
 
     <!-- TOOLBAR -->
     <div class="converter-toolbar" role="toolbar" aria-label="Formatting shortcuts">
@@ -420,6 +547,63 @@ const copyMarkdown = () => {
             {{ t('oss_text2') }}
           </p>
         </div>
+      </div>
+    </div>
+
+    <!-- USE CASES -->
+    <LFeaturesGrid
+        type="cream"
+        :pre-title="t('whoFor')"
+        :title="t('useCasesHeading')"
+        :post-title="t('useCasesSub')"
+        :features="[
+        { icon: 'folder', title: t('useCaseReadmeTitle'), description: t('useCaseReadmeDesc') },
+        { icon: 'book', title: t('useCaseDocsTitle'), description: t('useCaseDocsDesc') },
+        { icon: 'edit', title: t('useCaseBlogTitle'), description: t('useCaseBlogDesc') },
+        { icon: 'mail', title: t('useCaseEmailTitle'), description: t('useCaseEmailDesc') }
+      ]"
+    />
+
+    <!-- FAQ -->
+    <LFaqSection
+        :pre-title="t('faqLabel')"
+        :title="t('faqHeading')"
+        :items="[
+        { question: t('faq1q'), answer: t('faq1a') },
+        { question: t('faq2q'), answer: t('faq2a') },
+        { question: t('faq3q'), answer: t('faq3a') },
+        { question: t('faq4q'), answer: t('faq4a') },
+        { question: t('faq5q'), answer: t('faq5a') }
+      ]"
+    />
+
+    <!-- RELATED TOOL -->
+    <div class="related-tool">
+      <div class="related-tool-inner">
+        <div class="related-tool-icon"><LNavIcon name="globe" /></div>
+        <div class="related-tool-text">
+          <strong>{{ t('relatedToolTitle') }}</strong>
+          <span>{{ t('relatedToolDesc') }}</span>
+        </div>
+        <a :href="localePath('markdown-translator')" class="related-tool-link">{{ t('relatedToolCta') }} &#8594;</a>
+      </div>
+    </div>
+
+    <!-- SEO TAGS -->
+    <div class="seo-tags" :aria-label="t('relatedTopics')">
+      <div class="seo-tags-inner">
+        <span class="seo-tag">{{ t('kw1') }}</span>
+        <span class="seo-tag">{{ t('kw2') }}</span>
+        <span class="seo-tag">{{ t('kw3') }}</span>
+        <span class="seo-tag">{{ t('kw4') }}</span>
+        <span class="seo-tag">{{ t('kw5') }}</span>
+        <span class="seo-tag">{{ t('kw6') }}</span>
+        <span class="seo-tag">{{ t('kw7') }}</span>
+        <span class="seo-tag">{{ t('kw8') }}</span>
+        <span class="seo-tag">{{ t('kw9') }}</span>
+        <span class="seo-tag">{{ t('kw10') }}</span>
+        <span class="seo-tag">{{ t('kw11') }}</span>
+        <span class="seo-tag">{{ t('kw12') }}</span>
       </div>
     </div>
   </LMainContent>
@@ -583,6 +767,22 @@ const copyMarkdown = () => {
 .about-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
 .about-tag{font-size:11px;font-weight:600;background:var(--blue-light);color:var(--blue);padding:3px 9px;border-radius:5px}
 
+/* ══ RELATED TOOL ══ */
+.related-tool{padding:28px 48px;border-bottom:1px solid var(--border);background:var(--paper)}
+.related-tool-inner{max-width:1060px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.related-tool-icon{width:40px;height:40px;border-radius:10px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.related-tool-icon :deep(.nav-icon-svg){width:20px;height:20px}
+.related-tool-text{flex:1;min-width:200px;display:flex;flex-direction:column;gap:2px}
+.related-tool-text strong{font-size:14px;color:var(--ink)}
+.related-tool-text span{font-size:13px;color:var(--muted)}
+.related-tool-link{font-size:13px;font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap}
+.related-tool-link:hover{text-decoration:underline}
+
+/* ══ TAGS (SEO) ══ */
+.seo-tags{padding:28px 48px;border-bottom:1px solid var(--border);display:flex}
+.seo-tags-inner{display:flex;flex-wrap:wrap;gap:6px;margin:0 auto}
+.seo-tag{font-size:11px;color:var(--muted);background:var(--cream);border:1px solid var(--border);padding:3px 9px;border-radius:4px}
+
 /* markdown textarea */
 .md-textarea{
   flex:1;width:100%;border:none;outline:none;resize:none;
@@ -594,7 +794,7 @@ const copyMarkdown = () => {
 
 /* ══ RESPONSIVE ══ */
 @media(max-width:1100px){
-  .converter-toolbar,.about-section{padding-left:32px;padding-right:32px}
+  .converter-toolbar,.about-section,.related-tool,.seo-tags{padding-left:32px;padding-right:32px}
   footer{padding-left:32px;padding-right:32px}
 }
 @media(max-width:840px){
@@ -642,6 +842,7 @@ const copyMarkdown = () => {
   .converter-toolbar{padding:0 12px;}
   .cheat-chips{gap:4px}
   .about-section{padding:44px 20px}
+  .related-tool,.seo-tags{padding:20px 22px}
 }
 @media(max-width:480px){
   .editor-area{grid-template-rows:auto auto;min-height:600px}
