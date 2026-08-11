@@ -1,22 +1,41 @@
 <script setup lang="ts">
 
 import DocsView, {type Article} from "~/components/docs/DocsView.vue";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {useBlogApi} from "~/composables/blogApi";
 
 definePageMeta({
   layout: 'blog',
 })
 
+const PER_PAGE = 16;
+
 const { locale } = useI18n();
+const route = useRoute();
+const router = useRouter();
 const path = ["blog", "projects"];
 const { getItems } = useBlogApi();
 
+const page = computed(() => Math.max(1, Number(route.query.page) || 1));
+
 const projects = ref<ItemListItem[]>([]);
+const hasNextPage = ref(false)
+const hasPreviousPage = ref(false)
 const loadPage = async () => {
-  const result = await getItems(locale.value, path, ["project"], undefined, 0, 24);
+  const result = await getItems(locale.value, path, ["project"], undefined, page.value - 1, PER_PAGE);
   projects.value = result.data
+  hasNextPage.value = result.hasNextPage
+  hasPreviousPage.value = result.hasPreviousPage
 }
+
+const goToPage = (newPage: number) => {
+  router.push({ query: { ...route.query, page: newPage === 1 ? undefined : String(newPage) } })
+}
+
+watch(page, async () => {
+  await loadPage();
+})
+
 await loadPage();
 
 const computedItems = computed<Article[]>(() => (projects.value ?? [])
@@ -66,7 +85,11 @@ useSeoMeta({
     v-if="projects"
     :title=title
     :subTitle=sub
-    :articles="computedItems"/>
+    :articles="computedItems"
+    :page="page"
+    :has-next-page="hasNextPage"
+    :has-previous-page="hasPreviousPage"
+    @update:page="goToPage"/>
 </template>
 
 <style scoped>
