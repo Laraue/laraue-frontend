@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LNavIcon from "~/components/ui/LNavIcon.vue";
 
 interface MenuItem {
   text: string;
@@ -27,25 +28,25 @@ const menuItems = computed<MenuItem[]>(() => {
           text: t('markdownConverter'),
           link: localePath("/markdown-converter"),
           id: "1-1",
-          icon: "📝"
+          icon: "markdown"
         },
         {
           text: t('apartmentsAggregator'),
           link: localePath("/crawled-apartments"),
           id: "1-2",
-          icon: "🏠"
+          icon: "apartments"
         },
         {
           text: t("noteBoardBot"),
           link: localePath("/boards"),
           id: "1-3",
-          icon: "📋"
+          icon: "board"
         },
         {
           text: $t("markdownTranslator"),
           link: localePath("/markdown-translator"),
           id: "1-4",
-          icon: "℣"
+          icon: "translate"
         }
       ]
     },
@@ -57,7 +58,7 @@ const menuItems = computed<MenuItem[]>(() => {
           text: t('vocabularyBot'),
           link: localePath("/learn-language-bot"),
           id: "2-1",
-          icon: "🤖"
+          icon: "bot"
         },
       ]
     },
@@ -69,7 +70,7 @@ const menuItems = computed<MenuItem[]>(() => {
           text: t("pdfExtractor"),
           link: localePath("/pdf-extractor"),
           id: "3-1",
-          icon: "📄"
+          icon: "pdf"
         }
       ]
     },
@@ -152,7 +153,7 @@ const toggleMobileSubMenu = (id: string) => {
         <a v-else :href="menuItem.link" :class="{ active: route.path == menuItem.link }" role="menuitem" data-i18n="nav_blog">{{ menuItem.text }}</a>
         <div v-if="menuItem.children" class="nav-dropdown" role="menu">
           <a v-for="subItem in menuItem.children" :href="subItem.link" role="menuitem">
-            <span class="dd-icon" v-if="subItem.icon">{{ subItem.icon }}</span>
+            <span class="dd-icon" v-if="subItem.icon"><LNavIcon :name="subItem.icon" /></span>
             <span class="dd-label">{{ subItem.text }}</span>
             <span class="dd-badge" v-if="subItem.label">{{ subItem.label }}</span>
           </a>
@@ -194,7 +195,12 @@ const toggleMobileSubMenu = (id: string) => {
             <svg :class="{open: isActive(menuItem.id)}" width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg>
           </button>
           <ul class="mobile-submenu" :class="{ open: isActive(menuItem.id) }">
-            <li v-for="subItem in menuItem.children"><a :href="subItem.link" data-i18n="tool3n">{{ subItem.icon }} {{ subItem.text }}</a></li>
+            <li v-for="subItem in menuItem.children">
+              <a :href="subItem.link" data-i18n="tool3n">
+                <span class="dd-icon" v-if="subItem.icon"><LNavIcon :name="subItem.icon" /></span>
+                <span>{{ subItem.text }}</span>
+              </a>
+            </li>
           </ul>
         </template>
         <a v-else :href="menuItem.link" data-i18n="nav_blog">{{ menuItem.text }}</a>
@@ -265,11 +271,11 @@ const toggleMobileSubMenu = (id: string) => {
   text-decoration:none;background:none;border:none;cursor:pointer;
   font-family:var(--sans);letter-spacing:.01em;
   white-space:nowrap;
-  transition:color .15s,background .15s;
+  transition:color .15s,background .15s,border-color .15s;
   border-bottom:2px solid transparent;
 }
 .nav-menu > li > a:hover,
-.nav-menu > li > button:hover{color:var(--ink);background:rgba(15,14,12,.04)}
+.nav-menu > li > button:hover{color:var(--ink);background:rgba(15,14,12,.04);border-bottom-color:var(--accent)}
 .nav-menu > li > a.active,
 .nav-menu > li.open > button{color:var(--ink);border-bottom-color:var(--accent)}
 
@@ -303,7 +309,14 @@ const toggleMobileSubMenu = (id: string) => {
   transition:color .12s,background .12s;
 }
 .nav-dropdown a:hover{color:var(--ink);background:var(--cream)}
-.nav-dropdown a .dd-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.dd-icon{
+  display:flex;align-items:center;justify-content:center;
+  width:30px;height:30px;border-radius:9px;flex-shrink:0;
+  background:var(--accent-light);color:var(--accent);
+  border:1.5px solid transparent;
+  transition:border-color .15s;
+}
+.nav-dropdown a:hover .dd-icon{border-color:var(--accent)}
 .nav-dropdown a .dd-label{flex:1}
 .nav-dropdown a .dd-badge{
   font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
@@ -362,6 +375,7 @@ const toggleMobileSubMenu = (id: string) => {
   border-bottom:1px solid var(--border);
 }
 .mobile-submenu a:hover{color:var(--ink);background:rgba(15,14,12,.04)}
+.mobile-submenu a:hover .dd-icon{border-color:var(--accent)}
 
 .mobile-bottom{padding:20px 24px;display:flex;flex-direction:column;gap:12px}
 .mobile-lang{display:flex;gap:8px}

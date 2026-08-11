@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import LMainContent from "~/components/ui/LMainContent.vue";
+import LNavIcon from "~/components/ui/LNavIcon.vue";
 
 const { setLocale, t } = useI18n()
 const localPath = useLocalePath();
@@ -250,11 +251,11 @@ useSeoMeta({
 
     <!-- TRUST BAR -->
     <div class="trust-bar" aria-label="Trust indicators">
-      <div class="trust-item"><div class="trust-icon" aria-hidden="true">🔒</div><span data-i18n="trust1">{{ t('trust1') }}</span></div>
-      <div class="trust-item"><div class="trust-icon" aria-hidden="true">🛠️</div><span data-i18n="trust2">{{ t('trust2') }}</span></div>
-      <div class="trust-item"><div class="trust-icon" aria-hidden="true">💬</div><span data-i18n="trust3">{{ t('trust3') }}</span></div>
-      <div class="trust-item"><div class="trust-icon" aria-hidden="true">🆓</div><span data-i18n="trust4">{{ t('trust4') }}</span></div>
-      <div class="trust-item"><div class="trust-icon" aria-hidden="true">📍</div><span data-i18n="trust5">{{ t('trust5') }}</span></div>
+      <div class="trust-item"><div class="trust-icon" aria-hidden="true"><LNavIcon name="lock" /></div><span data-i18n="trust1">{{ t('trust1') }}</span></div>
+      <div class="trust-item"><div class="trust-icon" aria-hidden="true"><LNavIcon name="tools" /></div><span data-i18n="trust2">{{ t('trust2') }}</span></div>
+      <div class="trust-item"><div class="trust-icon" aria-hidden="true"><LNavIcon name="chat" /></div><span data-i18n="trust3">{{ t('trust3') }}</span></div>
+      <div class="trust-item"><div class="trust-icon" aria-hidden="true"><LNavIcon name="tag" /></div><span data-i18n="trust4">{{ t('trust4') }}</span></div>
+      <div class="trust-item"><div class="trust-icon" aria-hidden="true"><LNavIcon name="pin" /></div><span data-i18n="trust5">{{ t('trust5') }}</span></div>
     </div>
 
     <!-- ABOUT -->
@@ -267,10 +268,10 @@ useSeoMeta({
             <p class="reveal" data-i18n="about_p1"><strong>Laraue Software</strong> {{ t('about_p1') }}</p>
             <p class="reveal" data-i18n="about_p2">{{ t('about_p2') }} <strong>{{ t('about_p3') }}</strong> {{ t('about_p4') }}</p>
             <div class="about-values reveal">
-              <div class="value-card"><div class="value-card-icon">⚙️</div><div class="value-card-title" data-i18n="v1t">{{ t('v1t') }}</div><div class="value-card-text" data-i18n="v1d">{{ t('v1d') }}</div></div>
-              <div class="value-card"><div class="value-card-icon">🤝</div><div class="value-card-title" data-i18n="v2t">{{ t('v2t') }}</div><div class="value-card-text" data-i18n="v2d">{{ t('v2d') }}</div></div>
-              <div class="value-card"><div class="value-card-icon">🔍</div><div class="value-card-title" data-i18n="v3t">{{ t('v3t') }}</div><div class="value-card-text" data-i18n="v3d">{{ t('v3d') }}</div></div>
-              <div class="value-card"><div class="value-card-icon">🌱</div><div class="value-card-title" data-i18n="v4t">{{ t('v4t') }}</div><div class="value-card-text" data-i18n="v4d">{{ t('v4d') }}</div></div>
+              <div class="value-card"><div class="value-card-icon"><LNavIcon name="gear" /></div><div class="value-card-title" data-i18n="v1t">{{ t('v1t') }}</div><div class="value-card-text" data-i18n="v1d">{{ t('v1d') }}</div></div>
+              <div class="value-card"><div class="value-card-icon"><LNavIcon name="partners" /></div><div class="value-card-title" data-i18n="v2t">{{ t('v2t') }}</div><div class="value-card-text" data-i18n="v2d">{{ t('v2d') }}</div></div>
+              <div class="value-card"><div class="value-card-icon"><LNavIcon name="search" /></div><div class="value-card-title" data-i18n="v3t">{{ t('v3t') }}</div><div class="value-card-text" data-i18n="v3d">{{ t('v3d') }}</div></div>
+              <div class="value-card"><div class="value-card-icon"><LNavIcon name="leaf" /></div><div class="value-card-title" data-i18n="v4t">{{ t('v4t') }}</div><div class="value-card-text" data-i18n="v4d">{{ t('v4d') }}</div></div>
             </div>
           </div>
           <div class="about-stats reveal">
@@ -289,12 +290,12 @@ useSeoMeta({
         <h2 class="section-title reveal" id="product-heading">Laraue Boards</h2>
         <p class="product-section-sub reveal" data-i18n="prod_sub">{{ t('prod_sub') }}</p>
         <div class="features-grid reveal">
-          <div class="feature-cell"><div class="feature-cell-icon">📨</div><div class="feature-cell-title" data-i18n="f1t">{{ t('f1t') }}</div><div class="feature-cell-text" data-i18n="f1d">{{ t('f1d') }}</div></div>
-          <div class="feature-cell"><div class="feature-cell-icon">🗂️</div><div class="feature-cell-title" data-i18n="f2t">{{ t('f2t') }}</div><div class="feature-cell-text" data-i18n="f2d">{{ t('f2d') }}</div></div>
-          <div class="feature-cell"><div class="feature-cell-icon">✨</div><div class="feature-cell-title" data-i18n="f3t">{{ t('f3t') }}</div><div class="feature-cell-text" data-i18n="f3d">{{ t('f3d') }}</div></div>
-          <div class="feature-cell"><div class="feature-cell-icon">🔍</div><div class="feature-cell-title" data-i18n="f4t">{{ t('f4t') }}</div><div class="feature-cell-text" data-i18n="f4d">{{ t('f4d') }}</div></div>
-          <div class="feature-cell"><div class="feature-cell-icon">📱</div><div class="feature-cell-title" data-i18n="f5t">{{ t('f5t') }}</div><div class="feature-cell-text" data-i18n="f5d">{{ t('f5d') }}</div></div>
-          <div class="feature-cell"><div class="feature-cell-icon">💸</div><div class="feature-cell-title" data-i18n="f6t">{{ t('f6t') }}</div><div class="feature-cell-text" data-i18n="f6d">{{ t('f6d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="mail" /></div><div class="feature-cell-title" data-i18n="f1t">{{ t('f1t') }}</div><div class="feature-cell-text" data-i18n="f1d">{{ t('f1d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="folder" /></div><div class="feature-cell-title" data-i18n="f2t">{{ t('f2t') }}</div><div class="feature-cell-text" data-i18n="f2d">{{ t('f2d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="sparkle" /></div><div class="feature-cell-title" data-i18n="f3t">{{ t('f3t') }}</div><div class="feature-cell-text" data-i18n="f3d">{{ t('f3d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="search" /></div><div class="feature-cell-title" data-i18n="f4t">{{ t('f4t') }}</div><div class="feature-cell-text" data-i18n="f4d">{{ t('f4d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="phone" /></div><div class="feature-cell-title" data-i18n="f5t">{{ t('f5t') }}</div><div class="feature-cell-text" data-i18n="f5d">{{ t('f5d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="dollar" /></div><div class="feature-cell-title" data-i18n="f6t">{{ t('f6t') }}</div><div class="feature-cell-text" data-i18n="f6d">{{ t('f6d') }}</div></div>
         </div>
         <div class="product-cta-row reveal">
           <a rel="nofollow" target="_blank" href="https://t.me/msgboard_bot" class="btn-primary">{{ t('prod_cta1') }} @msgboard_bot →</a>
@@ -420,10 +421,10 @@ useSeoMeta({
           <div class="section-label reveal" data-i18n="trust_label">{{ t('trust_label') }}</div>
           <h2 class="section-title reveal" id="trust-heading">{{ t('trust_title_1') }}<br>{{ t('trust_title_2') }}</h2>
           <ul class="transparency-pledges reveal">
-            <li class="pledge-item"><div class="pledge-check" aria-hidden="true">✓</div><div class="pledge-text"><strong data-i18n="p1t">{{ t('p1t') }}</strong><span data-i18n="p1d">{{ t('p1d') }}</span></div></li>
-            <li class="pledge-item"><div class="pledge-check" aria-hidden="true">✓</div><div class="pledge-text"><strong data-i18n="p2t">{{ t('p2t') }}</strong><span data-i18n="p2d">{{ t('p2d') }}</span></div></li>
-            <li class="pledge-item"><div class="pledge-check" aria-hidden="true">✓</div><div class="pledge-text"><strong data-i18n="p3t">{{ t('p3t') }}</strong><span data-i18n="p3d">{{ t('p3d') }}</span></div></li>
-            <li class="pledge-item"><div class="pledge-check" aria-hidden="true">✓</div><div class="pledge-text"><strong data-i18n="p4t">{{ t('p4t') }}</strong><span data-i18n="p4d">{{ t('p4d') }}</span></div></li>
+            <li class="pledge-item"><div class="pledge-check" aria-hidden="true"><LNavIcon name="check" /></div><div class="pledge-text"><strong data-i18n="p1t">{{ t('p1t') }}</strong><span data-i18n="p1d">{{ t('p1d') }}</span></div></li>
+            <li class="pledge-item"><div class="pledge-check" aria-hidden="true"><LNavIcon name="check" /></div><div class="pledge-text"><strong data-i18n="p2t">{{ t('p2t') }}</strong><span data-i18n="p2d">{{ t('p2d') }}</span></div></li>
+            <li class="pledge-item"><div class="pledge-check" aria-hidden="true"><LNavIcon name="check" /></div><div class="pledge-text"><strong data-i18n="p3t">{{ t('p3t') }}</strong><span data-i18n="p3d">{{ t('p3d') }}</span></div></li>
+            <li class="pledge-item"><div class="pledge-check" aria-hidden="true"><LNavIcon name="check" /></div><div class="pledge-text"><strong data-i18n="p4t">{{ t('p4t') }}</strong><span data-i18n="p4d">{{ t('p4d') }}</span></div></li>
           </ul>
         </div>
         <div class="reveal">
@@ -515,7 +516,8 @@ useSeoMeta({
 /* TRUST BAR */
 .trust-bar{background:var(--cream);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:20px 48px;display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
 .trust-item{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);font-weight:500}
-.trust-icon{width:32px;height:32px;background:#fff;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.trust-icon{width:32px;height:32px;background:#fff;border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--accent);flex-shrink:0}
+.trust-icon svg{width:16px;height:16px}
 
 /* SECTIONS */
 .section{padding:100px 48px;max-width:1160px;margin:0 auto}
@@ -529,7 +531,8 @@ useSeoMeta({
 .about-text p strong{color:var(--ink);font-weight:600}
 .about-values{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:10px}
 .value-card{background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:20px}
-.value-card-icon{font-size:24px;margin-bottom:10px}
+.value-card-icon{width:40px;height:40px;border-radius:10px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.value-card-icon svg{width:20px;height:20px}
 .value-card-title{font-weight:600;font-size:14px;margin-bottom:6px}
 .value-card-text{font-size:13px;color:var(--muted);line-height:1.5}
 .about-stats{display:flex;flex-direction:column;gap:24px}
@@ -549,7 +552,8 @@ useSeoMeta({
 .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:60px}
 .feature-cell{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:32px 28px;transition:background .2s}
 .feature-cell:hover{background:rgba(255,255,255,.07)}
-.feature-cell-icon{font-size:28px;margin-bottom:16px}
+.feature-cell-icon{width:44px;height:44px;border-radius:11px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.feature-cell-icon svg{width:22px;height:22px}
 .feature-cell-title{font-weight:600;font-size:15px;color:var(--paper);margin-bottom:10px}
 .feature-cell-text{font-size:13px;color:rgba(247,244,238,.5);line-height:1.6}
 .product-cta-row{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
@@ -575,7 +579,8 @@ useSeoMeta({
 .transparency-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start}
 .transparency-pledges{list-style:none;display:flex;flex-direction:column;gap:16px;margin-top:36px}
 .pledge-item{display:flex;align-items:flex-start;gap:14px;padding:18px 20px;background:#fff;border:1px solid var(--border);border-radius:10px}
-.pledge-check{width:22px;height:22px;flex-shrink:0;background:var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--paper);font-size:11px;margin-top:1px}
+.pledge-check{width:22px;height:22px;flex-shrink:0;background:var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--paper);margin-top:1px}
+.pledge-check svg{width:11px;height:11px;stroke-width:2.4}
 .pledge-text{font-size:14px;line-height:1.55}
 .pledge-text strong{display:block;font-weight:600;margin-bottom:2px}
 .pledge-text span{color:var(--muted)}
