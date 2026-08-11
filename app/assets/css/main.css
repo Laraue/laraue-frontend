@@ -30,9 +30,5 @@ body{
 }
 
 @media(max-width:1100px){
-    :root{--sidebar-w:52px}
-}
-
-@media(max-width:720px){
     :root{--sidebar-w:0px}
 }

@@ -72,7 +72,7 @@
 .sidebar-divider{height:1px;background:rgba(217,212,201,.6);margin:14px 20px}
 .sidebar-footer{margin-top:auto;padding:0 20px}
 .sidebar-footer p{font-size:11px;color:var(--muted);line-height:1.5;opacity:.7}
-@media(max-width:720px){
+@media(max-width:1100px){
   .sidebar{display:none}
 }
 </style>
