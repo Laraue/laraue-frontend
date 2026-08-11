@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LSection from "~/components/landins/LSection.vue";
+import LNavIcon from "~/components/ui/LNavIcon.vue";
 
 export interface Feature {
   icon: string,
@@ -15,13 +16,19 @@ defineProps<{
   type: 'light' | 'cream' | 'dark'
   features: Feature[],
 }>()
+
+// Icon names (e.g. "board", "mail") render via LNavIcon; anything else (emoji) renders as-is.
+const isIconName = (icon: string) => /^[a-z]+$/.test(icon)
 </script>
 
 <template>
   <LSection class="features" :pre-title="preTitle" :postTitle="postTitle" :title="title" :type="type" :class="type">
     <div class="features-grid">
       <nuxt-link class="feat-cell reveal" :to="feature.link" v-for="feature in features">
-        <div class="feat-icon">{{ feature.icon }}</div>
+        <div class="feat-icon" :class="{ 'feat-icon-svg': isIconName(feature.icon) }">
+          <LNavIcon v-if="isIconName(feature.icon)" :name="feature.icon" />
+          <template v-else>{{ feature.icon }}</template>
+        </div>
         <h3 class="feat-title">{{ feature.title }}</h3>
         <div class="feat-desc">{{ feature.description }}
         </div>
@@ -39,6 +46,8 @@ defineProps<{
 .dark .feat-cell { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08); }
 .dark .feat-cell:hover { background:rgba(255,255,255,.07); }
 .feat-icon{font-size:26px;margin-bottom:14px}
+.feat-icon-svg{width:44px;height:44px;border-radius:11px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.feat-icon-svg :deep(.nav-icon-svg){width:22px;height:22px}
 .feat-title{font-weight:700;font-size:14px;margin-bottom:9px;letter-spacing:-.1px}
 .dark .feat-title{color:#fff;}
 .feat-desc{font-size:13px;line-height:1.6}
