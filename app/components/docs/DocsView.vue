@@ -43,6 +43,14 @@ export interface Article {
         {{ item.count }}
       </span>
     </router-link>
+    <span v-if="blogState.documentationItems.length" class="blog-tab-divider" aria-hidden="true"></span>
+    <router-link :to="localePathFromSegments(item.path)" v-for="item in blogState.documentationItems" active-class="active" class="blog-tab">
+      <span class="blog-tab-icon" v-if="item.icon">{{ item.icon }}</span>
+      {{ item.title }}
+      <span class="blog-tab-count">
+        {{ item.count }}
+      </span>
+    </router-link>
   </div>
   <!-- BLOG BODY -->
   <div class="blog-body">
@@ -79,12 +87,15 @@ export interface Article {
 </template>
 
 <style scoped>
-.blog-tabs{display:flex;align-items:center;gap:0;padding:0 60px;border-bottom:1px solid var(--border);background:var(--paper);position:sticky;top:var(--nav-h);z-index:50;overflow-x:auto}
+.blog-tabs{display:flex;align-items:center;gap:0;padding:0 60px;border-bottom:1px solid var(--border);background:var(--paper);position:sticky;top:var(--nav-h);z-index:50;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+.blog-tabs::-webkit-scrollbar{display:none}
 .blog-tab{padding:14px 18px;font-size:13px;font-weight:600;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-family:var(--sans);white-space:nowrap;transition:color .15s,border-color .15s;text-decoration: none}
 .blog-tab:hover{color:var(--ink)}
 .blog-tab.active{color:var(--ink);border-bottom-color:var(--accent)}
 .blog-tab-count{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--cream);color:var(--muted);font-size:10px;font-weight:700;margin-left:6px;transition:background .15s,color .15s}
 .blog-tab.active .blog-tab-count{background:var(--accent);color:#fff}
+.blog-tab-icon{font-size:13px;margin-right:2px}
+.blog-tab-divider{width:1px;height:18px;background:var(--border);margin:0 8px;flex-shrink:0;align-self:center}
 .blog-body{max-width:1060px;margin:0 auto;padding:44px 60px 80px;display:grid;grid-template-columns:1fr 210px;gap:48px;align-items:start}
 
 .post-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
