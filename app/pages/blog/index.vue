@@ -1,22 +1,36 @@
 <script setup lang="ts">
 
 import DocsView, {type Article} from "../../components/docs/DocsView.vue";
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
 import {useBlogApi} from "~/composables/blogApi";
 
 definePageMeta({
   layout: 'blog',
 })
 
+const PER_PAGE = 16;
+
 const items = ref<ItemListItem[]>([])
+const hasNextPage = ref(false)
+const hasPreviousPage = ref(false)
 const { locale } = useI18n();
 const route = useRoute();
+const router = useRouter();
 
 const path = ["blog"]
 const { getItems } = useBlogApi();
+
+const page = computed(() => Math.max(1, Number(route.query.page) || 1));
+
 const loadPage = async () => {
-  const data = await getItems(locale.value, path, ["article", "project"], route.query.tag as string, 0, 24)
+  const data = await getItems(locale.value, path, ["article", "project"], route.query.tag as string, page.value - 1, PER_PAGE)
   items.value = data.data
+  hasNextPage.value = data.hasNextPage
+  hasPreviousPage.value = data.hasPreviousPage
+}
+
+const goToPage = (newPage: number) => {
+  router.push({ query: { ...route.query, page: newPage === 1 ? undefined : String(newPage) } })
 }
 
 const { t } = useI18n()
@@ -48,6 +62,14 @@ useSeoMeta({
 })
 
 watch(() => route.query.tag, async () => {
+  if (route.query.page) {
+    await router.replace({ query: { ...route.query, page: undefined } })
+    return
+  }
+  await loadPage();
+})
+
+watch(page, async () => {
   await loadPage();
 })
 
@@ -73,7 +95,11 @@ watch(() => route.query.tag, async () => {
     v-if="items"
     :title="title"
     :subTitle="subText"
-    :articles="computedItems"/>
+    :articles="computedItems"
+    :page="page"
+    :has-next-page="hasNextPage"
+    :has-previous-page="hasPreviousPage"
+    @update:page="goToPage"/>
 </template>
 
 <style scoped>

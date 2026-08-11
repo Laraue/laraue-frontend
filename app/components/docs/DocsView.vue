@@ -4,6 +4,7 @@ import LHero from "~/components/ui/LHero.vue";
 import LBlogSidebar from "~/components/docs/LBlogSidebar.vue";
 import ReadTime from "~/components/docs/ReadTime.vue";
 import LContentTypeBadge from "~/components/docs/LContentTypeBadge.vue";
+import LPagination from "~/components/docs/LPagination.vue";
 const { blogState } = useBlogState()
 const { localePathFromSegments } = usePathUtil()
 
@@ -11,8 +12,15 @@ defineProps({
   articles: Array<Article>,
   tags: Array<Tag>,
   title: String,
-  subTitle: String
+  subTitle: String,
+  page: Number,
+  hasNextPage: Boolean,
+  hasPreviousPage: Boolean,
 })
+
+const emit = defineEmits<{
+  (e: 'update:page', page: number): void
+}>()
 
 export interface Article {
   fileName: string;
@@ -57,6 +65,13 @@ export interface Article {
           <span class="post-read-link">Read &#8594;</span>
         </div>
       </nuxt-link>
+      <LPagination
+          v-if="page !== undefined"
+          class="post-grid-pagination"
+          :page="page"
+          :has-next-page="!!hasNextPage"
+          :has-previous-page="!!hasPreviousPage"
+          @update:page="(p) => emit('update:page', p)" />
     </div>
     <LBlogSidebar />
   </div>
@@ -73,6 +88,7 @@ export interface Article {
 .blog-body{max-width:1060px;margin:0 auto;padding:44px 60px 80px;display:grid;grid-template-columns:1fr 210px;gap:48px;align-items:start}
 
 .post-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.post-grid-pagination{grid-column:1/-1}
 
 .post-card{border:1px solid var(--border);border-radius:14px;background:#fff;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s,border-color .2s}
 .post-card:hover{box-shadow:0 8px 32px rgba(15,14,12,.1);transform:translateY(-3px);border-color:var(--ink)}
