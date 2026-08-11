@@ -128,6 +128,19 @@ defineProps<{
       <path d="M5 4.5h6a2 2 0 0 1 2 2V19a1.6 1.6 0 0 0-1.6-1.6H5Z"/>
       <path d="M19 4.5h-6a2 2 0 0 0-2 2V19a1.6 1.6 0 0 1 1.6-1.6H19Z"/>
     </template>
+    <template v-else-if="name === 'question'">
+      <circle cx="12" cy="12" r="8.5"/>
+      <path d="M9.3 9.3a2.7 2.7 0 1 1 4.2 2.2c-.9.6-1.5 1.1-1.5 2.3"/>
+      <circle cx="12" cy="16.7" r="1" fill="currentColor" stroke="none"/>
+    </template>
+    <template v-else-if="name === 'chart'">
+      <path d="M4.5 20V11M10 20V5M15.5 20V14M21 20V8" stroke-linecap="round"/>
+      <path d="M3 20h18" stroke-linecap="round"/>
+    </template>
+    <template v-else-if="name === 'eye'">
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </template>
   </svg>
 </template>
 
