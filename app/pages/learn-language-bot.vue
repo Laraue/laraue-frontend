@@ -2,12 +2,13 @@
 
 import {computed} from "vue";
 import {
-  defineAggregateRating,
   defineOffer,
   defineSoftwareApp,
+  defineBreadcrumb,
   useSchemaOrg
 } from "@unhead/schema-org/vue";
 import LMainContent from "~/components/ui/LMainContent.vue";
+import LNavIcon from "~/components/ui/LNavIcon.vue";
 import LActionButton from "~/components/landins/LActionButton.vue";
 import LPlatformBadge from "~/components/landins/LPlatformBadge.vue";
 import LLandingIntro from "~/components/landins/LLandingIntro.vue";
@@ -53,8 +54,9 @@ const configuration = useRuntimeConfig();
 const imageUrl = configuration.public.imagesBaseAddress + "quiz-mode.jpg";
 useSeoMeta({
   title: computed(() => t('seoTitle')),
-  ogTitle: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),
+  ogTitle: computed(() => t('seoTitle')),
+  ogDescription: computed(() => t('seoDescription')),
   ogImage: imageUrl,
   ogImageWidth: "470",
   ogImageHeight: "611",
@@ -80,13 +82,21 @@ useSchemaOrg([
         description: 'Unlimited Bot usage'
       })
     ],
-  })
+  }),
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_current') },
+    ]
+  }),
 ])
 </script>
 
 <i18n lang="json">
 {
   "en": {
+    "bc_home": "Home",
+    "bc_current": "Vocabulary Bot",
     "seoTitle": "Increase Vocabulary with Flashcards Bot",
     "seoDescription": "The telegram bot that helps to learn top 5k used words of English, Japanese, Russian and French languages",
     "sec_overview": "Overview",
@@ -108,7 +118,7 @@ useSchemaOrg([
     "feat_title": "Powerful learning features",
     "feat_sub": "Proven language learning methods, delivered inside the app you already use every day.",
     "f1t": "Quiz Mode",
-    "f1d": "Interactive multiple-choice quizzes that make vocabulary stick. Immediate feedback, XP rewards, and streak tracking to keep you motivated.",
+    "f1d": "Interactive multiple-choice quizzes that make vocabulary stick. Immediate feedback and streak tracking to keep you motivated.",
     "f2t": "CEFR Levels",
     "f2d": "Words organized by A1 through C2 proficiency levels. Start where you are, progress at your own pace — no guesswork about difficulty.",
     "f3t": "Progress Tracking",
@@ -127,7 +137,7 @@ useSchemaOrg([
     "step2t": "Pick your language",
     "step2d": "Choose from 7 language pairs and set your CEFR level. Change anytime from settings.",
     "step3t": "Start the quiz",
-    "step3d": "Answer questions, earn XP, build your streak. Come back daily to keep improving.",
+    "step3d": "Answer questions and build your streak. Come back daily to keep improving.",
     "lang_label": "Supported pairs",
     "lang_title": "7 language pairs",
     "lang_sub": "All the most popular languages, all English-based. More pairs coming soon.",
@@ -144,7 +154,7 @@ useSchemaOrg([
     "quiz_desc": "The fastest way to build vocabulary. You see a word, pick the right translation from four options, and get immediate feedback. Wrong answers are revisited automatically.",
     "qf1": "Multiple-choice format proven to improve retention",
     "qf2": "Immediate correct/wrong feedback with explanation",
-    "qf3": "XP system and streak counter to build habit",
+    "qf3": "Streak counter to build the daily habit",
     "qf4": "Adaptive — revisits words you get wrong more often",
     "qf5": "Stats updated after every session",
     "oss_label": "Transparent by design",
@@ -156,6 +166,8 @@ useSchemaOrg([
     "cta_sub": "Open the bot, pick your language, and start your first quiz in under 60 seconds."
   },
   "ru": {
+    "bc_home": "Главная",
+    "bc_current": "Бот для изучения языков",
     "seoTitle": "Бот для пополнения словарного запаса",
     "seoDescription": "Бот позволяет выучить самые часто используемые слова английского, русского, испанского и других языков",
     "sec_overview": "Обзор",
@@ -196,7 +208,7 @@ useSchemaOrg([
     "step2t": "Выберите язык",
     "step2d": "Выберите языковую пару, уровень CEFR.",
     "step3t": "Начните квиз",
-    "step3d": "Отвечайте на вопросы, получайте опыт, набирайте серии правильных ответов.",
+    "step3d": "Отвечайте на вопросы и набирайте серии правильных ответов.",
     "lang_label": "Поддерживаемые пары",
     "lang_title": "7 языковых пар",
     "lang_sub": "Самые популярные языковые пары. Постоянно добавляются новые.",
@@ -213,7 +225,7 @@ useSchemaOrg([
     "quiz_desc": "Самый быстрый способ пополнить словарный запас. Выбираете перевод из восьми вариантов для предложенного слова. Неправильные ответы повторяются автоматически.",
     "qf1": "Формат с выбором ответа, проверенный практикой",
     "qf2": "Моментальная обратная связь с объяснением",
-    "qf3": "Система опыта и счётчик правильных ответов подряд для формирования привычки",
+    "qf3": "Счётчик серий правильных ответов для формирования привычки",
     "qf4": "Адаптивность — слова с ошибками повторяются чаще",
     "qf5": "Статистика обновляется после каждой сессии",
     "oss_label": "Абсолютная прозрачность",
@@ -259,7 +271,7 @@ useSchemaOrg([
         <div class="phone-mockup">
           <div class="phone-notch"><div class="phone-notch-bar"></div></div>
           <div class="phone-status">
-            <div class="phone-status-avatar">&#129302;</div>
+            <div class="phone-status-avatar"><LNavIcon name="bot" /></div>
             <div>
               <div class="phone-status-name">Vocabulary Bot</div>
               <div class="phone-status-sub">@learn_lang_bot</div>
@@ -288,7 +300,7 @@ useSchemaOrg([
             </div>
             <div class="bubble bot">
               &#127881; Correct! Streak: <strong style="color:#6edd9a">5</strong><br>
-              <span style="opacity:.6;font-size:11px">+10 XP &#183; Next word in 3s</span>
+              <span style="opacity:.6;font-size:11px">Next word in 3s</span>
               <div class="bubble-time">12:04</div>
             </div>
           </div>
@@ -325,32 +337,32 @@ useSchemaOrg([
       :features="[
         {
           title: t('f1t'),
-          icon: '&#128203;',
+          icon: 'question',
           description: t('f1d')
         },
         {
           title: t('f2t'),
-          icon: '&#128218;',
+          icon: 'book',
           description: t('f2d')
         },
         {
           title: t('f3t'),
-          icon: '&#128202;',
+          icon: 'chart',
           description: t('f3d')
         },
         {
           title: t('f4t'),
-          icon: '&#128065;',
+          icon: 'eye',
           description: t('f4d')
         },
         {
           title: t('f5t'),
-          icon: '&#127775;',
+          icon: 'sparkle',
           description: t('f5d')
         },
         {
           title: t('f6t'),
-          icon: '&#128241;',
+          icon: 'phone',
           description: t('f6d')
         }
       ]" />
@@ -407,8 +419,8 @@ useSchemaOrg([
         </div>
         <div class="reveal">
           <div class="oss-card">
-            <div class="oss-icon">&#11088;</div>
-            <div class="oss-title">Laraue.Apps.LearnLanguage</div>
+            <div class="oss-icon"><LNavIcon name="code" /></div>
+            <h3 class="oss-title">Laraue.Apps.LearnLanguage</h3>
             <p class="oss-desc" data-i18n="oss_card_desc">{{ t('oss_card_desc') }}</p>
             <LActionButton :title="t('view_github')" link="https://github.com/win7user10/Laraue.Apps.LearnLanguage" type="github"/>
           </div>
@@ -444,7 +456,8 @@ useSchemaOrg([
   padding:12px 16px;
   display:flex;align-items:center;gap:10px;
 }
-.phone-status-avatar{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.phone-status-avatar{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.phone-status-avatar :deep(.nav-icon-svg){width:18px;height:18px}
 .phone-status-name{font-size:13px;font-weight:700;color:#fff}
 .phone-status-sub{font-size:10px;color:rgba(255,255,255,.65)}
 .phone-status-dot{width:7px;height:7px;border-radius:50%;background:#6edd9a;margin-left:auto;box-shadow:0 0 0 2px rgba(110,221,154,.25)}
@@ -510,7 +523,8 @@ useSchemaOrg([
 .oss{padding:80px 60px;border-bottom:1px solid var(--border)}
 .oss-inner{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
 .oss-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:32px;box-shadow:0 4px 20px rgba(15,14,12,.06)}
-.oss-icon{font-size:40px;margin-bottom:16px}
+.oss-icon{width:44px;height:44px;border-radius:11px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.oss-icon :deep(.nav-icon-svg){width:22px;height:22px}
 .oss-title{font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:10px;letter-spacing:-.2px}
 .oss-desc{font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:24px;font-weight:300}
 .oss-link svg{width:15px;height:15px;fill:currentColor;flex-shrink:0}

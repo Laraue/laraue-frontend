@@ -22,7 +22,7 @@
 
 <style scoped>
 /* ══ CTA ══ */
-.cta-section{padding:100px 60px;background:var(--ink);position:relative;overflow:hidden;text-align:center}
+.cta-section{padding:100px 60px;background:linear-gradient(180deg, var(--ink) 0%, #050403 100%);position:relative;overflow:hidden;text-align:center}
 .cta-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px}
 .cta-section::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(200,75,47,.18) 0%,transparent 70%);pointer-events:none}
 .cta-inner{position:relative;z-index:1;max-width:640px;margin:0 auto}

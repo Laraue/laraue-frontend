@@ -9,10 +9,11 @@ const imageUrl = config.public.imagesBaseAddress + "note-board-bot-app.jpg";
 import {
   defineOffer,
   defineSoftwareApp,
+  defineBreadcrumb,
   useSchemaOrg,
-  defineQuestion,
 } from '@unhead/schema-org/vue'
 import LMainContent from "~/components/ui/LMainContent.vue";
+import LNavIcon from "~/components/ui/LNavIcon.vue";
 import LLandingIntro from "~/components/landins/LLandingIntro.vue";
 import LActionButton from "~/components/landins/LActionButton.vue";
 import LSection from "~/components/landins/LSection.vue";
@@ -36,10 +37,21 @@ useSchemaOrg([
       })
     ]
   }),
-  defineQuestion({ name: t('faq1q'), acceptedAnswer: t('faq1a') }),
-  defineQuestion({ name: t('faq2q'), acceptedAnswer: t('faq2a') }),
-  defineQuestion({ name: t('faq3q'), acceptedAnswer: t('faq3a') }),
-  defineQuestion({ name: t('faq4q'), acceptedAnswer: t('faq4a') }),
+  {
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: t('faq1q'), acceptedAnswer: { '@type': 'Answer', text: t('faq1a') } },
+      { '@type': 'Question', name: t('faq2q'), acceptedAnswer: { '@type': 'Answer', text: t('faq2a') } },
+      { '@type': 'Question', name: t('faq3q'), acceptedAnswer: { '@type': 'Answer', text: t('faq3a') } },
+      { '@type': 'Question', name: t('faq4q'), acceptedAnswer: { '@type': 'Answer', text: t('faq4a') } },
+    ]
+  },
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_current') },
+    ]
+  }),
 ])
 
 useSeoMeta({
@@ -63,6 +75,8 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
+    "bc_home": "Home",
+    "bc_current": "Laraue Boards",
     "task_label": "Task",
     "resource_label": "Resource",
     "idea_label": "Idea",
@@ -200,6 +214,8 @@ useSeoMeta({
     "project_description": "More details"
   },
   "ru": {
+    "bc_home": "Главная",
+    "bc_current": "Laraue Boards",
     "task_label": "Задача",
     "resource_label": "Ресурс",
     "idea_label": "Идея",
@@ -370,8 +386,10 @@ useSeoMeta({
       <template #actions>
         <LActionButton :title="t('hero_cta_web')" link="https://boards.laraue.com/" type="site" />
         <LActionButton title="@msgboard_bot" link="https://t.me/msgboard_bot" type="telegram" />
-        <LActionButton :title="t('project_description')" :link="localePath('/blog/projects/boards')" type="github" />
-        <LActionButton :title="t('documentation')" :link="localePath('/blog/documentation/laraue-boards')" type="github" />
+        <div class="hero-quick-links">
+          <a :href="localePath('/blog/documentation/laraue-boards')">{{ t('documentation') }} &#8594;</a>
+          <a :href="localePath('/blog/projects/boards')">{{ t('project_description') }} &#8594;</a>
+        </div>
       </template>
       <template #visual>
         <div class="hero-visual">
@@ -408,7 +426,7 @@ useSeoMeta({
     <LSection :pre-title="t('uc_label')" :title="t('uc_title')" :post-title="t('uc_sub')" type="cream">
       <div class="use-cases-grid">
         <div class="use-case-card personal reveal">
-          <div class="use-case-icon">&#129504;</div>
+          <div class="use-case-icon"><LNavIcon name="brain" /></div>
           <div class="use-case-title">{{ t('uc_personal_title') }}</div>
           <p class="use-case-desc">{{ t('uc_personal_desc') }}</p>
           <ul class="use-case-list">
@@ -420,7 +438,7 @@ useSeoMeta({
           <a href="https://t.me/msgboard_bot" class="use-case-link" target="_blank" rel="noopener">{{ t('uc_p_cta') }} &#8594;</a>
         </div>
         <div class="use-case-card teams reveal">
-          <div class="use-case-icon">&#128101;</div>
+          <div class="use-case-icon"><LNavIcon name="partners" /></div>
           <div class="use-case-title">{{ t('uc_teams_title') }}</div>
           <p class="use-case-desc">{{ t('uc_teams_desc') }}</p>
           <ul class="use-case-list">
@@ -439,7 +457,7 @@ useSeoMeta({
       <div class="platforms-grid">
         <div class="platform-card reveal">
           <div class="platform-card-header">
-            <div class="platform-card-icon web">&#127760;</div>
+            <div class="platform-card-icon web"><LNavIcon name="globe" /></div>
             <div>
               <div class="platform-card-name">{{ t('web_name') }}</div>
               <div class="platform-card-tag">boards.laraue.com</div>
@@ -457,7 +475,7 @@ useSeoMeta({
 
         <div class="platform-card reveal">
           <div class="platform-card-header">
-            <div class="platform-card-icon tg">&#128172;</div>
+            <div class="platform-card-icon tg"><LNavIcon name="chat" /></div>
             <div>
               <div class="platform-card-name">{{ t('tg_name') }}</div>
               <div class="platform-card-tag">@msgboard_bot</div>
@@ -485,52 +503,52 @@ useSeoMeta({
         :features="[
       {
         title: t('f1t'),
-        icon: '&#128203;',
+        icon: 'board',
         description: t('f1d'),
         link: localePath('/blog/documentation/laraue-boards/getting-started/quick-start')
       },
       {
         title: t('f2t'),
-        icon: '&#128239;',
+        icon: 'mail',
         description: t('f2d'),
         link: localePath('/blog/documentation/laraue-boards/working-alone/telegram-messages')
       },
       {
         title: t('f3t'),
-        icon: '&#128247;',
+        icon: 'camera',
         description: t('f3d')
       },
       {
         title: t('f4t'),
-        icon: '&#9997;',
+        icon: 'edit',
         description: t('f4d')
       },
       {
         title: t('f5t'),
-        icon: '&#127775;',
+        icon: 'tag',
         description: t('f5d')
       },
       {
         title: t('f6t'),
-        icon: '&#127991;',
+        icon: 'gear',
         description: t('f6d'),
         link: localePath('/blog/documentation/laraue-boards/features/attributes')
       },
       {
         title: t('f7t'),
-        icon: '&#128101;',
+        icon: 'partners',
         description: t('f7d'),
         link: localePath('/blog/documentation/laraue-boards/concepts/organizations')
       },
       {
         title: t('f8t'),
-        icon: '&#128274;',
+        icon: 'lock',
         description: t('f8d'),
         link: localePath('/blog/documentation/laraue-boards/getting-started/authorization')
       },
       {
         title: t('f9t'),
-        icon: '&#128187;',
+        icon: 'code',
         description: t('f9d'),
         link: 'https://github.com/win7user10/Laraue.Apps.Boards'
       }
@@ -563,7 +581,7 @@ useSeoMeta({
     <LSection :pre-title="t('os_label')" :title="t('os_title')" :post-title="t('os_sub')" type="cream">
       <div class="use-cases-grid">
         <div class="use-case-card personal reveal">
-          <div class="use-case-icon">&#128187;</div>
+          <div class="use-case-icon"><LNavIcon name="code" /></div>
           <div class="use-case-title">{{ t('os_code_title') }}</div>
           <p class="use-case-desc">{{ t('os_code_desc') }}</p>
           <ul class="use-case-list">
@@ -573,7 +591,7 @@ useSeoMeta({
           <a href="https://github.com/win7user10/Laraue.Apps.Boards" class="use-case-link" target="_blank" rel="noopener">{{ t('os_code_cta') }} &#8594;</a>
         </div>
         <div class="use-case-card teams reveal">
-          <div class="use-case-icon">&#128214;</div>
+          <div class="use-case-icon"><LNavIcon name="book" /></div>
           <div class="use-case-title">{{ t('os_devlog_title') }}</div>
           <p class="use-case-desc">{{ t('os_devlog_desc') }}</p>
           <a :href="localePath('/blog/articles/building-jira-alternative-solo-why-and-repositories')" class="use-case-link">{{ t('os_devlog_cta') }} &#8594;</a>
@@ -621,6 +639,11 @@ section {
   --msg-blue:#2d7dd2; --msg-blue-light:#e8f2fc;
   --msg-green:#2d8a55; --msg-green-light:#e6f7ee;
 }
+
+/* ══ HERO QUICK LINKS ══ */
+.hero-quick-links{flex-basis:100%;display:flex;gap:20px;flex-wrap:wrap;margin-top:6px}
+.hero-quick-links a{font-size:13px;font-weight:600;color:rgba(247,244,238,.65);text-decoration:underline;text-decoration-color:rgba(247,244,238,.3);text-underline-offset:3px;transition:color .2s,text-decoration-color .2s}
+.hero-quick-links a:hover{color:#fff;text-decoration-color:rgba(255,255,255,.6)}
 
 /* ══ SHARED UTILS ══ */
 .btn-secondary{background:transparent;color:var(--ink);padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;border:1.5px solid var(--border);display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,background .2s,transform .15s}
@@ -677,7 +700,10 @@ section {
 .use-case-card.personal::before{background:linear-gradient(90deg,var(--msg-blue),#6ab0f0)}
 .use-case-card.teams::before{background:linear-gradient(90deg,var(--accent),#e0572e)}
 
-.use-case-icon{font-size:36px;margin-bottom:16px}
+.use-case-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.use-case-card.personal .use-case-icon{background:var(--msg-blue-light);color:var(--msg-blue)}
+.use-case-card.teams .use-case-icon{background:var(--accent-light);color:var(--accent)}
+.use-case-icon :deep(.nav-icon-svg){width:22px;height:22px}
 .use-case-title{font-family:var(--serif);font-size:22px;font-weight:700;letter-spacing:-.2px;margin-bottom:10px}
 .use-case-desc{font-size:15px;color:var(--muted);line-height:1.65;font-weight:300;margin-bottom:24px}
 .use-case-list{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:28px}
@@ -702,9 +728,10 @@ section {
 .platform-card:hover{box-shadow:0 8px 32px rgba(15,14,12,.09);transform:translateY(-3px)}
 
 .platform-card-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
-.platform-card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.platform-card-icon.web{background:var(--msg-blue-light)}
-.platform-card-icon.tg{background:#e0f4fd}
+.platform-card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.platform-card-icon.web{background:var(--msg-blue-light);color:var(--msg-blue)}
+.platform-card-icon.tg{background:#e0f4fd;color:#229ed9}
+.platform-card-icon :deep(.nav-icon-svg){width:24px;height:24px}
 .platform-card-name{font-family:var(--serif);font-size:18px;font-weight:700;letter-spacing:-.2px}
 .platform-card-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:2px}
 .platform-card-desc{font-size:15px;color:var(--muted);line-height:1.65;font-weight:300;flex:1;margin-bottom:24px}

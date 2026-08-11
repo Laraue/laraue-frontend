@@ -101,6 +101,50 @@ defineProps<{
     <template v-else-if="name === 'check'">
       <path d="M4.5 12.5l4.5 4.5L19.5 6.5"/>
     </template>
+    <template v-else-if="name === 'camera'">
+      <rect x="3" y="7" width="18" height="13" rx="2.5"/>
+      <path d="M8 7l1.4-2.5h5.2L16 7"/>
+      <circle cx="12" cy="13.5" r="3.5"/>
+    </template>
+    <template v-else-if="name === 'edit'">
+      <path d="M4 20l.9-4.2L15.6 5 19 8.4 8.3 19.1 4 20Z"/>
+      <path d="M13.3 6.5 17.5 10.7"/>
+    </template>
+    <template v-else-if="name === 'brain'">
+      <path d="M9.5 4.5A2.8 2.8 0 0 0 7 8.2 2.8 2.8 0 0 0 5.5 13a2.8 2.8 0 0 0 3 4.7"/>
+      <path d="M14.5 4.5a2.8 2.8 0 0 1 2.5 3.7A2.8 2.8 0 0 1 18.5 13a2.8 2.8 0 0 1-3 4.7"/>
+      <path d="M9.5 4.5v14M14.5 4.5v14"/>
+    </template>
+    <template v-else-if="name === 'globe'">
+      <circle cx="12" cy="12" r="8.5"/>
+      <path d="M3.5 12h17"/>
+      <path d="M12 3.5c2.4 2.4 3.7 5.3 3.7 8.5s-1.3 6.1-3.7 8.5c-2.4-2.4-3.7-5.3-3.7-8.5S9.6 5.9 12 3.5Z"/>
+    </template>
+    <template v-else-if="name === 'code'">
+      <path d="M8.5 8 4 12l4.5 4M15.5 8 20 12l-4.5 4"/>
+      <path d="M13.8 4.5 10.2 19.5"/>
+    </template>
+    <template v-else-if="name === 'book'">
+      <path d="M5 4.5h6a2 2 0 0 1 2 2V19a1.6 1.6 0 0 0-1.6-1.6H5Z"/>
+      <path d="M19 4.5h-6a2 2 0 0 0-2 2V19a1.6 1.6 0 0 1 1.6-1.6H19Z"/>
+    </template>
+    <template v-else-if="name === 'question'">
+      <circle cx="12" cy="12" r="8.5"/>
+      <path d="M9.3 9.3a2.7 2.7 0 1 1 4.2 2.2c-.9.6-1.5 1.1-1.5 2.3"/>
+      <circle cx="12" cy="16.7" r="1" fill="currentColor" stroke="none"/>
+    </template>
+    <template v-else-if="name === 'chart'">
+      <path d="M4.5 20V11M10 20V5M15.5 20V14M21 20V8" stroke-linecap="round"/>
+      <path d="M3 20h18" stroke-linecap="round"/>
+    </template>
+    <template v-else-if="name === 'eye'">
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </template>
+    <template v-else-if="name === 'table'">
+      <rect x="3.5" y="4.5" width="17" height="15" rx="2"/>
+      <path d="M3.5 10h17M3.5 15h17M9.5 4.5v15M15 4.5v15"/>
+    </template>
   </svg>
 </template>
 

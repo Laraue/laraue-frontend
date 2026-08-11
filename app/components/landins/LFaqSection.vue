@@ -5,7 +5,9 @@ interface FaqItem {
   answer: string;
 }
 defineProps({
-  items: Array<FaqItem>
+  items: Array<FaqItem>,
+  preTitle: { type: String, default: 'Questions' },
+  title: { type: String, default: 'Frequently Asked Questions' },
 })
 
 const opened = ref<number[]>([]);
@@ -21,8 +23,8 @@ const toggleFaq = (index: number) => {
 <template>
   <LSection
     type="light"
-    pre-title="Questions"
-    title="Frequently Asked Questions">
+    :pre-title="preTitle"
+    :title="title">
     <div class="faq-list">
       <div v-for="(item, i) in items" class="faq-item" :class="{open: opened.includes(i)}">
         <button class="faq-btn" @click="toggleFaq(i)">
