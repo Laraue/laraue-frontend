@@ -22,7 +22,7 @@ defineProps<{
     <div class="features-grid">
       <nuxt-link class="feat-cell reveal" :to="feature.link" v-for="feature in features">
         <div class="feat-icon">{{ feature.icon }}</div>
-        <div class="feat-title">{{ feature.title }}</div>
+        <h3 class="feat-title">{{ feature.title }}</h3>
         <div class="feat-desc">{{ feature.description }}
         </div>
       </nuxt-link>

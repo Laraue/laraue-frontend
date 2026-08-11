@@ -9,8 +9,8 @@ const imageUrl = config.public.imagesBaseAddress + "note-board-bot-app.jpg";
 import {
   defineOffer,
   defineSoftwareApp,
+  defineBreadcrumb,
   useSchemaOrg,
-  defineQuestion,
 } from '@unhead/schema-org/vue'
 import LMainContent from "~/components/ui/LMainContent.vue";
 import LLandingIntro from "~/components/landins/LLandingIntro.vue";
@@ -36,10 +36,21 @@ useSchemaOrg([
       })
     ]
   }),
-  defineQuestion({ name: t('faq1q'), acceptedAnswer: t('faq1a') }),
-  defineQuestion({ name: t('faq2q'), acceptedAnswer: t('faq2a') }),
-  defineQuestion({ name: t('faq3q'), acceptedAnswer: t('faq3a') }),
-  defineQuestion({ name: t('faq4q'), acceptedAnswer: t('faq4a') }),
+  {
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: t('faq1q'), acceptedAnswer: { '@type': 'Answer', text: t('faq1a') } },
+      { '@type': 'Question', name: t('faq2q'), acceptedAnswer: { '@type': 'Answer', text: t('faq2a') } },
+      { '@type': 'Question', name: t('faq3q'), acceptedAnswer: { '@type': 'Answer', text: t('faq3a') } },
+      { '@type': 'Question', name: t('faq4q'), acceptedAnswer: { '@type': 'Answer', text: t('faq4a') } },
+    ]
+  },
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_current') },
+    ]
+  }),
 ])
 
 useSeoMeta({
@@ -63,6 +74,8 @@ useSeoMeta({
 <i18n lang="json">
 {
   "en": {
+    "bc_home": "Home",
+    "bc_current": "Laraue Boards",
     "task_label": "Task",
     "resource_label": "Resource",
     "idea_label": "Idea",
@@ -200,6 +213,8 @@ useSeoMeta({
     "project_description": "More details"
   },
   "ru": {
+    "bc_home": "Главная",
+    "bc_current": "Laraue Boards",
     "task_label": "Задача",
     "resource_label": "Ресурс",
     "idea_label": "Идея",

@@ -23,7 +23,7 @@ defineProps<{
           <div class="how-step-num">{{ i + 1 }}</div>
           <div class="how-step-icon" v-if="step.icon">{{ step.icon }}</div>
           <div>
-            <div class="how-step-title">{{ step.title }}</div>
+            <h3 class="how-step-title">{{ step.title }}</h3>
             <div class="how-step-desc">{{ step.description }}</div>
           </div>
         </div>
