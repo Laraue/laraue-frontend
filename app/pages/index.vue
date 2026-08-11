@@ -1,17 +1,44 @@
 <script setup lang="ts">
 
+import { defineOrganization, defineWebSite, useSchemaOrg } from '@unhead/schema-org/vue'
 import LMainContent from "~/components/ui/LMainContent.vue";
 import LNavIcon from "~/components/ui/LNavIcon.vue";
 
 const { setLocale, t } = useI18n()
 const localPath = useLocalePath();
+const config = useRuntimeConfig();
+const imageUrl = config.public.imagesBaseAddress + "note-board-bot-app.jpg";
 
 useSeoMeta({
   title: computed(() => t('seo_title')),
-  ogTitle: computed(() => t('seo_title')),
   description: computed(() => t('seo_description')),
+  ogTitle: computed(() => t('seo_title')),
+  ogDescription: computed(() => t('seo_description')),
+  ogImage: imageUrl,
+  ogImageWidth: "891",
+  ogImageHeight: "862",
+  ogImageAlt: computed(() => t('seo_title')),
   ogType: "website",
+  twitterCard: "summary_large_image",
+  twitterTitle: computed(() => t('seo_title')),
+  twitterDescription: computed(() => t('seo_description')),
+  twitterImage: imageUrl,
+  twitterImageAlt: computed(() => t('seo_title')),
 })
+
+useSchemaOrg([
+  defineOrganization({
+    name: 'Laraue Software',
+    logo: imageUrl,
+    sameAs: [
+      'https://github.com/win7user10',
+      'https://t.me/win7user10',
+    ],
+  }),
+  defineWebSite({
+    name: computed(() => t('seo_title')),
+  }),
+])
 
 </script>
 
@@ -268,10 +295,10 @@ useSeoMeta({
             <p class="reveal" data-i18n="about_p1"><strong>Laraue Software</strong> {{ t('about_p1') }}</p>
             <p class="reveal" data-i18n="about_p2">{{ t('about_p2') }} <strong>{{ t('about_p3') }}</strong> {{ t('about_p4') }}</p>
             <div class="about-values reveal">
-              <div class="value-card"><div class="value-card-icon"><LNavIcon name="gear" /></div><div class="value-card-title" data-i18n="v1t">{{ t('v1t') }}</div><div class="value-card-text" data-i18n="v1d">{{ t('v1d') }}</div></div>
-              <div class="value-card"><div class="value-card-icon"><LNavIcon name="partners" /></div><div class="value-card-title" data-i18n="v2t">{{ t('v2t') }}</div><div class="value-card-text" data-i18n="v2d">{{ t('v2d') }}</div></div>
-              <div class="value-card"><div class="value-card-icon"><LNavIcon name="search" /></div><div class="value-card-title" data-i18n="v3t">{{ t('v3t') }}</div><div class="value-card-text" data-i18n="v3d">{{ t('v3d') }}</div></div>
-              <div class="value-card"><div class="value-card-icon"><LNavIcon name="leaf" /></div><div class="value-card-title" data-i18n="v4t">{{ t('v4t') }}</div><div class="value-card-text" data-i18n="v4d">{{ t('v4d') }}</div></div>
+              <div class="value-card"><div class="value-card-icon"><LNavIcon name="gear" /></div><h3 class="value-card-title" data-i18n="v1t">{{ t('v1t') }}</h3><div class="value-card-text" data-i18n="v1d">{{ t('v1d') }}</div></div>
+              <div class="value-card"><div class="value-card-icon"><LNavIcon name="partners" /></div><h3 class="value-card-title" data-i18n="v2t">{{ t('v2t') }}</h3><div class="value-card-text" data-i18n="v2d">{{ t('v2d') }}</div></div>
+              <div class="value-card"><div class="value-card-icon"><LNavIcon name="search" /></div><h3 class="value-card-title" data-i18n="v3t">{{ t('v3t') }}</h3><div class="value-card-text" data-i18n="v3d">{{ t('v3d') }}</div></div>
+              <div class="value-card"><div class="value-card-icon"><LNavIcon name="leaf" /></div><h3 class="value-card-title" data-i18n="v4t">{{ t('v4t') }}</h3><div class="value-card-text" data-i18n="v4d">{{ t('v4d') }}</div></div>
             </div>
           </div>
           <div class="about-stats reveal">
@@ -290,12 +317,12 @@ useSeoMeta({
         <h2 class="section-title reveal" id="product-heading">Laraue Boards</h2>
         <p class="product-section-sub reveal" data-i18n="prod_sub">{{ t('prod_sub') }}</p>
         <div class="features-grid reveal">
-          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="mail" /></div><div class="feature-cell-title" data-i18n="f1t">{{ t('f1t') }}</div><div class="feature-cell-text" data-i18n="f1d">{{ t('f1d') }}</div></div>
-          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="folder" /></div><div class="feature-cell-title" data-i18n="f2t">{{ t('f2t') }}</div><div class="feature-cell-text" data-i18n="f2d">{{ t('f2d') }}</div></div>
-          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="sparkle" /></div><div class="feature-cell-title" data-i18n="f3t">{{ t('f3t') }}</div><div class="feature-cell-text" data-i18n="f3d">{{ t('f3d') }}</div></div>
-          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="search" /></div><div class="feature-cell-title" data-i18n="f4t">{{ t('f4t') }}</div><div class="feature-cell-text" data-i18n="f4d">{{ t('f4d') }}</div></div>
-          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="phone" /></div><div class="feature-cell-title" data-i18n="f5t">{{ t('f5t') }}</div><div class="feature-cell-text" data-i18n="f5d">{{ t('f5d') }}</div></div>
-          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="dollar" /></div><div class="feature-cell-title" data-i18n="f6t">{{ t('f6t') }}</div><div class="feature-cell-text" data-i18n="f6d">{{ t('f6d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="mail" /></div><h3 class="feature-cell-title" data-i18n="f1t">{{ t('f1t') }}</h3><div class="feature-cell-text" data-i18n="f1d">{{ t('f1d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="folder" /></div><h3 class="feature-cell-title" data-i18n="f2t">{{ t('f2t') }}</h3><div class="feature-cell-text" data-i18n="f2d">{{ t('f2d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="sparkle" /></div><h3 class="feature-cell-title" data-i18n="f3t">{{ t('f3t') }}</h3><div class="feature-cell-text" data-i18n="f3d">{{ t('f3d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="search" /></div><h3 class="feature-cell-title" data-i18n="f4t">{{ t('f4t') }}</h3><div class="feature-cell-text" data-i18n="f4d">{{ t('f4d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="phone" /></div><h3 class="feature-cell-title" data-i18n="f5t">{{ t('f5t') }}</h3><div class="feature-cell-text" data-i18n="f5d">{{ t('f5d') }}</div></div>
+          <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="dollar" /></div><h3 class="feature-cell-title" data-i18n="f6t">{{ t('f6t') }}</h3><div class="feature-cell-text" data-i18n="f6d">{{ t('f6d') }}</div></div>
         </div>
         <div class="product-cta-row reveal">
           <a rel="nofollow" target="_blank" href="https://t.me/msgboard_bot" class="btn-primary">{{ t('prod_cta1') }} @msgboard_bot →</a>
@@ -322,7 +349,7 @@ useSeoMeta({
               <rect x="36" y="31" width="2" height="8" rx="1" fill="#e0572e"/>
             </svg>
           </div>
-          <div class="tool-card-name" data-i18n="tool1n">{{ t('tool1n') }}</div>
+          <h3 class="tool-card-name" data-i18n="tool1n">{{ t('tool1n') }}</h3>
           <div class="tool-card-desc" data-i18n="tool1d">{{ t('tool1d') }}</div>
           <div class="tool-card-arrow" data-i18n="try_it">{{ t('try_it') }}</div>
         </a>
@@ -341,7 +368,7 @@ useSeoMeta({
               <path d="M36 10v4M34 12h4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
             </svg>
           </div>
-          <div class="tool-card-name" data-i18n="tool2n">{{ t('tool2n') }}</div>
+          <h3 class="tool-card-name" data-i18n="tool2n">{{ t('tool2n') }}</h3>
           <div class="tool-card-desc" data-i18n="tool2d">{{ t('tool2d') }}</div>
           <div class="tool-card-arrow" data-i18n="try_it">{{ t('try_it') }}</div>
         </a>
@@ -358,7 +385,7 @@ useSeoMeta({
               <path d="M30 20 Q38 20 38 27 Q38 32 32 33 L34 36 L28 33 Q24 32 24 27" stroke="#4a9b56" stroke-width="1.5" fill="none" stroke-linejoin="round"/>
             </svg>
           </div>
-          <div class="tool-card-name" data-i18n="tool3n">{{ t('tool3n') }}</div>
+          <h3 class="tool-card-name" data-i18n="tool3n">{{ t('tool3n') }}</h3>
           <div class="tool-card-desc" data-i18n="tool3d">{{ t('tool3d') }}</div>
           <div class="tool-card-arrow" data-i18n="try_it">{{ t('try_it') }}</div>
         </a>
@@ -377,7 +404,7 @@ useSeoMeta({
               <circle cx="27" cy="29" r="5" stroke="#f7f4ee" stroke-width="2" fill="none"/>
             </svg>
           </div>
-          <div class="tool-card-name" data-i18n="tool4n">{{ t('tool4n') }}</div>
+          <h3 class="tool-card-name" data-i18n="tool4n">{{ t('tool4n') }}</h3>
           <div class="tool-card-desc" data-i18n="tool4d">{{ t('tool4d') }}</div>
           <div class="tool-card-arrow" data-i18n="try_it">{{ t('try_it') }}</div>
         </a>
@@ -394,7 +421,7 @@ useSeoMeta({
               <path d="M28 30 L36 30" stroke="#e0572e" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
-          <div class="tool-card-name" data-i18n="tool5n">{{ t('tool5n') }}</div>
+          <h3 class="tool-card-name" data-i18n="tool5n">{{ t('tool5n') }}</h3>
           <div class="tool-card-desc" data-i18n="tool5d">{{ t('tool5d') }}.</div>
           <div class="tool-card-arrow" data-i18n="try_it">{{ t('try_it') }}</div>
         </a>
@@ -406,7 +433,7 @@ useSeoMeta({
               <path fill-rule="evenodd" clip-rule="evenodd" d="M24 8C15.163 8 8 15.163 8 24c0 7.073 4.584 13.07 10.944 15.19.8.148 1.092-.347 1.092-.77 0-.38-.014-1.386-.021-2.72-4.449.966-5.389-2.144-5.389-2.144-.727-1.847-1.775-2.338-1.775-2.338-1.451-.993.11-.973.11-.973 1.604.113 2.449 1.647 2.449 1.647 1.426 2.444 3.741 1.737 4.653 1.328.145-1.033.558-1.737 1.015-2.136-3.553-.404-7.288-1.776-7.288-7.904 0-1.746.623-3.172 1.645-4.29-.165-.406-.713-2.031.157-4.234 0 0 1.341-.43 4.396 1.638A15.3 15.3 0 0124 14.01c1.36.007 2.729.183 4.008.538 3.053-2.067 4.392-1.638 4.392-1.638.872 2.203.324 3.828.159 4.234 1.024 1.118 1.643 2.544 1.643 4.29 0 6.143-3.741 7.495-7.304 7.89.575.494 1.086 1.47 1.086 2.963 0 2.139-.02 3.862-.02 4.387 0 .428.288.928 1.1.77C35.42 37.066 40 31.072 40 24c0-8.837-7.163-16-16-16z" fill="#0f0e0c"/>
             </svg>
           </div>
-          <div class="tool-card-name" data-i18n="tool6n">{{ t('tool6n') }}</div>
+          <h3 class="tool-card-name" data-i18n="tool6n">{{ t('tool6n') }}</h3>
           <div class="tool-card-desc" data-i18n="tool6d">{{ t('tool6d') }}</div>
           <div class="tool-card-arrow" data-i18n="view_github">{{ t('view_github') }}</div>
         </a>
@@ -451,7 +478,7 @@ useSeoMeta({
               </div>
             </div>
             <div class="founder-card-body">
-              <div class="founder-name" data-i18n="fc_name">Laraue Software</div>
+              <h3 class="founder-name" data-i18n="fc_name">Laraue Software</h3>
               <div class="founder-role" data-i18n="fc_role">{{ t('fc_role') }}</div>
               <p class="founder-bio" data-i18n="fc_bio">{{ t('fc_bio') }}</p>
               <div class="founder-links">
