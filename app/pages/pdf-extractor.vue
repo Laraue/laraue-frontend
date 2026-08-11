@@ -3,7 +3,10 @@ import {computed, ref, watch} from 'vue';
 import {type PsqlExecutionResult, usePdfExtractorApi} from "~/composables/pdfExtractorApi";
 import LMainContent from "~/components/ui/LMainContent.vue";
 import LHero from "~/components/ui/LHero.vue";
-import {defineAggregateRating, defineOffer, defineSoftwareApp, useSchemaOrg} from "@unhead/schema-org/vue";
+import LNavIcon from "~/components/ui/LNavIcon.vue";
+import LProtoBanner from "~/components/ui/LProtoBanner.vue";
+import LFaqSection from "~/components/landins/LFaqSection.vue";
+import {defineOffer, defineSoftwareApp, defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const { runQuery, checkSyntax } = usePdfExtractorApi();
 
@@ -67,28 +70,28 @@ const modes = computed(() => [
     title: t('selectTables'),
     pdfql: "select(tables)",
     key: "tables",
-    icon: "📊",
+    icon: "table",
     description: t('modeDescTables'),
   },
   {
     title: t('selectTableRows'),
     pdfql: "select(tableRows)",
     key: "tableRows",
-    icon: "➗",
+    icon: "rows",
     description: t('modeDescRows'),
   },
   {
     title: t('selectTableCells'),
     pdfql: "select(tableCells)",
     key: "tableCells",
-    icon: "▦",
+    icon: "cell",
     description: t('modeDescCells'),
   },
   {
     title: t('manualQuery'),
     pdfql: "",
     key: "manual",
-    icon: "⚙",
+    icon: "gear",
     description: t('modeDescManual'),
   },
 ]);
@@ -149,9 +152,13 @@ const removeFile = () => {
 
 useSeoMeta({
   title: computed(() => t('seoTitle')),
-  ogTitle: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),
+  ogTitle: computed(() => t('seoTitle')),
+  ogDescription: computed(() => t('seoDescription')),
   ogType: "website",
+  twitterCard: "summary",
+  twitterTitle: computed(() => t('seoTitle')),
+  twitterDescription: computed(() => t('seoDescription')),
 })
 
 useSchemaOrg([
@@ -167,13 +174,31 @@ useSchemaOrg([
         description: 'Unlimited extractor usage'
       })
     ]
-  })
+  }),
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_current') },
+    ]
+  }),
+  {
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: t('faq1q'), acceptedAnswer: { '@type': 'Answer', text: t('faq1a') } },
+      { '@type': 'Question', name: t('faq2q'), acceptedAnswer: { '@type': 'Answer', text: t('faq2a') } },
+      { '@type': 'Question', name: t('faq3q'), acceptedAnswer: { '@type': 'Answer', text: t('faq3a') } },
+      { '@type': 'Question', name: t('faq4q'), acceptedAnswer: { '@type': 'Answer', text: t('faq4a') } },
+      { '@type': 'Question', name: t('faq5q'), acceptedAnswer: { '@type': 'Answer', text: t('faq5a') } },
+    ]
+  },
 ])
 </script>
 
 <i18n lang="json">
 {
   "en": {
+    "bc_home": "Home",
+    "bc_current": "PDF Extractor",
     "seoTitle": "Pdf Query Language Concept (Alpha)",
     "seoDescription": "Extract data from PDF with the Pdf Query language or premade snippets",
     "pageTitle": "Extract objects from PDF",
@@ -230,10 +255,24 @@ useSchemaOrg([
     "clickToUpload": "click to upload",
     "pdfOnlyMax": "PDF files only · Max 20 MB",
     "removeFile": "Remove file",
-    "chooseType": "Choose extraction type"
+    "chooseType": "Choose extraction type",
+    "faqLabel": "Questions",
+    "faqHeading": "Frequently Asked Questions",
+    "faq1q": "Is this PDF extractor free to use?",
+    "faq1a": "Yes, completely free with no registration or account required. Upload a PDF and extract data instantly.",
+    "faq2q": "Are my PDF files stored on the server?",
+    "faq2a": "No. Files are processed in memory to extract the requested data and are not stored afterward.",
+    "faq3q": "What is PdfQL?",
+    "faq3a": "PdfQL is a declarative query language for extracting structured data — tables, rows, and cells — from PDF documents, without writing custom parsing code.",
+    "faq4q": "Does it work with scanned PDFs or complex multi-column layouts?",
+    "faq4a": "Not reliably yet. This is an alpha prototype — scanned (image-only) PDFs and complex multi-column layouts may produce incomplete or incorrect results.",
+    "faq5q": "What's the maximum file size?",
+    "faq5a": "20 MB per file."
   },
   "ru": {
     "seoTitle": "Конвертер PDF -> JSON (Альфа)",
+    "bc_home": "Главная",
+    "bc_current": "Извлечение данных из PDF",
     "seoDescription": "Извлекайте данные из PDF с помощью языка Pdf Query или готовых сниппетов",
     "pageTitle": "Извлечение данных из PDF",
     "pageSubtitle": "Извлекайте таблицы, их строки и ячейки из любого PDF в формате JSON — бесплатно и без регистрации. Работает на PdfQL, декларативном языке запросов PDF.",
@@ -289,13 +328,26 @@ useSchemaOrg([
     "clickToUpload": "нажмите для загрузки",
     "pdfOnlyMax": "Только PDF · Макс 20 МБ",
     "removeFile": "Удалить файл",
-    "chooseType": "Выберите режим извлечения"
+    "chooseType": "Выберите режим извлечения",
+    "faqLabel": "Вопросы",
+    "faqHeading": "Часто задаваемые вопросы",
+    "faq1q": "Этот PDF-экстрактор бесплатный?",
+    "faq1a": "Да, полностью бесплатный, без регистрации и аккаунта. Загрузите PDF и сразу получите данные.",
+    "faq2q": "Хранятся ли мои PDF-файлы на сервере?",
+    "faq2a": "Нет. Файлы обрабатываются в памяти для извлечения запрошенных данных и не сохраняются после этого.",
+    "faq3q": "Что такое PdfQL?",
+    "faq3a": "PdfQL — декларативный язык запросов для извлечения структурированных данных — таблиц, строк и ячеек — из PDF без написания собственного кода парсинга.",
+    "faq4q": "Работает ли это со сканированными PDF или сложными многоколоночными макетами?",
+    "faq4a": "Пока не надёжно. Это альфа-прототип — сканированные (в виде изображений) PDF и сложные многоколоночные макеты могут давать неполные или некорректные результаты.",
+    "faq5q": "Какой максимальный размер файла?",
+    "faq5a": "20 МБ на файл."
   }
 }
 </i18n>
 
 <template>
   <LMainContent>
+    <LProtoBanner :message="t('alphaNotice')" />
     <LHero :title="t('pageTitle')" :sub-title="t('pageSubtitle')" />
     <!-- TOOL BODY -->
     <div class="tool-body">
@@ -306,7 +358,7 @@ useSchemaOrg([
         <div class="tool-section">
           <div class="tool-section-header">
             <div class="tool-section-num">1</div>
-            <span class="tool-section-title">{{ t('extractTypeLabel') }}</span>
+            <h2 class="tool-section-title">{{ t('extractTypeLabel') }}</h2>
           </div>
           <div class="tool-section-body">
             <div class="ext-tabs" role="group" :aria-label="t('extractTypeLabel')">
@@ -316,7 +368,7 @@ useSchemaOrg([
                   class="ext-tab"
                   :class="{ active: currentModeId === mode.key }"
                   @click="currentModeId = mode.key">
-                <span class="ext-tab-icon">{{ mode.icon }}</span>
+                <span class="ext-tab-icon"><LNavIcon :name="mode.icon" /></span>
                 <span class="ext-tab-label">{{ mode.title }}</span>
                 <span class="ext-tab-sub">{{ mode.description }}</span>
               </button>
@@ -352,7 +404,7 @@ useSchemaOrg([
         <div class="tool-section">
           <div class="tool-section-header">
             <div class="tool-section-num">2</div>
-            <span class="tool-section-title">{{ t('uploadPdf') }}</span>
+            <h2 class="tool-section-title">{{ t('uploadPdf') }}</h2>
           </div>
           <div class="tool-section-body">
             <div v-if="!selectedFile" class="dropzone" role="button" :aria-label="t('dropzoneText')" tabindex="0">
@@ -363,7 +415,7 @@ useSchemaOrg([
                   :aria-label="t('dropzoneLink')"
                   @change="handleFile(($event.target as HTMLInputElement).files?.[0])"
               >
-              <span class="dropzone-icon">📄</span>
+              <span class="dropzone-icon"><LNavIcon name="file" /></span>
               <div class="dropzone-title">{{ t('dropPdfHere') }}</div>
               <div class="dropzone-sub">
                 {{ t('or') }} <em>{{ t('clickToUpload') }}</em>
@@ -372,7 +424,7 @@ useSchemaOrg([
             </div>
 
             <div v-else class="file-info">
-              <span class="file-info-icon">📄</span>
+              <span class="file-info-icon"><LNavIcon name="file" /></span>
               <div>
                 <div class="file-info-name">{{ selectedFile.file.name }}</div>
                 <div class="file-info-size">{{ selectedFile.size }}</div>
@@ -386,7 +438,7 @@ useSchemaOrg([
         <div class="tool-section">
           <div class="tool-section-header">
             <div class="tool-section-num">3</div>
-            <span class="tool-section-title">{{ t('extract') }}</span>
+            <h2 class="tool-section-title">{{ t('extract') }}</h2>
           </div>
           <div class="tool-section-body">
             <div v-if="isLoading" class="loading-bar active"></div>
@@ -442,13 +494,13 @@ useSchemaOrg([
         <div class="info-card">
           <div class="info-card-strip"></div>
           <div class="info-card-body">
-            <div class="info-card-title">
+            <h2 class="info-card-title">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/>
                 <path d="M12 8v4l3 3"/>
               </svg>
               {{ t('howItWorksTitle') }}
-            </div>
+            </h2>
             <div class="how-steps">
               <div class="how-step">
                 <div class="how-step-num">1</div>
@@ -469,13 +521,13 @@ useSchemaOrg([
         <div class="info-card">
           <div class="info-card-strip"></div>
           <div class="info-card-body">
-            <div class="info-card-title">
+            <h2 class="info-card-title">
               <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="3" y="3" width="18" height="18" rx="2"/>
                 <path d="M3 9h18M3 15h18M9 3v18"/>
               </svg>
               {{ t('extractionModes') }}
-            </div>
+            </h2>
             <div class="type-list">
               <div class="type-item">
                 <div class="type-dot"></div>
@@ -503,7 +555,7 @@ useSchemaOrg([
 
         <nuxt-link :to="localePath('/blog/projects/pdf-query-language')" class="pdfql-card">
           <div class="pdfql-label">{{ t('aboutLink') }}</div>
-          <div class="pdfql-title">{{ t('pdfqlConcept') }}</div>
+          <h2 class="pdfql-title">{{ t('pdfqlConcept') }}</h2>
           <div class="pdfql-sub">{{ t('pdfqlConceptDesc') }}</div>
           <div class="pdfql-read">{{ t('readConcept') }}</div>
         </nuxt-link>
@@ -513,6 +565,19 @@ useSchemaOrg([
         </div>
       </div>
     </div>
+
+    <!-- FAQ -->
+    <LFaqSection
+        :pre-title="t('faqLabel')"
+        :title="t('faqHeading')"
+        :items="[
+        { question: t('faq1q'), answer: t('faq1a') },
+        { question: t('faq2q'), answer: t('faq2a') },
+        { question: t('faq3q'), answer: t('faq3a') },
+        { question: t('faq4q'), answer: t('faq4a') },
+        { question: t('faq5q'), answer: t('faq5a') }
+      ]"
+    />
   </LMainContent>
 </template>
 
@@ -540,7 +605,8 @@ useSchemaOrg([
 }
 .ext-tab:hover{border-color:var(--accent);background:var(--accent-light)}
 .ext-tab.active{border-color:var(--accent);background:var(--accent-light);box-shadow:0 0 0 2px rgba(190,18,60,.12)}
-.ext-tab-icon{font-size:22px;line-height:1}
+.ext-tab-icon{color:var(--accent);display:flex}
+.ext-tab-icon :deep(.nav-icon-svg){width:22px;height:22px}
 .ext-tab-label{font-size:12px;font-weight:700;color:var(--ink)}
 .ext-tab-sub{font-size:10px;color:var(--muted);line-height:1.3}
 .ext-advanced .ext-tab-icon{font-size:18px}
@@ -563,13 +629,15 @@ useSchemaOrg([
 }
 .dropzone:hover,.dropzone.drag-over{border-color:var(--accent);background:var(--accent-light)}
 .dropzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.dropzone-icon{font-size:40px;margin-bottom:10px;display:block}
+.dropzone-icon{color:var(--muted);margin-bottom:10px;display:flex;justify-content:center}
+.dropzone-icon :deep(.nav-icon-svg){width:36px;height:36px}
 .dropzone-title{font-weight:700;font-size:15px;color:var(--ink);margin-bottom:4px}
 .dropzone-sub{font-size:13px;color:var(--muted)}
 .dropzone-sub em{color:var(--accent);font-style:normal;font-weight:600}
 .dropzone-sub small{display:block;margin-top:4px;font-size:11px;opacity:.7}
 .file-info{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--accent-light);border:1px solid rgba(190,18,60,.2);border-radius:10px;margin-top:12px}
-.file-info-icon{font-size:24px;flex-shrink:0}
+.file-info-icon{color:var(--accent);flex-shrink:0;display:flex}
+.file-info-icon :deep(.nav-icon-svg){width:22px;height:22px}
 .file-info-name{font-weight:600;font-size:13px;color:var(--ink);word-break:break-all}
 .file-info-size{font-size:11px;color:var(--muted)}
 .file-info-remove{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--accent);font-size:18px;padding:2px 6px;border-radius:4px;transition:background .15s}
