@@ -145,6 +145,20 @@ defineProps<{
       <rect x="3.5" y="4.5" width="17" height="15" rx="2"/>
       <path d="M3.5 10h17M3.5 15h17M9.5 4.5v15M15 4.5v15"/>
     </template>
+    <template v-else-if="name === 'rows'">
+      <rect x="3.5" y="5" width="17" height="4" rx="1"/>
+      <rect x="3.5" y="10" width="17" height="4" rx="1"/>
+      <rect x="3.5" y="15" width="17" height="4" rx="1"/>
+    </template>
+    <template v-else-if="name === 'cell'">
+      <rect x="3.5" y="3.5" width="17" height="17" rx="2"/>
+      <path d="M3.5 10h17M3.5 16h17M10 3.5v17M15.5 3.5v17"/>
+      <rect x="10" y="10" width="5.5" height="6" fill="currentColor" stroke="none"/>
+    </template>
+    <template v-else-if="name === 'file'">
+      <path d="M7 3.5h7l4 4V20.5H7Z"/>
+      <path d="M14 3.5V7.5h4"/>
+    </template>
   </svg>
 </template>
 
