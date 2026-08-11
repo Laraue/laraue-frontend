@@ -386,8 +386,10 @@ useSeoMeta({
       <template #actions>
         <LActionButton :title="t('hero_cta_web')" link="https://boards.laraue.com/" type="site" />
         <LActionButton title="@msgboard_bot" link="https://t.me/msgboard_bot" type="telegram" />
-        <LActionButton :title="t('project_description')" :link="localePath('/blog/projects/boards')" type="github" />
-        <LActionButton :title="t('documentation')" :link="localePath('/blog/documentation/laraue-boards')" type="github" />
+        <div class="hero-quick-links">
+          <a :href="localePath('/blog/documentation/laraue-boards')">{{ t('documentation') }} &#8594;</a>
+          <a :href="localePath('/blog/projects/boards')">{{ t('project_description') }} &#8594;</a>
+        </div>
       </template>
       <template #visual>
         <div class="hero-visual">
@@ -637,6 +639,11 @@ section {
   --msg-blue:#2d7dd2; --msg-blue-light:#e8f2fc;
   --msg-green:#2d8a55; --msg-green-light:#e6f7ee;
 }
+
+/* ══ HERO QUICK LINKS ══ */
+.hero-quick-links{flex-basis:100%;display:flex;gap:20px;flex-wrap:wrap;margin-top:6px}
+.hero-quick-links a{font-size:13px;font-weight:600;color:rgba(247,244,238,.65);text-decoration:underline;text-decoration-color:rgba(247,244,238,.3);text-underline-offset:3px;transition:color .2s,text-decoration-color .2s}
+.hero-quick-links a:hover{color:#fff;text-decoration-color:rgba(255,255,255,.6)}
 
 /* ══ SHARED UTILS ══ */
 .btn-secondary{background:transparent;color:var(--ink);padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;border:1.5px solid var(--border);display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,background .2s,transform .15s}
