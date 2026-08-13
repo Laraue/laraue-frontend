@@ -2,6 +2,7 @@
 import DocView from "~/components/docs/DocView.vue";
 import {useBlogApi} from "~/composables/blogApi";
 import DocsMobileToc from "~/components/docs/DocsMobileToc.vue";
+import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const { getItemDetails } = useBlogApi();
 const { locale } = useI18n();
@@ -33,15 +34,36 @@ useSeoMeta({
   twitterImage: imageUrl,
   robots: 'index, follow, max-image-preview:large',
 })
+
+const rootDocPath = '/' + rootPath.join('/')
+const isRootDocPage = segments.length <= 1
+const breadcrumbItems = [
+  { name: t('bc_home'), item: '/' },
+  { name: t('bc_blog'), item: '/blog' },
+  isRootDocPage ? { name: item.title } : { name: item.title, item: rootDocPath },
+]
+if (!isRootDocPage) {
+  breadcrumbItems.push({ name: documentation.title })
+}
+
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: breadcrumbItems
+  }),
+])
 </script>
 
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "The full documentation about the element '{title}'"
+    "seoDescription": "The full documentation about the element '{title}'",
+    "bc_home": "Home",
+    "bc_blog": "Blog"
   },
   "ru": {
-    "seoDescription": "Подробная документация по элементу '{title}'"
+    "seoDescription": "Подробная документация по элементу '{title}'",
+    "bc_home": "Главная",
+    "bc_blog": "Блог"
   }
 }
 </i18n>

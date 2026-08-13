@@ -2,7 +2,15 @@
 export default defineNuxtConfig({
   compatibilityDate: '2026-06-21',
   devtools: { enabled: true },
-  modules: ['nuxt-gtag', '@nuxtjs/i18n', 'nuxt-yandex-metrika'],
+  modules: ['nuxt-gtag', '@nuxtjs/i18n', 'nuxt-yandex-metrika', '@nuxtjs/sitemap'],
+  site: {
+    url: 'https://laraue.com',
+  },
+  sitemap: {
+    sitemapName: 'sitemap-main.xml',
+    exclude: ['/blog/**', '/ru/blog/**'],
+    autoI18n: false,
+  },
   gtag: {
     enabled: process.env.NODE_ENV === 'production',
     id: 'G-RGM3JHLBGL'

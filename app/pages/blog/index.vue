@@ -3,6 +3,7 @@
 import DocsView, {type Article} from "../../components/docs/DocsView.vue";
 import {computed, ref, watch} from "vue";
 import {useBlogApi} from "~/composables/blogApi";
+import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 definePageMeta({
   layout: 'blog',
@@ -61,6 +62,15 @@ useSeoMeta({
   ogType: "website",
 })
 
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_blog') },
+    ]
+  }),
+])
+
 watch(() => route.query.tag, async () => {
   if (route.query.page) {
     await router.replace({ query: { ...route.query, page: undefined } })
@@ -80,12 +90,16 @@ watch(page, async () => {
   "en": {
     "all": "Laraue Software Blog — C# .NET Development & Open Source",
     "seoDescription": "Technical articles and open source project writeups from Laraue Software — covering C#, .NET, EF Core, web scraping, Telegram bots, local AI with Ollama, and more.",
-    "sub": "Real code, real decisions, real tradeoffs. We write about what we build — .NET libraries, Telegram bots, AI integrations, and the architecture mistakes worth learning from."
+    "sub": "Real code, real decisions, real tradeoffs. We write about what we build — .NET libraries, Telegram bots, AI integrations, and the architecture mistakes worth learning from.",
+    "bc_home": "Home",
+    "bc_blog": "Blog"
   },
   "ru": {
     "all": "Блог Laraue Software — C# .NET open source разработка",
     "seoDescription": "Технические статьи и описания open source проектов от Laraue Software — C#, .NET, EF Core, парсинг сайтов, Telegram-боты, локальный ИИ с Ollama и многое другое.",
-    "sub": "Реальный код, реальные решения, реальные компромиссы. Пишем о том, что строим — .NET библиотеки, Telegram-боты, интеграции с ИИ и архитектурные ошибки, на которых можно учиться."
+    "sub": "Реальный код, реальные решения, реальные компромиссы. Пишем о том, что строим — .NET библиотеки, Telegram-боты, интеграции с ИИ и архитектурные ошибки, на которых можно учиться.",
+    "bc_home": "Главная",
+    "bc_blog": "Блог"
   }
 }
 </i18n>

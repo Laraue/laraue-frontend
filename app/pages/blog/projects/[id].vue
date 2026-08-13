@@ -2,11 +2,11 @@
 import DocView from "~/components/docs/DocView.vue";
 import {useBlogApi} from "~/composables/blogApi";
 import {useSchemaOrg} from "@unhead/schema-org/vue";
-import {defineArticle} from "@unhead/schema-org";
+import {defineArticle, defineBreadcrumb} from "@unhead/schema-org";
 
 const { getRouteSegments, getBlogOgImageUrl } = usePathUtil();
 const { getItemDetails } = useBlogApi();
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 
 const project = await getItemDetails(locale.value, getRouteSegments());
 definePageMeta({
@@ -42,9 +42,33 @@ useSchemaOrg([
     inLanguage: locale.value,
     keywords: project.tags,
     author: author
-  })])
+  }),
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_blog'), item: '/blog' },
+      { name: t('bc_projects'), item: '/blog/projects' },
+      { name: project.title },
+    ]
+  }),
+])
 
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "bc_home": "Home",
+    "bc_blog": "Blog",
+    "bc_projects": "Projects"
+  },
+  "ru": {
+    "bc_home": "Главная",
+    "bc_blog": "Блог",
+    "bc_projects": "Проекты"
+  }
+}
+</i18n>
 
 <template>
   <DocView :item="project">

@@ -2,6 +2,7 @@
 
 import DocsView, {type Article} from "~/components/docs/DocsView.vue";
 import {computed, ref, watch} from "vue";
+import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const PER_PAGE = 16;
 
@@ -65,6 +66,16 @@ useSeoMeta({
   ogType: "website",
 })
 
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_blog'), item: '/blog' },
+      { name: t('bc_articles') },
+    ]
+  }),
+])
+
 </script>
 
 <i18n lang="json">
@@ -72,12 +83,18 @@ useSeoMeta({
   "en": {
     "seoDescription": "In-depth technical articles on C# and .NET — building web scrapers with PuppeteerSharp, integrating Ollama for local AI inference, real estate ranking systems, and more.",
     "all": "Technical Articles — C# .NET Architecture & AI Integration",
-    "sub": "Architecture decisions, implementation deep-dives, and honest accounts of what went wrong. Written by engineers who shipped the code."
+    "sub": "Architecture decisions, implementation deep-dives, and honest accounts of what went wrong. Written by engineers who shipped the code.",
+    "bc_home": "Home",
+    "bc_blog": "Blog",
+    "bc_articles": "Articles"
   },
   "ru": {
     "all": "Технические статьи — архитектура C# .NET и интеграция ИИ",
     "seoDescription": "Глубокие технические статьи о C# и .NET — парсинг сайтов через PuppeteerSharp, интеграция Ollama для локального ИИ-инференса, системы ранжирования недвижимости и не только.",
-    "sub": "Архитектурные решения, разборы реализаций и честные истории о том, что пошло не так. Написано инженерами, которые сами создавали этот код."
+    "sub": "Архитектурные решения, разборы реализаций и честные истории о том, что пошло не так. Написано инженерами, которые сами создавали этот код.",
+    "bc_home": "Главная",
+    "bc_blog": "Блог",
+    "bc_articles": "Статьи"
   }
 }
 </i18n>

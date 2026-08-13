@@ -3,6 +3,7 @@
 import DocsView, {type Article} from "~/components/docs/DocsView.vue";
 import {computed, ref, watch} from "vue";
 import {useBlogApi} from "~/composables/blogApi";
+import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 definePageMeta({
   layout: 'blog',
@@ -63,6 +64,16 @@ useSeoMeta({
   ogDescription: description,
   ogType: "website",
 })
+
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_blog'), item: '/blog' },
+      { name: t('bc_projects') },
+    ]
+  }),
+])
 </script>
 
 <i18n lang="json">
@@ -70,12 +81,18 @@ useSeoMeta({
   "en": {
     "seoDescription": "Open source C# and .NET projects — EF Core trigger library, Markdown CMS backend, Telegram bot framework, web scraping library, PdfQL interpreter, and AI apartment search.",
     "projects": "Open Source .NET Projects — Libraries, Bots & AI Tools",
-    "sub": "Libraries we built because the existing options weren't good enough. All open source, all actively maintained."
+    "sub": "Libraries we built because the existing options weren't good enough. All open source, all actively maintained.",
+    "bc_home": "Home",
+    "bc_blog": "Blog",
+    "bc_projects": "Projects"
   },
   "ru": {
     "projects": "Open Source .NET проекты — библиотеки, боты и ИИ",
     "seoDescription": "Open source проекты на C# и .NET — библиотека триггеров EF Core, CMS-бэкенд для Markdown, Telegram-боты, библиотека парсинга, интерпретатор PdfQL и ИИ-поиск квартир.",
-    "sub": "Libraries we built because the existing options weren't good enough. All open source, all actively maintained."
+    "sub": "Libraries we built because the existing options weren't good enough. All open source, all actively maintained.",
+    "bc_home": "Главная",
+    "bc_blog": "Блог",
+    "bc_projects": "Проекты"
   }
 }
 </i18n>

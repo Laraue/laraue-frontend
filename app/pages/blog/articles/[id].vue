@@ -2,7 +2,7 @@
 
 import DocView from "~/components/docs/DocView.vue";
 import {useBlogApi} from "~/composables/blogApi";
-import {defineArticle} from "@unhead/schema-org";
+import {defineArticle, defineBreadcrumb} from "@unhead/schema-org";
 import {useSchemaOrg} from "@unhead/schema-org/vue";
 
 definePageMeta({
@@ -11,7 +11,7 @@ definePageMeta({
 
 const { getRouteSegments, getBlogOgImageUrl } = usePathUtil();
 
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const { getItemDetails } = useBlogApi();
 const routeSegments = getRouteSegments();
 const article = await getItemDetails(locale.value, routeSegments);
@@ -44,8 +44,32 @@ useSchemaOrg([
     inLanguage: locale.value,
     keywords: article.tags,
     author: author
-  })])
+  }),
+  defineBreadcrumb({
+    itemListElement: [
+      { name: t('bc_home'), item: '/' },
+      { name: t('bc_blog'), item: '/blog' },
+      { name: t('bc_articles'), item: '/blog/articles' },
+      { name: article.title },
+    ]
+  }),
+])
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "bc_home": "Home",
+    "bc_blog": "Blog",
+    "bc_articles": "Articles"
+  },
+  "ru": {
+    "bc_home": "Главная",
+    "bc_blog": "Блог",
+    "bc_articles": "Статьи"
+  }
+}
+</i18n>
 
 <template>
   <article>
