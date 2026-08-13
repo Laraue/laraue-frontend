@@ -6,30 +6,31 @@ import LNavIcon from "~/components/ui/LNavIcon.vue";
 
 const { setLocale, t } = useI18n()
 const localPath = useLocalePath();
-const config = useRuntimeConfig();
-const imageUrl = config.public.imagesBaseAddress + "note-board-bot-app.jpg";
+const ogImageUrl = "https://laraue.com/static/images/homepage-og.png";
+const logoUrl = "https://laraue.com/android-chrome-512x512.png";
 
 useSeoMeta({
   title: computed(() => t('seo_title')),
   description: computed(() => t('seo_description')),
   ogTitle: computed(() => t('seo_title')),
   ogDescription: computed(() => t('seo_description')),
-  ogImage: imageUrl,
-  ogImageWidth: "891",
-  ogImageHeight: "862",
+  ogImage: ogImageUrl,
+  ogImageWidth: "1200",
+  ogImageHeight: "630",
+  ogImageType: "image/png",
   ogImageAlt: computed(() => t('seo_title')),
   ogType: "website",
   twitterCard: "summary_large_image",
   twitterTitle: computed(() => t('seo_title')),
   twitterDescription: computed(() => t('seo_description')),
-  twitterImage: imageUrl,
+  twitterImage: ogImageUrl,
   twitterImageAlt: computed(() => t('seo_title')),
 })
 
 useSchemaOrg([
   defineOrganization({
     name: 'Laraue Software',
-    logo: imageUrl,
+    logo: logoUrl,
     sameAs: [
       'https://github.com/win7user10',
       'https://t.me/win7user10',
