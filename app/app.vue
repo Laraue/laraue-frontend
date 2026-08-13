@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import LFooter from "~/components/ui/LFooter.vue";
 import LNav from "~/components/ui/LNav.vue";
+import LCookieConsent from "~/components/ui/LCookieConsent.vue";
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import LNav from "~/components/ui/LNav.vue";
     </NuxtLayout>
   </div>
   <LFooter />
+  <LCookieConsent />
 </template>
 
 <i18n lang="json">
