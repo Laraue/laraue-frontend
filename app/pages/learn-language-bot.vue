@@ -52,20 +52,22 @@ const supportedLanguages = ref([
 
 const configuration = useRuntimeConfig();
 const imageUrl = configuration.public.imagesBaseAddress + "quiz-mode.jpg";
+const ogImageUrl = "https://laraue.com/images/learn-language-bot-og.png";
 useSeoMeta({
   title: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),
   ogTitle: computed(() => t('seoTitle')),
   ogDescription: computed(() => t('seoDescription')),
-  ogImage: imageUrl,
-  ogImageWidth: "470",
-  ogImageHeight: "611",
+  ogImage: ogImageUrl,
+  ogImageWidth: "1200",
+  ogImageHeight: "630",
+  ogImageType: "image/png",
   ogImageAlt: t('seoTitle'),
   ogType: "website",
   twitterCard: "summary_large_image",
   twitterTitle: computed(() => t('seoTitle')),
   twitterDescription: computed(() => t('seoDescription')),
-  twitterImage: imageUrl,
+  twitterImage: ogImageUrl,
   twitterImageAlt: t('seoTitle')
 })
 
@@ -83,6 +85,15 @@ useSchemaOrg([
       })
     ],
   }),
+  {
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: t('faq1q'), acceptedAnswer: { '@type': 'Answer', text: t('faq1a') } },
+      { '@type': 'Question', name: t('faq2q'), acceptedAnswer: { '@type': 'Answer', text: t('faq2a') } },
+      { '@type': 'Question', name: t('faq3q'), acceptedAnswer: { '@type': 'Answer', text: t('faq3a') } },
+      { '@type': 'Question', name: t('faq4q'), acceptedAnswer: { '@type': 'Answer', text: t('faq4a') } },
+    ]
+  },
   defineBreadcrumb({
     itemListElement: [
       { name: t('bc_home'), item: localePath('/') },
@@ -97,8 +108,16 @@ useSchemaOrg([
   "en": {
     "bc_home": "Home",
     "bc_current": "Vocabulary Bot",
-    "seoTitle": "Increase Vocabulary with Flashcards Bot",
-    "seoDescription": "The telegram bot that helps to learn top 5k used words of English, Japanese, Russian and French languages",
+    "seoTitle": "Vocabulary Bot — Learn Languages in Telegram with Flashcard Quizzes",
+    "seoDescription": "A free Telegram bot that teaches vocabulary through CEFR-leveled flashcard quizzes. Learn Russian, Japanese, French, Hindi, German, Chinese or Spanish — no app to install, no account to create.",
+    "faq1q": "Is Vocabulary Bot free?",
+    "faq1a": "Yes, the bot is free to use with no limits on quizzes or words.",
+    "faq2q": "Do I need to install an app or create an account?",
+    "faq2a": "No. Everything runs inside Telegram — just start a chat with the bot and begin the quiz.",
+    "faq3q": "Which languages are supported?",
+    "faq3a": "Seven language pairs into English: Russian, Japanese, French, Hindi, German, Chinese and Spanish.",
+    "faq4q": "How are words organized?",
+    "faq4a": "Words are grouped by CEFR level from A1 to C1, so you can start at your current level and progress at your own pace.",
     "sec_overview": "Overview",
     "sec_features": "Features",
     "sec_how": "How it works",
@@ -168,8 +187,16 @@ useSchemaOrg([
   "ru": {
     "bc_home": "Главная",
     "bc_current": "Бот для изучения языков",
-    "seoTitle": "Бот для пополнения словарного запаса",
-    "seoDescription": "Бот позволяет выучить самые часто используемые слова английского, русского, испанского и других языков",
+    "seoTitle": "Vocabulary Bot — изучайте языки в Telegram с квизами-карточками",
+    "seoDescription": "Бесплатный Telegram-бот учит словам через квизы-карточки по уровням CEFR. Русский, японский, французский, хинди, немецкий, китайский и испанский — без установки приложений и регистрации.",
+    "faq1q": "Vocabulary Bot бесплатный?",
+    "faq1a": "Да, бот бесплатен без ограничений на количество квизов и слов.",
+    "faq2q": "Нужно ли устанавливать приложение или создавать аккаунт?",
+    "faq2a": "Нет. Всё работает внутри Telegram — просто начните чат с ботом и приступайте к квизу.",
+    "faq3q": "Какие языки поддерживаются?",
+    "faq3a": "Семь языковых пар с английским: русский, японский, французский, хинди, немецкий, китайский и испанский.",
+    "faq4q": "Как организованы слова?",
+    "faq4a": "Слова сгруппированы по уровням CEFR от A1 до C1, поэтому можно начать с текущего уровня и двигаться в своём темпе.",
     "sec_overview": "Обзор",
     "sec_features": "Функции",
     "sec_how": "Как это работает",
@@ -386,7 +413,7 @@ useSchemaOrg([
         <div class="reveal">
           <!-- Real screenshot if available, placeholder otherwise -->
           <div class="screenshot-img">
-            <img :src="configuration.public.imagesBaseAddress + 'quiz-mode.jpg'" alt="Quiz Mode screenshot" loading="lazy" />
+            <img :src="configuration.public.imagesBaseAddress + 'quiz-mode.jpg'" alt="Quiz Mode screenshot" width="470" height="611" loading="lazy" />
           </div>
         </div>
       </div>
