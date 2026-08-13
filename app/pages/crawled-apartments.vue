@@ -12,16 +12,26 @@ import {defineOffer, defineSoftwareApp, defineBreadcrumb, useSchemaOrg} from "@u
 
 const { t } = useI18n();
 const localePath = useLocalePath();
+const { getStaticOgImageUrl } = usePathUtil();
+
+const ogImageUrl = getStaticOgImageUrl('crawled-apartments-og');
 
 useSeoMeta({
   title: t('seoTitle'),
   description: t('seoDescription'),
   ogTitle: t('seoTitle'),
   ogDescription: t('seoDescription'),
+  ogImage: ogImageUrl,
+  ogImageWidth: "1200",
+  ogImageHeight: "630",
+  ogImageType: "image/png",
+  ogImageAlt: t('seoTitle'),
   ogType: "website",
-  twitterCard: "summary",
+  twitterCard: "summary_large_image",
   twitterTitle: t('seoTitle'),
   twitterDescription: t('seoDescription'),
+  twitterImage: ogImageUrl,
+  twitterImageAlt: t('seoTitle'),
 })
 
 useSchemaOrg([

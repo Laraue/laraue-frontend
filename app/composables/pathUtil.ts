@@ -35,10 +35,18 @@ export const usePathUtil = () => {
         return ogImageUrl.toString();
     }
 
+    const localeSuffix = () => locale.value === 'ru' ? '-ru' : '';
+
+    const getStaticOgImageUrl = (name: string) => {
+        const config = useRuntimeConfig()
+        return computed(() => `${config.public.imagesBaseAddress}${name}${localeSuffix()}.png`);
+    }
+
     return {
         localePathFromSegments,
         localePath,
         getRouteSegments,
         getBlogOgImageUrl,
+        getStaticOgImageUrl,
     }
 }

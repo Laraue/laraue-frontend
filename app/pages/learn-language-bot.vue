@@ -18,6 +18,7 @@ import LSection from "~/components/landins/LSection.vue";
 import LCallToAction from "~/components/landins/LCallToAction.vue";
 
 const { t } = useI18n();
+const { getStaticOgImageUrl } = usePathUtil();
 const localePath = useLocalePath();
 const supportedLanguages = ref([
   {
@@ -52,7 +53,7 @@ const supportedLanguages = ref([
 
 const configuration = useRuntimeConfig();
 const imageUrl = configuration.public.imagesBaseAddress + "quiz-mode.jpg";
-const ogImageUrl = "https://laraue.com/static/images/learn-language-bot-og.png";
+const ogImageUrl = getStaticOgImageUrl('learn-language-bot-og');
 useSeoMeta({
   title: computed(() => t('seoTitle')),
   description: computed(() => t('seoDescription')),

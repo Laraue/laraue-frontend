@@ -6,7 +6,8 @@ import LNavIcon from "~/components/ui/LNavIcon.vue";
 
 const { setLocale, t } = useI18n()
 const localPath = useLocalePath();
-const ogImageUrl = "https://laraue.com/static/images/homepage-og.png";
+const { getStaticOgImageUrl } = usePathUtil();
+const ogImageUrl = getStaticOgImageUrl('homepage-og');
 const logoUrl = "https://laraue.com/android-chrome-512x512.png";
 
 useSeoMeta({

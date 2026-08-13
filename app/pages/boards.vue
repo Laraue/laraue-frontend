@@ -3,8 +3,8 @@ import { useI18n } from "vue-i18n";
 import { computed } from "vue";
 
 const { t } = useI18n();
-const config = useRuntimeConfig();
-const imageUrl = config.public.imagesBaseAddress + "note-board-bot-app.jpg";
+const { getStaticOgImageUrl } = usePathUtil();
+const ogImageUrl = getStaticOgImageUrl('boards-og');
 
 import {
   defineOffer,
@@ -59,15 +59,16 @@ useSeoMeta({
   description: computed(() => t('seoDescription')),
   ogTitle: computed(() => t('seoTitle')),
   ogDescription: computed(() => t('seoDescription')),
-  ogImage: imageUrl,
-  ogImageWidth: "891",
-  ogImageHeight: "862",
+  ogImage: ogImageUrl,
+  ogImageWidth: "1200",
+  ogImageHeight: "630",
+  ogImageType: "image/png",
   ogImageAlt: t('seoTitle'),
   ogType: "website",
   twitterCard: "summary_large_image",
   twitterTitle: computed(() => t('seoTitle')),
   twitterDescription: computed(() => t('seoDescription')),
-  twitterImage: imageUrl,
+  twitterImage: ogImageUrl,
   twitterImageAlt: t('seoTitle')
 })
 </script>
