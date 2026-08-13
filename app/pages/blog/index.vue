@@ -17,6 +17,7 @@ const hasPreviousPage = ref(false)
 const { locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
+const localePath = useLocalePath();
 
 const path = ["blog"]
 const { getItems } = useBlogApi();
@@ -65,7 +66,7 @@ useSeoMeta({
 useSchemaOrg([
   defineBreadcrumb({
     itemListElement: [
-      { name: t('bc_home'), item: '/' },
+      { name: t('bc_home'), item: localePath('/') },
       { name: t('bc_blog') },
     ]
   }),

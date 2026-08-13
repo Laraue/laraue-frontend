@@ -14,6 +14,7 @@ const PER_PAGE = 16;
 const { locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
+const localePath = useLocalePath();
 const path = ["blog", "projects"];
 const { getItems } = useBlogApi();
 
@@ -68,8 +69,8 @@ useSeoMeta({
 useSchemaOrg([
   defineBreadcrumb({
     itemListElement: [
-      { name: t('bc_home'), item: '/' },
-      { name: t('bc_blog'), item: '/blog' },
+      { name: t('bc_home'), item: localePath('/') },
+      { name: t('bc_blog'), item: localePath('/blog') },
       { name: t('bc_projects') },
     ]
   }),

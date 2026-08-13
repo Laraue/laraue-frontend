@@ -12,6 +12,7 @@ definePageMeta({
 const { getRouteSegments, getBlogOgImageUrl } = usePathUtil();
 
 const { locale, t } = useI18n()
+const localePath = useLocalePath();
 const { getItemDetails } = useBlogApi();
 const routeSegments = getRouteSegments();
 const article = await getItemDetails(locale.value, routeSegments);
@@ -47,9 +48,9 @@ useSchemaOrg([
   }),
   defineBreadcrumb({
     itemListElement: [
-      { name: t('bc_home'), item: '/' },
-      { name: t('bc_blog'), item: '/blog' },
-      { name: t('bc_articles'), item: '/blog/articles' },
+      { name: t('bc_home'), item: localePath('/') },
+      { name: t('bc_blog'), item: localePath('/blog') },
+      { name: t('bc_articles'), item: localePath('/blog/articles') },
       { name: article.title },
     ]
   }),

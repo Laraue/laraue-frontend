@@ -7,6 +7,7 @@ import {defineArticle, defineBreadcrumb} from "@unhead/schema-org";
 const { getRouteSegments, getBlogOgImageUrl } = usePathUtil();
 const { getItemDetails } = useBlogApi();
 const { locale, t } = useI18n();
+const localePath = useLocalePath();
 
 const project = await getItemDetails(locale.value, getRouteSegments());
 definePageMeta({
@@ -45,9 +46,9 @@ useSchemaOrg([
   }),
   defineBreadcrumb({
     itemListElement: [
-      { name: t('bc_home'), item: '/' },
-      { name: t('bc_blog'), item: '/blog' },
-      { name: t('bc_projects'), item: '/blog/projects' },
+      { name: t('bc_home'), item: localePath('/') },
+      { name: t('bc_blog'), item: localePath('/blog') },
+      { name: t('bc_projects'), item: localePath('/blog/projects') },
       { name: project.title },
     ]
   }),

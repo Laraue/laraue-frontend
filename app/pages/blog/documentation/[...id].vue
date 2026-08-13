@@ -6,6 +6,7 @@ import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const { getItemDetails } = useBlogApi();
 const { locale } = useI18n();
+const localePath = useLocalePath();
 const { getRouteSegments, getBlogOgImageUrl } = usePathUtil();
 const { loadMenu, getItemMeta } = useBlogApi()
 const route = useRoute();
@@ -38,9 +39,9 @@ useSeoMeta({
 const rootDocPath = '/' + rootPath.join('/')
 const isRootDocPage = segments.length <= 1
 const breadcrumbItems = [
-  { name: t('bc_home'), item: '/' },
-  { name: t('bc_blog'), item: '/blog' },
-  isRootDocPage ? { name: item.title } : { name: item.title, item: rootDocPath },
+  { name: t('bc_home'), item: localePath('/') },
+  { name: t('bc_blog'), item: localePath('/blog') },
+  isRootDocPage ? { name: item.title } : { name: item.title, item: localePath(rootDocPath) },
 ]
 if (!isRootDocPage) {
   breadcrumbItems.push({ name: documentation.title })

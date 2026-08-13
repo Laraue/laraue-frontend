@@ -40,7 +40,7 @@ useSchemaOrg([
   }),
   defineBreadcrumb({
     itemListElement: [
-      { name: t('bc_home'), item: '/' },
+      { name: t('bc_home'), item: localePath('/') },
       { name: t('bc_current') },
     ]
   }),
