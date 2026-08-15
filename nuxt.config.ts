@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     id: 'G-RGM3JHLBGL',
     initCommands: [
       ['consent', 'default', {
-        analytics_storage: 'denied',
+        analytics_storage: 'granted',
       }],
     ],
   },

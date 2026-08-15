@@ -9,12 +9,12 @@ const visible = ref(false)
 onMounted(() => {
   const stored = localStorage.getItem(STORAGE_KEY)
 
-  if (stored === 'granted') {
-    gtag('consent', 'update', { analytics_storage: 'granted' })
+  if (stored === 'denied') {
+    gtag('consent', 'update', { analytics_storage: 'denied' })
     return
   }
 
-  if (stored !== 'denied') {
+  if (stored !== 'granted') {
     visible.value = true
   }
 })
@@ -27,6 +27,7 @@ function accept() {
 
 function decline() {
   localStorage.setItem(STORAGE_KEY, 'denied')
+  gtag('consent', 'update', { analytics_storage: 'denied' })
   visible.value = false
 }
 </script>
