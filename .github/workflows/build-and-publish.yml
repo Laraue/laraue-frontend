@@ -25,6 +25,10 @@ jobs:
       - run: pnpm i --frozen-lockfile
       - run: pnpm nuxt build
 
+      - name: Pack build output
+        if: github.ref == 'refs/heads/main'
+        run: tar -czf laraue.tar.gz -C .output .
+
       - name: Upload
         if: github.ref == 'refs/heads/main'
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
@@ -33,6 +37,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }} # 22
           user: ${{ secrets.SSH_USER }} # "user"
           password: ${{ secrets.SSH_PASSWORD }} # "password"
-          local: .output/*
+          local: laraue.tar.gz
           remote: "/home/laraue/frontend/laraue"
-          post_upload: echo "Frontend folder uploaded"
+          post_upload: cd /home/laraue/frontend/laraue && tar -xzf laraue.tar.gz && rm laraue.tar.gz
