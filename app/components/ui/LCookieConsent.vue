@@ -4,30 +4,34 @@ const { gtag } = useGtag()
 
 const STORAGE_KEY = 'cookie-consent'
 
+const consentRequired = useConsentRequired()
+const analyticsConsent = useAnalyticsConsent()
+
 const visible = ref(false)
 
 onMounted(() => {
-  const stored = localStorage.getItem(STORAGE_KEY)
-
-  if (stored === 'denied') {
-    gtag('consent', 'update', { analytics_storage: 'denied' })
-    return
-  }
-
-  if (stored !== 'granted') {
+  // consent-init.client.ts runs before this and already resolves stored/
+  // not-required consent, so only jurisdictions that need it and haven't
+  // decided yet ever see the banner.
+  if (consentRequired.value && analyticsConsent.value === null) {
     visible.value = true
   }
 })
 
 function accept() {
   localStorage.setItem(STORAGE_KEY, 'granted')
+  // Yandex Metrika is never loaded here: this banner only ever appears for
+  // GDPR-scoped countries, which never overlap with the CIS allowlist that
+  // gates Yandex (see plugins/consent-init.client.ts).
   gtag('consent', 'update', { analytics_storage: 'granted' })
+  analyticsConsent.value = 'granted'
   visible.value = false
 }
 
 function decline() {
   localStorage.setItem(STORAGE_KEY, 'denied')
   gtag('consent', 'update', { analytics_storage: 'denied' })
+  analyticsConsent.value = 'denied'
   visible.value = false
 }
 </script>

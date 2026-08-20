@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2026-06-21',
   devtools: { enabled: true },
-  modules: ['nuxt-gtag', '@nuxtjs/i18n', '@nuxtjs/sitemap', 'nuxt-yandex-metrika'],
+  modules: ['nuxt-gtag', '@nuxtjs/i18n', '@nuxtjs/sitemap'],
   site: {
     url: 'https://laraue.com',
   },
@@ -16,13 +16,9 @@ export default defineNuxtConfig({
     id: 'G-RGM3JHLBGL',
     initCommands: [
       ['consent', 'default', {
-        analytics_storage: 'granted',
+        analytics_storage: 'denied',
       }],
     ],
-  },
-  yandexMetrika: {
-    id: '111013659',
-    debug: process.env.NODE_ENV !== "production",
   },
   css: [
     '~/assets/css/main.css',
