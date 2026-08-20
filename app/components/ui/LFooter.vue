@@ -6,7 +6,7 @@
 <i18n lang="json">
 {
   "en": {
-    "footer_tag": "Small team. Serious craft. Software built to last.",
+    "footer_tag": "Small team. Serious craft.",
     "footer_products": "Products",
     "footer_company": "Company",
     "footer_blog": "Blog",
@@ -18,12 +18,12 @@
     "nav_about": "About"
   },
   "ru": {
-    "footer_tag": "Небольшая команда. Серьёзный подход. Работаем на результат.",
+    "footer_tag": "Небольшая команда. Серьёзный подход.",
     "footer_products": "Продукты",
     "footer_company": "Компания",
     "footer_blog": "Блог",
     "footer_contact": "Контакты",
-    "footer_made": "Сделано с заботой, выпущено с умом.",
+    "footer_made": "Создано в стараниях. Выпущено в страданиях.",
     "tool1n": "Конвертер Markdown → HTML",
     "tool2n_short": "AI Квартиры",
     "tool3n": "Бот-словарь",
