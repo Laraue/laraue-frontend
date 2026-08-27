@@ -11,7 +11,7 @@ const toggleFaq = (index: number) => {
   openFaq.value = openFaq.value === index ? null : index;
 };
 const faqItems = computed(() =>
-  [1, 2, 3, 4, 5, 6, 7, 8].map((i) => ({ q: t(`faq${i}q`), a: t(`faq${i}a`) }))
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => ({ q: t(`faq${i}q`), a: t(`faq${i}a`) }))
 );
 
 import {
@@ -40,22 +40,17 @@ useSchemaOrg([
       defineOffer({
         price: 0,
         priceCurrency: "USD",
-        description: 'Free: boards, spaces, epics, issues, custom attributes, organizations. Telegram bot, Mini App and web app included.'
+        description: 'Free task management and project tracking: boards, spaces, epics, issues, custom attributes, organizations. Telegram bot, Mini App and web app included.'
       })
     ]
   }),
   {
     '@type': 'FAQPage',
-    mainEntity: [
-      { '@type': 'Question', name: t('faq1q'), acceptedAnswer: { '@type': 'Answer', text: t('faq1a') } },
-      { '@type': 'Question', name: t('faq2q'), acceptedAnswer: { '@type': 'Answer', text: t('faq2a') } },
-      { '@type': 'Question', name: t('faq3q'), acceptedAnswer: { '@type': 'Answer', text: t('faq3a') } },
-      { '@type': 'Question', name: t('faq4q'), acceptedAnswer: { '@type': 'Answer', text: t('faq4a') } },
-      { '@type': 'Question', name: t('faq5q'), acceptedAnswer: { '@type': 'Answer', text: t('faq5a') } },
-      { '@type': 'Question', name: t('faq6q'), acceptedAnswer: { '@type': 'Answer', text: t('faq6a') } },
-      { '@type': 'Question', name: t('faq7q'), acceptedAnswer: { '@type': 'Answer', text: t('faq7a') } },
-      { '@type': 'Question', name: t('faq8q'), acceptedAnswer: { '@type': 'Answer', text: t('faq8a') } },
-    ]
+    mainEntity: faqItems.value.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a }
+    }))
   },
   defineBreadcrumb({
     itemListElement: [
@@ -105,8 +100,8 @@ useSeoMeta({
     "hv_title": "Fix checkout button on mobile Safari",
     "hv_desc": "Pay button doesn't respond to tap. Only happens in Safari on mobile",
 
-    "seoTitle": "Laraue Boards — Turn Telegram Messages into Kanban Boards",
-    "seoDescription": "Stop losing important messages in Telegram. Laraue Boards turns messages you send to {'@'}msgboard_bot into cards on a kanban board. Free, open source, works as a Telegram Mini App and a web app.",
+    "seoTitle": "Laraue Boards — Telegram Kanban Task Manager",
+    "seoDescription": "A free, open-source Jira alternative built on Telegram. Forward a message to {'@'}msgboard_bot and it becomes a task on your Kanban board — Mini App or web app.",
 
     "sec_top": "Overview",
     "sec_use_cases": "Use cases",
@@ -117,14 +112,14 @@ useSeoMeta({
 
     "open_webapp": "Web App",
 
-    "hero_eyebrow": "Boards by Laraue Software",
+    "hero_eyebrow": "Telegram task manager by Laraue Software",
     "hero_title": "Turn Telegram messages\ninto Kanban boards",
-    "hero_sub": "Forward a message to {'@'}msgboard_bot alone, or link your team's group chats to route work straight to shared boards. Free, open source, ready in seconds.",
+    "hero_sub": "A Jira alternative in Telegram. Link your chats to boards with {'@'}msgboard_bot. Free, open source, ready in seconds.",
     "hero_cta_web": "Open Web App",
 
     "uc_label": "Built for two worlds",
     "uc_title": "Personal productivity\nor team coordination",
-    "uc_sub": "Laraue Boards adapts to how you work — solo or with a team.",
+    "uc_sub": "Laraue Boards adapts to how you work — a solo task manager, or a project tracker for the whole team.",
     "uc_personal_title": "Personal use",
     "uc_personal_desc": "Capture thoughts, tasks and links without leaving Telegram. Forward a message to the bot and it lands on your board.",
     "uc_p1": "Forward any message — text, photo, video or album",
@@ -133,7 +128,7 @@ useSeoMeta({
     "uc_p4": "Organise into epics and columns when you have time",
     "uc_p_cta": "Start with the Telegram bot",
     "uc_teams_title": "Small teams & agencies",
-    "uc_teams_desc": "A lightweight Jira alternative for teams that find Jira overwhelming — and for agencies juggling several clients at once. Create an organization, invite teammates, track work together.",
+    "uc_teams_desc": "A lightweight Jira alternative built on Telegram, for teams that find Jira overwhelming — and for agencies juggling several clients at once. Create an organization, invite teammates, track work together.",
     "uc_t1": "Organization mode with shared boards",
     "uc_t2": "Invite teammates via Telegram",
     "uc_t3": "Permissions per operation on spaces, epics and issues",
@@ -162,8 +157,8 @@ useSeoMeta({
     "feat_sub": "Deliberately simple. Every feature earns its place.",
     "f1t": "Visual Kanban Boards",
     "f1d": "Drag-and-drop cards across columns. Clean, fast, works on any screen.",
-    "f2t": "Forward to Board",
-    "f2d": "Send any Telegram message to the bot and it appears as a card instantly — with a 👍 to confirm.",
+    "f2t": "Telegram message to task",
+    "f2d": "Send any Telegram message to the bot and it turns into a task on your board instantly — with a 👍 to confirm.",
     "f3t": "Media and albums",
     "f3d": "Photos, videos and whole albums become one card with all the attachments, in original quality.",
     "f4t": "Edits sync back",
@@ -221,18 +216,22 @@ useSeoMeta({
     "faq1a": "Yes. Everything on this page is free to use. /aisave is free while it's in testing and will become a paid feature later — everything else stays free.",
     "faq2q": "Is it really open source?",
     "faq2a": "Yes. Both the backend and the frontend are public on GitHub, so you can read exactly what happens to a message after you send it.",
-    "faq3q": "How is this different from Telegram Saved Messages?",
-    "faq3a": "Saved Messages is a great place to save something quickly, but a bad place to find it later. Laraue Boards keeps the saving just as easy and gives what you saved a board, columns and statuses.",
+    "faq3q": "What's a good alternative to Telegram Saved Messages?",
+    "faq3a": "Saved Messages is a great place to save something quickly, but a bad place to find it later. Laraue Boards is the alternative: it keeps the saving just as easy and gives what you saved a board, columns and statuses.",
     "faq4q": "Do I need an account or a password?",
     "faq4a": "No. You log in with Telegram. In the Mini App you are already logged in, and the web version has a Telegram login button.",
-    "faq5q": "Is Laraue Boards a Jira alternative?",
-    "faq5a": "Yes — a lighter one, built for teams that find Jira's setup overwhelming. You still get spaces, boards, custom attributes and permissions, but the Telegram connection means capturing work takes a forwarded message instead of a form.",
+    "faq5q": "Is there a Jira alternative that works inside Telegram?",
+    "faq5a": "Yes — Laraue Boards is a Jira alternative built entirely around Telegram, and lighter for teams that find Jira's setup overwhelming. You still get spaces, boards, custom attributes and permissions, but capturing work takes a forwarded message instead of a form.",
     "faq6q": "Can I use it alone, without a team?",
     "faq6a": "Yes. Every account gets a private personal organization automatically — no team, no invites, nothing to configure. Forward a message and it lands on your own board.",
     "faq7q": "Does Laraue Boards work on mobile?",
     "faq7a": "Yes, two ways: the Telegram Mini App opens inside Telegram on any phone, and the web app is fully responsive if you'd rather use a browser.",
     "faq8q": "Can I search across all my boards at once?",
     "faq8a": "Yes. The web app has an all-issues search across every space and board, and you can also search from inside any Telegram chat by typing {'@'}msgboard_bot followed by your query.",
+    "faq9q": "Can I use Laraue Boards as a Telegram task manager for my team?",
+    "faq9a": "Yes. Create an organization, invite your team via Telegram, and forwarded messages route straight to shared boards with permissions per operation. It works as a lightweight project management bot without leaving the app your team already uses to chat.",
+    "faq10q": "How does a Telegram message turn into a task?",
+    "faq10a": "Forward or send any message to {'@'}msgboard_bot and it becomes a card on your board within seconds, confirmed with a 👍 reaction. Edit the original message in Telegram and the card updates with it — no copy-pasting into another app.",
 
     "pr_note": "Laraue Boards is free. /aisave is free while it's in testing and will become a paid feature later; everything else on this page stays free.",
 
@@ -274,15 +273,15 @@ useSeoMeta({
 
     "open_webapp": "Веб-приложение",
 
-    "hero_eyebrow": "Boards от Laraue Software",
+    "hero_eyebrow": "Telegram-таск-менеджер от Laraue Software",
     "hero_title": "Превращайте сообщения Telegram\nв Kanban-доски",
-    "hero_sub": "Пересылайте сообщение {'@'}msgboard_bot в одиночку, или привяжите групповые чаты команды, чтобы задачи попадали сразу на общие доски. Бесплатно, с открытым кодом, готово за секунды.",
+    "hero_sub": "Альтернатива Jira в Telegram. Привяжите свои чаты к доскам с помощью {'@'}msgboard_bot. Бесплатно, с открытым кодом, готово за секунды.",
     "hero_cta_web": "Открыть веб-приложение",
 
 
     "uc_label": "Для двух сценариев",
     "uc_title": "Личная продуктивность\nили командная работа",
-    "uc_sub": "Laraue Boards адаптируется под ваш стиль работы — одиночный или командный режим.",
+    "uc_sub": "Laraue Boards адаптируется под ваш стиль работы — как таск-менеджер для себя или как трекер задач для всей команды.",
     "uc_personal_title": "Личное использование",
     "uc_personal_desc": "Сохраняйте мысли, задачи и ссылки, не выходя из Telegram. Перешлите сообщение боту — оно окажется на доске.",
     "uc_p1": "Пересылайте что угодно — текст, фото, видео или альбом",
@@ -291,7 +290,7 @@ useSeoMeta({
     "uc_p4": "Организуйте по эпикам и статусам, когда найдется время",
     "uc_p_cta": "Начать через Telegram-бота",
     "uc_teams_title": "Команды и агентства",
-    "uc_teams_desc": "Лёгкая альтернатива Jira для команд, которым она кажется избыточной, — и для агентств, ведущих сразу несколько клиентов. Создайте организацию, пригласите коллег, работайте над задачами вместе.",
+    "uc_teams_desc": "Лёгкая альтернатива Jira на базе Telegram — для команд, которым Jira кажется избыточной, и для агентств, ведущих сразу несколько клиентов. Создайте организацию, пригласите коллег, работайте над задачами вместе.",
     "uc_t1": "Режим организации с общими досками",
     "uc_t2": "Приглашайте коллег через Telegram",
     "uc_t3": "Права по операциям над спейсами, эпиками и issues",
@@ -320,8 +319,8 @@ useSeoMeta({
     "feat_sub": "Намеренная простота. Каждая функция действительно полезна.",
     "f1t": "Визуальные Kanban-доски",
     "f1d": "Drag-and-drop карточки по колонкам. Работает на любом экране.",
-    "f2t": "Пересылка на доску",
-    "f2d": "Отправьте сообщение боту — оно станет карточкой, а бот подтвердит это реакцией 👍.",
+    "f2t": "Сообщение Telegram в задачу",
+    "f2d": "Отправьте сообщение боту — оно станет задачей на доске, а бот подтвердит это реакцией 👍.",
     "f3t": "Медиа и альбомы",
     "f3d": "Фото, видео и целые альбомы становятся одной карточкой со всеми вложениями, в исходном качестве.",
     "f4t": "Правки синхронизируются",
@@ -379,24 +378,28 @@ useSeoMeta({
     "faq1a": "Да. Всё, что описано на этой странице, бесплатно. Функция /aisave бесплатна, пока она тестируется, и позже станет платной — всё остальное останется бесплатным.",
     "faq2q": "Проект действительно опенсорсный?",
     "faq2a": "Да. Бэкенд и фронтенд открыты на GitHub — можно прочитать, что именно происходит с сообщением после отправки.",
-    "faq3q": "Чем это отличается от «Сохраненных сообщений» в Telegram?",
-    "faq3a": "«Сохраненные сообщения» — отличное место, чтобы что-то быстро сохранить, но плохое, чтобы это потом найти. Laraue Boards оставляет сохранение таким же простым и даёт сохранённому доску, колонки и статусы.",
+    "faq3q": "Какая есть альтернатива «Сохранённым сообщениям» в Telegram?",
+    "faq3a": "«Сохранённые сообщения» — отличное место, чтобы что-то быстро сохранить, но плохое, чтобы это потом найти. Laraue Boards — как раз такая альтернатива: сохранять так же просто, но у сохранённого появляется доска, колонки и статусы.",
     "faq4q": "Нужен ли аккаунт или пароль?",
     "faq4a": "Нет. Вход через Telegram: в Mini App вы уже авторизованы, а в веб-версии есть кнопка входа через Telegram.",
-    "faq5q": "Laraue Boards — это альтернатива Jira?",
-    "faq5a": "Да, только легче — для команд, которым настройка Jira кажется избыточной. Здесь есть спейсы, доски, кастомные атрибуты и права, но благодаря связи с Telegram задача создаётся пересланным сообщением, а не через форму.",
+    "faq5q": "Есть ли альтернатива Jira, которая работает прямо в Telegram?",
+    "faq5a": "Да — Laraue Boards — это альтернатива Jira, построенная вокруг Telegram, и более лёгкая для команд, которым настройка Jira кажется избыточной. Здесь есть спейсы, доски, кастомные атрибуты и права, но задача создаётся пересланным сообщением, а не через форму.",
     "faq6q": "Можно ли пользоваться в одиночку, без команды?",
     "faq6a": "Да. У каждого аккаунта автоматически есть личная организация — без команды, без приглашений, без настройки. Перешлите сообщение — и оно окажется на вашей доске.",
     "faq7q": "Работает ли Laraue Boards на телефоне?",
     "faq7a": "Да, двумя способами: Telegram Mini App открывается прямо в Telegram на любом телефоне, а веб-приложение полностью адаптивно, если вам удобнее браузер.",
     "faq8q": "Можно ли искать по всем доскам сразу?",
     "faq8a": "Да. В веб-приложении есть поиск по всем issues во всех спейсах и досках, а ещё можно искать прямо из любого чата Telegram, набрав {'@'}msgboard_bot и запрос.",
+    "faq9q": "Можно ли использовать Laraue Boards как Telegram таск-менеджер для команды?",
+    "faq9a": "Да. Создайте организацию, пригласите команду через Telegram — пересланные сообщения будут попадать прямо на общие доски, а права настраиваются по операциям. Это лёгкий бот для управления проектами, не заставляющий уходить из чата, где команда и так общается.",
+    "faq10q": "Как сообщение из Telegram превращается в задачу?",
+    "faq10a": "Перешлите или отправьте любое сообщение боту {'@'}msgboard_bot — и через пару секунд оно станет карточкой на доске, а бот подтвердит это реакцией 👍. Отредактируйте исходное сообщение в Telegram — карточка обновится вместе с ним, без копирования в другое приложение.",
 
     "pr_note": "Laraue Boards бесплатен. Функция /aisave бесплатна, пока она тестируется, и позже станет платной; всё остальное на этой странице останется бесплатным.",
 
     "cta_label": "Начните сегодня",
     "cta_title": "Ваши заметки заслуживают большего,\nчем затеряться в чате",
-    "cta_sub": "Бесплатно и с открытым кодом. За 30 секунд.",
+    "cta_sub": "Бесплатно и с открытым кодом. Начните за 30 секунд.",
     "documentation": "Документация",
     "project_page": "Как это сделано",
     "project_description": "Подробнее о проекте"
