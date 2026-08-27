@@ -19,13 +19,12 @@ const route = useRoute();
 const router = useRouter();
 const localePath = useLocalePath();
 
-const path = ["blog"]
-const { getItems } = useBlogApi();
+const { getFeed } = useBlogApi();
 
 const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 
 const loadPage = async () => {
-  const data = await getItems(locale.value, path, ["article", "project"], route.query.tag as string, page.value - 1, PER_PAGE)
+  const data = await getFeed(locale.value, route.query.tag as string, page.value - 1, PER_PAGE)
   items.value = data.data
   hasNextPage.value = data.hasNextPage
   hasPreviousPage.value = data.hasPreviousPage

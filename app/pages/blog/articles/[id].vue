@@ -9,13 +9,13 @@ definePageMeta({
   layout: 'blog',
 })
 
-const { getRouteSegments, getBlogOgImageUrl } = usePathUtil();
+const { getBlogOgImageUrl } = usePathUtil();
 
 const { locale, t } = useI18n()
 const localePath = useLocalePath();
-const { getItemDetails } = useBlogApi();
-const routeSegments = getRouteSegments();
-const article = await getItemDetails(locale.value, routeSegments);
+const { getArticle } = useBlogApi();
+const route = useRoute();
+const article = await getArticle(locale.value, route.params.id as string);
 const imageUrl = getBlogOgImageUrl();
 const { author } = useConstants()
 

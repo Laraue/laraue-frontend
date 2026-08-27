@@ -4,12 +4,13 @@ import {useBlogApi} from "~/composables/blogApi";
 import {useSchemaOrg} from "@unhead/schema-org/vue";
 import {defineArticle, defineBreadcrumb} from "@unhead/schema-org";
 
-const { getRouteSegments, getBlogOgImageUrl } = usePathUtil();
-const { getItemDetails } = useBlogApi();
+const { getBlogOgImageUrl } = usePathUtil();
+const { getProject } = useBlogApi();
 const { locale, t } = useI18n();
 const localePath = useLocalePath();
+const route = useRoute();
 
-const project = await getItemDetails(locale.value, getRouteSegments());
+const project = await getProject(locale.value, route.params.id as string);
 definePageMeta({
   layout: 'blog',
 })

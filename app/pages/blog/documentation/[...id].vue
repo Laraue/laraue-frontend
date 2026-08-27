@@ -4,19 +4,18 @@ import {useBlogApi} from "~/composables/blogApi";
 import DocsMobileToc from "~/components/docs/DocsMobileToc.vue";
 import {defineArticle, defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
-const { getItemDetails } = useBlogApi();
+const { getDocumentation, getDocumentationSection, loadMenu } = useBlogApi();
 const { locale } = useI18n();
 const localePath = useLocalePath();
-const { getRouteSegments, getBlogOgImageUrl } = usePathUtil();
-const { loadMenu, getItemMeta } = useBlogApi()
+const { getBlogOgImageUrl } = usePathUtil();
 const { author } = useConstants()
 const route = useRoute();
 const segments = route.params.id as string[]
 const rootPath = ["blog", "documentation", segments[0]!]
 const menuItems = await loadMenu(locale.value, rootPath);
-const item = await getItemMeta(locale.value, rootPath);
+const item = await getDocumentationSection(locale.value, [segments[0]!]);
 
-const documentation = await getItemDetails(locale.value, getRouteSegments());
+const documentation = await getDocumentation(locale.value, segments);
 const { t } = useI18n();
 const imageUrl = getBlogOgImageUrl();
 const isContentPage = documentation.contentType === 'documentation'

@@ -9,7 +9,7 @@ const PER_PAGE = 16;
 const articles = ref<ItemListItem[]>([])
 const hasNextPage = ref(false)
 const hasPreviousPage = ref(false)
-const { getItems } = useBlogApi()
+const { getArticles } = useBlogApi()
 
 const { locale } = useI18n();
 const route = useRoute();
@@ -20,12 +20,10 @@ definePageMeta({
   layout: 'blog',
 })
 
-const path = ["blog", "articles"];
-
 const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 
 const loadPage = async () => {
-  const result = await getItems(locale.value, path, ["article"], undefined, page.value - 1, PER_PAGE);
+  const result = await getArticles(locale.value, undefined, page.value - 1, PER_PAGE);
   articles.value = result.data
   hasNextPage.value = result.hasNextPage
   hasPreviousPage.value = result.hasPreviousPage

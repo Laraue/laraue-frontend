@@ -122,7 +122,7 @@ export const useBlogApi = () => {
     const client = useBlogClient()
 
     const loadMenu = (languageCode: string, fromPath: string[]) => {
-        return client<HierarchicalMenuSection[]>('blog/docs-hierarchy', {
+        return client<HierarchicalMenuSection[]>('blog/documentation-menu', {
             method: 'GET',
             query: {
                 "languageCode": languageCode,
@@ -145,7 +145,7 @@ export const useBlogApi = () => {
     const getDocs = async (
         languageCode: string)
         : Promise<SidebarItem[]> => {
-        return client<SidebarItem[]>('blog/docs', {
+        return client<SidebarItem[]>('blog/documentation-tree', {
             method: 'GET',
             query: {
                 languageCode: languageCode,
@@ -153,51 +153,99 @@ export const useBlogApi = () => {
         });
     }
 
-    const getItemDetails = async (
+    const getDocumentation = async (
         languageCode: string,
         path: string[])
         : Promise<ItemDetails> => {
-        return client<ItemDetails>('blog/details', {
-            method: 'POST',
-            body: {
+        return client<ItemDetails>(`blog/documentation/${path.join('/')}`, {
+            method: 'GET',
+            query: {
                 languageCode: languageCode,
-                path: path,
             }
         });
     }
 
-    const getItemMeta = async (
+    const getDocumentationSection = async (
         languageCode: string,
         path: string[])
         : Promise<ItemMeta> => {
-        return client<ItemMeta>('blog/meta', {
-            method: 'POST',
-            body: {
+        return client<ItemMeta>(`blog/documentation-section/${path.join('/')}`, {
+            method: 'GET',
+            query: {
                 languageCode: languageCode,
-                path: path,
             }
         });
     }
 
-    const getItems = async (
+    const getArticles = async (
         languageCode: string,
-        path: string[],
-        contentTypes: string[],
         tag: string | undefined,
         page: number,
         perPage: number)
         : Promise<PaginationData<ItemListItem>> => {
-        return client<PaginationData<ItemListItem>>('blog/list', {
-            method: 'POST',
-            body: {
+        return client<PaginationData<ItemListItem>>('blog/articles', {
+            method: 'GET',
+            query: {
                 languageCode: languageCode,
-                path: path,
-                pagination: {
-                    page: page,
-                    perPage: perPage
-                },
-                contentTypes: contentTypes,
                 tag: tag,
+                page: page,
+                perPage: perPage,
+            }
+        });
+    }
+
+    const getArticle = async (
+        languageCode: string,
+        fileName: string)
+        : Promise<ItemDetails> => {
+        return client<ItemDetails>(`blog/articles/${fileName}`, {
+            method: 'GET',
+            query: {
+                languageCode: languageCode,
+            }
+        });
+    }
+
+    const getProjects = async (
+        languageCode: string,
+        page: number,
+        perPage: number)
+        : Promise<PaginationData<ItemListItem>> => {
+        return client<PaginationData<ItemListItem>>('blog/projects', {
+            method: 'GET',
+            query: {
+                languageCode: languageCode,
+                page: page,
+                perPage: perPage,
+            }
+        });
+    }
+
+    const getProject = async (
+        languageCode: string,
+        fileName: string)
+        : Promise<ItemDetails> => {
+        return client<ItemDetails>(`blog/projects/${fileName}`, {
+            method: 'GET',
+            query: {
+                languageCode: languageCode,
+            }
+        });
+    }
+
+    const getFeed = async (
+        languageCode: string,
+        tag: string | undefined,
+        page: number,
+        perPage: number)
+        : Promise<PaginationData<ItemListItem>> => {
+        return client<PaginationData<ItemListItem>>('blog/feed', {
+            method: 'GET',
+            query: {
+                languageCode: languageCode,
+                tag: tag,
+                page: page,
+                perPage: perPage,
             }
         });
     }
@@ -217,9 +265,13 @@ export const useBlogApi = () => {
         loadMenu,
         getCategories,
         getDocs,
-        getItemDetails,
-        getItems,
+        getDocumentation,
+        getDocumentationSection,
+        getArticles,
+        getArticle,
+        getProjects,
+        getProject,
+        getFeed,
         getTags,
-        getItemMeta,
     }
 }

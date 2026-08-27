@@ -15,8 +15,7 @@ const { locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const localePath = useLocalePath();
-const path = ["blog", "projects"];
-const { getItems } = useBlogApi();
+const { getProjects } = useBlogApi();
 
 const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 
@@ -24,7 +23,7 @@ const projects = ref<ItemListItem[]>([]);
 const hasNextPage = ref(false)
 const hasPreviousPage = ref(false)
 const loadPage = async () => {
-  const result = await getItems(locale.value, path, ["project"], undefined, page.value - 1, PER_PAGE);
+  const result = await getProjects(locale.value, page.value - 1, PER_PAGE);
   projects.value = result.data
   hasNextPage.value = result.hasNextPage
   hasPreviousPage.value = result.hasPreviousPage
