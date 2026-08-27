@@ -70,11 +70,14 @@ export interface ItemDetails {
     createdAt: string;
     contentType: string;
     updatedAt: string | undefined;
+    createdAtIso: string;
+    updatedAtIso: string;
     innerLinks: InnerLink[];
     previousLink?: NeighborCard;
     nextLink?: NeighborCard;
     tags?: string[];
     projects?: string[];
+    keywords?: string[];
     length: number;
 }
 

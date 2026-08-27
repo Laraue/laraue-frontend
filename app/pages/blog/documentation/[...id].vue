@@ -2,13 +2,14 @@
 import DocView from "~/components/docs/DocView.vue";
 import {useBlogApi} from "~/composables/blogApi";
 import DocsMobileToc from "~/components/docs/DocsMobileToc.vue";
-import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
+import {defineArticle, defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const { getItemDetails } = useBlogApi();
 const { locale } = useI18n();
 const localePath = useLocalePath();
 const { getRouteSegments, getBlogOgImageUrl } = usePathUtil();
 const { loadMenu, getItemMeta } = useBlogApi()
+const { author } = useConstants()
 const route = useRoute();
 const segments = route.params.id as string[]
 const rootPath = ["blog", "documentation", segments[0]!]
@@ -18,13 +19,16 @@ const item = await getItemMeta(locale.value, rootPath);
 const documentation = await getItemDetails(locale.value, getRouteSegments());
 const { t } = useI18n();
 const imageUrl = getBlogOgImageUrl();
+const isContentPage = documentation.contentType === 'documentation'
 
 useSeoMeta({
   title: documentation.title,
   ogTitle: documentation.title,
   description: documentation.description ?? t('seoDescription', { title: documentation.title }),
   ogDescription: documentation.description ?? t('seoDescription', { title: documentation.title }),
-  ogType: "website",
+  ogType: isContentPage ? "article" : "website",
+  articlePublishedTime: isContentPage ? documentation.createdAtIso : undefined,
+  articleModifiedTime: isContentPage ? documentation.updatedAtIso : undefined,
   ogImageUrl: imageUrl,
   ogImageWidth: 1200,
   ogImageHeight: 630,
@@ -48,6 +52,16 @@ if (!isRootDocPage) {
 }
 
 useSchemaOrg([
+  ...(isContentPage ? [defineArticle({
+    headline: documentation.title,
+    description: documentation.description,
+    image: imageUrl,
+    datePublished: documentation.createdAtIso,
+    dateModified: documentation.updatedAtIso,
+    inLanguage: locale.value,
+    keywords: documentation.keywords,
+    author,
+  })] : []),
   defineBreadcrumb({
     itemListElement: breadcrumbItems
   }),
