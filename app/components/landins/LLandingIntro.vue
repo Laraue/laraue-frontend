@@ -19,7 +19,8 @@ defineProps<{
   <LProtoBanner v-if="alert" :message="alert" />
 
   <!-- ══ HERO ══ -->
-  <section class="hero" aria-labelledby="hero-heading">
+  <section class="hero" :class="{ 'hero--custom-bg': !!$slots.background }" aria-labelledby="hero-heading">
+    <slot name="background" />
     <div class="hero-inner">
       <div>
         <div class="platform-badges">
@@ -31,7 +32,7 @@ defineProps<{
         <div class="hero-actions">
           <slot name="actions" />
         </div>
-        <div class="hero-stats">
+        <div class="hero-stats" v-if="statistics?.length">
           <div v-for="statistic in statistics">
             <div class="hero-stat-num">{{ statistic.num }}</div>
             <div class="hero-stat-label">{{ statistic.label }}</div>
@@ -55,35 +56,35 @@ defineProps<{
   padding:100px 60px 80px;position:relative;overflow:hidden;
   background:var(--ink);
 }
-/* grid overlay */
-.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:52px 52px}
 /* radial glow */
 .hero::after{content:'';position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(45,125,210,.25) 0%,transparent 70%);pointer-events:none}
+
+.hero--custom-bg::before,.hero--custom-bg::after{content:none}
 
 .hero-inner{position:relative;z-index:1;max-width:1060px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 
 /* platform badges */
-.platform-badges{display:flex;align-items:center;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.platform-badges{display:flex;align-items:center;gap:10px;margin-bottom:28px;flex-wrap:wrap;opacity:0;animation:fadeUp var(--anim-duration-lg) 0s var(--anim-ease) both}
 
-.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,238,.4);margin-bottom:16px}
+.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(247,244,238,.4);margin-bottom:16px;opacity:0;animation:fadeUp var(--anim-duration-lg) var(--anim-stagger) var(--anim-ease) both}
 
 .hero-title{
   font-family:var(--serif);
   font-size:clamp(32px,4vw,56px);
   line-height:1.05;letter-spacing:-.5px;
   color:#fff;margin-bottom:12px;
-  animation:fadeUp .8s .1s ease both;
+  animation:fadeUp var(--anim-duration-lg) var(--anim-stagger) var(--anim-ease) both;
 }
 
-.hero-sub{font-size:18px;color:rgba(247,244,238,.6);line-height:1.65;max-width:460px;margin-bottom:36px;font-weight:300;animation:fadeUp .8s .2s ease both}
+.hero-sub{font-size:18px;color:rgba(247,244,238,.6);line-height:1.65;max-width:460px;margin-bottom:36px;font-weight:300;animation:fadeUp var(--anim-duration-lg) calc(var(--anim-stagger) * 2) var(--anim-ease) both}
 
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp var(--anim-duration-lg) calc(var(--anim-stagger) * 3) var(--anim-ease) both}
 
 /* hero stats */
-.hero-stats{display:flex;gap:32px;margin-top:44px;animation:fadeUp .8s .4s ease both;flex-wrap:wrap}
+.hero-stats{display:flex;gap:32px;margin-top:44px;animation:fadeUp var(--anim-duration-lg) calc(var(--anim-stagger) * 4) var(--anim-ease) both;flex-wrap:wrap}
 .hero-stat-num{font-family:var(--serif);font-size:28px;font-weight:800;color:#fff;letter-spacing:-.5px}
 .hero-stat-label{font-size:12px;color:rgba(247,244,238,.45);margin-top:2px;font-weight:500}
-.hero-visual{animation:fadeUp .9s .25s ease both;display:flex;justify-content:center}
+.hero-visual{animation:fadeUp var(--anim-duration-lg) var(--anim-stagger) var(--anim-ease) both;display:flex;justify-content:center}
 
 /* ══ RESPONSIVE ══ */
 @media(max-width:720px){

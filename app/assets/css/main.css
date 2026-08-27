@@ -17,6 +17,16 @@
     --blue:#3b5bdb;
     --blue-light:#eef2ff;
     --mono:'JetBrains Mono', monospace;
+
+    /* entrance-animation timing scale — change here, not per-component */
+    --anim-ease:ease;
+    --anim-duration:0.7s;      /* reveal-on-scroll fades, mockup message bubbles */
+    --anim-duration-lg:1.3s;   /* hero title/subtitle/actions */
+    --anim-stagger:0.3s;       /* stagger unit: hero content steps, card pairs */
+    --anim-stagger-sm:0.18s;   /* stagger unit: feature grid cards */
+    --anim-demo-duration:0.45s; /* fade-in duration: hero phone-mockup narrative */
+    --anim-demo-step:0.65s;    /* stagger unit: hero phone-mockup narrative */
+    --anim-pulse-duration:2.2s;
 }
 html{scroll-behavior:smooth}
 body{
@@ -31,4 +41,15 @@ body{
 
 @media(max-width:1100px){
     :root{--sidebar-w:0px}
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.reveal{opacity:0}
+.reveal.is-visible{animation:fadeUp var(--anim-duration) var(--anim-ease) both}
+@media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;animation:none}
+}
+@media(prefers-reduced-motion:reduce){
+    .platform-badges,.hero-eyebrow,.hero-title,.hero-sub,.hero-actions,.hero-stats,.hero-visual,.hero-quick-links{animation:none!important;opacity:1!important;transform:none!important}
 }

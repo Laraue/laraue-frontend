@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <LSidebar :linksSections="linksSections"/>
+  <LSidebar v-if="linksSections?.length" :linksSections="linksSections"/>
   <slot name="sidebar"></slot>
   <main class="main-content">
     <slot></slot>

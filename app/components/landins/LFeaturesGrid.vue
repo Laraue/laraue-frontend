@@ -24,7 +24,7 @@ const isIconName = (icon: string) => /^[a-z]+$/.test(icon)
 <template>
   <LSection class="features" :pre-title="preTitle" :postTitle="postTitle" :title="title" :type="type" :class="type">
     <div class="features-grid">
-      <nuxt-link class="feat-cell reveal" :to="feature.link" v-for="feature in features">
+      <nuxt-link class="feat-cell reveal" :to="feature.link" v-for="(feature, index) in features" :style="{ animationDelay: `min(calc(var(--anim-stagger-sm) * ${index}), calc(var(--anim-stagger-sm) * 8))` }">
         <div class="feat-icon" :class="{ 'feat-icon-svg': isIconName(feature.icon) }">
           <LNavIcon v-if="isIconName(feature.icon)" :name="feature.icon" />
           <template v-else>{{ feature.icon }}</template>
@@ -39,7 +39,7 @@ const isIconName = (icon: string) => /^[a-z]+$/.test(icon)
 
 <style scoped>
 /* ══ FEATURES ══ */
-.features{padding:80px 60px;background:var(--ink);position:relative;overflow:hidden}
+.features{padding:80px 60px;background:#17151f;position:relative;overflow:hidden;border-top:1px solid rgba(255,255,255,.1)}
 .features::before{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px}
 .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:52px}
 .feat-cell{padding:30px 26px;transition:background .2s;background: #fff;text-decoration: none;}
