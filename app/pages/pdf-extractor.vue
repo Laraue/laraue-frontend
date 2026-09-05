@@ -358,7 +358,7 @@ useSchemaOrg([
 <template>
   <LMainContent>
     <LProtoBanner :message="t('alphaNotice')" />
-    <LHero :title="t('pageTitle')" :sub-title="t('pageSubtitle')" />
+    <LHero disable-reveal-animation :title="t('pageTitle')" :sub-title="t('pageSubtitle')" />
     <!-- TOOL BODY -->
     <div class="tool-body">
 

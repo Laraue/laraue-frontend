@@ -35,7 +35,7 @@ export interface Article {
 </script>
 
 <template>
-  <LHero :title="title" :subTitle="subTitle" />
+  <LHero disable-reveal-animation :title="title" :subTitle="subTitle" />
   <div class="blog-tabs" role="tablist">
     <router-link :to="localePathFromSegments(item.path)" v-for="item in blogState.otherItems" active-class="active" class="blog-tab">
       {{ item.title }}

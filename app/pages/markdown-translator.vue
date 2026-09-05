@@ -458,6 +458,7 @@ const updateSourceStats = () => {
 <template>
   <LMainContent>
     <LHero
+      disable-reveal-animation
       :title="t('heroTitle')"
       :sub-title="t('heroSub')"
       :features="[

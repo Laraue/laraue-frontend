@@ -3,6 +3,7 @@
     title: String,
     subTitle: String,
     features: Array<String>,
+    disableRevealAnimation: Boolean,
   })
 
   const { t } = useI18n();
@@ -24,9 +25,9 @@
   <div class="blog-hero">
     <div class="blog-hero-bg" aria-hidden="true"></div>
     <div class="blog-hero-inner">
-      <div class="section-label reveal" data-i18n="blog_eyebrow">{{ t('fromTeam') }}</div>
-      <h1 class="reveal" data-i18n="blog_title">{{ title }}</h1>
-      <p class="blog-hero-sub reveal" data-i18n="blog_sub">{{ subTitle }}</p>
+      <div class="section-label" :class="{ reveal: !disableRevealAnimation }" data-i18n="blog_eyebrow">{{ t('fromTeam') }}</div>
+      <h1 :class="{ reveal: !disableRevealAnimation }" data-i18n="blog_title">{{ title }}</h1>
+      <p class="blog-hero-sub" :class="{ reveal: !disableRevealAnimation }" data-i18n="blog_sub">{{ subTitle }}</p>
       <div class="blog-hero-features" v-if="features">
       <span v-for="feature in features" class="blog-hero-feature">
         <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">

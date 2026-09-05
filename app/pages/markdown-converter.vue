@@ -428,6 +428,7 @@ const copyMarkdown = () => {
 <template>
   <LMainContent>
     <LHero
+      disable-reveal-animation
       :title="t('page_title')"
       :sub-title="t('page_desc')"
       :features="[
