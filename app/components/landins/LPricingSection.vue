@@ -5,9 +5,10 @@ import LNavIcon from '~/components/ui/LNavIcon.vue'
 import { BillingPeriod } from '~/composables/tariffsApi'
 import type { GetServiceTariffsResponse, PersonalSubscription, TeamSubscription } from '~/composables/tariffsApi'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   data: GetServiceTariffsResponse | null
   error?: boolean
+  currency?: 'USD' | 'RUB'
   preTitle?: string
   title?: string
   postTitle?: string
@@ -17,7 +18,14 @@ withDefaults(defineProps<{
 }>(), {
   error: false,
   type: 'light',
+  currency: 'USD',
 })
+
+const emit = defineEmits<{
+  'update:currency': [value: 'USD' | 'RUB']
+}>()
+
+const currencies: Array<'USD' | 'RUB'> = ['USD', 'RUB']
 
 const { t } = useI18n()
 
@@ -57,6 +65,7 @@ const getFeatures = (tariff: PersonalSubscription | TeamSubscription, perSeatTok
   "en": {
     "personal_label": "For individuals",
     "team_label": "For teams",
+    "currency_switch_label": "Currency",
     "billing_label_forever": "forever",
     "billing_label_month": "month",
     "billing_label_n_months": "every {count} months",
@@ -74,6 +83,7 @@ const getFeatures = (tariff: PersonalSubscription | TeamSubscription, perSeatTok
   "ru": {
     "personal_label": "Для себя",
     "team_label": "Для команд",
+    "currency_switch_label": "Валюта",
     "billing_label_forever": "навсегда",
     "billing_label_month": "месяц",
     "billing_label_n_months": "раз в {count} мес.",
@@ -96,6 +106,18 @@ const getFeatures = (tariff: PersonalSubscription | TeamSubscription, perSeatTok
     <div v-if="error || !data" class="pricing-error" role="alert">{{ t('load_error') }}</div>
 
     <template v-else>
+      <div class="currency-switch reveal" role="group" :aria-label="t('currency_switch_label')">
+        <button
+            v-for="code in currencies"
+            :key="code"
+            type="button"
+            class="currency-switch-btn"
+            :data-active="code === currency ? 'true' : null"
+            @click="emit('update:currency', code)">
+          {{ code }}
+        </button>
+      </div>
+
       <p class="mvp-note reveal">{{ t('mvp_note') }}</p>
 
       <div v-if="data.personalSubscriptions.length" class="pricing-group personal reveal">
@@ -171,6 +193,22 @@ const getFeatures = (tariff: PersonalSubscription | TeamSubscription, perSeatTok
   color:#8a3b1f;background:#fbeae4;border:1px solid #f0c4b3;border-radius:10px;
   padding:16px 20px;font-size:14px;font-weight:500;margin-top:24px;
 }
+
+.currency-switch{
+  display:inline-flex;gap:2px;margin-top:24px;padding:3px;
+  background:var(--cream);border:1px solid var(--border);border-radius:10px;
+}
+.dark .currency-switch{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
+.currency-switch-btn{
+  border:none;background:none;cursor:pointer;
+  padding:8px 18px;border-radius:8px;
+  font-size:13px;font-weight:700;letter-spacing:.02em;color:var(--muted);
+  transition:background .2s,color .2s;
+}
+.currency-switch-btn:hover{color:var(--ink)}
+.dark .currency-switch-btn:hover{color:#fff}
+.currency-switch-btn[data-active="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(15,14,12,.12)}
+.dark .currency-switch-btn[data-active="true"]{background:rgba(255,255,255,.12);color:#fff}
 
 .mvp-note{
   font-size:13px;color:var(--muted);background:var(--cream);border:1px solid var(--border);

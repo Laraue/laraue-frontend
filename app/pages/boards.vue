@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 
 const { t } = useI18n();
 const { getStaticOgImageUrl } = usePathUtil();
@@ -37,12 +37,20 @@ const { getServiceTariffs } = useTariffsApi();
 
 const tariffsData = ref<GetServiceTariffsResponse | null>(null);
 const tariffsError = ref(false);
+const tariffsCurrency = ref<'USD' | 'RUB'>('USD');
 
-try {
-  tariffsData.value = await getServiceTariffs({ serviceId: ServiceId.LaraueBoards, currencyCode: 'USD' });
-} catch {
-  tariffsError.value = true;
-}
+const loadTariffs = async (currencyCode: 'USD' | 'RUB') => {
+  try {
+    tariffsData.value = await getServiceTariffs({ serviceId: ServiceId.LaraueBoards, currencyCode });
+    tariffsError.value = false;
+  } catch {
+    tariffsError.value = true;
+  }
+};
+
+await loadTariffs(tariffsCurrency.value);
+
+watch(tariffsCurrency, (currencyCode) => loadTariffs(currencyCode));
 
 const allTariffs = tariffsData.value
     ? [...tariffsData.value.personalSubscriptions, ...tariffsData.value.teamSubscriptions]
@@ -748,6 +756,7 @@ useSeoMeta({
     <LPricingSection
         :data="tariffsData"
         :error="tariffsError"
+        v-model:currency="tariffsCurrency"
         :pre-title="t('pricing_label')"
         :title="t('pricing_title')"
         :post-title="t('pricing_sub')"
