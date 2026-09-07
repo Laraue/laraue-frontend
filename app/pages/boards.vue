@@ -28,7 +28,63 @@ import LSection from "~/components/landins/LSection.vue";
 import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
 import LPlatformBadge from "~/components/landins/LPlatformBadge.vue";
 import LCallToAction from "~/components/landins/LCallToAction.vue";
+import LPricingSection from "~/components/landins/LPricingSection.vue";
+import { ServiceId, useTariffsApi } from "~/composables/tariffsApi";
+import type { GetServiceTariffsResponse, PersonalSubscription, TeamSubscription } from "~/composables/tariffsApi";
 const localePath = useLocalePath();
+
+const { getServiceTariffs } = useTariffsApi();
+
+const tariffsData = ref<GetServiceTariffsResponse | null>(null);
+const tariffsError = ref(false);
+
+try {
+  tariffsData.value = await getServiceTariffs({ serviceId: ServiceId.LaraueBoards, currencyCode: 'USD' });
+} catch {
+  tariffsError.value = true;
+}
+
+const allTariffs = tariffsData.value
+    ? [...tariffsData.value.personalSubscriptions, ...tariffsData.value.teamSubscriptions]
+    : [];
+
+const buildOfferDescription = (tariff: PersonalSubscription | TeamSubscription): string => {
+  const parts: string[] = [];
+  const isTeam = tariff.type === 'LaraueBoardsTeam';
+
+  if (tariff.includedTokensCount > 0)
+    parts.push(isTeam
+      ? t('offer_tokens_per_seat', { count: tariff.includedTokensCount.toLocaleString() })
+      : t('offer_tokens', { count: tariff.includedTokensCount.toLocaleString() }));
+
+  if ((tariff.type === 'LaraueBoardsPersonal' || tariff.type === 'LaraueBoardsTeam') && tariff.limitIssuesPerMonth)
+    parts.push(isTeam
+      ? t('offer_issues_org', { count: tariff.limitIssuesPerMonth.toLocaleString() })
+      : t('offer_issues', { count: tariff.limitIssuesPerMonth.toLocaleString() }));
+
+  if (tariff.type === 'LaraueBoardsPersonal' && tariff.limitFreeTeamOrganizationsCount)
+    parts.push(t('offer_free_orgs', { count: tariff.limitFreeTeamOrganizationsCount }));
+
+  if (tariff.type === 'MarkdownTranslatorPersonal' && tariff.includedDailyFreeTokensCount)
+    parts.push(t('offer_daily_tokens', { count: tariff.includedDailyFreeTokensCount.toLocaleString() }));
+
+  return parts.join(', ');
+};
+
+const tariffOffers = allTariffs.length
+    ? allTariffs.map((tariff) => defineOffer({
+      name: tariff.title,
+      price: tariff.price,
+      priceCurrency: tariff.currencyCode,
+      description: buildOfferDescription(tariff) || undefined,
+    }))
+    : [
+      defineOffer({
+        price: 0,
+        priceCurrency: "USD",
+        description: 'Free task management and project tracking: boards, spaces, epics, issues, custom attributes, organizations. Telegram bot, Mini App and web app included.'
+      })
+    ];
 
 useSchemaOrg([
   defineSoftwareApp({
@@ -36,13 +92,7 @@ useSchemaOrg([
     description: t('seoDescription'),
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web, Telegram",
-    offers: [
-      defineOffer({
-        price: 0,
-        priceCurrency: "USD",
-        description: 'Free task management and project tracking: boards, spaces, epics, issues, custom attributes, organizations. Telegram bot, Mini App and web app included.'
-      })
-    ]
+    offers: tariffOffers
   }),
   {
     '@type': 'FAQPage',
@@ -136,6 +186,16 @@ useSeoMeta({
     "uc_t5": "One space per client, scoped access for contractors",
     "uc_t_cta": "Open web app",
 
+    "pricing_label": "Pricing",
+    "pricing_title": "Simple, honest pricing",
+    "pricing_sub": "Free to start, both for individuals and teams. Upgrade only when you need more.",
+    "offer_tokens": "{count} tokens included",
+    "offer_tokens_per_seat": "{count} tokens per seat",
+    "offer_issues": "up to {count} issues per month",
+    "offer_issues_org": "up to {count} issues per month for the whole organization",
+    "offer_free_orgs": "{count} free team organization(s)",
+    "offer_daily_tokens": "{count} free tokens per day",
+
     "pl_label": "Two ways to use it",
     "pl_title": "Web app & Telegram Mini App",
     "pl_sub": "Start in Telegram, continue in the browser. Your boards are always in sync.",
@@ -213,7 +273,7 @@ useSeoMeta({
     "faq_label": "Questions",
     "faq_title": "Common questions",
     "faq1q": "Is it free?",
-    "faq1a": "Yes. Everything on this page is free to use. /aisave is free while it's in testing and will become a paid feature later — everything else stays free.",
+    "faq1a": "The Free plan is free forever. Paid tiers (Plus, Team, Business) exist for higher limits, but during our current MVP phase they're free too — see the pricing section above. /aisave is free while it's in testing and will become a paid feature later.",
     "faq2q": "Is it really open source?",
     "faq2a": "Yes. Both the backend and the frontend are public on GitHub, so you can read exactly what happens to a message after you send it.",
     "faq3q": "What's a good alternative to Telegram Saved Messages?",
@@ -233,7 +293,7 @@ useSeoMeta({
     "faq10q": "How does a Telegram message turn into a task?",
     "faq10a": "Forward or send any message to {'@'}msgboard_bot and it becomes a card on your board within seconds, confirmed with a 👍 reaction. Edit the original message in Telegram and the card updates with it — no copy-pasting into another app.",
 
-    "pr_note": "Laraue Boards is free. /aisave is free while it's in testing and will become a paid feature later; everything else on this page stays free.",
+    "pr_note": "The Free plan stays free forever. Paid tiers exist (Plus, Team, Business) but aren't charged during the MVP phase — see pricing above. /aisave is free while it's in testing and will become a paid feature later.",
 
     "cta_label": "Get started today",
     "cta_title": "Your work deserves\nbetter than chat history",
@@ -297,6 +357,16 @@ useSeoMeta({
     "uc_t4": "Кастомные атрибуты, настраиваемые админом",
     "uc_t5": "Отдельный спейс на каждого клиента, права — точечно для подрядчиков",
     "uc_t_cta": "Открыть веб-приложение",
+
+    "pricing_label": "Цены",
+    "pricing_title": "Просто и честно",
+    "pricing_sub": "Бесплатно для старта — как для себя, так и для команды. Платите только когда нужно больше.",
+    "offer_tokens": "{count} токенов включено",
+    "offer_tokens_per_seat": "{count} токенов на место",
+    "offer_issues": "до {count} issues в месяц",
+    "offer_issues_org": "до {count} issues в месяц на всю организацию",
+    "offer_free_orgs": "{count} бесплатных организаций",
+    "offer_daily_tokens": "{count} бесплатных токенов в день",
 
     "pl_label": "Два способа использования",
     "pl_title": "Веб-приложение и Telegram Mini App",
@@ -375,7 +445,7 @@ useSeoMeta({
     "faq_label": "Вопросы",
     "faq_title": "Частые вопросы",
     "faq1q": "Это бесплатно?",
-    "faq1a": "Да. Всё, что описано на этой странице, бесплатно. Функция /aisave бесплатна, пока она тестируется, и позже станет платной — всё остальное останется бесплатным.",
+    "faq1a": "Бесплатный тариф бесплатен навсегда. Есть и платные тарифы (Plus, Team, Business) для более высоких лимитов, но пока продукт на стадии MVP, они тоже бесплатны — смотрите тарифы выше. Функция /aisave бесплатна, пока тестируется, и позже станет платной.",
     "faq2q": "Проект действительно опенсорсный?",
     "faq2a": "Да. Бэкенд и фронтенд открыты на GitHub — можно прочитать, что именно происходит с сообщением после отправки.",
     "faq3q": "Какая есть альтернатива «Сохранённым сообщениям» в Telegram?",
@@ -395,7 +465,7 @@ useSeoMeta({
     "faq10q": "Как сообщение из Telegram превращается в задачу?",
     "faq10a": "Перешлите или отправьте любое сообщение боту {'@'}msgboard_bot — и через пару секунд оно станет карточкой на доске, а бот подтвердит это реакцией 👍. Отредактируйте исходное сообщение в Telegram — карточка обновится вместе с ним, без копирования в другое приложение.",
 
-    "pr_note": "Laraue Boards бесплатен. Функция /aisave бесплатна, пока она тестируется, и позже станет платной; всё остальное на этой странице останется бесплатным.",
+    "pr_note": "Бесплатный тариф остаётся бесплатным навсегда. Платные тарифы (Plus, Team, Business) уже есть, но пока продукт на стадии MVP, плата за них не взимается — смотрите тарифы выше. Функция /aisave бесплатна, пока тестируется, и позже станет платной.",
 
     "cta_label": "Начните сегодня",
     "cta_title": "Ваши заметки заслуживают большего,\nчем затеряться в чате",
@@ -674,10 +744,21 @@ useSeoMeta({
       </div>
     </LSection>
 
+    <!-- ══ PRICING ══ -->
+    <LPricingSection
+        :data="tariffsData"
+        :error="tariffsError"
+        :pre-title="t('pricing_label')"
+        :title="t('pricing_title')"
+        :post-title="t('pricing_sub')"
+        :cta-label="t('open_webapp')"
+        cta-href="https://boards.laraue.com/"
+        type="cream" />
+
     <!-- ══ OPEN SOURCE / BUILT IN THE OPEN ══ -->
     <LSection :pre-title="t('os_label')" :title="t('os_title')" :post-title="t('os_sub')" type="cream">
       <div class="use-cases-grid">
-        <div class="use-case-card personal reveal">
+        <div class="use-case-card teams reveal">
           <div class="use-case-icon"><LNavIcon name="code" /></div>
           <div class="use-case-title">{{ t('os_code_title') }}</div>
           <p class="use-case-desc">{{ t('os_code_desc') }}</p>
@@ -687,7 +768,7 @@ useSeoMeta({
           </ul>
           <a href="https://github.com/win7user10/Laraue.Apps.Boards" class="use-case-link" target="_blank" rel="noopener">{{ t('os_code_cta') }} &#8594;</a>
         </div>
-        <div class="use-case-card teams reveal">
+        <div class="use-case-card personal reveal">
           <div class="use-case-icon"><LNavIcon name="book" /></div>
           <div class="use-case-title">{{ t('os_devlog_title') }}</div>
           <p class="use-case-desc">{{ t('os_devlog_desc') }}</p>
