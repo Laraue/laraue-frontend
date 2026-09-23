@@ -226,6 +226,7 @@ useSeoMeta({
     "mcp_f2": "Attach and download files",
     "mcp_f3": "Scoped to your own permissions",
     "mcp_f4": "Works with Claude and any MCP client",
+    "mcp_cta": "Get an API key",
 
     "feat_label": "Everything you need",
     "feat_title": "Nothing you don't",
@@ -407,6 +408,7 @@ useSeoMeta({
     "mcp_f2": "Прикладывайте и скачивайте файлы",
     "mcp_f3": "Права ограничены вашими правами доступа",
     "mcp_f4": "Работает с Claude и любым MCP-клиентом",
+    "mcp_cta": "Получить API-ключ",
 
     "feat_label": "Всё, что нужно",
     "feat_title": "И ничего лишнего",
@@ -746,7 +748,7 @@ useSeoMeta({
             <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f3') }}</span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('web_f4') }}</span></li>
           </ul>
-          <a target="_blank" href="https://boards.laraue.com/" class="btn-secondary" style="align-self:flex-start">{{ t('open_webapp') }}</a>
+          <a target="_blank" href="https://boards.laraue.com/" class="platform-card-link web" style="align-self:flex-start">{{ t('open_webapp') }} &#8594;</a>
         </div>
 
         <div class="platform-card reveal">
@@ -764,7 +766,7 @@ useSeoMeta({
             <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f3') }}</span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('tg_f4') }}</span></li>
           </ul>
-          <a href="https://t.me/msgboard_bot" class="btn-tg" style="align-self:flex-start" target="_blank" rel="noopener">&#128172; @msgboard_bot</a>
+          <a href="https://t.me/msgboard_bot" class="platform-card-link tg" style="align-self:flex-start" target="_blank" rel="noopener">@msgboard_bot &#8594;</a>
         </div>
 
         <div class="platform-card reveal">
@@ -782,7 +784,7 @@ useSeoMeta({
             <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('mcp_f3') }}</span></li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('mcp_f4') }}</span></li>
           </ul>
-          <a target="_blank" href="https://boards.laraue.com/" class="btn-secondary" style="align-self:flex-start">{{ t('open_webapp') }}</a>
+          <a target="_blank" href="https://boards.laraue.com/" class="platform-card-link mcp" style="align-self:flex-start">{{ t('mcp_cta') }} &#8594;</a>
         </div>
 
       </div>
@@ -869,10 +871,6 @@ section {
 .hero-quick-links a:hover{color:#fff;text-decoration-color:rgba(255,255,255,.6)}
 
 /* ══ SHARED UTILS ══ */
-.btn-secondary{background:transparent;color:var(--ink);padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;border:1.5px solid var(--border);display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,background .2s,transform .15s}
-.btn-secondary:hover{border-color:var(--ink);background:var(--cream);transform:translateY(-2px)}
-.btn-tg{background:#229ed9;color:#fff;padding:13px 26px;border-radius:8px;text-decoration:none;font-weight:600;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .15s}
-.btn-tg:hover{background:#1a8abf;transform:translateY(-1px)}
 .section-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .section-label::after{content:'';flex:1;max-width:40px;height:1px;background:var(--accent);opacity:.5}
 .section-title{font-family:var(--serif);font-size:clamp(26px,3vw,42px);line-height:1.12;letter-spacing:-.3px;margin-bottom:16px}
@@ -1035,6 +1033,11 @@ section {
 .platform-card-features{list-style:none;display:flex;flex-direction:column;gap:7px;margin-bottom:28px}
 .platform-card-features li{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
 .platform-card-features li svg{width:14px;height:14px;stroke:var(--msg-green);flex-shrink:0}
+.platform-card-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;text-decoration:none;transition:gap .15s}
+.platform-card-link:hover{gap:10px}
+.platform-card-link.web{color:var(--msg-blue)}
+.platform-card-link.tg{color:#229ed9}
+.platform-card-link.mcp{color:var(--accent)}
 
 /* ══ PRICING NOTE ══ */
 .pricing-note{text-align:center;margin-top:36px;font-size:14px;color:var(--muted)}
