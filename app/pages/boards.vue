@@ -11,7 +11,7 @@ const toggleFaq = (index: number) => {
   openFaq.value = openFaq.value === index ? null : index;
 };
 const faqItems = computed(() =>
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => ({ q: t(`faq${i}q`), a: t(`faq${i}a`) }))
+  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => ({ q: t(`faq${i}q`), a: t(`faq${i}a`) }))
 );
 
 import {
@@ -219,6 +219,13 @@ useSeoMeta({
     "tg_f2": "Native iOS & Android feel",
     "tg_f3": "Instant — nothing to install",
     "tg_f4": "The same boards as the web app",
+    "mcp_name": "MCP / AI Agents",
+    "mcp_tag": "boards.laraue.com/boards-mcp/mcp",
+    "mcp_desc": "Connect Claude or any MCP-compatible agent straight to your boards over the Model Context Protocol. Create a personal API key and the agent can act on your behalf.",
+    "mcp_f1": "Read, create, edit and move issues",
+    "mcp_f2": "Attach and download files",
+    "mcp_f3": "Scoped to your own permissions",
+    "mcp_f4": "Works with Claude and any MCP client",
 
     "feat_label": "Everything you need",
     "feat_title": "Nothing you don't",
@@ -300,6 +307,8 @@ useSeoMeta({
     "faq9a": "Yes. Create an organization, invite your team via Telegram, and forwarded messages route straight to shared boards with permissions per operation. It works as a lightweight project management bot without leaving the app your team already uses to chat.",
     "faq10q": "How does a Telegram message turn into a task?",
     "faq10a": "Forward or send any message to {'@'}msgboard_bot and it becomes a card on your board within seconds, confirmed with a 👍 reaction. Edit the original message in Telegram and the card updates with it — no copy-pasting into another app.",
+    "faq11q": "Can I connect Claude or another AI agent to my boards?",
+    "faq11a": "Yes — Laraue Boards has a remote MCP (Model Context Protocol) server. Create a personal API key from your organization's settings, add it as a custom connector in Claude (or any MCP client), and the agent can list, view, create, edit and move issues, and attach or download files, scoped to your own permissions.",
 
     "pr_note": "The Free plan stays free forever. Paid tiers exist (Plus, Team, Business) but aren't charged during the MVP phase — see pricing above. /aisave is free while it's in testing and will become a paid feature later.",
 
@@ -391,6 +400,13 @@ useSeoMeta({
     "tg_f2": "Нативный iOS и Android",
     "tg_f3": "Мгновенно — ничего не нужно устанавливать",
     "tg_f4": "Те же доски, что в веб-приложении",
+    "mcp_name": "MCP / ИИ-агенты",
+    "mcp_tag": "boards.laraue.com/boards-mcp/mcp",
+    "mcp_desc": "Подключите Claude или любого MCP-совместимого агента прямо к вашим доскам по протоколу Model Context Protocol. Создайте персональный API-ключ — и агент сможет действовать от вашего имени.",
+    "mcp_f1": "Чтение, создание, редактирование и перемещение issues",
+    "mcp_f2": "Прикладывайте и скачивайте файлы",
+    "mcp_f3": "Права ограничены вашими правами доступа",
+    "mcp_f4": "Работает с Claude и любым MCP-клиентом",
 
     "feat_label": "Всё, что нужно",
     "feat_title": "И ничего лишнего",
@@ -472,6 +488,8 @@ useSeoMeta({
     "faq9a": "Да. Создайте организацию, пригласите команду через Telegram — пересланные сообщения будут попадать прямо на общие доски, а права настраиваются по операциям. Это лёгкий бот для управления проектами, не заставляющий уходить из чата, где команда и так общается.",
     "faq10q": "Как сообщение из Telegram превращается в задачу?",
     "faq10a": "Перешлите или отправьте любое сообщение боту {'@'}msgboard_bot — и через пару секунд оно станет карточкой на доске, а бот подтвердит это реакцией 👍. Отредактируйте исходное сообщение в Telegram — карточка обновится вместе с ним, без копирования в другое приложение.",
+    "faq11q": "Можно ли подключить Claude или другого ИИ-агента к моим доскам?",
+    "faq11a": "Да — у Laraue Boards есть удалённый MCP-сервер (Model Context Protocol). Создайте персональный API-ключ в настройках организации, добавьте его как кастомный коннектор в Claude (или любой другой MCP-клиент) — и агент сможет просматривать, создавать, редактировать и перемещать issues, а также прикладывать и скачивать файлы, в рамках ваших прав доступа.",
 
     "pr_note": "Бесплатный тариф остаётся бесплатным навсегда. Платные тарифы (Plus, Team, Business) уже есть, но пока продукт на стадии MVP, плата за них не взимается — смотрите тарифы выше. Функция /aisave бесплатна, пока тестируется, и позже станет платной.",
 
@@ -749,6 +767,24 @@ useSeoMeta({
           <a href="https://t.me/msgboard_bot" class="btn-tg" style="align-self:flex-start" target="_blank" rel="noopener">&#128172; @msgboard_bot</a>
         </div>
 
+        <div class="platform-card reveal">
+          <div class="platform-card-header">
+            <div class="platform-card-icon mcp"><LNavIcon name="sparkle" /></div>
+            <div>
+              <div class="platform-card-name">{{ t('mcp_name') }}</div>
+              <div class="platform-card-tag">{{ t('mcp_tag') }}</div>
+            </div>
+          </div>
+          <p class="platform-card-desc">{{ t('mcp_desc') }}</p>
+          <ul class="platform-card-features">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('mcp_f1') }}</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('mcp_f2') }}</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('mcp_f3') }}</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>{{ t('mcp_f4') }}</span></li>
+          </ul>
+          <a target="_blank" href="https://boards.laraue.com/" class="btn-secondary" style="align-self:flex-start">{{ t('open_webapp') }}</a>
+        </div>
+
       </div>
     </LSection>
 
@@ -974,9 +1010,10 @@ section {
 }
 
 /* ══ PLATFORMS ══ */
-.platforms-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:48px}
+.platforms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
 .platforms-grid .platform-card:nth-child(1){animation-delay:0s}
 .platforms-grid .platform-card:nth-child(2){animation-delay:var(--anim-stagger)}
+.platforms-grid .platform-card:nth-child(3){animation-delay:calc(var(--anim-stagger) * 2)}
 
 .platform-card{
   border:1px solid var(--border);border-radius:16px;
@@ -990,6 +1027,7 @@ section {
 .platform-card-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .platform-card-icon.web{background:var(--msg-blue-light);color:var(--msg-blue)}
 .platform-card-icon.tg{background:#e0f4fd;color:#229ed9}
+.platform-card-icon.mcp{background:var(--accent-light);color:var(--accent)}
 .platform-card-icon :deep(.nav-icon-svg){width:24px;height:24px}
 .platform-card-name{font-family:var(--serif);font-size:18px;font-weight:700;letter-spacing:-.2px}
 .platform-card-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:2px}
