@@ -11,7 +11,6 @@
     "footer_company": "Company",
     "footer_blog": "Blog",
     "footer_contact": "Contact",
-    "footer_made": "Built with care, shipped with purpose.",
     "tool1n": "Markdown to HTML Converter",
     "tool2n_short": "AI Apartments",
     "tool3n": "Vocabulary Bot",
@@ -24,7 +23,6 @@
     "footer_company": "Компания",
     "footer_blog": "Блог",
     "footer_contact": "Контакты",
-    "footer_made": "Создано в стараниях. Выпущено в страданиях.",
     "tool1n": "Конвертер Markdown → HTML",
     "tool2n_short": "AI Квартиры",
     "tool3n": "Бот-словарь",
@@ -41,7 +39,7 @@
       <div class="footer-top">
         <div class="footer-brand">
           <a href="/" class="footer-logo" aria-label="Laraue Software">
-            <img src="/android-chrome-192x192.png" alt="" width="30" height="30" style="border-radius:8px">
+            <img src="/android-chrome-transparent-192x192.png" alt="" width="30" height="30" style="border-radius:8px">
             <span style="font-family:var(--serif);font-size:16px;font-weight:700;color:var(--paper)">Laraue Software</span>
           </a>
           <p class="footer-tagline">{{ t('footer_tag') }}</p>
@@ -71,11 +69,8 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>
-          © 2026 Laraue Software.
-          <a :href="localePath('privacy')" class="footer-legal-link">{{ t('footer_privacy') }}</a>
-        </span>
-        <span>{{ t('footer_made') }}</span>
+        <span>© 2026 Laraue Software.</span>
+        <a :href="localePath('privacy')" class="footer-legal-link">{{ t('footer_privacy') }}</a>
       </div>
     </div>
   </footer>
@@ -92,7 +87,7 @@ footer{background:var(--ink);color:rgba(247,244,238,.65);padding:60px 48px 40px;
 .footer-col-links{list-style:none;display:flex;flex-direction:column;gap:10px}
 .footer-col-links a{text-decoration:none;font-size:14px;color:rgba(247,244,238,.6);transition:color .2s}
 .footer-col-links a:hover{color:var(--paper)}
-.footer-legal-link{color:rgba(247,244,238,.5);text-decoration:none;margin-left:12px;transition:color .2s}
+.footer-legal-link{color:rgba(247,244,238,.5);text-decoration:none;transition:color .2s}
 .footer-legal-link:hover{color:var(--paper)}
 .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(247,244,238,.3);flex-wrap:wrap;gap:12px}
 

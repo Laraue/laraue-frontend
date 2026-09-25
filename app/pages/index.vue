@@ -8,7 +8,7 @@ const { setLocale, t } = useI18n()
 const localPath = useLocalePath();
 const { getStaticOgImageUrl } = usePathUtil();
 const ogImageUrl = getStaticOgImageUrl('homepage-og');
-const logoUrl = "https://laraue.com/android-chrome-512x512.png";
+const logoUrl = "https://laraue.com/android-chrome-black-512x512.png";
 
 useSeoMeta({
   title: computed(() => t('seo_title')),
