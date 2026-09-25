@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { t } = useI18n()
-const { gtag } = useGtag()
+const { gtag, initialize } = useGtag()
 
 const STORAGE_KEY = 'cookie-consent'
 
@@ -20,10 +20,9 @@ onMounted(() => {
 
 function accept() {
   localStorage.setItem(STORAGE_KEY, 'granted')
-  // Yandex Metrika is never loaded here: this banner only ever appears for
-  // GDPR-scoped countries, which never overlap with the CIS allowlist that
-  // gates Yandex (see plugins/consent-init.client.ts).
   gtag('consent', 'update', { analytics_storage: 'granted' })
+  // The Google tag script is only added now, once the visitor has accepted analytics.
+  initialize()
   analyticsConsent.value = 'granted'
   visible.value = false
 }

@@ -131,7 +131,7 @@ const toggleMobileSubMenu = (id: string) => {
   <nav class="topnav" aria-label="Main navigation">
 
     <a :href="localePath('/')" class="nav-logo" aria-label="Laraue Software">
-      <img class="nav-logo-mark" src="/android-chrome-192x192.png" alt="" width="32" height="32">
+      <img class="nav-logo-mark" src="/android-chrome-black-192x192.png" alt="" width="32" height="32">
       <span class="nav-logo-name">Laraue Software</span>
     </a>
 
@@ -244,7 +244,7 @@ const toggleMobileSubMenu = (id: string) => {
   text-decoration:none;color:var(--ink);
   flex-shrink:0;margin-right:8px;
 }
-.nav-logo-mark{width:32px;height:32px;flex-shrink:0}
+.nav-logo-mark{width:32px;height:32px;flex-shrink:0;border-radius:8px}
 .nav-logo-name{font-family:var(--serif);font-size:16px;font-weight:700;white-space:nowrap}
 
 /* primary link list */
