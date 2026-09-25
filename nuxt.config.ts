@@ -14,6 +14,10 @@ export default defineNuxtConfig({
   gtag: {
     enabled: process.env.NODE_ENV === 'production',
     id: 'G-RGM3JHLBGL',
+    // The Google tag script is only added once analytics is allowed for the visitor (see
+    // plugins/consent-init.client.ts and LCookieConsent) - never for visitors from countries
+    // where Google Analytics can't be used (see utils/gdprCountries.ts).
+    initMode: 'manual',
     initCommands: [
       ['consent', 'default', {
         analytics_storage: 'denied',
@@ -28,6 +32,7 @@ export default defineNuxtConfig({
     '/crawled-apartments': { prerender: true },
     '/learn-language-bot': { prerender: true },
     '/boards': { prerender: true },
+    '/privacy': { prerender: true },
   },
   app: {
     head: {

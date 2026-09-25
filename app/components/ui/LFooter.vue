@@ -15,7 +15,8 @@
     "tool1n": "Markdown to HTML Converter",
     "tool2n_short": "AI Apartments",
     "tool3n": "Vocabulary Bot",
-    "nav_about": "About"
+    "nav_about": "About",
+    "footer_privacy": "Privacy policy"
   },
   "ru": {
     "footer_tag": "Небольшая команда. Серьёзный подход.",
@@ -27,7 +28,8 @@
     "tool1n": "Конвертер Markdown → HTML",
     "tool2n_short": "AI Квартиры",
     "tool3n": "Бот-словарь",
-    "nav_about": "О нас"
+    "nav_about": "О нас",
+    "footer_privacy": "Политика конфиденциальности"
   }
 }
 </i18n>
@@ -69,7 +71,10 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© 2026 Laraue Software.</span>
+        <span>
+          © 2026 Laraue Software.
+          <a :href="localePath('privacy')" class="footer-legal-link">{{ t('footer_privacy') }}</a>
+        </span>
         <span>{{ t('footer_made') }}</span>
       </div>
     </div>
@@ -87,6 +92,8 @@ footer{background:var(--ink);color:rgba(247,244,238,.65);padding:60px 48px 40px;
 .footer-col-links{list-style:none;display:flex;flex-direction:column;gap:10px}
 .footer-col-links a{text-decoration:none;font-size:14px;color:rgba(247,244,238,.6);transition:color .2s}
 .footer-col-links a:hover{color:var(--paper)}
+.footer-legal-link{color:rgba(247,244,238,.5);text-decoration:none;margin-left:12px;transition:color .2s}
+.footer-legal-link:hover{color:var(--paper)}
 .footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(247,244,238,.3);flex-wrap:wrap;gap:12px}
 
 /* RESPONSIVE */
