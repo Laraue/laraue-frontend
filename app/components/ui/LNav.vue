@@ -131,11 +131,7 @@ const toggleMobileSubMenu = (id: string) => {
   <nav class="topnav" aria-label="Main navigation">
 
     <a :href="localePath('/')" class="nav-logo" aria-label="Laraue Software">
-      <svg class="nav-logo-mark" viewBox="0 0 34 34" fill="none" aria-hidden="true">
-        <rect width="34" height="34" rx="8" fill="#0f0e0c"/>
-        <path d="M10 8L10 24L22 24" stroke="#f7f4ee" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="25" cy="10" r="2.5" fill="#c84b2f"/>
-      </svg>
+      <img class="nav-logo-mark" src="/android-chrome-192x192.png" alt="" width="32" height="32">
       <span class="nav-logo-name">Laraue Software</span>
     </a>
 

@@ -39,11 +39,7 @@
       <div class="footer-top">
         <div class="footer-brand">
           <a href="/" class="footer-logo" aria-label="Laraue Software">
-            <svg width="30" height="30" viewBox="0 0 34 34" fill="none" aria-hidden="true">
-              <rect width="34" height="34" rx="8" fill="rgba(255,255,255,0.1)"/>
-              <path d="M10 8 L10 24 L22 24" stroke="#f7f4ee" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="25" cy="10" r="2.5" fill="#c84b2f"/>
-            </svg>
+            <img src="/android-chrome-192x192.png" alt="" width="30" height="30" style="border-radius:8px">
             <span style="font-family:var(--serif);font-size:16px;font-weight:700;color:var(--paper)">Laraue Software</span>
           </a>
           <p class="footer-tagline">{{ t('footer_tag') }}</p>
