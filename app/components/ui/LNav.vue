@@ -131,7 +131,7 @@ const toggleMobileSubMenu = (id: string) => {
   <nav class="topnav" aria-label="Main navigation">
 
     <a :href="localePath('/')" class="nav-logo" aria-label="Laraue Software">
-      <img class="nav-logo-mark" src="/android-chrome-black-192x192.png" alt="" width="32" height="32">
+      <img class="nav-logo-mark" src="https://laraue.com/static/images/icons/laraue-android-chrome-black-192x192.png" alt="" width="32" height="32">
       <span class="nav-logo-name">Laraue Software</span>
     </a>
 

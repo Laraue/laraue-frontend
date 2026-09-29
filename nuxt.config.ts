@@ -1,4 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+// Laraue brand icons live on the shared CDN, not in this repo.
+const iconsBaseUrl = 'https://laraue.com/static/images/icons/laraue-'
+
 export default defineNuxtConfig({
   compatibilityDate: '2026-06-21',
   devtools: { enabled: true },
@@ -42,13 +45,13 @@ export default defineNuxtConfig({
         // Browser tab icon follows the OS/browser theme: the transparent mark on dark tabs, the
         // standard dark-square one on light tabs. The light links come last on purpose - browsers
         // that ignore `media` fall back to the last declared icon, i.e. the standard one.
-        { rel: 'icon', type: 'image/png', href: '/favicon-transparent.png', media: '(prefers-color-scheme: dark)' },
-        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32-transparent.png', media: '(prefers-color-scheme: dark)' },
-        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16-transparent.png', media: '(prefers-color-scheme: dark)' },
-        { rel: 'icon', type: 'image/png', href: '/favicon-black.png', media: '(prefers-color-scheme: light)' },
-        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32-black.png', media: '(prefers-color-scheme: light)' },
-        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16-black.png', media: '(prefers-color-scheme: light)' },
-        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon-black.png' },
+        { rel: 'icon', type: 'image/png', href: `${iconsBaseUrl}favicon-transparent.png`, media: '(prefers-color-scheme: dark)' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: `${iconsBaseUrl}favicon-32x32-transparent.png`, media: '(prefers-color-scheme: dark)' },
+        { rel: 'icon', type: 'image/png', sizes: '16x16', href: `${iconsBaseUrl}favicon-16x16-transparent.png`, media: '(prefers-color-scheme: dark)' },
+        { rel: 'icon', type: 'image/png', href: `${iconsBaseUrl}favicon-black.png`, media: '(prefers-color-scheme: light)' },
+        { rel: 'icon', type: 'image/png', sizes: '32x32', href: `${iconsBaseUrl}favicon-32x32-black.png`, media: '(prefers-color-scheme: light)' },
+        { rel: 'icon', type: 'image/png', sizes: '16x16', href: `${iconsBaseUrl}favicon-16x16-black.png`, media: '(prefers-color-scheme: light)' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: `${iconsBaseUrl}apple-touch-icon-black.png` },
         { rel: 'manifest', href: '/site.webmanifest' },
         {
           rel: 'stylesheet',

@@ -39,7 +39,7 @@
       <div class="footer-top">
         <div class="footer-brand">
           <a href="/" class="footer-logo" aria-label="Laraue Software">
-            <img src="/android-chrome-transparent-192x192.png" alt="" width="30" height="30" style="border-radius:8px">
+            <img src="https://laraue.com/static/images/icons/laraue-android-chrome-transparent-192x192.png" alt="" width="30" height="30" style="border-radius:8px">
             <span style="font-family:var(--serif);font-size:16px;font-weight:700;color:var(--paper)">Laraue Software</span>
           </a>
           <p class="footer-tagline">{{ t('footer_tag') }}</p>
