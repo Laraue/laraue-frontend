@@ -2,6 +2,7 @@
 
 import LButton from "~/components/ui/LButton.vue";
 const localePath = useLocalePath();
+const boardsUrl = useBoardsUrl();
 
 const {locale, t} = useI18n()
 const { getTags } = useBlogApi()
@@ -47,7 +48,7 @@ const isTagActive = (tag: string) => {
     <div class="filter-panel">
       <div class="filter-panel-title" data-i18n="filter_cta_title">{{ t('wantMore') }}</div>
       <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.55" data-i18n="filter_cta_body">{{ t('boards') }}</p>
-      <LButton :href="localePath('boards')">
+      <LButton :href="boardsUrl">
         {{ t('try') }}
       </LButton>
     </div>

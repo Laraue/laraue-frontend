@@ -12,6 +12,7 @@ interface MenuItem {
 
 const { t } = useI18n()
 const localePath = useLocalePath()
+const boardsUrl = useBoardsUrl()
 const route = useRoute()
 const menuItems = computed<MenuItem[]>(() => {
   return [
@@ -38,7 +39,7 @@ const menuItems = computed<MenuItem[]>(() => {
         },
         {
           text: t("noteBoardBot"),
-          link: localePath("/boards"),
+          link: boardsUrl.value,
           id: "1-3",
           icon: "board"
         },

@@ -6,6 +6,7 @@ import LNavIcon from "~/components/ui/LNavIcon.vue";
 
 const { setLocale, t } = useI18n()
 const localPath = useLocalePath();
+const boardsUrl = useBoardsUrl();
 const { getStaticOgImageUrl } = usePathUtil();
 const ogImageUrl = getStaticOgImageUrl('homepage-og');
 const logoUrl = "https://laraue.com/static/images/icons/laraue-android-chrome-black-512x512.png";
@@ -243,7 +244,7 @@ useSchemaOrg([
           <p class="hero-sub">{{ t('hero_sub') }}</p>
           <div class="hero-actions">
 
-            <a :href="localPath('boards')" class="btn-primary">{{ t('hero_cta1') }}</a>
+            <a :href="boardsUrl" class="btn-primary">{{ t('hero_cta1') }}</a>
             <a href="#about" class="btn-secondary">{{ t('hero_cta2') }}</a>
           </div>
         </div>
@@ -328,7 +329,7 @@ useSchemaOrg([
         </div>
         <div class="product-cta-row reveal">
           <a rel="nofollow" target="_blank" href="https://t.me/msgboard_bot" class="btn-primary">{{ t('prod_cta1') }} @msgboard_bot →</a>
-          <a rel="nofollow" target="_blank" :href="localPath('boards')" class="btn-ghost">{{ t('prod_cta2') }}</a>
+          <a rel="nofollow" target="_blank" :href="boardsUrl" class="btn-ghost">{{ t('prod_cta2') }}</a>
         </div>
       </div>
     </section>
