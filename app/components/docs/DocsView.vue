@@ -43,14 +43,6 @@ export interface Article {
         {{ item.count }}
       </span>
     </router-link>
-    <span v-if="blogState.documentationItems.length" class="blog-tab-divider" aria-hidden="true"></span>
-    <router-link :to="localePathFromSegments(item.path)" v-for="item in blogState.documentationItems" active-class="active" class="blog-tab">
-      <span class="blog-tab-icon" v-if="item.icon">{{ item.icon }}</span>
-      {{ item.title }}
-      <span class="blog-tab-count">
-        {{ item.count }}
-      </span>
-    </router-link>
   </div>
   <!-- BLOG BODY -->
   <div class="blog-body">
@@ -108,7 +100,6 @@ export interface Article {
 .post-thumb{height:5px;flex-shrink:0}
 .post-thumb.type-article{background:linear-gradient(90deg,#4a7fcc,#6fa3e0)}
 .post-thumb.type-project{background:linear-gradient(90deg,var(--accent),#e0572e)}
-.post-thumb.type-documentation{background:linear-gradient(90deg,#43b77a,#5ed490)}
 
 .post-body{padding:18px;flex:1;display:flex;flex-direction:column}
 .post-meta{display:flex;align-items:center;gap:8px;margin-bottom:9px}

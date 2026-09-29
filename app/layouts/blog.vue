@@ -5,9 +5,9 @@ import LMainContent from "~/components/ui/LMainContent.vue";
 import {useBlogState} from "~/composables/blogState";
 import type {LinksSection} from "~/components/ui/LSidebar.vue";
 
-const { getCategories, getDocs } = useBlogApi();
+const { getCategories } = useBlogApi();
 const { locale, t } = useI18n()
-const { setCategories, blogState, setDocumentationItems } = useBlogState()
+const { setCategories, blogState } = useBlogState()
 
 watch(locale, () => {
   loadData();
@@ -20,15 +20,11 @@ onMounted(() => {
 const loadData = async () => {
   const categories = await getCategories(locale.value);
   setCategories(categories);
-
-  const docs = await getDocs(locale.value);
-  setDocumentationItems(docs);
 }
 
 const linksSections = computed<LinksSection[]>(() => {
   return [
     { title: t("categories"), links: blogState.value.otherItems },
-    { title: t("documentation"), links: blogState.value.documentationItems },
   ]
 })
 
@@ -37,12 +33,10 @@ const linksSections = computed<LinksSection[]>(() => {
 <i18n lang="json">
 {
   "en": {
-    "categories": "Categories",
-    "documentation": "Documentation"
+    "categories": "Categories"
   },
   "ru": {
-    "categories": "Категории",
-    "documentation": "Документация"
+    "categories": "Категории"
   }
 }
 </i18n>

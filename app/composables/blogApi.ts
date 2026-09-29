@@ -26,15 +26,6 @@ export interface ProjectListRow {
     path: string[];
 }
 
-export interface DocumentationItem {
-    fileName: string;
-    title: string;
-    description: string;
-    contentType: string;
-    length: number;
-    path: string[];
-}
-
 export interface SelectItem{
     fileName: string;
     title: string | undefined;
@@ -103,17 +94,6 @@ export interface ItemListItem {
     projects: string[];
 }
 
-export interface HierarchicalMenuSection {
-    title: string | undefined;
-    path: string[];
-    children: HierarchicalMenuItem[]
-}
-
-export interface HierarchicalMenuItem {
-    title: string | undefined;
-    path: string[];
-}
-
 export interface Tag {
     key: string;
 }
@@ -121,55 +101,10 @@ export interface Tag {
 export const useBlogApi = () => {
     const client = useBlogClient()
 
-    const loadMenu = (languageCode: string, fromPath: string[]) => {
-        return client<HierarchicalMenuSection[]>('blog/documentation-menu', {
-            method: 'GET',
-            query: {
-                "languageCode": languageCode,
-                "fromPath": fromPath,
-            }
-        });
-    }
-
     const getCategories = async (
         languageCode: string)
         : Promise<SidebarItem[]> => {
         return client<SidebarItem[]>('blog/categories', {
-            method: 'GET',
-            query: {
-                languageCode: languageCode,
-            }
-        });
-    }
-
-    const getDocs = async (
-        languageCode: string)
-        : Promise<SidebarItem[]> => {
-        return client<SidebarItem[]>('blog/documentation-tree', {
-            method: 'GET',
-            query: {
-                languageCode: languageCode,
-            }
-        });
-    }
-
-    const getDocumentation = async (
-        languageCode: string,
-        path: string[])
-        : Promise<ItemDetails> => {
-        return client<ItemDetails>(`blog/documentation/${path.join('/')}`, {
-            method: 'GET',
-            query: {
-                languageCode: languageCode,
-            }
-        });
-    }
-
-    const getDocumentationSection = async (
-        languageCode: string,
-        path: string[])
-        : Promise<ItemMeta> => {
-        return client<ItemMeta>(`blog/documentation-section/${path.join('/')}`, {
             method: 'GET',
             query: {
                 languageCode: languageCode,
@@ -262,11 +197,7 @@ export const useBlogApi = () => {
     }
 
     return {
-        loadMenu,
         getCategories,
-        getDocs,
-        getDocumentation,
-        getDocumentationSection,
         getArticles,
         getArticle,
         getProjects,

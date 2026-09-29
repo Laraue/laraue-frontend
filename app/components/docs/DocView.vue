@@ -19,7 +19,7 @@ const breadCrumbs = computed(() => {
   let currentPath = '/'
 
   routeSegments.forEach(segment => {
-    breadcrumbs.push({ href: segment == 'documentation' ? undefined : localePath(currentPath + segment), title: segment })
+    breadcrumbs.push({ href: localePath(currentPath + segment), title: segment })
     currentPath = currentPath + segment + '/'
   })
 
