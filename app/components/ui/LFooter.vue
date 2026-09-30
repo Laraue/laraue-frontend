@@ -40,8 +40,8 @@
       <div class="footer-top">
         <div class="footer-brand">
           <a href="/" class="footer-logo" aria-label="Laraue Software">
-            <img src="https://laraue.com/static/images/icons/laraue-android-chrome-transparent-192x192.png" alt="" width="30" height="30" style="border-radius:8px">
-            <span style="font-family:var(--serif);font-size:16px;font-weight:700;color:var(--paper)">Laraue Software</span>
+            <img src="https://laraue.com/static/images/icons/laraue-android-chrome-black-192x192.png" alt="" width="30" height="30" style="border-radius:8px">
+            <span style="font-family:var(--serif);font-size:16px;font-weight:700;color:var(--color-text)">Laraue Software</span>
           </a>
           <p class="footer-tagline">{{ t('footer_tag') }}</p>
         </div>
@@ -79,18 +79,18 @@
 
 <style scoped>
 /* FOOTER */
-footer{background:var(--ink);color:rgba(247,244,238,.65);padding:60px 48px 40px;}
+footer{background:var(--color-workspace);border-top:1px solid var(--color-divider);color:var(--color-muted);padding:60px 48px 40px;}
 .footer-inner{max-width:1160px;margin:0 auto}
 .footer-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:48px;gap:40px;flex-wrap:wrap}
-.footer-brand .footer-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--paper);margin-bottom:16px}
-.footer-tagline{font-size:13px;color:rgba(247,244,238,.45);max-width:240px;line-height:1.6}
-.footer-col-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(247,244,238,.4);margin-bottom:16px}
+.footer-brand .footer-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--color-text);margin-bottom:16px}
+.footer-tagline{font-size:13px;color:var(--color-muted);max-width:240px;line-height:1.6}
+.footer-col-title{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--color-muted);margin-bottom:16px}
 .footer-col-links{list-style:none;display:flex;flex-direction:column;gap:10px}
-.footer-col-links a{text-decoration:none;font-size:14px;color:rgba(247,244,238,.6);transition:color .2s}
-.footer-col-links a:hover{color:var(--paper)}
-.footer-legal-link{color:rgba(247,244,238,.5);text-decoration:none;transition:color .2s}
-.footer-legal-link:hover{color:var(--paper)}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(247,244,238,.3);flex-wrap:wrap;gap:12px}
+.footer-col-links a{text-decoration:none;font-size:14px;color:var(--color-muted);transition:color .2s}
+.footer-col-links a:hover{color:var(--color-text)}
+.footer-legal-link{color:var(--color-muted);text-decoration:none;transition:color .2s}
+.footer-legal-link:hover{color:var(--color-text)}
+.footer-bottom{border-top:1px solid var(--color-divider);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--color-muted);flex-wrap:wrap;gap:12px}
 
 /* RESPONSIVE */
 @media(max-width:720px){

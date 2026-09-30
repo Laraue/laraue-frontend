@@ -1,0 +1,96 @@
+:root {
+  color-scheme: light;
+
+  --color-background: #f2f2f4;
+  --color-surface: #fdfdfe;
+  --color-workspace: #f8f8fa;
+  --color-divider: #e7e7eb;
+  --color-soft: #efeff2;
+  --color-hover: #f4f4f6;
+  --color-text: #242429;
+  --color-muted: #71717b;
+  --color-border: #dddde2;
+  --color-accent: #3568d4;
+  --color-accent-soft: #e9effc;
+  --color-danger: #c7443e;
+  --color-success: #35805e;
+  --color-scrollbar: #d0d0d6;
+  --color-scrollbar-hover: #aaaab3;
+  --color-chart-neutral: #9898a2;
+  --color-chart-1: #3568d4;
+  --color-chart-2: #c68a42;
+  --color-chart-3: #826fac;
+  --color-chart-done: #47906b;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  --radius-small: 4px;
+  --radius-control: 8px;
+  --radius-card: 12px;
+  --radius-dialog: 16px;
+  --radius-pill: 999px;
+
+  --control-height: 40px;
+  --control-height-small: 28px;
+  --icon-btn-size: 32px;
+  --icon-btn-size-small: 24px;
+  --icon-size: 16px;
+  --control-icon-padding: calc(var(--icon-size) + var(--space-5));
+
+  --font-size-small: 12px;
+  --font-size-caption: 11px;
+  --font-size-body: 14px;
+  --font-size-title: 24px;
+  --font-family-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --form-page-max-width: 620px;
+  --workspace-max-width: 1440px;
+
+  --shadow-focus: 0 0 0 3px color-mix(in srgb, var(--color-accent) 16%, transparent);
+  --shadow-card: 0 1px 2px #1018280d;
+  --shadow-popover: 0 20px 60px #10182830;
+  --shadow-workspace: 0 0 40px #1018280d;
+
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --animation-spin: spin 1.5s linear infinite;
+  --press-offset: 2px;
+  --transition-press: translate var(--duration-fast) var(--ease-standard);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-background: #17191d;
+  --color-surface: #22252a;
+  --color-workspace: #1c1f23;
+  --color-divider: #31343a;
+  --color-soft: #292c31;
+  --color-hover: #30343a;
+  --color-text: #edf0f4;
+  --color-muted: #9da3ad;
+  --color-border: #3a3e46;
+  --color-accent-soft: #29344b;
+  --color-danger: #e37b75;
+  --color-success: #6bb590;
+  --color-scrollbar: #41464e;
+  --color-scrollbar-hover: #5e646e;
+  --color-chart-neutral: #9097a2;
+  --color-chart-2: #d4a464;
+  --color-chart-3: #aa98cf;
+  --color-chart-done: #6bb590;
+
+  --shadow-card: 0 1px 2px #00000040;
+  --shadow-popover: 0 20px 60px #0000008c;
+  --shadow-workspace: 0 0 40px #00000059;
+}

@@ -41,16 +41,16 @@ const isIconName = (icon: string) => /^[a-z]+$/.test(icon)
 
 <style scoped>
 /* ══ HOW IT WORKS ══ */
-.how{padding:80px 60px;border-bottom:1px solid var(--border)}
+.how{padding:88px 60px;border-bottom:1px solid var(--color-divider)}
 .how-inner{max-width:1060px;margin:0 auto;--steps-count: 1}
 .how-steps{display:grid;gap:0;margin-top:52px;position:relative;grid-template-columns: repeat(var(--steps-count), 1fr);}
 .how-steps::before{content:'';position:absolute;top:20px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border),var(--border),var(--border),transparent);z-index:0}
 .how-step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 12px;position:relative;z-index:1}
-.how-step-num{width:40px;height:40px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--serif);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border:3px solid var(--paper);box-shadow:0 0 0 1px var(--border);flex-shrink:0}
+.how-step-num{width:40px;height:40px;border-radius:50%;background:var(--color-accent);color:#fff;font-family:var(--serif);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border:3px solid var(--paper);box-shadow:0 0 0 1px var(--border);flex-shrink:0}
 .how-step-title{font-weight:700;font-size:13px;margin-bottom:6px;color:var(--ink)}
 .how-step-desc{font-size:12px;color:var(--muted);line-height:1.5}
 .how-step-icon{font-size: 24px;margin-bottom: 10px;}
-.how-step-icon-svg{width:44px;height:44px;border-radius:11px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.how-step-icon-svg{width:44px;height:44px;border-radius:var(--radius-card);background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center}
 .how-step-icon-svg :deep(.nav-icon-svg){width:22px;height:22px}
 
 @media(max-width:900px){
