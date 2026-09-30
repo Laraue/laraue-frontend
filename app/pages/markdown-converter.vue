@@ -636,7 +636,7 @@ const copyMarkdown = () => {
 .cheat-chip{
   display:inline-flex;align-items:center;gap:5px;
   padding:3px 9px;
-  background:#fff;border:1px solid var(--border);border-radius:5px;
+  background:var(--color-surface);border:1px solid var(--border);border-radius:5px;
   font-family:var(--mono);font-size:11px;color:var(--ink);
   cursor:pointer;white-space:nowrap;flex-shrink:0;
   transition:border-color .12s,background .12s,color .12s;
@@ -651,19 +651,19 @@ const copyMarkdown = () => {
 .toolbar-btn{
   display:inline-flex;align-items:center;gap:5px;
   padding:5px 12px;border-radius:6px;border:1px solid var(--border);
-  background:#fff;font-family:var(--sans);font-size:12px;font-weight:600;
+  background:var(--color-surface);font-family:var(--sans);font-size:12px;font-weight:600;
   color:var(--muted);cursor:pointer;white-space:nowrap;
   transition:border-color .15s,color .15s,background .15s;
 }
 .toolbar-btn:hover{border-color:var(--ink);color:var(--ink);background:var(--paper)}
 .toolbar-btn svg{width:13px;height:13px;stroke:currentColor;flex-shrink:0}
-.toolbar-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.toolbar-btn.active{background:var(--color-accent);color:#fff;border-color:var(--color-accent)}
 
 /* view toggle */
 .view-toggle{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;flex-shrink:0}
 .view-toggle-btn{padding:4px 10px;font-size:11px;font-weight:700;letter-spacing:.03em;background:none;border:none;cursor:pointer;font-family:var(--sans);color:var(--muted);transition:background .15s,color .15s}
 .view-toggle-btn:hover{background:var(--cream);color:var(--ink)}
-.view-toggle-btn.active{background:var(--ink);color:#fff}
+.view-toggle-btn.active{background:var(--color-accent);color:#fff}
 .view-toggle-sep{width:1px;background:var(--border)}
 
 /* ══ EDITOR AREA ══ */
@@ -691,19 +691,19 @@ const copyMarkdown = () => {
 .panel-btn{
   display:inline-flex;align-items:center;gap:4px;
   padding:4px 10px;border-radius:5px;border:1px solid var(--border);
-  background:#fff;font-size:11px;font-weight:600;color:var(--muted);
+  background:var(--color-surface);font-size:11px;font-weight:600;color:var(--muted);
   cursor:pointer;font-family:var(--sans);
   transition:border-color .15s,color .15s,background .15s;
 }
 .panel-btn:hover{border-color:var(--ink);color:var(--ink)}
 .panel-btn svg{width:12px;height:12px;stroke:currentColor;flex-shrink:0}
-.panel-btn.success{border-color:#43b77a;color:#43b77a;background:#f0fbf5}
+.panel-btn.success{border-color:var(--color-success);color:var(--color-success);background:color-mix(in srgb,var(--color-success) 10%,var(--color-surface))}
 
 /* markdown textarea */
 .md-textarea{
   flex:1;width:100%;border:none;outline:none;resize:none;
   font-family:var(--mono);font-size:13px;line-height:1.7;
-  color:#2a2725;background:#fff;
+  color:var(--color-text);background:var(--color-surface);
   padding:20px 22px;
   tab-size:2;
 }
@@ -719,19 +719,19 @@ const copyMarkdown = () => {
 /* rendered view */
 .rendered-view{
   flex:1;overflow-y:auto;padding:24px 28px;
-  background:#fff;font-family:var(--sans);
+  background:var(--color-surface);font-family:var(--sans);
 }
 /* rendered html typography */
 .rendered-view :deep(h1){font-family:var(--serif);font-size:26px;font-weight:800;line-height:1.2;color:var(--ink);margin:0 0 16px;letter-spacing:-.3px}
 .rendered-view :deep(h2){font-family:var(--serif);font-size:20px;font-weight:700;line-height:1.25;color:var(--ink);margin:28px 0 12px;letter-spacing:-.2px;border-bottom:1px solid var(--border);padding-bottom:6px}
 .rendered-view :deep(h3){font-family:var(--serif);font-size:16px;font-weight:700;color:var(--ink);margin:22px 0 8px}
 .rendered-view :deep(h4){font-size:14px;font-weight:700;color:var(--ink);margin:18px 0 6px;text-transform:uppercase;letter-spacing:.04em}
-.rendered-view :deep(p){font-size:15px;line-height:1.7;color:#2a2725;margin-bottom:14px}
+.rendered-view :deep(p){font-size:15px;line-height:1.7;color:var(--color-text);margin-bottom:14px}
 .rendered-view :deep(ul),.rendered-view :deep(ol){padding-left:24px;margin-bottom:14px}
-.rendered-view :deep(li){font-size:15px;line-height:1.6;margin-bottom:4px;color:#2a2725}
+.rendered-view :deep(li){font-size:15px;line-height:1.6;margin-bottom:4px;color:var(--color-text)}
 .rendered-view :deep(strong){font-weight:700;color:var(--ink)}
 .rendered-view :deep(em){font-style:italic}
-.rendered-view :deep(a){color:var(--blue);text-decoration:underline;text-decoration-color:rgba(59,91,219,.3);text-underline-offset:2px}
+.rendered-view :deep(a){color:var(--blue);text-decoration:underline;text-decoration-color:rgba(53,104,212,.3);text-underline-offset:2px}
 .rendered-view :deep(a:hover){text-decoration-color:var(--blue)}
 .rendered-view :deep(code){font-family:var(--mono);font-size:.85em;background:var(--cream);border:1px solid var(--border);padding:1px 5px;border-radius:4px;color:var(--ink)}
 .rendered-view :deep(pre){background:var(--ink);border-radius:8px;padding:16px 20px;margin:16px 0;overflow-x:auto}
@@ -773,7 +773,7 @@ const copyMarkdown = () => {
 .about-block-title{font-family:var(--serif);font-size:20px;font-weight:700;margin-bottom:12px;letter-spacing:-.2px}
 .about-block-text{font-size:14px;color:var(--muted);line-height:1.7;font-weight:300}
 .about-block-text strong{color:var(--ink);font-weight:600}
-.about-block-text a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(59,91,219,.3)}
+.about-block-text a{color:var(--blue);text-decoration:underline;text-decoration-color:rgba(53,104,212,.3)}
 .about-block-text a:hover{text-decoration-color:var(--blue)}
 .about-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
 .about-tag{font-size:11px;font-weight:600;background:var(--blue-light);color:var(--blue);padding:3px 9px;border-radius:5px}
@@ -798,7 +798,7 @@ const copyMarkdown = () => {
 .md-textarea{
   flex:1;width:100%;border:none;outline:none;resize:none;
   font-family:var(--mono);font-size:13px;line-height:1.7;
-  color:#2a2725;background:#fff;
+  color:var(--color-text);background:var(--color-surface);
   padding:20px 22px;
   tab-size:2;
 }

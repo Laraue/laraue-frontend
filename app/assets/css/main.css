@@ -1,22 +1,27 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-    --ink:#0f0e0c;
-    --paper:#f7f4ee;
-    --cream:#ede9e0;
-    --accent:#c84b2f;
-    --accent-mid: #c85d2f;
-    --accent-light:#f0ebe3;
-    --muted:#7a7469;
-    --border:#d9d4c9;
-    --serif:'Montserrat',system-ui,sans-serif;
-    --sans:'Source Sans 3',system-ui,sans-serif;
+    /* Legacy names, mapped onto the Laraue Boards tokens (tokens.css) so the whole site shares one palette */
+    --ink:var(--color-text);
+    --paper:var(--color-background);
+    --cream:var(--color-workspace);
+    --accent:var(--color-accent);
+    --accent-mid:color-mix(in srgb,var(--color-accent) 85%,#000);
+    --accent-light:var(--color-accent-soft);
+    --muted:var(--color-muted);
+    --border:var(--color-border);
+    --serif:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    --mono:var(--font-family-mono);
+    --blue:var(--color-accent);
+    --blue-light:var(--color-accent-soft);
+    --amber:var(--color-chart-2);
+    --amber-mid:color-mix(in srgb,var(--color-chart-2) 80%,#fff);
+    --amber-light:color-mix(in srgb,var(--color-chart-2) 14%,var(--color-surface));
+    --rose:var(--color-danger);
     --nav-h:60px;
     --sidebar-w:220px;
     --doc-sidebar-w:0px;
     --toc-w:240px;
-    --blue:#3b5bdb;
-    --blue-light:#eef2ff;
-    --mono:'JetBrains Mono', monospace;
 
     /* entrance-animation timing scale — change here, not per-component */
     --anim-ease:ease;
@@ -31,14 +36,15 @@
 html{scroll-behavior:smooth}
 body{
     font-family:var(--sans);
-    background:var(--paper);
-    color:var(--ink);
+    background:var(--color-background);
+    color:var(--color-text);
     font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
 }
-
+:where(a,button):focus-visible{outline:2px solid var(--color-accent);outline-offset:2px}
+*{scrollbar-color:var(--color-scrollbar) transparent;scrollbar-width:thin}
 @media(max-width:1100px){
     :root{--sidebar-w:0px}
 }

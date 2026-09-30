@@ -64,18 +64,6 @@ const menuItems = computed<MenuItem[]>(() => {
       ]
     },
     {
-      text: $t('prototypes'),
-      id: "3",
-      children: [
-        {
-          text: t("pdfExtractor"),
-          link: localePath("/pdf-extractor"),
-          id: "3-1",
-          icon: "pdf"
-        }
-      ]
-    },
-    {
       text: t('blog'),
       id: "4",
       link: localePath("/blog"),
@@ -112,15 +100,13 @@ const toggleMobileSubMenu = (id: string) => {
     "home": "Home",
     "apps": "Apps",
     "telegramBots": "Telegram Bots",
-    "blog": "Blog",
-    "prototypes": "Prototypes"
+    "blog": "Blog"
   },
   "ru": {
     "home": "Главная",
     "apps": "Приложения",
     "telegramBots": "Боты",
-    "blog": "Блог",
-    "prototypes": "Прототипы"
+    "blog": "Блог"
   }
 }
 </i18n>
@@ -214,10 +200,10 @@ const toggleMobileSubMenu = (id: string) => {
 </template>
 
 <style scoped>
-.lang-switcher{display:flex;align-items:center;border:1px solid var(--border);border-radius:6px;overflow:hidden;flex-shrink:0}
+.lang-switcher{display:flex;align-items:center;border:1px solid var(--border);border-radius:var(--radius-control);overflow:hidden;flex-shrink:0}
 .lang-btn{background:none;border:none;cursor:pointer;padding:6px 11px;font-family:var(--serif);font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--muted);transition:background .15s,color .15s;line-height:1}
-.lang-btn:hover{background:var(--cream);color:var(--ink)}
-.lang-btn.active{background:var(--ink);color:var(--paper)}
+.lang-btn:hover{background:var(--color-hover);color:var(--ink)}
+.lang-btn.active{background:var(--color-accent);color:#fff}
 .lang-divider{width:1px;height:20px;background:var(--border);flex-shrink:0}
 /* ══════════════════════════════════════════
    TOP NAV  — multi-level with dropdowns
@@ -232,7 +218,7 @@ const toggleMobileSubMenu = (id: string) => {
   display: flex;
   align-items: center;
   padding: 0 32px;
-  background: rgba(247, 244, 238, .90);
+  background: color-mix(in srgb, var(--color-workspace) 90%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
@@ -272,7 +258,7 @@ const toggleMobileSubMenu = (id: string) => {
   border-bottom:2px solid transparent;
 }
 .nav-menu > li > a:hover,
-.nav-menu > li > button:hover{color:var(--ink);background:rgba(15,14,12,.04);border-bottom-color:var(--accent)}
+.nav-menu > li > button:hover{color:var(--ink);background:rgba(16,24,40,.04);border-bottom-color:var(--accent)}
 .nav-menu > li > a.active,
 .nav-menu > li.open > button{color:var(--ink);border-bottom-color:var(--accent)}
 
@@ -284,12 +270,12 @@ const toggleMobileSubMenu = (id: string) => {
 .nav-dropdown{
   position:absolute;top:calc(100% + 1px);left:0;
   min-width:220px;
-  background:rgba(247,244,238,.97);
+  background:var(--color-workspace);
   backdrop-filter:blur(16px);
   -webkit-backdrop-filter:blur(16px);
   border:1px solid var(--border);
-  border-radius:0 0 10px 10px;
-  box-shadow:0 8px 32px rgba(15,14,12,.12);
+  border-radius:0 0 var(--radius-card) var(--radius-card);
+  box-shadow:0 8px 32px rgba(16,24,40,.12);
   padding:8px 0;
   opacity:0;pointer-events:none;
   transform:translateY(-6px);
@@ -305,7 +291,7 @@ const toggleMobileSubMenu = (id: string) => {
   text-decoration:none;
   transition:color .12s,background .12s;
 }
-.nav-dropdown a:hover{color:var(--ink);background:var(--cream)}
+.nav-dropdown a:hover{color:var(--ink);background:var(--color-hover)}
 .dd-icon{
   display:flex;align-items:center;justify-content:center;
   width:30px;height:30px;border-radius:9px;flex-shrink:0;
@@ -371,7 +357,7 @@ const toggleMobileSubMenu = (id: string) => {
   font-size:14px;color:var(--muted);text-decoration:none;
   border-bottom:1px solid var(--border);
 }
-.mobile-submenu a:hover{color:var(--ink);background:rgba(15,14,12,.04)}
+.mobile-submenu a:hover{color:var(--ink);background:rgba(16,24,40,.04)}
 .mobile-submenu a:hover .dd-icon{border-color:var(--accent)}
 
 .mobile-bottom{padding:20px 24px;display:flex;flex-direction:column;gap:12px}
@@ -381,7 +367,7 @@ const toggleMobileSubMenu = (id: string) => {
   background:none;cursor:pointer;font-family:var(--serif);font-size:13px;font-weight:700;
   color:var(--muted);transition:background .15s,color .15s,border-color .15s;
 }
-.mobile-lang-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.mobile-lang-btn.active{background:var(--color-accent);color:#fff;border-color:var(--color-accent)}
 .mobile-cta{
   display:block;text-align:center;padding:14px;
   background:var(--accent);color:#fff;border-radius:8px;

@@ -57,10 +57,10 @@ const isTagActive = (tag: string) => {
 
 <style scoped>
 .blog-sidebar{position:sticky;top:calc(var(--nav-h) + 56px);}
-.filter-panel{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
+.filter-panel{background:var(--color-surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:14px}
 .filter-panel-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 .tag-list{display:flex;flex-wrap:wrap;gap:5px}
 .tag-filter-btn{font-size:11px;font-weight:600;background:var(--cream);color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:4px 9px;cursor:pointer;transition:background .15s,color .15s,border-color .15s;font-family:var(--sans);text-decoration:none;}
 .tag-filter-btn:hover{background:var(--border);color:var(--ink)}
-.tag-filter-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tag-filter-btn.active{background:var(--color-accent);color:#fff;border-color:var(--color-accent)}
 </style>

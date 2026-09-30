@@ -13,14 +13,14 @@ defineProps<{
 
 <style scoped>
 .proto-banner{
-  background:#fef3c7;
-  border-bottom:1px solid rgba(180,83,9,.2);
+  background:color-mix(in srgb,var(--color-chart-2) 14%,var(--color-surface));
+  border-bottom:1px solid color-mix(in srgb,var(--color-chart-2) 30%,transparent);
   padding:10px 60px;
   display:flex;align-items:center;gap:10px;
-  font-size:13px;color:#b45309;font-weight:500;
+  font-size:13px;color:color-mix(in srgb,var(--color-chart-2) 70%,#000);font-weight:500;
 }
 .proto-banner svg{width:15px;height:15px;stroke:currentColor;flex-shrink:0}
-.proto-banner a{color:#b45309;font-weight:700;text-underline-offset:2px}
+.proto-banner a{color:color-mix(in srgb,var(--color-chart-2) 70%,#000);font-weight:700;text-underline-offset:2px}
 
 @media(max-width:1100px){
   .proto-banner{padding:10px 32px}

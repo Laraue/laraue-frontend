@@ -24,8 +24,8 @@
 
 <style scoped>
 .platform-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.04em}
-.platform-badge.web{background:rgba(45,125,210,.2);color:#6ab0f0;border:1px solid rgba(45,125,210,.3)}
-.platform-badge.tg{background:rgba(34,158,217,.2);color:#7dd3f5;border:1px solid rgba(34,158,217,.3)}
-.platform-badge.proto{background:rgba(180, 83, 9, .18);color:#f59e0b;border:1px solid rgba(180, 83, 9, .3)}
+.platform-badge.web{background:var(--color-accent-soft);color:var(--color-accent);border:1px solid color-mix(in srgb,var(--color-accent) 25%,transparent)}
+.platform-badge.tg{background:var(--color-accent-soft);color:var(--color-accent);border:1px solid color-mix(in srgb,var(--color-accent) 25%,transparent)}
+.platform-badge.proto{background:color-mix(in srgb,var(--color-chart-2) 14%,var(--color-surface));color:color-mix(in srgb,var(--color-chart-2) 80%,#000);border:1px solid color-mix(in srgb,var(--color-chart-2) 35%,transparent)}
 .platform-badge svg{width:12px;height:12px;flex-shrink:0}
 </style>

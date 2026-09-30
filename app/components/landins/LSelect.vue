@@ -37,7 +37,7 @@
 .lang-select{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;
   font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;appearance:none;-webkit-appearance:none;
   padding-right:34px;transition:border-color .2s,box-shadow .2s;outline:none;
-  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpolyline points='2,4 6,8 10,4' fill='none' stroke='%237a7469' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+  background:var(--color-surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpolyline points='2,4 6,8 10,4' fill='none' stroke='%237a7469' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
 }
-.lang-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(15,118,110,.12)}
+.lang-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(53,104,212,.12)}
 </style>

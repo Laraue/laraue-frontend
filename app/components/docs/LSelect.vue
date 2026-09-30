@@ -27,7 +27,7 @@ export interface ISelectOption{
 select {
   padding: 8px 12px;
   border-radius: 4px;
-  border: 1px solid #ddd;
+  border:1px solid var(--color-border);
   margin-right: 10px;
   width: 200px;
 }

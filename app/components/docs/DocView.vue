@@ -212,11 +212,11 @@ const backAddress = computed(() => {
   border-left:2px solid transparent;
   transition:color .15s,background .15s,border-color .15s;
 }
-.toc-list li a:hover{color:var(--ink);background:rgba(15,14,12,.04)}
+.toc-list li a:hover{color:var(--ink);background:rgba(16,24,40,.04)}
 .toc-list li a.active{
   color:var(--ink);font-weight:600;
   border-left-color:var(--accent);
-  background:rgba(200,75,47,.05);
+  background:rgba(53,104,212,.05);
 }
 
 .toc-divider{height:1px;background:var(--border);margin:20px 24px}
@@ -232,7 +232,7 @@ const backAddress = computed(() => {
   color:var(--ink);text-decoration:none;
   transition:background .15s;
 }
-.toc-related-link:hover{background:rgba(15,14,12,.04)}
+.toc-related-link:hover{background:rgba(16,24,40,.04)}
 .toc-related-badge{
   font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
   background:var(--accent-light);color:var(--accent);
@@ -294,7 +294,7 @@ const backAddress = computed(() => {
 
 /* ══ ARTICLE BODY ══ */
 .article-body{
-  font-size:17px;line-height:1.8;color:#2a2725;
+  font-size:17px;line-height:1.8;color:var(--color-text);
   font-weight:300;
   max-width:680px;
 }
@@ -326,7 +326,7 @@ const backAddress = computed(() => {
 
 .article-body :deep(strong){font-weight:600;color:var(--ink)}
 .article-body :deep(em){font-style:italic}
-.article-body :deep(a){color:var(--accent);text-decoration:underline;text-decoration-color:rgba(200,75,47,.3);text-underline-offset:3px;transition:text-decoration-color .15s}
+.article-body :deep(a){color:var(--accent);text-decoration:underline;text-decoration-color:rgba(53,104,212,.3);text-underline-offset:3px;transition:text-decoration-color .15s}
 .article-body :deep(a:hover){text-decoration-color:var(--accent)}
 
 /* ordered/unordered lists */
@@ -426,7 +426,7 @@ const backAddress = computed(() => {
   text-decoration:none;
   transition:background .15s,color .15s,border-color .15s;
 }
-.article-tag:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.article-tag:hover{background:var(--color-accent);color:#fff;border-color:var(--color-accent)}
 
 .article-nav{
   display:grid;grid-template-columns:1fr 1fr;gap:16px;
@@ -435,9 +435,9 @@ const backAddress = computed(() => {
   border:1px solid var(--border);border-radius:12px;
   padding:18px 20px;text-decoration:none;color:inherit;
   transition:border-color .2s,box-shadow .2s,transform .15s;
-  background:#fff;
+  background:var(--color-surface);
 }
-.article-nav-card:hover{border-color:var(--ink);box-shadow:0 4px 20px rgba(15,14,12,.09);transform:translateY(-2px)}
+.article-nav-card:hover{border-color:var(--ink);box-shadow:0 4px 20px rgba(16,24,40,.09);transform:translateY(-2px)}
 .article-nav-direction{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .article-nav-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.35}
 .article-nav-card.next{text-align:right}

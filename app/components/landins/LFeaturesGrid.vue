@@ -39,19 +39,15 @@ const isIconName = (icon: string) => /^[a-z]+$/.test(icon)
 
 <style scoped>
 /* ══ FEATURES ══ */
-.features{padding:80px 60px;background:#17151f;position:relative;overflow:hidden;border-top:1px solid rgba(255,255,255,.1)}
-.features::before{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px}
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:52px}
-.feat-cell{padding:30px 26px;transition:background .2s;background: #fff;text-decoration: none;}
-.dark .feat-cell { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08); }
-.dark .feat-cell:hover { background:rgba(255,255,255,.07); }
+.features{padding:88px 60px;position:relative;overflow:hidden}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.feat-cell{padding:28px 24px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-card);box-shadow:var(--shadow-card);color:inherit;text-decoration:none;transition:border-color var(--duration-base),transform var(--duration-base)}
+.feat-cell:hover{border-color:var(--color-accent);transform:translateY(-2px)}
 .feat-icon{font-size:26px;margin-bottom:14px}
-.feat-icon-svg{width:44px;height:44px;border-radius:11px;background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.feat-icon-svg{width:44px;height:44px;border-radius:var(--radius-card);background:var(--accent-light);color:var(--accent);display:flex;align-items:center;justify-content:center}
 .feat-icon-svg :deep(.nav-icon-svg){width:22px;height:22px}
 .feat-title{font-weight:700;font-size:14px;margin-bottom:9px;letter-spacing:-.1px}
-.dark .feat-title{color:#fff;}
-.feat-desc{font-size:13px;line-height:1.6}
-.dark .feat-desc{color:rgba(247,244,238,.45);}
+.feat-desc{font-size:13px;line-height:1.6;color:var(--color-muted)}
 
 @media(max-width:900px){
   .features-grid{grid-template-columns:1fr 1fr}

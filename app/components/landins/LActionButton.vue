@@ -27,10 +27,10 @@
 <style scoped>
 .btn {
   color: #fff;
-  padding: 14px 28px;
-  border-radius: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-control);
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 15px;
   display: inline-flex;
   align-items: center;
@@ -39,26 +39,28 @@
 }
 .btn.site {
   background: var(--accent);
-  box-shadow: 0 2px 14px rgba(200, 75, 47, .3);
+  box-shadow: none;
 }
 .btn.site:hover{
-  background:#b03d24;
-  transform:translateY(-2px);
-  box-shadow:0 6px 24px rgba(200,75,47,.4)
+  background:var(--accent-mid);
+  transform:translateY(-1px)
 }
 .btn.telegram {
-  background: #229ed9;
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
 }
 .btn.telegram:hover{
-  background:#1a8abf;
+  background:var(--color-hover);
   transform:translateY(-1px)
 }
 .btn.github {
-  background: var(--ink);
-  border: 1px solid rgba(255,255,255,.25);
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
 }
 .btn.github:hover {
-  background: #1b1a15;
+  background: var(--color-hover);
   transform:translateY(-1px)
 }
 </style>
