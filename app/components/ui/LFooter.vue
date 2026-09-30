@@ -16,7 +16,10 @@
     "tool2n_short": "AI Apartments",
     "tool3n": "Vocabulary Bot",
     "nav_about": "About",
-    "footer_privacy": "Privacy policy"
+    "footer_privacy": "Privacy policy",
+    "footer_terms": "Public offer",
+    "footer_seller": "Ilya A. Belyansky, self-employed (tax on professional income), INN 344714008567",
+    "footer_phone": "Phone"
   },
   "ru": {
     "footer_tag": "Небольшая команда. Серьёзный подход.",
@@ -28,7 +31,10 @@
     "tool2n_short": "AI Квартиры",
     "tool3n": "Бот-словарь",
     "nav_about": "О нас",
-    "footer_privacy": "Политика конфиденциальности"
+    "footer_privacy": "Политика конфиденциальности",
+    "footer_terms": "Публичная оферта",
+    "footer_seller": "Белянский Илья Александрович, самозанятый (налог на профессиональный доход), ИНН 344714008567",
+    "footer_phone": "Телефон"
   }
 }
 </i18n>
@@ -69,9 +75,20 @@
           </ul>
         </div>
       </div>
+      <div class="footer-seller">
+        <span>{{ t('footer_seller') }}</span>
+        <span>
+          <a class="footer-legal-link" href="mailto:info@laraue.com">info@laraue.com</a>
+          ·
+          <a class="footer-legal-link" href="tel:+79955994842">{{ t('footer_phone') }}: +7-995-599-48-42</a>
+        </span>
+      </div>
       <div class="footer-bottom">
         <span>© 2026 Laraue Software.</span>
-        <a :href="localePath('privacy')" class="footer-legal-link">{{ t('footer_privacy') }}</a>
+        <span class="footer-legal">
+          <a :href="`${boardsUrl}/terms`" class="footer-legal-link">{{ t('footer_terms') }}</a>
+          <a :href="localePath('privacy')" class="footer-legal-link">{{ t('footer_privacy') }}</a>
+        </span>
       </div>
     </div>
   </footer>
@@ -90,6 +107,8 @@ footer{background:var(--color-workspace);border-top:1px solid var(--color-divide
 .footer-col-links a:hover{color:var(--color-text)}
 .footer-legal-link{color:var(--color-muted);text-decoration:none;transition:color .2s}
 .footer-legal-link:hover{color:var(--color-text)}
+.footer-seller{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;font-size:12px;color:var(--color-muted);margin-bottom:24px}
+.footer-legal{display:flex;gap:20px;flex-wrap:wrap}
 .footer-bottom{border-top:1px solid var(--color-divider);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--color-muted);flex-wrap:wrap;gap:12px}
 
 /* RESPONSIVE */
