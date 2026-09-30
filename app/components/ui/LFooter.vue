@@ -58,14 +58,14 @@
           <div class="footer-col-title">{{ t('footer_company') }}</div>
           <ul class="footer-col-links">
             <li><a :href="localePath('blog')">{{ t('footer_blog') }}</a></li>
-            <li><a rel="nofollow" target="_blank" href="https://github.com/win7user10">GitHub</a></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/Laraue">GitHub</a></li>
           </ul>
         </div>
         <div>
           <div class="footer-col-title">Contact</div>
           <ul class="footer-col-links">
             <li><a rel="nofollow" target="_blank" href="https://t.me/win7user10">Telegram @win7user10</a></li>
-            <li><a rel="nofollow" target="_blank" href="https://github.com/win7user10">GitHub</a></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/Laraue">GitHub</a></li>
           </ul>
         </div>
       </div>

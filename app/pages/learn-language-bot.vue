@@ -450,7 +450,7 @@ useSchemaOrg([
             <div class="oss-icon"><LNavIcon name="code" /></div>
             <h3 class="oss-title">Laraue.Apps.LearnLanguage</h3>
             <p class="oss-desc" data-i18n="oss_card_desc">{{ t('oss_card_desc') }}</p>
-            <LActionButton :title="t('view_github')" link="https://github.com/win7user10/Laraue.Apps.LearnLanguage" type="github"/>
+            <LActionButton :title="t('view_github')" link="https://github.com/Laraue/Laraue.Apps.LearnLanguage" type="github"/>
           </div>
         </div>
       </div>
@@ -459,7 +459,7 @@ useSchemaOrg([
     <!-- ══ CTA ══ -->
     <LCallToAction :title="t('cta_title')" :pre-title="t('cta_eyebrow')" :post-title="t('cta_sub')">
       <LActionButton :title="t('hero_cta')" link="https://t.me/learn_lang_bot" type="telegram" />
-      <LActionButton :title="t('view_github')" link="https://github.com/win7user10/Laraue.Apps.LearnLanguage" type="github" />
+      <LActionButton :title="t('view_github')" link="https://github.com/Laraue/Laraue.Apps.LearnLanguage" type="github" />
     </LCallToAction>
 
   </LMainContent>

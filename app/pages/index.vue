@@ -34,7 +34,7 @@ useSchemaOrg([
     name: 'Laraue Software',
     logo: logoUrl,
     sameAs: [
-      'https://github.com/win7user10',
+      'https://github.com/Laraue',
       'https://t.me/win7user10',
     ],
   }),
@@ -429,7 +429,7 @@ useSchemaOrg([
           <div class="tool-card-arrow" data-i18n="try_it">{{ t('try_it') }}</div>
         </a>
 
-        <a rel="nofollow" target="_blank" href="https://github.com/win7user10" class="tool-card reveal" style="background:var(--cream)">
+        <a rel="nofollow" target="_blank" href="https://github.com/Laraue" class="tool-card reveal" style="background:var(--cream)">
           <div class="tool-logo" style="background:#f7f4ee">
             <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="48" height="48" fill="#f7f4ee"/>

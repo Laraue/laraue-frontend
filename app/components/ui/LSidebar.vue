@@ -50,7 +50,7 @@
     <ul class="sidebar-links">
       <li><nuxt-link active-class="active" to="/"><span class="sidebar-icon">&#127968;</span><span>{{ t('home') }}</span></nuxt-link></li>
       <li><a :href="boardsUrl"><span class="sidebar-icon">&#128203;</span><span>Laraue Boards</span></a></li>
-      <li><a href="https://github.com/win7user10" target="_blank" rel="noopener"><span class="sidebar-icon">&#11088;</span><span>GitHub</span></a></li>
+      <li><a href="https://github.com/Laraue" target="_blank" rel="noopener"><span class="sidebar-icon">&#11088;</span><span>GitHub</span></a></li>
     </ul>
     <div class="sidebar-footer">
       <p>Laraue Software<br>{{ t('slogan') }}</p>
