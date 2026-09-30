@@ -16,7 +16,9 @@
     "tool2n_short": "AI Apartments",
     "tool3n": "Vocabulary Bot",
     "nav_about": "About",
-    "footer_privacy": "Privacy policy"
+    "footer_privacy": "Privacy policy",
+    "footer_terms": "Public offer",
+    "footer_seller": "Ilya A. Belyansky, self-employed (tax on professional income), INN 344714008567"
   },
   "ru": {
     "footer_tag": "Небольшая команда. Серьёзный подход.",
@@ -28,7 +30,9 @@
     "tool2n_short": "AI Квартиры",
     "tool3n": "Бот-словарь",
     "nav_about": "О нас",
-    "footer_privacy": "Политика конфиденциальности"
+    "footer_privacy": "Политика конфиденциальности",
+    "footer_terms": "Публичная оферта",
+    "footer_seller": "Белянский Илья Александрович, самозанятый (налог на профессиональный доход), ИНН 344714008567"
   }
 }
 </i18n>
@@ -59,6 +63,8 @@
           <ul class="footer-col-links">
             <li><a :href="localePath('blog')">{{ t('footer_blog') }}</a></li>
             <li><a rel="nofollow" target="_blank" href="https://github.com/Laraue">GitHub</a></li>
+            <li><a :href="`${boardsUrl}/terms`">{{ t('footer_terms') }}</a></li>
+            <li><a :href="localePath('privacy')">{{ t('footer_privacy') }}</a></li>
           </ul>
         </div>
         <div>
@@ -70,8 +76,12 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© 2026 Laraue Software.</span>
-        <a :href="localePath('privacy')" class="footer-legal-link">{{ t('footer_privacy') }}</a>
+        <span>{{ t('footer_seller') }}</span>
+        <span>
+          <a class="footer-legal-link" href="mailto:info@laraue.com">info@laraue.com</a>
+          ·
+          <a class="footer-legal-link" href="tel:+79955994842">+7-995-599-48-42</a>
+        </span>
       </div>
     </div>
   </footer>
