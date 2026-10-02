@@ -4,7 +4,7 @@ import ReadTime from "~/components/docs/ReadTime.vue";
 import LContentTypeBadge from "~/components/docs/LContentTypeBadge.vue";
 import LMobileToc from "~/components/docs/LMobileToc.vue";
 
-const props = defineProps<{
+defineProps<{
   item: ItemDetails
 }>()
 
@@ -20,10 +20,9 @@ const breadCrumbs = computed(() => {
 
   const names: Record<string, string> = { blog: t('blog'), articles: t('articles'), projects: t('projects') }
 
-  routeSegments.forEach((segment, index) => {
-    // The last one is the page itself: its title, not the name of its file.
-    const title = index === routeSegments.length - 1 ? props.item.title : names[segment] ?? segment
-    breadcrumbs.push({ href: localePath(currentPath + segment), title })
+  // The page itself is not in the trail: its title is right below.
+  routeSegments.slice(0, -1).forEach((segment) => {
+    breadcrumbs.push({ href: localePath(currentPath + segment), title: names[segment] ?? segment })
     currentPath = currentPath + segment + '/'
   })
 
