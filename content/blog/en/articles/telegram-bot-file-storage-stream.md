@@ -4,12 +4,12 @@ description: Part 11 of building a Telegram task tracker solo. Teaching the capt
 seoTitle: Telegram Bot Media: Store the Preview, Stream the Original
 seoDescription: Part 11: photos and video in a capture bot — small previews on disk, full files streamed from Telegram on demand through nginx, no buffering.
 type: article
+series: architecture-first
+part: 11
 createdAt: 2026-06-26 09:00
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, dotnet, telegram]
-previousLink: telegram-saved-messages-bot-lesson
-nextLink: telegram-media-group-album-bot
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 11.

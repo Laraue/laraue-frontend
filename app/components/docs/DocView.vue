@@ -2,9 +2,8 @@
 
 import ReadTime from "~/components/docs/ReadTime.vue";
 import LContentTypeBadge from "~/components/docs/LContentTypeBadge.vue";
-import LMobileToc from "~/components/docs/LMobileToc.vue";
 
-defineProps<{
+const props = defineProps<{
   item: ItemDetails
 }>()
 
@@ -33,6 +32,17 @@ const breadCrumbs = computed(() => {
   return breadcrumbs
 })
 
+// The two buttons of a phone (the left menu is not shown there): the contents and the series.
+const openedPanel = ref<'toc' | 'series' | null>(null)
+const togglePanel = (panel: 'toc' | 'series') => {
+  openedPanel.value = openedPanel.value === panel ? null : panel
+}
+
+const seriesProgress = computed(() =>
+  props.item.series
+    ? t('partOf', { number: props.item.series.parts.find((part) => part.current)?.part, total: props.item.series.parts.length })
+    : '')
+
 // "Back to articles", with the word in the form the phrase needs.
 const backLabel = computed(() => {
   const section = getRouteSegments()[1]
@@ -52,6 +62,11 @@ const backAddress = computed(() => {
 {
   "en": {
     "onThisPage": "On this page",
+    "series": "Series",
+    "part": "Part {number}",
+    "partOf": "Part {number} of {total}",
+    "projectArticles": "Articles about this project",
+    "readAlso": "Read also",
     "backToArticles": "Back to articles",
     "backToProjects": "Back to projects",
     "backToBlog": "Back to the blog",
@@ -66,6 +81,11 @@ const backAddress = computed(() => {
   },
   "ru": {
     "onThisPage": "На этой странице",
+    "series": "Серия статей",
+    "part": "Часть {number}",
+    "partOf": "Часть {number} из {total}",
+    "projectArticles": "Статьи об этом проекте",
+    "readAlso": "Читайте также",
     "backToArticles": "Назад к статьям",
     "backToProjects": "Назад к проектам",
     "backToBlog": "Назад в блог",
@@ -99,6 +119,20 @@ const backAddress = computed(() => {
         </ul>
       </template>
 
+      <template v-if="item.series">
+        <div class="toc-divider"></div>
+        <details class="toc-series-box">
+          <summary class="toc-label">{{ t('series') }} · {{ seriesProgress }}</summary>
+          <div class="toc-series-title">{{ item.series.title }}</div>
+          <ol class="toc-series">
+            <li v-for="part in item.series.parts" :class="{ current: part.current }">
+              <span v-if="part.current" aria-current="page"><b>{{ part.part }}</b>{{ part.title }}</span>
+              <nuxt-link v-else :to="localePathFromSegments(part.path)"><b>{{ part.part }}</b>{{ part.title }}</nuxt-link>
+            </li>
+          </ol>
+        </details>
+      </template>
+
       <div class="toc-divider"></div>
 
       <template v-if="item.relatedProjects?.length">
@@ -118,14 +152,33 @@ const backAddress = computed(() => {
           <span>{{ backLabel }}</span>
         </nuxt-link>
 
-        <!-- mobile TOC toggle -->
-        <LMobileToc :title="t('onThisPage')" v-if="item.innerLinks?.length > 1">
-          <li v-for="link in item.innerLinks">
-            <a :href="link.link">
-              {{ link.title }}
-            </a>
-          </li>
-        </LMobileToc>
+        <!-- the contents and the series on a phone -->
+        <div class="mobile-nav">
+          <div class="mobile-nav-buttons">
+            <button v-if="item.innerLinks?.length > 1" type="button" class="mobile-nav-button" :class="{ open: openedPanel === 'toc' }" @click="togglePanel('toc')">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+              <span>{{ t('onThisPage') }}</span>
+            </button>
+            <button v-if="item.series" type="button" class="mobile-nav-button series" :class="{ open: openedPanel === 'series' }" @click="togglePanel('series')">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="9" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="9" y1="18" x2="21" y2="18"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg>
+              <span>{{ t('series') }} · {{ seriesProgress }}</span>
+            </button>
+          </div>
+          <div v-if="openedPanel === 'toc' && item.innerLinks?.length > 1" class="mobile-nav-panel">
+            <ul class="toc-list">
+              <li v-for="link in item.innerLinks"><a :href="link.link" @click="openedPanel = null">{{ link.title }}</a></li>
+            </ul>
+          </div>
+          <div v-if="openedPanel === 'series' && item.series" class="mobile-nav-panel">
+            <div class="toc-series-title">{{ item.series.title }}</div>
+            <ol class="toc-series">
+              <li v-for="part in item.series.parts" :class="{ current: part.current }">
+                <span v-if="part.current" aria-current="page"><b>{{ part.part }}</b>{{ part.title }}</span>
+                <nuxt-link v-else :to="localePathFromSegments(part.path)"><b>{{ part.part }}</b>{{ part.title }}</nuxt-link>
+              </li>
+            </ol>
+          </div>
+        </div>
 
         <!-- HEADER -->
         <nav class="article-breadcrumb" aria-label="Breadcrumb">
@@ -157,12 +210,28 @@ const backAddress = computed(() => {
           </div>
         </div>
 
+
         <!-- BODY -->
         <div class="article-body">
           <div v-html="item.content"></div>
         </div><!-- /article-body -->
         <!-- ARTICLE FOOTER -->
         <div class="article-footer">
+          <section v-if="item.projectArticles?.length" class="more-links">
+            <h2>{{ t('projectArticles') }}</h2>
+            <ul>
+              <li v-for="page in item.projectArticles"><nuxt-link :to="localePathFromSegments(page.path)">{{ page.title }}</nuxt-link></li>
+            </ul>
+          </section>
+          <section v-if="item.relatedPages?.length" class="more-links">
+            <h2>{{ t('readAlso') }}</h2>
+            <ul>
+              <li v-for="page in item.relatedPages">
+                <nuxt-link :to="localePathFromSegments(page.path)">{{ page.title }}</nuxt-link>
+                <LContentTypeBadge :content-type="page.contentType" />
+              </li>
+            </ul>
+          </section>
           <div class="article-tags">
             <nuxt-link v-for="tag in item.tags" :to="localePath({ name: 'blog', query: { tag } })" class="article-tag">{{ tagLabel(tag) }}</nuxt-link>
           </div>
@@ -244,6 +313,33 @@ const backAddress = computed(() => {
 
 .toc-divider{height:1px;background:var(--border);margin:20px 24px}
 
+/* the contents and the series on a phone */
+.mobile-nav{display:none;margin-bottom:28px}
+.mobile-nav-buttons{display:flex;flex-wrap:wrap;gap:8px}
+.mobile-nav-button{display:flex;align-items:center;gap:8px;background:none;border:1px solid var(--border);border-radius:6px;padding:7px 14px;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:600;color:var(--muted);transition:border-color .15s,color .15s,background .15s}
+.mobile-nav-button svg{width:14px;height:14px;stroke:currentColor}
+.mobile-nav-button:hover,.mobile-nav-button.open{border-color:var(--ink);color:var(--ink)}
+.mobile-nav-button.series{color:var(--accent);border-color:rgba(53,104,212,.3);background:var(--accent-light)}
+.mobile-nav-button.series.open{border-color:var(--accent)}
+.mobile-nav-panel{margin-top:12px;background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:14px 0}
+.mobile-nav-panel .toc-list li a{padding:7px 20px;font-size:13px}
+.mobile-nav-panel .toc-series li a,.mobile-nav-panel .toc-series li > span{padding:6px 20px;font-size:13px}
+.mobile-nav-panel .toc-series-title{padding:0 20px;margin-bottom:8px}
+
+/* series in the menu: a closed block with the progress, opened on a click */
+.toc-series-box summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;color:var(--accent);opacity:1;margin-bottom:0}
+.toc-series-box summary::-webkit-details-marker{display:none}
+.toc-series-box summary::after{content:'';flex:none;width:6px;height:6px;margin-right:2px;border-right:1.8px solid currentColor;border-bottom:1.8px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .15s}
+.toc-series-box[open] summary{margin-bottom:8px}
+.toc-series-box[open] summary::after{transform:translateY(1px) rotate(-135deg)}
+.toc-series-title{font-size:12px;font-weight:700;line-height:1.35;color:var(--ink);padding:0 24px;margin-bottom:8px}
+.toc-series{list-style:none;margin:0;padding:0}
+.toc-series li a,.toc-series li > span{display:flex;align-items:flex-start;gap:8px;padding:5px 24px;font-size:12px;line-height:1.4;color:var(--muted);text-decoration:none;border-left:2px solid transparent;transition:color .15s,background .15s}
+.toc-series li a:hover{color:var(--ink);background:rgba(16,24,40,.04)}
+.toc-series b{flex:none;display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;margin-top:-1px;border-radius:50%;border:1px solid rgba(53,104,212,.3);background:var(--color-surface);color:var(--accent);font-size:10px;font-weight:700}
+.toc-series .current > span{color:var(--ink);font-weight:700;border-left-color:var(--accent);background:rgba(53,104,212,.05)}
+.toc-series .current b{background:var(--accent);border-color:var(--accent);color:#fff}
+
 /* related projects */
 .toc-related-label{
   font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
@@ -313,6 +409,26 @@ const backAddress = computed(() => {
 .article-meta-item svg{width:14px;height:14px;stroke:currentColor;flex-shrink:0}
 
 /* ══ ARTICLE BODY ══ */
+/* the series of articles: the brand blue, the same accent bar as a quote */
+.series-box{margin:0 0 40px;padding:20px 24px 14px;border:1px solid rgba(53,104,212,.18);border-left:4px solid var(--accent);border-radius:0 12px 12px 0;background:var(--accent-light);max-width:680px}
+.series-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.series-label{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.series-label::after{content:'';width:32px;height:1px;background:var(--accent);opacity:.5}
+.series-progress{font-size:11px;font-weight:700;color:var(--accent);background:var(--color-surface);border:1px solid rgba(53,104,212,.2);padding:2px 9px;border-radius:999px;white-space:nowrap}
+.series-title{font-family:var(--serif);font-size:17px;font-weight:800;line-height:1.3;letter-spacing:-.2px;color:var(--ink);margin-bottom:14px}
+.series-list{list-style:none;margin:0;padding:0;font-size:13.5px;line-height:1.45}
+.series-list li{display:flex;align-items:flex-start;gap:12px;padding:6px 0}
+.series-part{flex:none;display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--color-surface);border:1px solid rgba(53,104,212,.25);color:var(--accent);font-size:11px;font-weight:700;margin-top:-1px}
+.series-name{color:var(--ink);text-decoration:none;font-weight:500}
+a.series-name:hover{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.series-list .current .series-part{background:var(--accent);border-color:var(--accent);color:#fff}
+.series-list .current .series-name{color:var(--accent);font-weight:700}
+.more-links{margin-bottom:32px}
+.more-links h2{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.more-links ul{list-style:none;margin:0;padding:0}
+.more-links li{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:14px;line-height:1.4}
+.more-links a{color:var(--ink);font-weight:600;text-decoration:none}
+.more-links a:hover{color:var(--accent)}
 .article-body{
   font-size:17px;line-height:1.8;color:var(--color-text);
   font-weight:300;
@@ -468,6 +584,7 @@ const backAddress = computed(() => {
 }
 
 @media(max-width:760px){
+  .mobile-nav{display:block}
   .toc-back.mobile { display:inline-flex; }
   .page-layout{display: block;padding-top: 0;}
   .toc-sidebar{display:none}

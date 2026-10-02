@@ -4,12 +4,12 @@ description: Часть 4 цикла о разработке Telegram-таск-�
 seoTitle: Выбор стека для соло-проекта: .NET, PostgreSQL, Nuxt
 seoDescription: Часть 4: почему .NET 10, PostgreSQL 18, Nuxt 4 и Vue 3, и как переезд с MongoDB на Postgres научил нас выбирать скучные, стабильные технологии.
 type: article
+series: architecture-first
+part: 4
 createdAt: 2026-06-20 22:35
 updatedAt: 2026-10-02 19:51
 projects: [boards]
 tags: [devlog, dotnet, nuxt, database, architecture]
-previousLink: telegram-saved-messages-to-task-tracker
-nextLink: clean-dotnet-telegram-bot-architecture
 ---
 
 > **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 4.

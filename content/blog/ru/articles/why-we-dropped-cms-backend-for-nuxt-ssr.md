@@ -4,6 +4,7 @@ description: Почему мы удалили собственный бэкен�
 seoTitle: CMS-бэкенд на .NET: почему мы от него отказались
 seoDescription: Почему мы удалили свой .NET-бэкенд для markdown и перенесли блог в Nuxt: постоянная синхронизация с фронтендом, нехватка возможностей в API, что стало проще.
 type: article
+featured: true
 createdAt: 2026-10-02 19:50
 updatedAt: 2026-10-02 20:02
 projects: [cms-backend]

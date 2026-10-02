@@ -7,7 +7,6 @@ type: article
 createdAt: 2026-07-11
 updatedAt: 2026-10-02 18:44
 tags: [ai, architecture]
-previousLink: how-we-build-engineering-principles
 ---
 
 In the era of AI agents spreading everywhere, a common opinion is that AI will always write code faster than a developer would by hand. If you compare the raw number of lines written, that is absolutely true. The only problem is that such code will not always be fully correct.

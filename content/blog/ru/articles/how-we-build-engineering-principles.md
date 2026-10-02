@@ -7,8 +7,6 @@ type: article
 createdAt: 2026-06-18
 updatedAt: 2026-10-02 18:44
 tags: [devlog, architecture, ai]
-nextLink: reviewing-ai-generated-cost
-previousLink: how-we-decide-what-to-build
 ---
 
 Постараемся перечислить все правила, которым в Laraue следуют при разработке. Мы ссылаемся на этот документ из отдельных статей, чтобы не повторять принципы в каждой из них. В некоторых пунктах присутствуют ссылки на истории, при которых это правило появилось.

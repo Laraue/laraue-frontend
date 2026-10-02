@@ -7,7 +7,6 @@ type: article
 createdAt: 2026-06-18
 updatedAt: 2026-10-02 18:44
 tags: [devlog, product, ai]
-nextLink: how-we-build-engineering-principles
 ---
 
 In this article we will try to list all the steps we take to work out whether an idea is worth implementing, or whether the effort is better spent on something else. What happens if the idea passes the check is covered in the next article, [how we build](how-we-build-engineering-principles).

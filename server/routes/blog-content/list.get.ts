@@ -18,9 +18,10 @@ export default defineEventHandler(async (event) => {
 
     return catalog.list(locale, {
         contentTypes: section ? [section.contentType] : blogSections.map(({ contentType }) => contentType),
+        featured: query.featured === 'true',
         page,
         perPage,
         // Tags filter the feed of all the pages only.
         tag: section ? undefined : tag,
-    } satisfies { contentTypes: BlogContentType[]; tag?: string; page: number; perPage: number })
+    } satisfies { contentTypes: BlogContentType[]; tag?: string; featured?: boolean; page: number; perPage: number })
 })

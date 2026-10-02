@@ -59,6 +59,14 @@ export const useBlogContent = () => {
         });
     }
 
+    // The pages chosen to be shown on the home page.
+    const getFeatured = async (languageCode: string): Promise<ItemListItem[]> => {
+        const result = await client<PaginationData<ItemListItem>>('/blog-content/list', {
+            query: { languageCode, featured: true, page: 0, perPage: 6 },
+        });
+        return result.data
+    }
+
     const getTags = async (languageCode: string): Promise<Tag[]> => {
         return client<Tag[]>('/blog-content/tags', {
             query: { languageCode },
@@ -74,5 +82,6 @@ export const useBlogContent = () => {
         getFeed,
         getTags,
         getSection,
+        getFeatured,
     }
 }

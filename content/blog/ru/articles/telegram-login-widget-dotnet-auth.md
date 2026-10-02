@@ -4,11 +4,12 @@ description: Часть 13 цикла о разработке Telegram-таск-
 seoTitle: Telegram Login Widget и Mini App в .NET: один JWT
 seoDescription: Часть 13: веб-версия вне Telegram — Telegram Login Widget как вторая схема валидации рядом с Mini App, обе приводят к одному и тому же JWT.
 type: article
+series: architecture-first
+part: 13
 createdAt: 2026-07-01
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, dotnet, nuxt, telegram, authentication]
-previousLink: telegram-media-group-album-bot
 ---
 
 > **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 13.

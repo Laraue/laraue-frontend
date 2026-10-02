@@ -4,12 +4,12 @@ description: Part 5 of building a Telegram task tracker solo. A clean .NET Teleg
 seoTitle: Clean .NET Telegram Bot: Controllers Instead of a Switch
 seoDescription: Part 5: ASP.NET-style controllers and middleware for a Telegram bot, a layered solution structure, and EF Core with linq2db on the same models.
 type: article
+series: architecture-first
+part: 5
 createdAt: 2026-06-21
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, dotnet, telegram, architecture]
-previousLink: choosing-stack-for-solo-project
-nextLink: deploying-dotnet-postgres-vps-docker-compose
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 5.

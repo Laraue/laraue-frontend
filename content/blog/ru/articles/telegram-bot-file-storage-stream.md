@@ -4,12 +4,12 @@ description: Часть 11 цикла о разработке Telegram-таск-
 seoTitle: Медиа в Telegram-боте: храним превью, стримим оригинал
 seoDescription: Часть 11: фото и видео в боте — маленькие превью в локальном хранилище, большие файлы стримятся из Telegram по запросу через nginx без буферизации.
 type: article
+series: architecture-first
+part: 11
 createdAt: 2026-06-26 09:00
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, dotnet, telegram]
-previousLink: telegram-saved-messages-bot-lesson
-nextLink: telegram-media-group-album-bot
 ---
 
 > **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 11.

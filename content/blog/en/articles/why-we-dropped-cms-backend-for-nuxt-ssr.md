@@ -4,6 +4,7 @@ description: Why we deleted our own markdown-to-API backend and moved the blog i
 seoTitle: We Built a .NET CMS Backend, Then Dropped It for Nuxt SSR
 seoDescription: Why we deleted our markdown-to-API .NET backend and moved the blog into Nuxt: constant frontend/backend sync, features the API lacked, and what got simpler.
 type: article
+featured: true
 createdAt: 2026-10-02 19:50
 updatedAt: 2026-10-02 20:02
 projects: [cms-backend]

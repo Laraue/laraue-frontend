@@ -4,12 +4,12 @@ description: Часть 5 цикла о разработке Telegram-таск-�
 seoTitle: Архитектура Telegram-бота на .NET: контроллеры вместо switch
 seoDescription: Часть 5: контроллеры и middleware в стиле ASP.NET для Telegram-бота, слоёная структура решения и связка EF Core с linq2db на одних моделях.
 type: article
+series: architecture-first
+part: 5
 createdAt: 2026-06-21
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, dotnet, telegram, architecture]
-previousLink: choosing-stack-for-solo-project
-nextLink: deploying-dotnet-postgres-vps-docker-compose
 ---
 
 > **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 5.

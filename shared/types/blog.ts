@@ -32,6 +32,26 @@ export interface ItemListItem {
     projects: string[] | null;
 }
 
+// A page of the same series: a numbered part, the one the visitor reads is marked.
+export interface SeriesPart {
+    part: number;
+    title: string;
+    path: string[];
+    current: boolean;
+}
+
+export interface Series {
+    title: string;
+    parts: SeriesPart[];
+}
+
+// A link to another page of the blog.
+export interface RelatedPage {
+    title: string;
+    path: string[];
+    contentType: BlogContentType;
+}
+
 export interface ItemDetails {
     title: string;
     description: string;
@@ -50,6 +70,11 @@ export interface ItemDetails {
     projects: string[] | null;
     // The pages of the projects the page is related to (`projects` are their names).
     relatedProjects: NeighborCard[];
+    series?: Series;
+    // Pages with the same tags, to read next.
+    relatedPages: RelatedPage[];
+    // For a project: the articles that tell about it.
+    projectArticles: RelatedPage[];
     length: number;
 }
 

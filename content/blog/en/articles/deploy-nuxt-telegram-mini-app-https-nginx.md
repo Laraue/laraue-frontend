@@ -4,12 +4,12 @@ description: Part 7 of building a Telegram task tracker solo. How to deploy a Nu
 seoTitle: Deploy a Nuxt Telegram Mini App: nginx, HTTPS, Let's Encrypt
 seoDescription: Part 7: deploy a Nuxt Mini App behind nginx with HTTPS, renew certificates with certbot, register the app in BotFather and test locally with ngrok.
 type: article
+series: architecture-first
+part: 7
 createdAt: 2026-06-23 12:00
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, nuxt, telegram, deployment]
-previousLink: deploying-dotnet-postgres-vps-docker-compose
-nextLink: telegram-mini-app-authentication-dotnet
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 7.

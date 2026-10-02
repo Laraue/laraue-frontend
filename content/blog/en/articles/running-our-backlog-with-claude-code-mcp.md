@@ -3,6 +3,7 @@ title: How we run our backlog in Boards with Claude Code over MCP
 description: We built an MCP server for Laraue Boards to understand how MCP works, then started using it with Claude Code every day. How the first version came together in two hours, what was wrong with it, and the daily loop it made possible.
 seoDescription: We built an MCP server for Laraue Boards, then used it with Claude Code daily: how v1 came together in two hours, what was wrong, and the loop it enabled.
 type: article
+featured: true
 createdAt: 2026-10-02 10:31
 updatedAt: 2026-10-02 18:44
 projects: [boards]

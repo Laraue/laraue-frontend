@@ -4,12 +4,12 @@ description: Часть 6 цикла о разработке Telegram-таск-�
 seoTitle: Деплой .NET и PostgreSQL на дешёвый VPS через Docker
 seoDescription: Часть 6: Docker Compose на дешёвом VPS — PostgreSQL под 1 ГБ RAM, GitHub CI на push в main и разбор докерфайлов.
 type: article
+series: architecture-first
+part: 6
 createdAt: 2026-06-22 12:00
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, dotnet, database, deployment]
-previousLink: clean-dotnet-telegram-bot-architecture
-nextLink: deploy-nuxt-telegram-mini-app-https-nginx
 ---
 
 > **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 6.

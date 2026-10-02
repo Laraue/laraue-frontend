@@ -4,12 +4,12 @@ description: Part 3 of building a Telegram task tracker solo. Why Saved Messages
 seoTitle: From Telegram Saved Messages to a Real Task Tracker
 seoDescription: Part 3: why Saved Messages is poor for managing tasks, the minimal scenario Laraue Boards started from, and why we define the user path before coding.
 type: article
+series: architecture-first
+part: 3
 createdAt: 2026-06-20 16:20
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, telegram, product, task-tracker]
-previousLink: prototyping-ui-with-ai-before-code
-nextLink: choosing-stack-for-solo-project
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 3.

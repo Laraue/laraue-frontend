@@ -6,6 +6,8 @@ import type {
     NeighborCard,
     PaginationData,
     BlogSection,
+    RelatedPage,
+    Series,
     SidebarItem,
     Tag,
     InnerLink,
@@ -38,12 +40,15 @@ export interface BlogEntry {
     seoDescription: string | null;
     // A short name of a project (the title is a long headline).
     name: string | null;
+    // A series of articles: its name and the number of this article in it.
+    series: string | null;
+    part: number | null;
+    // Shown on the home page of the site.
+    featured: boolean;
     createdAt: Date;
     updatedAt: Date;
     tags: string[] | null;
     projects: string[] | null;
-    previousLink: string | null;
-    nextLink: string | null;
     html: string;
     innerLinks: InnerLink[];
 }
@@ -130,6 +135,31 @@ const requireDate = (
     return date
 }
 
+// `part: 3` of a series; a series and a part come together.
+const seriesPart = (attributes: Record<string, string | string[]>, file: string): number | null => {
+    const part = text(attributes, 'part')
+    const series = text(attributes, 'series')
+    if ((part === undefined) !== (series === undefined)) {
+        throw new Error(`${file}: "series" and "part" must be set together`)
+    }
+    if (part === undefined) {
+        return null
+    }
+    if (!/^[1-9]\d*$/.test(part)) {
+        throw new Error(`${file}: "part" is not a number: ${part}`)
+    }
+    return Number(part)
+}
+
+// Tags that most pages have say nothing about what a page is about.
+const commonTags = new Set(['devlog', 'open-source'])
+
+const toRelated = (entry: { title: string; path: string[]; contentType: BlogContentType }): RelatedPage => ({
+    contentType: entry.contentType,
+    path: entry.path,
+    title: entry.title,
+})
+
 const byCreatedAtDesc = (left: BlogEntry, right: BlogEntry): number =>
     right.createdAt.getTime() - left.createdAt.getTime() ||
     left.fileName.localeCompare(right.fileName)
@@ -153,6 +183,8 @@ const toListItem = (entry: BlogEntry): ItemListItem => ({
 export const createBlogCatalog = (files: Record<string, string>) => {
     const entries = new Map<string, BlogEntry>()
     const sections = new Map<string, BlogSectionMeta>()
+    // The names of the series: `en/series/<key>.md` has the title of the series `key`.
+    const seriesTitles = new Map<string, string>()
 
     for (const [file, raw] of Object.entries(files)) {
         const segments = file.split('/')
@@ -163,6 +195,12 @@ export const createBlogCatalog = (files: Record<string, string>) => {
 
         const { attributes, body } = parseFrontmatter(raw)
         const name = (segments.at(-1) ?? '').replace(/\.md$/, '')
+
+        // `en/series/architecture-first.md`: the title of a series that its articles name by the key.
+        if (segments[1] === 'series' && segments.length === 3) {
+            seriesTitles.set(`${locale}/${name}`, requireText(attributes, 'title', file))
+            continue
+        }
 
         // `en/index.md`, `en/articles/index.md`: a title and an icon of a section for the menu.
         if (name === 'index') {
@@ -191,16 +229,17 @@ export const createBlogCatalog = (files: Record<string, string>) => {
             contentType: section.contentType,
             createdAt: requireDate(attributes, 'createdAt', file),
             description: requireText(attributes, 'description', file),
+            featured: text(attributes, 'featured') === 'true',
             fileName: name,
             html,
             innerLinks,
             locale,
             name: text(attributes, 'name') ?? null,
-            nextLink: text(attributes, 'nextLink') ?? null,
+            part: seriesPart(attributes, file),
             path: ['blog', section.folder, name],
-            previousLink: text(attributes, 'previousLink') ?? null,
             projects: list(attributes, 'projects'),
             section: section.folder,
+            series: text(attributes, 'series') ?? null,
             seoDescription: text(attributes, 'seoDescription') ?? null,
             seoTitle: text(attributes, 'seoTitle') ?? null,
             tags: list(attributes, 'tags'),
@@ -209,23 +248,56 @@ export const createBlogCatalog = (files: Record<string, string>) => {
         })
     }
 
+    for (const entry of entries.values()) {
+        if (entry.series && !seriesTitles.has(`${entry.locale}/${entry.series}`)) {
+            throw new Error(`${entry.locale}/${entry.section}/${entry.fileName}.md: there is no series "${entry.series}" (${entry.locale}/series/${entry.series}.md)`)
+        }
+    }
+
     const localeEntries = (locale: BlogLocale): BlogEntry[] =>
         [...entries.values()].filter((entry) => entry.locale === locale).toSorted(byCreatedAtDesc)
 
-    // The neighbor a page names itself (a part of a series), or else the one that was created just
-    // before / after it in the same section.
+    // The neighbor of a page: the previous or the next part of its series. The pages that are not in a
+    // series have each other as neighbors (the page created just before / after, without the parts
+    // of the series), and the newest of them leads on to the first part of the series.
     const neighbor = (entry: BlogEntry, direction: 'previous' | 'next'): NeighborCard | undefined => {
-        const named = direction === 'previous' ? entry.previousLink : entry.nextLink
-        const target =
-            (named ? entries.get(entryKey(entry.locale, entry.section, named)) : undefined) ??
-            (() => {
-                const section = localeEntries(entry.locale).filter((other) => other.section === entry.section)
-                const index = section.findIndex((other) => other === entry)
-                // The list is the newest first.
-                return section[direction === 'previous' ? index + 1 : index - 1]
-            })()
+        // The newest first, so the previous page is the next one of the list.
+        const pages = entry.series
+            ? localeEntries(entry.locale)
+                  .filter((other) => other.series === entry.series)
+                  .toSorted((left, right) => (right.part ?? 0) - (left.part ?? 0))
+            : localeEntries(entry.locale).filter((other) => other.section === entry.section && !other.series)
+        const index = pages.findIndex((other) => other === entry)
+        let target = pages[direction === 'previous' ? index + 1 : index - 1]
+
+        if (!target && direction === 'next' && !entry.series) {
+            target = localeEntries(entry.locale)
+                .filter((other) => other.section === entry.section && other.part === 1)
+                .toSorted((left, right) => (left.series ?? '').localeCompare(right.series ?? ''))
+                .at(0)
+        }
 
         return target ? { path: target.path, title: target.title } : undefined
+    }
+
+    // The articles of the series of a page, in the order of the parts.
+    const seriesOf = (entry: BlogEntry): Series | undefined => {
+        if (!entry.series) {
+            return undefined
+        }
+
+        return {
+            parts: localeEntries(entry.locale)
+                .filter((other) => other.series === entry.series)
+                .toSorted((left, right) => (left.part ?? 0) - (right.part ?? 0))
+                .map((other) => ({
+                    current: other === entry,
+                    part: other.part ?? 0,
+                    path: other.path,
+                    title: other.title,
+                })),
+            title: seriesTitles.get(`${entry.locale}/${entry.series}`) ?? entry.series,
+        }
     }
 
     return {
@@ -234,11 +306,12 @@ export const createBlogCatalog = (files: Record<string, string>) => {
         // A page of the list of articles and projects, newest first.
         list(
             locale: BlogLocale,
-            options: { contentTypes: BlogContentType[]; tag?: string; page: number; perPage: number },
+            options: { contentTypes: BlogContentType[]; tag?: string; featured?: boolean; page: number; perPage: number },
         ): PaginationData<ItemListItem> {
             const matching = localeEntries(locale).filter(
                 (entry) =>
                     options.contentTypes.includes(entry.contentType) &&
+                    (!options.featured || entry.featured) &&
                     (!options.tag || (entry.tags?.includes(options.tag) ?? false)),
             )
             const start = options.page * options.perPage
@@ -260,6 +333,35 @@ export const createBlogCatalog = (files: Record<string, string>) => {
 
             const previousLink = neighbor(entry, 'previous')
             const nextLink = neighbor(entry, 'next')
+            const series = seriesOf(entry)
+            const inSeries = new Set(series?.parts.map((part) => part.path.join('/')))
+            const projectArticles =
+                entry.section === 'projects'
+                    ? localeEntries(entry.locale)
+                          .filter((other) => other.section === 'articles' && (other.projects ?? []).includes(entry.fileName))
+                          .map(toRelated)
+                    : []
+            const excluded = new Set([entry.path.join('/'), ...inSeries, ...projectArticles.map((page) => page.path.join('/'))])
+            // A tag that few pages have says more about what a page is about than a tag of many pages.
+            const tagUse = new Map<string, number>()
+            for (const other of localeEntries(entry.locale)) {
+                for (const tag of other.tags ?? []) {
+                    tagUse.set(tag, (tagUse.get(tag) ?? 0) + 1)
+                }
+            }
+            const relatedPages = localeEntries(entry.locale)
+                .filter((other) => !excluded.has(other.path.join('/')))
+                .map((other) => ({
+                    other,
+                    score: (other.tags ?? [])
+                        .filter((tag) => !commonTags.has(tag) && (entry.tags ?? []).includes(tag))
+                        .reduce((sum, tag) => sum + 1 / (tagUse.get(tag) ?? 1), 0),
+                }))
+                .filter(({ score }) => score > 0)
+                // The same score: the newer page first (the list is the newest first already).
+                .toSorted((left, right) => right.score - left.score)
+                .slice(0, 3)
+                .map(({ other }) => toRelated(other))
 
             return {
                 content: entry.html,
@@ -269,6 +371,8 @@ export const createBlogCatalog = (files: Record<string, string>) => {
                 innerLinks: entry.innerLinks,
                 length: entry.html.length,
                 projects: entry.projects,
+                projectArticles,
+                relatedPages,
                 relatedProjects: (entry.projects ?? []).flatMap((name) => {
                     const project = entries.get(entryKey(entry.locale, 'projects', name))
                     return project ? [{ path: project.path, title: project.name ?? project.title }] : []
@@ -278,6 +382,7 @@ export const createBlogCatalog = (files: Record<string, string>) => {
                 tags: entry.tags,
                 title: entry.title,
                 updatedAtIso: toLocalIso(entry.updatedAt),
+                ...(series && { series }),
                 ...(previousLink && { previousLink }),
                 ...(nextLink && { nextLink }),
             }

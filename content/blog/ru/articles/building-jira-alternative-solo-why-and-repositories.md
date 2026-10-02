@@ -4,11 +4,12 @@ description: Часть 1 цикла о разработке Telegram-таск-�
 seoTitle: Jira-альтернатива в одиночку: зачем и где лежит код
 seoDescription: Часть 1 цикла о разработке Telegram-таск-трекера с ИИ: какую проблему мы решаем, зачем ещё один таск-трекер и на каких двух репозиториях построен цикл.
 type: article
+series: architecture-first
+part: 1
 createdAt: 2026-06-19 13:00
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, product, task-tracker]
-nextLink: prototyping-ui-with-ai-before-code
 ---
 
 > **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 1.

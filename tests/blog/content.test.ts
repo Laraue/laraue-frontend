@@ -53,16 +53,11 @@ test('has no page that was updated before it was created', () => {
     assert.deepEqual(wrong, [])
 })
 
-test('links the neighbors and the projects that exist', () => {
+test('links the projects that exist', () => {
     const broken: string[] = []
     for (const locale of blogLocales) {
         const names = new Set(catalog.entries(locale).map((entry) => `${entry.section}/${entry.fileName}`))
         for (const entry of catalog.entries(locale)) {
-            for (const link of [entry.previousLink, entry.nextLink]) {
-                if (link && !names.has(`${entry.section}/${link}`)) {
-                    broken.push(`${locale}/${entry.fileName}: neighbor ${link}`)
-                }
-            }
             for (const project of entry.projects ?? []) {
                 if (!names.has(`projects/${project}`)) {
                     broken.push(`${locale}/${entry.fileName}: project ${project}`)
@@ -74,12 +69,10 @@ test('links the neighbors and the projects that exist', () => {
     assert.deepEqual(broken, [])
 })
 
-test('keeps the same neighbors and related projects in both languages', () => {
+test('keeps the same related projects in both languages', () => {
     const summary = (locale: 'en' | 'ru') =>
         catalog.entries(locale).map((entry) => ({
             fileName: entry.fileName,
-            nextLink: entry.nextLink,
-            previousLink: entry.previousLink,
             projects: entry.projects,
         })).toSorted((a, b) => a.fileName.localeCompare(b.fileName))
 
@@ -132,6 +125,28 @@ test('links each page to the blog of its own language', () => {
     }
 
     assert.deepEqual(foreign, [])
+})
+
+test('numbers the parts of a series without gaps and in both languages', () => {
+    const wrong: string[] = []
+    const summary = (locale: 'en' | 'ru') =>
+        catalog
+            .entries(locale)
+            .filter((entry) => entry.series)
+            .map((entry) => `${entry.fileName}:${entry.part}`)
+            .toSorted()
+
+    for (const locale of blogLocales) {
+        const parts = catalog.entries(locale).filter((entry) => entry.series).map((entry) => entry.part ?? 0).toSorted((a, b) => a - b)
+        parts.forEach((part, index) => {
+            if (part !== index + 1) {
+                wrong.push(`${locale}: part ${part} at position ${index + 1}`)
+            }
+        })
+    }
+
+    assert.deepEqual(wrong, [])
+    assert.deepEqual(summary('ru'), summary('en'))
 })
 
 test('gives every heading its own anchor', () => {

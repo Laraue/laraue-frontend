@@ -4,12 +4,12 @@ description: Part 10 of building a Telegram task tracker solo. The story of a pr
 seoTitle: Why Users Chose Telegram Saved Messages Over Our Bot
 seoDescription: Part 10: a product mistake — we added epic and status selection to the bot, but users kept using Saved Messages. What we learned and how we fixed it.
 type: article
+series: architecture-first
+part: 10
 createdAt: 2026-06-25 13:00
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, telegram, product]
-previousLink: issue-board-telegram-mini-app
-nextLink: telegram-bot-file-storage-stream
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 10.

@@ -4,12 +4,12 @@ description: Part 4 of building a Telegram task tracker solo. The reasons behind
 seoTitle: Choosing a Solo Project Stack: .NET, PostgreSQL, Nuxt
 seoDescription: Part 4: why .NET 10, PostgreSQL 18, Nuxt 4 and Vue 3, and how a MongoDB-to-Postgres migration taught us to prefer boring, stable technologies.
 type: article
+series: architecture-first
+part: 4
 createdAt: 2026-06-20 22:35
 updatedAt: 2026-10-02 19:51
 projects: [boards]
 tags: [devlog, dotnet, nuxt, database, architecture]
-previousLink: telegram-saved-messages-to-task-tracker
-nextLink: clean-dotnet-telegram-bot-architecture
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 4.

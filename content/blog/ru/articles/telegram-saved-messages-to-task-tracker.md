@@ -4,12 +4,12 @@ description: Часть 3 цикла о разработке Telegram-таск-�
 seoTitle: От «Сохранённых сообщений» к настоящему таск-трекеру
 seoDescription: Часть 3: почему «Сохранённые сообщения» неудобны для дел, с какого минимального сценария начались Laraue Boards и зачем определять путь пользователя заранее.
 type: article
+series: architecture-first
+part: 3
 createdAt: 2026-06-20 16:20
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, telegram, product, task-tracker]
-previousLink: prototyping-ui-with-ai-before-code
-nextLink: choosing-stack-for-solo-project
 ---
 
 > **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 3.

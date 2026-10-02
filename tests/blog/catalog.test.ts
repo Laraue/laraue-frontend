@@ -14,8 +14,8 @@ const files = {
     'ru/index.md': section('Все', 'A'),
     'ru/articles/index.md': section('Статьи', 'B'),
     'ru/projects/index.md': section('Проекты', 'C'),
-    'en/articles/first.md': page('article', 'tags: [a, b]\nprojects: [tool]\nnextLink: second\n', 'First'),
-    'en/articles/second.md': page('article', 'tags: [b]\npreviousLink: first\nnextLink: missing\n', 'Second').replace('2026-01-02', '2026-02-01'),
+    'en/articles/first.md': page('article', 'tags: [a, b]\nprojects: [tool]\n', 'First'),
+    'en/articles/second.md': page('article', 'tags: [b]\n', 'Second').replace('2026-01-02', '2026-02-01'),
     'en/projects/tool.md': page('project', 'tags: [a]\n', 'Tool').replace('2026-01-02', '2026-03-01'),
     'ru/articles/first.md': page('article', 'tags: [а]\n', 'Первая'),
 }
@@ -30,6 +30,18 @@ test('lists the newest pages first and paginates', () => {
     const next = catalog.list('en', { contentTypes: ['article', 'project'], page: 1, perPage: 2 })
     assert.deepEqual(next.data.map((item) => item.fileName), ['first'])
     assert.deepEqual([next.hasNextPage, next.hasPreviousPage], [false, true])
+})
+
+test('lists the featured pages', () => {
+    const featured = createBlogCatalog({
+        ...files,
+        'en/articles/second.md': page('article', 'featured: true\n', 'Second').replace('2026-01-02', '2026-02-01'),
+    })
+
+    assert.deepEqual(
+        featured.list('en', { contentTypes: ['article', 'project'], featured: true, page: 0, perPage: 16 }).data.map((item) => item.fileName),
+        ['second'],
+    )
 })
 
 test('lists a section and filters by a tag', () => {
@@ -59,7 +71,7 @@ test('describes a card of the list', () => {
     assert.isAbove(item?.length ?? 0, 0)
 })
 
-test('describes a page with its neighbors, dropping the ones that do not exist', () => {
+test('describes a page with its neighbors, the pages created before and after it', () => {
     const first = catalog.detail('en', 'articles', 'first')
     const second = catalog.detail('en', 'articles', 'second')
 
@@ -77,7 +89,7 @@ test('describes a page with its neighbors, dropping the ones that do not exist',
     assert.include(first?.content, 'Body of First.')
 })
 
-test('falls back to the page created just before or after in the same section', () => {
+test('takes the page created just before or after in the same section as a neighbor', () => {
     const tool = catalog.detail('en', 'projects', 'tool')
     assert.isUndefined(tool?.previousLink)
     assert.isUndefined(tool?.nextLink)
@@ -86,11 +98,73 @@ test('falls back to the page created just before or after in the same section', 
         ...files,
         'en/articles/third.md': page('article', '', 'Third').replace('2026-01-02', '2026-04-01'),
     })
-    // `second` names a next page that does not exist, so it takes the newer one.
+    // `second` is not the newest any more.
     assert.deepEqual(more.detail('en', 'articles', 'second')?.nextLink, { path: ['blog', 'articles', 'third'], title: 'Third' })
-    // `third` names nothing: the older one is before it.
+    // The older one is before `third`.
     assert.deepEqual(more.detail('en', 'articles', 'third')?.previousLink, { path: ['blog', 'articles', 'second'], title: 'Second' })
     assert.isUndefined(more.detail('en', 'articles', 'third')?.nextLink)
+})
+
+test('lists the parts of a series and marks the current one', () => {
+    const series = '---\ntitle: The series\ntype: series\n---\n'
+    const withSeries = createBlogCatalog({
+        ...files,
+        'en/series/the-series.md': series,
+        'en/articles/first.md': page('article', 'series: the-series\npart: 1\n', 'First'),
+        'en/articles/second.md': page('article', 'series: the-series\npart: 2\n', 'Second').replace('2026-01-02', '2026-02-01'),
+    })
+
+    assert.deepEqual(withSeries.detail('en', 'articles', 'second')?.series, {
+        parts: [
+            { current: false, part: 1, path: ['blog', 'articles', 'first'], title: 'First' },
+            { current: true, part: 2, path: ['blog', 'articles', 'second'], title: 'Second' },
+        ],
+        title: 'The series',
+    })
+    // The neighbors of a part are the previous and the next part, not the pages created around it.
+    const middle = createBlogCatalog({
+        ...files,
+        'en/series/the-series.md': series,
+        'en/articles/first.md': page('article', 'series: the-series\npart: 1\n', 'First'),
+        'en/articles/second.md': page('article', 'series: the-series\npart: 3\n', 'Second').replace('2026-01-02', '2026-02-01'),
+        'en/articles/third.md': page('article', 'series: the-series\npart: 2\n', 'Third').replace('2026-01-02', '2026-04-01'),
+    })
+    assert.deepEqual(middle.detail('en', 'articles', 'third')?.previousLink?.title, 'First')
+    assert.deepEqual(middle.detail('en', 'articles', 'third')?.nextLink?.title, 'Second')
+    assert.isUndefined(middle.detail('en', 'articles', 'first')?.previousLink)
+    assert.isUndefined(middle.detail('en', 'articles', 'second')?.nextLink)
+    // A page that is not in the series has the other such pages as neighbors, and the newest of them
+    // leads on to the first part of the series.
+    const mixed = createBlogCatalog({
+        ...files,
+        'en/series/the-series.md': series,
+        'en/articles/first.md': page('article', 'series: the-series\npart: 1\n', 'First'),
+        'en/articles/second.md': page('article', 'series: the-series\npart: 2\n', 'Second').replace('2026-01-02', '2026-02-01'),
+        'en/articles/alone.md': page('article', '', 'Alone').replace('2026-01-02', '2026-03-01'),
+        'en/articles/alone-too.md': page('article', '', 'Alone too').replace('2026-01-02', '2026-05-01'),
+    })
+    assert.equal(mixed.detail('en', 'articles', 'alone-too')?.previousLink?.title, 'Alone')
+    assert.equal(mixed.detail('en', 'articles', 'alone-too')?.nextLink?.title, 'First')
+    assert.isUndefined(mixed.detail('en', 'articles', 'alone')?.previousLink)
+    assert.equal(mixed.detail('en', 'articles', 'alone')?.nextLink?.title, 'Alone too')
+    assert.isUndefined(catalog.detail('en', 'articles', 'first')?.series)
+    assert.throws(() => createBlogCatalog({ 'en/articles/x.md': page('article', 'series: S\n') }), /must be set together/)
+    assert.throws(() => createBlogCatalog({ 'en/series/s.md': series, 'en/articles/x.md': page('article', 'series: s\npart: one\n') }), /"part" is not a number/)
+    assert.throws(() => createBlogCatalog({ 'en/articles/x.md': page('article', 'series: missing\npart: 1\n') }), /there is no series "missing"/)
+})
+
+test('suggests pages with the same tags, and the articles of a project', () => {
+    const more = createBlogCatalog({
+        ...files,
+        'en/articles/third.md': page('article', 'tags: [b, devlog]\n', 'Third').replace('2026-01-02', '2026-04-01'),
+    })
+
+    // `second` has the tag b: `first` and `third` share it, the common tag devlog counts for nothing.
+    assert.deepEqual(more.detail('en', 'articles', 'second')?.relatedPages.map((page) => page.title), ['Third', 'First'])
+    assert.isEmpty(more.detail('ru', 'articles', 'first')?.relatedPages ?? [])
+    // The project is told about by the article that names it, and that article is not "related" again.
+    assert.deepEqual(more.detail('en', 'projects', 'tool')?.projectArticles.map((page) => page.title), ['First'])
+    assert.notInclude(more.detail('en', 'projects', 'tool')?.relatedPages.map((page) => page.title) ?? [], 'First')
 })
 
 test('does not find a page of another section or language', () => {

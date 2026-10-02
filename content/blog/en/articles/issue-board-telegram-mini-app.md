@@ -4,12 +4,12 @@ description: Part 9 of building a Telegram task tracker solo. The issue layer in
 seoTitle: When Not to Use a Nullable Foreign Key in a Database
 seoDescription: Part 9: the issue layer of a web app and a database design choice — why a dedicated default row can beat a nullable foreign key. Issues, epics, backlog.
 type: article
+series: architecture-first
+part: 9
 createdAt: 2026-06-25 09:00
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, dotnet, database, architecture]
-previousLink: telegram-mini-app-authentication-dotnet
-nextLink: telegram-saved-messages-bot-lesson
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 9.

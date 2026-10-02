@@ -7,8 +7,6 @@ type: article
 createdAt: 2026-06-18
 updatedAt: 2026-10-02 18:44
 tags: [devlog, architecture, ai]
-nextLink: reviewing-ai-generated-cost
-previousLink: how-we-decide-what-to-build
 ---
 
 We will try to list all the rules we follow at Laraue when building software. We link to this document from individual articles so we do not repeat the principles in each one. Some of the points link to the stories the rule came out of.

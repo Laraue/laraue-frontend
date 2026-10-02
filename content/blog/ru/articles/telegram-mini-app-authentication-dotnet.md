@@ -4,11 +4,13 @@ description: Часть 8 цикла о разработке Telegram-таск-�
 seoTitle: Аутентификация Telegram Mini App в .NET: initData и JWT
 seoDescription: Часть 8: полный флоу аутентификации Mini App на .NET и Nuxt — проверка initData через HMAC-SHA256, выпуск JWT, пользователь из HttpContext и CORS.
 type: article
+featured: true
+series: architecture-first
+part: 8
 createdAt: 2026-06-24 08:00
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, dotnet, nuxt, telegram, authentication]
-previousLink: deploy-nuxt-telegram-mini-app-https-nginx
 ---
 
 > **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 8.

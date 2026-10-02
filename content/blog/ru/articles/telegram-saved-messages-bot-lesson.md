@@ -4,12 +4,12 @@ description: Часть 10 цикла о разработке Telegram-таск-
 seoTitle: Почему пользователи выбирали «Сохранённые» вместо бота
 seoDescription: Часть 10: продуктовая ошибка — мы добавили в бота выбор эпика и статуса, но пользователи продолжали писать в «Сохранённые». Что мы изменили.
 type: article
+series: architecture-first
+part: 10
 createdAt: 2026-06-25 13:00
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, telegram, product]
-previousLink: issue-board-telegram-mini-app
-nextLink: telegram-bot-file-storage-stream
 ---
 
 > **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 10.

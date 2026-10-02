@@ -4,12 +4,12 @@ description: Часть 12 цикла о разработке Telegram-таск-
 seoTitle: Альбомы и правки в Telegram-боте: одна запись без таймеров
 seoDescription: Часть 12: как собрать медиагруппу Telegram в одну запись без таймера-аккумулятора и обработать правку сообщения как обновление, а не дубль.
 type: article
+series: architecture-first
+part: 12
 createdAt: 2026-06-26 15:00
 updatedAt: 2026-10-02 18:44
 projects: [boards]
 tags: [devlog, dotnet, telegram]
-previousLink: telegram-bot-file-storage-stream
-nextLink: telegram-login-widget-dotnet-auth
 ---
 
 > **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 12.

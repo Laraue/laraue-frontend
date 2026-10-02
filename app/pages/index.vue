@@ -3,6 +3,7 @@
 import { defineOrganization, defineWebSite, useSchemaOrg } from '@unhead/schema-org/vue'
 import LMainContent from "~/components/ui/LMainContent.vue";
 import LNavIcon from "~/components/ui/LNavIcon.vue";
+import LBlogSection from "~/components/landins/LBlogSection.vue";
 
 const { setLocale, t } = useI18n()
 const localPath = useLocalePath();
@@ -424,6 +425,9 @@ useSchemaOrg([
     </section>
 
     <!-- TRANSPARENCY -->
+    <!-- BLOG -->
+    <LBlogSection />
+
     <section class="transparency-section" id="contact" aria-labelledby="trust-heading">
       <div class="transparency-inner">
         <div>
