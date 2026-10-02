@@ -212,8 +212,19 @@ export const createBlogCatalog = (files: Record<string, string>) => {
     const localeEntries = (locale: BlogLocale): BlogEntry[] =>
         [...entries.values()].filter((entry) => entry.locale === locale).toSorted(byCreatedAtDesc)
 
-    const neighbor = (entry: BlogEntry, fileName: string | null): NeighborCard | undefined => {
-        const target = fileName ? entries.get(entryKey(entry.locale, entry.section, fileName)) : undefined
+    // The neighbor a page names itself (a part of a series), or else the one that was created just
+    // before / after it in the same section.
+    const neighbor = (entry: BlogEntry, direction: 'previous' | 'next'): NeighborCard | undefined => {
+        const named = direction === 'previous' ? entry.previousLink : entry.nextLink
+        const target =
+            (named ? entries.get(entryKey(entry.locale, entry.section, named)) : undefined) ??
+            (() => {
+                const section = localeEntries(entry.locale).filter((other) => other.section === entry.section)
+                const index = section.findIndex((other) => other === entry)
+                // The list is the newest first.
+                return section[direction === 'previous' ? index + 1 : index - 1]
+            })()
+
         return target ? { path: target.path, title: target.title } : undefined
     }
 
@@ -247,8 +258,8 @@ export const createBlogCatalog = (files: Record<string, string>) => {
                 return undefined
             }
 
-            const previousLink = neighbor(entry, entry.previousLink)
-            const nextLink = neighbor(entry, entry.nextLink)
+            const previousLink = neighbor(entry, 'previous')
+            const nextLink = neighbor(entry, 'next')
 
             return {
                 content: entry.html,

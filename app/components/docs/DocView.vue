@@ -169,7 +169,7 @@ const backAddress = computed(() => {
             <nuxt-link v-for="tag in item.tags" :to="localePath({ name: 'blog', query: { tag } })" class="article-tag">{{ tagLabel(tag) }}</nuxt-link>
           </div>
           <div class="article-nav">
-            <nuxt-link v-if="item.previousLink" :to="localePathFromSegments(item.previousLink.path)" class="article-nav-card next">
+            <nuxt-link v-if="item.previousLink" :to="localePathFromSegments(item.previousLink.path)" class="article-nav-card previous">
               <div class="article-nav-direction" data-i18n="nav_next">&#8592;{{ t('previous') }}</div>
               <div class="article-nav-title">{{ item.previousLink.title }}</div>
             </nuxt-link>
@@ -465,7 +465,8 @@ const backAddress = computed(() => {
 .article-nav-card:hover{border-color:var(--ink);box-shadow:0 4px 20px rgba(16,24,40,.09);transform:translateY(-2px)}
 .article-nav-direction{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .article-nav-title{font-size:14px;font-weight:600;color:var(--ink);line-height:1.35}
-.article-nav-card.next{text-align:right}
+.article-nav-card.previous{grid-column:1}
+.article-nav-card.next{grid-column:2;text-align:right}
 
 @media(max-width:1000px){
   .article-wrap{padding:44px 48px 80px}

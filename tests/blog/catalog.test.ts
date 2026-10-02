@@ -77,6 +77,22 @@ test('describes a page with its neighbors, dropping the ones that do not exist',
     assert.include(first?.content, 'Body of First.')
 })
 
+test('falls back to the page created just before or after in the same section', () => {
+    const tool = catalog.detail('en', 'projects', 'tool')
+    assert.isUndefined(tool?.previousLink)
+    assert.isUndefined(tool?.nextLink)
+
+    const more = createBlogCatalog({
+        ...files,
+        'en/articles/third.md': page('article', '', 'Third').replace('2026-01-02', '2026-04-01'),
+    })
+    // `second` names a next page that does not exist, so it takes the newer one.
+    assert.deepEqual(more.detail('en', 'articles', 'second')?.nextLink, { path: ['blog', 'articles', 'third'], title: 'Third' })
+    // `third` names nothing: the older one is before it.
+    assert.deepEqual(more.detail('en', 'articles', 'third')?.previousLink, { path: ['blog', 'articles', 'second'], title: 'Second' })
+    assert.isUndefined(more.detail('en', 'articles', 'third')?.nextLink)
+})
+
 test('does not find a page of another section or language', () => {
     assert.isUndefined(catalog.detail('en', 'projects', 'first'))
     assert.isUndefined(catalog.detail('ru', 'articles', 'second'))
