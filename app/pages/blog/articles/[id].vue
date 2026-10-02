@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import DocView from "~/components/docs/DocView.vue";
-import {useBlogApi} from "~/composables/blogApi";
+import {useBlogContent} from "~/composables/blogContent";
 import {defineArticle, defineBreadcrumb} from "@unhead/schema-org";
 import {useSchemaOrg} from "@unhead/schema-org/vue";
 
@@ -13,7 +13,7 @@ const { getBlogOgImageUrl } = usePathUtil();
 
 const { locale, t } = useI18n()
 const localePath = useLocalePath();
-const { getArticle } = useBlogApi();
+const { getArticle } = useBlogContent();
 const route = useRoute();
 const id = route.params.id as string;
 const { data, error } = await useAsyncData(

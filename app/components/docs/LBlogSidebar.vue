@@ -5,7 +5,7 @@ const localePath = useLocalePath();
 const boardsUrl = useBoardsUrl();
 
 const {locale, t} = useI18n()
-const { getTags } = useBlogApi()
+const { getTags } = useBlogContent()
 const { data: tags } = await useAsyncData(
   () => `blog-tags-${locale.value}`,
   () => getTags(locale.value),

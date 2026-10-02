@@ -2,7 +2,7 @@
 
 import DocsView, {type Article} from "~/components/docs/DocsView.vue";
 import {computed, ref, watch} from "vue";
-import {useBlogApi} from "~/composables/blogApi";
+import {useBlogContent} from "~/composables/blogContent";
 import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 definePageMeta({
@@ -15,7 +15,7 @@ const { locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const localePath = useLocalePath();
-const { getProjects } = useBlogApi();
+const { getProjects } = useBlogContent();
 
 const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 

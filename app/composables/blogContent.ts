@@ -1,6 +1,6 @@
-// The blog is read from the server of this app (`server/routes/blog-content`): it renders the pages
+// The blog content is read from the server of this app (`server/routes/blog-content`): it renders the pages
 // from the markdown files, the browser only asks for it when the visitor moves between pages.
-export const useBlogApi = () => {
+export const useBlogContent = () => {
     const client = useRequestFetch()
 
     const getCategories = async (languageCode: string): Promise<SidebarItem[]> => {

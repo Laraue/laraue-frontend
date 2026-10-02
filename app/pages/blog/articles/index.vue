@@ -6,7 +6,7 @@ import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const PER_PAGE = 16;
 
-const { getArticles } = useBlogApi()
+const { getArticles } = useBlogContent()
 
 const { locale } = useI18n();
 const route = useRoute();

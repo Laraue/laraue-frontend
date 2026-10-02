@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import DocView from "~/components/docs/DocView.vue";
-import {useBlogApi} from "~/composables/blogApi";
+import {useBlogContent} from "~/composables/blogContent";
 import {useSchemaOrg} from "@unhead/schema-org/vue";
 import {defineArticle, defineBreadcrumb} from "@unhead/schema-org";
 
 const { getBlogOgImageUrl } = usePathUtil();
-const { getProject } = useBlogApi();
+const { getProject } = useBlogContent();
 const { locale, t } = useI18n();
 const localePath = useLocalePath();
 const route = useRoute();
