@@ -9,6 +9,7 @@ defineProps<{
 }>()
 
 const { t } = useI18n()
+const tagLabel = useTagLabel()
 const localePath = useLocalePath()
 const { localePathFromSegments } = usePathUtil()
 const { getRouteSegments } = usePathUtil();
@@ -142,7 +143,7 @@ const backAddress = computed(() => {
         <!-- ARTICLE FOOTER -->
         <div class="article-footer">
           <div class="article-tags">
-            <nuxt-link v-for="tag in item.tags" :to="'/blog?tag=' + tag" class="article-tag">{{ tag }}</nuxt-link>
+            <nuxt-link v-for="tag in item.tags" :to="localePath({ name: 'blog', query: { tag } })" class="article-tag">{{ tagLabel(tag) }}</nuxt-link>
           </div>
           <div class="article-nav">
             <nuxt-link v-if="item.previousLink" :to="localePathFromSegments(item.previousLink.path)" class="article-nav-card next">

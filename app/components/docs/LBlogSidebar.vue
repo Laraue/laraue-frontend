@@ -5,6 +5,7 @@ const localePath = useLocalePath();
 const boardsUrl = useBoardsUrl();
 
 const {locale, t} = useI18n()
+const tagLabel = useTagLabel()
 const { getTags } = useBlogContent()
 const { data: tags } = await useAsyncData(
   () => `blog-tags-${locale.value}`,
@@ -45,7 +46,7 @@ const isTagActive = (tag: string) => {
           v-for="tag in tags"
           class="tag-filter-btn"
           :class="{ active: route.query['tag'] === tag.key }">
-          {{ tag.key }}
+          {{ tagLabel(tag.key) }}
         </nuxt-link>
       </div>
     </div>
