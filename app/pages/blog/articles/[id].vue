@@ -15,7 +15,15 @@ const { locale, t } = useI18n()
 const localePath = useLocalePath();
 const { getArticle } = useBlogApi();
 const route = useRoute();
-const article = await getArticle(locale.value, route.params.id as string);
+const id = route.params.id as string;
+const { data, error } = await useAsyncData(
+  `blog-article-${locale.value}-${id}`,
+  () => getArticle(locale.value, id),
+);
+if (!data.value) {
+  throw createError({ statusCode: error.value?.statusCode ?? 404, statusMessage: 'Article not found', fatal: true });
+}
+const article = data.value;
 const imageUrl = getBlogOgImageUrl();
 const { author } = useConstants()
 

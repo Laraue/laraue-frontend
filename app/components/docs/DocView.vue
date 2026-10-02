@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import type {ItemDetails} from "~/composables/blogApi";
 import ReadTime from "~/components/docs/ReadTime.vue";
 import LContentTypeBadge from "~/components/docs/LContentTypeBadge.vue";
 import LMobileToc from "~/components/docs/LMobileToc.vue";

@@ -6,9 +6,6 @@ import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const PER_PAGE = 16;
 
-const articles = ref<ItemListItem[]>([])
-const hasNextPage = ref(false)
-const hasPreviousPage = ref(false)
 const { getArticles } = useBlogApi()
 
 const { locale } = useI18n();
@@ -22,29 +19,26 @@ definePageMeta({
 
 const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 
-const loadPage = async () => {
-  const result = await getArticles(locale.value, undefined, page.value - 1, PER_PAGE);
-  articles.value = result.data
-  hasNextPage.value = result.hasNextPage
-  hasPreviousPage.value = result.hasPreviousPage
-}
+const { data: result } = await useAsyncData(
+  () => `blog-articles-${locale.value}-${page.value}`,
+  () => getArticles(locale.value, undefined, page.value - 1, PER_PAGE),
+  { watch: [locale, page] },
+)
+
+const articles = computed(() => result.value?.data ?? [])
+const hasNextPage = computed(() => result.value?.hasNextPage ?? false)
+const hasPreviousPage = computed(() => result.value?.hasPreviousPage ?? false)
 
 const goToPage = (newPage: number) => {
   router.push({ query: { ...route.query, page: newPage === 1 ? undefined : String(newPage) } })
 }
-
-watch(page, async () => {
-  await loadPage();
-})
-
-await loadPage();
 
 const computedArticles = computed<Article[]>(() => articles.value
     .map((article) => {
       return {
         fileName: article.fileName,
         description: article.description,
-        tags: article.projects,
+        tags: article.projects ?? undefined,
         title: article.title,
         contentLength: article.length,
         path: article.path,

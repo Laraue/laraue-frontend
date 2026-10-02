@@ -7,8 +7,7 @@ const route = useRoute()
 const { t } = useI18n()
 const pageTitle = computed(() => t(route.meta?.title ?? 'defaultTitle'))
 
-const config = useRuntimeConfig()
-const rssUrl = new URL(config.public.blogBaseAddress + "/rss");
+const rssUrl = `${useRuntimeConfig().public.siteUrl.replace(/\/$/, '')}/api/blog/rss`;
 
 useHead({
   link: [

@@ -19,32 +19,26 @@ const { getProjects } = useBlogApi();
 
 const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 
-const projects = ref<ItemListItem[]>([]);
-const hasNextPage = ref(false)
-const hasPreviousPage = ref(false)
-const loadPage = async () => {
-  const result = await getProjects(locale.value, page.value - 1, PER_PAGE);
-  projects.value = result.data
-  hasNextPage.value = result.hasNextPage
-  hasPreviousPage.value = result.hasPreviousPage
-}
+const { data: result } = await useAsyncData(
+  () => `blog-projects-${locale.value}-${page.value}`,
+  () => getProjects(locale.value, page.value - 1, PER_PAGE),
+  { watch: [locale, page] },
+)
+
+const projects = computed(() => result.value?.data ?? [])
+const hasNextPage = computed(() => result.value?.hasNextPage ?? false)
+const hasPreviousPage = computed(() => result.value?.hasPreviousPage ?? false)
 
 const goToPage = (newPage: number) => {
   router.push({ query: { ...route.query, page: newPage === 1 ? undefined : String(newPage) } })
 }
-
-watch(page, async () => {
-  await loadPage();
-})
-
-await loadPage();
 
 const computedItems = computed<Article[]>(() => (projects.value ?? [])
     .map((project) => {
       return {
         fileName: project.fileName,
         description: project.description,
-        tags: project.tags,
+        tags: project.tags ?? undefined,
         title: project.title,
         contentLength: project.length,
         path: project.path,

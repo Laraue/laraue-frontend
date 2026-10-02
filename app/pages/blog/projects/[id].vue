@@ -10,7 +10,15 @@ const { locale, t } = useI18n();
 const localePath = useLocalePath();
 const route = useRoute();
 
-const project = await getProject(locale.value, route.params.id as string);
+const id = route.params.id as string;
+const { data, error } = await useAsyncData(
+  `blog-project-${locale.value}-${id}`,
+  () => getProject(locale.value, id),
+);
+if (!data.value) {
+  throw createError({ statusCode: error.value?.statusCode ?? 404, statusMessage: 'Project not found', fatal: true });
+}
+const project = data.value;
 definePageMeta({
   layout: 'blog',
 })

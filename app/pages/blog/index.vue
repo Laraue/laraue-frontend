@@ -11,9 +11,6 @@ definePageMeta({
 
 const PER_PAGE = 16;
 
-const items = ref<ItemListItem[]>([])
-const hasNextPage = ref(false)
-const hasPreviousPage = ref(false)
 const { locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
@@ -23,12 +20,17 @@ const { getFeed } = useBlogApi();
 
 const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 
-const loadPage = async () => {
-  const data = await getFeed(locale.value, route.query.tag as string, page.value - 1, PER_PAGE)
-  items.value = data.data
-  hasNextPage.value = data.hasNextPage
-  hasPreviousPage.value = data.hasPreviousPage
-}
+const tag = computed(() => typeof route.query.tag === 'string' ? route.query.tag : undefined);
+
+const { data: feed } = await useAsyncData(
+  () => `blog-feed-${locale.value}-${tag.value ?? ''}-${page.value}`,
+  () => getFeed(locale.value, tag.value, page.value - 1, PER_PAGE),
+  { watch: [locale, tag, page] },
+)
+
+const items = computed(() => feed.value?.data ?? [])
+const hasNextPage = computed(() => feed.value?.hasNextPage ?? false)
+const hasPreviousPage = computed(() => feed.value?.hasPreviousPage ?? false)
 
 const goToPage = (newPage: number) => {
   router.push({ query: { ...route.query, page: newPage === 1 ? undefined : String(newPage) } })
@@ -36,7 +38,6 @@ const goToPage = (newPage: number) => {
 
 const { t } = useI18n()
 
-await loadPage();
 const computedItems = computed<Article[]>(() => items.value
   .map((article) => {
     return {
@@ -71,16 +72,11 @@ useSchemaOrg([
   }),
 ])
 
-watch(() => route.query.tag, async () => {
+// A new filter starts from the first page.
+watch(tag, async () => {
   if (route.query.page) {
     await router.replace({ query: { ...route.query, page: undefined } })
-    return
   }
-  await loadPage();
-})
-
-watch(page, async () => {
-  await loadPage();
 })
 
 </script>

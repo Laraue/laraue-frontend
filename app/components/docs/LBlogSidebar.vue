@@ -6,7 +6,11 @@ const boardsUrl = useBoardsUrl();
 
 const {locale, t} = useI18n()
 const { getTags } = useBlogApi()
-const tags = await getTags(locale.value)
+const { data: tags } = await useAsyncData(
+  () => `blog-tags-${locale.value}`,
+  () => getTags(locale.value),
+  { watch: [locale] },
+)
 
 const route = useRoute()
 const isTagActive = (tag: string) => {

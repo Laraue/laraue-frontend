@@ -1,114 +1,11 @@
-import {useBlogClient} from "~/composables/blogClient";
-
-
-export interface CountPropertyRow {
-    key: string;
-    count: number;
-}
-
-export interface ArticleListRow {
-    fileName: string;
-    title: string;
-    description: string;
-    contentType: string;
-    projects: string[] | undefined;
-    length: number;
-    path: string[];
-}
-
-export interface ProjectListRow {
-    fileName: string;
-    title: string;
-    description: string;
-    contentType: string;
-    tags: string[] | undefined;
-    length: number;
-    path: string[];
-}
-
-export interface SelectItem{
-    fileName: string;
-    title: string | undefined;
-}
-
-export interface InnerLink{
-    level: number;
-    link: string;
-    title: string;
-}
-
-export interface MenuItem{
-    fileName: string;
-    fullPath: string[];
-    relativePath: string[];
-    title: string | undefined;
-    children: MenuItem[];
-    hasContent: boolean;
-}
-
-export interface SidebarItem {
-    key: string;
-    title: string;
-    count: number;
-    icon: string;
-    path: string[];
-}
-
-export interface ItemDetails {
-    title: string | undefined;
-    description: string | undefined;
-    content: string | undefined;
-    createdAt: string;
-    contentType: string;
-    updatedAt: string | undefined;
-    createdAtIso: string;
-    updatedAtIso: string;
-    innerLinks: InnerLink[];
-    previousLink?: NeighborCard;
-    nextLink?: NeighborCard;
-    tags?: string[];
-    projects?: string[];
-    keywords?: string[];
-    length: number;
-}
-
-export interface ItemMeta {
-    title: string | undefined;
-    description: string | undefined;
-    icon: string | undefined;
-}
-
-export interface NeighborCard {
-    title: string | undefined;
-    path: string[];
-}
-
-export interface ItemListItem {
-    fileName: string;
-    title: string;
-    description: string;
-    contentType: string;
-    path: string[];
-    length: number;
-    tags: string[];
-    projects: string[];
-}
-
-export interface Tag {
-    key: string;
-}
-
+// The blog is read from the server of this app (`server/routes/blog-content`): it renders the pages
+// from the markdown files, the browser only asks for it when the visitor moves between pages.
 export const useBlogApi = () => {
-    const client = useBlogClient()
+    const client = useRequestFetch()
 
-    const getCategories = async (
-        languageCode: string)
-        : Promise<SidebarItem[]> => {
-        return client<SidebarItem[]>('blog/categories', {
-            method: 'GET',
-            query: {
-                languageCode: languageCode,
-            }
+    const getCategories = async (languageCode: string): Promise<SidebarItem[]> => {
+        return client<SidebarItem[]>('/blog-content/categories', {
+            query: { languageCode },
         });
     }
 
@@ -118,26 +15,14 @@ export const useBlogApi = () => {
         page: number,
         perPage: number)
         : Promise<PaginationData<ItemListItem>> => {
-        return client<PaginationData<ItemListItem>>('blog/articles', {
-            method: 'GET',
-            query: {
-                languageCode: languageCode,
-                tag: tag,
-                page: page,
-                perPage: perPage,
-            }
+        return client<PaginationData<ItemListItem>>('/blog-content/list', {
+            query: { languageCode, section: 'articles', tag, page, perPage },
         });
     }
 
-    const getArticle = async (
-        languageCode: string,
-        fileName: string)
-        : Promise<ItemDetails> => {
-        return client<ItemDetails>(`blog/articles/${fileName}`, {
-            method: 'GET',
-            query: {
-                languageCode: languageCode,
-            }
+    const getArticle = async (languageCode: string, fileName: string): Promise<ItemDetails> => {
+        return client<ItemDetails>(`/blog-content/articles/${encodeURIComponent(fileName)}`, {
+            query: { languageCode },
         });
     }
 
@@ -146,25 +31,14 @@ export const useBlogApi = () => {
         page: number,
         perPage: number)
         : Promise<PaginationData<ItemListItem>> => {
-        return client<PaginationData<ItemListItem>>('blog/projects', {
-            method: 'GET',
-            query: {
-                languageCode: languageCode,
-                page: page,
-                perPage: perPage,
-            }
+        return client<PaginationData<ItemListItem>>('/blog-content/list', {
+            query: { languageCode, section: 'projects', page, perPage },
         });
     }
 
-    const getProject = async (
-        languageCode: string,
-        fileName: string)
-        : Promise<ItemDetails> => {
-        return client<ItemDetails>(`blog/projects/${fileName}`, {
-            method: 'GET',
-            query: {
-                languageCode: languageCode,
-            }
+    const getProject = async (languageCode: string, fileName: string): Promise<ItemDetails> => {
+        return client<ItemDetails>(`/blog-content/projects/${encodeURIComponent(fileName)}`, {
+            query: { languageCode },
         });
     }
 
@@ -174,25 +48,14 @@ export const useBlogApi = () => {
         page: number,
         perPage: number)
         : Promise<PaginationData<ItemListItem>> => {
-        return client<PaginationData<ItemListItem>>('blog/feed', {
-            method: 'GET',
-            query: {
-                languageCode: languageCode,
-                tag: tag,
-                page: page,
-                perPage: perPage,
-            }
+        return client<PaginationData<ItemListItem>>('/blog-content/list', {
+            query: { languageCode, tag, page, perPage },
         });
     }
 
-    const getTags = async (
-        languageCode: string)
-        : Promise<Tag[]> => {
-        return client<Tag[]>('blog/tags', {
-            method: 'GET',
-            query: {
-                languageCode: languageCode
-            }
+    const getTags = async (languageCode: string): Promise<Tag[]> => {
+        return client<Tag[]>('/blog-content/tags', {
+            query: { languageCode },
         });
     }
 
