@@ -1,9 +1,11 @@
 ---
 title: Telegram Login Widget vs авторизация через Mini App в .NET — две схемы валидации, один JWT
 description: Часть 13 цикла о разработке Telegram-таск-трекера в одиночку. Пользователи просили добавить веб-версию вне Telegram Mini App, но для этого нужно было реализовать отдельную авторизацию. Добавление Telegram Login Widget не потребовало больших доработок - виджет работает через тот же JWT, что и Mini App, а само приложение почти не зависит от Telegram после выполнения авторизации.
+seoTitle: Telegram Login Widget и Mini App в .NET: один JWT
+seoDescription: Часть 13: веб-версия вне Telegram — Telegram Login Widget как вторая схема валидации рядом с Mini App, обе приводят к одному и тому же JWT.
 type: article
 createdAt: 2026-07-01
-updatedAt: 2026-09-30
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, aspnet-core, telegram, authentication, telegram-login-widget, jwt, devlog]
 previousLink: telegram-media-group-album-bot

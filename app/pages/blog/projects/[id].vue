@@ -27,9 +27,10 @@ const imageUrl = getBlogOgImageUrl();
 const { author } = useConstants()
 
 useSeoMeta({
-  title: project.title,
-  ogTitle: project.title,
-  description: project.description,
+  title: project.seoTitle,
+  ogTitle: project.seoTitle,
+  description: project.seoDescription,
+  ogDescription: project.seoDescription,
   ogType: "article",
   articlePublishedTime: project.createdAtIso,
   articleModifiedTime: project.updatedAtIso,
@@ -39,7 +40,7 @@ useSeoMeta({
   ogLocale: locale.value,
   ogImageType: "image/png",
   twitterCard: "summary_large_image",
-  twitterTitle: project.title,
+  twitterTitle: project.seoTitle,
   twitterImage: imageUrl,
   robots: 'index, follow, max-image-preview:large',
 })

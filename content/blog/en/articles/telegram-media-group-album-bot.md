@@ -1,9 +1,11 @@
 ﻿---
 title: One card from a Telegram album — handling media groups and edits in a bot, without timeout hacks
 description: Part 12 of building a Telegram task tracker solo. Telegram delivers an album as a burst of separate messages and an edit as a fresh update — here is how to turn a media group into a single record without the usual timeout accumulator, and how to treat an edit as an update instead of a duplicate.
+seoTitle: Telegram Albums and Edits in a Bot: One Card, No Timeouts
+seoDescription: Part 12: turn a Telegram media group into a single record without a timeout accumulator, and treat an edited message as an update, not a duplicate.
 type: article
 createdAt: 2026-06-26 15:00
-updatedAt: 2026-09-30 07:44
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, telegram-bot, media-groups, devlog]
 previousLink: telegram-bot-file-storage-stream

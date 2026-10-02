@@ -1,9 +1,11 @@
 ---
 title: Saving media from a Telegram bot — store the preview, stream the original
 description: Part 11 of building a Telegram task tracker solo. Teaching the capture bot to handle photos and video, and the storage decision behind it — keep small previews on disk, stream full files straight from Telegram on demand without buffering them in memory, using nginx range-request passthrough, instead of re-hosting everything.
+seoTitle: Telegram Bot Media: Store the Preview, Stream the Original
+seoDescription: Part 11: photos and video in a capture bot — small previews on disk, full files streamed from Telegram on demand through nginx, no buffering.
 type: article
 createdAt: 2026-06-26 09:00
-updatedAt: 2026-09-30
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, aspnet-core, telegram-bot, file-storage, nginx, streaming, devlog]
 previousLink: telegram-saved-messages-bot-lesson

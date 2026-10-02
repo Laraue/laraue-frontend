@@ -5,7 +5,7 @@ import { createBlogCatalog, formatBlogDate, parseBlogDate, toLocalIso, toUtcIso 
 const page = (type: string, extra: string, title = 'Page') =>
     `---\ntitle: ${title}\ntype: ${type}\ndescription: About ${title}\ncreatedAt: 2026-01-02\nupdatedAt: 2026-01-03 10:30\n${extra}---\n\n## Text\n\nBody of ${title}.\n`
 
-const section = (title: string, icon: string) => `---\ntitle: ${title}\nicon: ${icon}\ntype: rootSectionDefinition\ncreatedAt: 2025-08-01\nupdatedAt: 2025-08-01\n---\n`
+const section = (title: string, icon: string) => `---\ntitle: ${title}\nicon: ${icon}\ntype: rootSectionDefinition\nseoTitle: ${title} page\nseoDescription: About ${title}\nsubTitle: Sub of ${title}\ncreatedAt: 2025-08-01\nupdatedAt: 2025-08-01\n---\n`
 
 const files = {
     'en/index.md': section('All', 'A'),
@@ -91,6 +91,14 @@ test('builds the menu and the tags of a language', () => {
     assert.deepEqual(catalog.categories('ru').map((item) => [item.title, item.count]), [['Все', 1], ['Статьи', 1], ['Проекты', 0]])
     assert.deepEqual(catalog.tags('en'), [{ key: 'a' }, { key: 'b' }])
     assert.deepEqual(catalog.tags('ru'), [{ key: 'а' }])
+})
+
+test('gives the texts of the page of a list', () => {
+    assert.deepEqual(catalog.section('en', 'articles'), {
+        seoDescription: 'About Articles', seoTitle: 'Articles page', subTitle: 'Sub of Articles', title: 'Articles',
+    })
+    assert.equal(catalog.section('ru', 'blog')?.title, 'Все')
+    assert.isUndefined(catalog.section('en', 'notes'))
 })
 
 test('gives the title and the description for a preview image', () => {

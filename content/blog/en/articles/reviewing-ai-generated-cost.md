@@ -1,9 +1,11 @@
 ---
 title: Why reviewing AI-generated code is often more expensive than writing it yourself
 description: The modern approach to development increasingly comes down to one claim — AI should write the code, and the developer just steers it and checks the results. The fact that reviewing generated code well enough to trust it is often slower than writing it yourself gets quietly left out.
+seoTitle: Reviewing AI Code Often Costs More Than Writing It Yourself
+seoDescription: AI writes, the developer steers and checks — but reviewing generated code well enough to trust it is often slower than writing it. The hidden cost.
 type: article
 createdAt: 2026-07-11
-updatedAt: 2026-07-11
+updatedAt: 2026-10-02 18:05
 tags: [ai-workflow, code-review, backend, engineering, development]
 previousLink: how-we-build-engineering-principles
 ---

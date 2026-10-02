@@ -1,9 +1,11 @@
 ﻿---
 title: Деплой .NET-приложения и PostgreSQL на дешёвый VPS через Docker Compose
 description: Часть 6 цикла о разработке Telegram-таск-трекера в одиночку. Деплой на дешевый VPS через Docker Compose — self-hosted PostgreSQL, настроенный под 1 ГБ RAM, GitHub CI-пайплайн, работающий на push в main и описание докерфайлов.
+seoTitle: Деплой .NET и PostgreSQL на дешёвый VPS через Docker
+seoDescription: Часть 6: Docker Compose на дешёвом VPS — PostgreSQL под 1 ГБ RAM, GitHub CI на push в main и разбор докерфайлов.
 type: article
 createdAt: 2026-06-22 12:00
-updatedAt: 2026-07-07 09:00
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [docker, docker-compose, postgres, vps, self-hosting, devops, dotnet, devlog]
 previousLink: clean-dotnet-telegram-bot-architecture

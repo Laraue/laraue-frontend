@@ -1,9 +1,11 @@
 ﻿---
 title: How we decide what to build — validating a product idea in a crowded market
 description: Validating a product idea before writing code — researching the market, testing the idea in public, and using AI to judge whether it is realistic to compete for the keywords you need.
+seoTitle: How We Decide What to Build: Validating an Idea
+seoDescription: Validate a product idea before writing code: research the market, test the idea in public, and use AI to judge whether you can compete for the keywords.
 type: article
 createdAt: 2026-06-18
-updatedAt: 2026-07-13
+updatedAt: 2026-10-02 18:05
 tags: [product, validation, indie-hacking, market-research, crowded-market, ai-workflow]
 nextLink: how-we-build-engineering-principles
 ---

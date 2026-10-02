@@ -1,9 +1,11 @@
 ﻿---
 title: Clean Telegram bot architecture in .NET — controllers instead of a giant switch
 description: Part 5 of building a Telegram task tracker solo. A clean .NET Telegram bot with ASP.NET-style controllers and middleware instead of a giant switch, a layered solution structure, and EF Core paired with linq2db on the same models for the queries EF Core handles poorly.
+seoTitle: Clean .NET Telegram Bot: Controllers Instead of a Switch
+seoDescription: Part 5: ASP.NET-style controllers and middleware for a Telegram bot, a layered solution structure, and EF Core with linq2db on the same models.
 type: article
 createdAt: 2026-06-21
-updatedAt: 2026-09-30 07:44
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, telegram, postgres, ef-core, linq2db, clean-architecture, devlog]
 previousLink: choosing-stack-for-solo-project

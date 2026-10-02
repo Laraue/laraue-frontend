@@ -3,8 +3,10 @@ title: From SaaS App to Open-Source Library — Building a C# Web Scraping Tool 
 type: article
 projects: [crawler]
 description: The journey of building a C# web scraping tool — from a no-code SaaS with a visual schema builder and wallet system, to an open-source typed .NET library. Architecture decisions, dead ends, and lessons learned.
+seoTitle: From SaaS to Open Source: 5 Years Building a C# Web Scraper
+seoDescription: Building a C# web scraping tool: from a no-code SaaS with a schema builder to a typed open-source .NET library. Decisions, dead ends and lessons.
 createdAt: 2025-10-07
-updatedAt: 2026-06-14
+updatedAt: 2026-10-02 18:05
 ---
 Building a **C# web scraping tool** is a project I've come back to across five years and two fundamentally different approaches. What started as a no-code SaaS application — with a visual schema builder, user accounts, a wallet, and webhook delivery — eventually became [Laraue.Crawling](../projects/crawler): a strongly typed open-source .NET library. This article covers the full arc: the original idea, the first implementation's architecture and tests, where it broke down, and why abandoning the interface to build a library was the right call.
 

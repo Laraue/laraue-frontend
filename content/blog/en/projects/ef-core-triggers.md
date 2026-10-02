@@ -4,8 +4,10 @@ type: project
 githubLink: https://github.com/win7user10/Laraue.EfCoreTriggers
 tags: [ef-core, csharp, database-triggers, expression-trees, fluent-api, sql]
 description: A deep dive into Laraue.EfCoreTriggers — how to define database triggers in C# using fluent syntax, how the library translates expression trees to SQL, and how to extend it for new database providers.
+seoTitle: EF Core Triggers in C#: Fluent Syntax and Expression Trees
+seoDescription: Laraue.EfCoreTriggers: define database triggers in C# with fluent syntax, see how expression trees become SQL, and add new database providers.
 createdAt: 2025-11-01
-updatedAt: 2026-06-12
+updatedAt: 2026-10-02 18:05
 ---
 **Database triggers in EF Core** have always been second-class citizens. The standard approach is a raw SQL string in a migration — invisible to your model, out of sync the moment a column renames, and impossible to validate at compile time. [Laraue.EfCoreTriggers](https://github.com/win7user10/Laraue.EfCoreTriggers) solves this by letting you define triggers using the same **fluent C# syntax** you already use for indexes and foreign keys, with **expression tree–based SQL generation** that ties trigger logic to your entity model.
 

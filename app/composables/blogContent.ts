@@ -53,6 +53,12 @@ export const useBlogContent = () => {
         });
     }
 
+    const getSection = async (languageCode: string, name: 'blog' | 'articles' | 'projects'): Promise<BlogSection> => {
+        return client<BlogSection>('/blog-content/section', {
+            query: { languageCode, name },
+        });
+    }
+
     const getTags = async (languageCode: string): Promise<Tag[]> => {
         return client<Tag[]>('/blog-content/tags', {
             query: { languageCode },
@@ -67,5 +73,6 @@ export const useBlogContent = () => {
         getProject,
         getFeed,
         getTags,
+        getSection,
     }
 }

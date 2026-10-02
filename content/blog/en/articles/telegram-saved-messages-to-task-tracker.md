@@ -1,9 +1,11 @@
 ﻿---
 title: From Telegram Saved Messages to a real task tracker — defining the user path
 description: Part 3 of building a Telegram task tracker solo. Why Saved Messages is not convenient for managing tasks, which minimal scenario Laraue Boards started from, and why the user path is defined before development begins.
+seoTitle: From Telegram Saved Messages to a Real Task Tracker
+seoDescription: Part 3: why Saved Messages is poor for managing tasks, the minimal scenario Laraue Boards started from, and why we define the user path before coding.
 type: article
 createdAt: 2026-06-20 16:20
-updatedAt: 2026-07-09 11:00
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, telegram, saved-messages, product, user-path, devlog]
 previousLink: prototyping-ui-with-ai-before-code

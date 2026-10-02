@@ -1,9 +1,11 @@
 ---
 title: Когда не стоит делать внешний ключ nullable — моделирование пустого состояния отдельной строкой
 description: Часть 9 цикла о разработке Telegram-таск-трекера в одиночку. Слой issue в веб-приложении и решение по проектированию БД в его центре — когда nullable внешний ключ это неверный выбор, а отдельная строка-«по умолчанию» лучше, на примере issue, эпиков и бэклога.
+seoTitle: Когда не стоит делать внешний ключ nullable
+seoDescription: Часть 9: слой issue в веб-приложении и решение по БД — когда отдельная строка «по умолчанию» лучше nullable внешнего ключа. Issue, эпики, бэклог.
 type: article
 createdAt: 2026-06-25 09:00
-updatedAt: 2026-09-30 07:44
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [database-design, dotnet, aspnet-core, postgres, vue, devlog]
 previousLink: telegram-mini-app-authentication-dotnet

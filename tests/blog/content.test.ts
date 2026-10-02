@@ -144,3 +144,14 @@ test('gives every heading its own anchor', () => {
 
     assert.deepEqual(duplicated, [])
 })
+
+test('has titles and descriptions short enough for the search results', () => {
+    const long = blogLocales.flatMap((locale) =>
+        catalog.entries(locale).flatMap((entry) => [
+            ...((entry.seoTitle ?? entry.title).length > 60 ? [`${locale}/${entry.fileName}: title`] : []),
+            ...((entry.seoDescription ?? entry.description).length > 160 ? [`${locale}/${entry.fileName}: description`] : []),
+        ]),
+    )
+
+    assert.deepEqual(long, [])
+})

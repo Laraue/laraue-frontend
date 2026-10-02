@@ -1,9 +1,11 @@
 ---
 title: Deploying a Nuxt Telegram Mini App. Setting up HTTPS on nginx with Let's Encrypt. A new mini app via BotFather
 description: Part 7 of building a Telegram task tracker solo. How to deploy a Nuxt Mini App with the nginx + HTTPS + Let's Encrypt combo, set up automatic certificate renewal with certbot, register the mini app in BotFather, and test it locally through ngrok.
+seoTitle: Deploy a Nuxt Telegram Mini App: nginx, HTTPS, Let's Encrypt
+seoDescription: Part 7: deploy a Nuxt Mini App behind nginx with HTTPS, renew certificates with certbot, register the app in BotFather and test locally with ngrok.
 type: article
 createdAt: 2026-06-23 12:00
-updatedAt: 2026-09-30 07:44
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [nginx, nuxt, telegram-mini-app, https, lets-encrypt, certbot, ngrok, self-hosting, devlog]
 previousLink: deploying-dotnet-postgres-vps-docker-compose

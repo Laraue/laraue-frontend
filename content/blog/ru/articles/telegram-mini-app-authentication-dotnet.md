@@ -1,9 +1,11 @@
 ---
 title: Аутентификация Telegram Mini App в .NET от и до — валидация initData, выпуск JWT и фронтенд на Nuxt
 description: Часть 8 цикла о разработке Telegram-таск-трекера в одиночку. Полный флоу аутентификации Telegram Mini App в реальном приложении на .NET и Nuxt — валидация подписи initData на сервере через HMAC-SHA256, выпуск и использование JWT-bearer, чтение пользователя из HttpContext и почему важен CORS.
+seoTitle: Аутентификация Telegram Mini App в .NET: initData и JWT
+seoDescription: Часть 8: полный флоу аутентификации Mini App на .NET и Nuxt — проверка initData через HMAC-SHA256, выпуск JWT, пользователь из HttpContext и CORS.
 type: article
 createdAt: 2026-06-24 08:00
-updatedAt: 2026-09-30 07:44
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, aspnet-core, nuxt, telegram-mini-app, authentication, initdata, jwt, cors, devlog]
 previousLink: deploy-nuxt-telegram-mini-app-https-nginx

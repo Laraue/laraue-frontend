@@ -35,6 +35,9 @@ export interface ItemListItem {
 export interface ItemDetails {
     title: string;
     description: string;
+    // The title and the description for search results and social cards: short, as they are cut there.
+    seoTitle: string;
+    seoDescription: string;
     content: string;
     createdAt: string;
     updatedAt: string;
@@ -47,6 +50,14 @@ export interface ItemDetails {
     tags: string[] | null;
     projects: string[] | null;
     length: number;
+}
+
+// A list of the blog (all the pages, articles, projects): the texts of its page.
+export interface BlogSection {
+    title: string;
+    seoTitle: string;
+    seoDescription: string;
+    subTitle: string;
 }
 
 export interface Tag {

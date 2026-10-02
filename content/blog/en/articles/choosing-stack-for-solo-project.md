@@ -1,9 +1,11 @@
 ﻿---
 title: Choosing a pet project stack for solo development — .NET, PostgreSQL, Nuxt, and why we prefer boring technologies
 description: Part 4 of building a Telegram task tracker solo. The reasons behind .NET 10, PostgreSQL 18, Nuxt 4 and Vue 3. A bit about the MongoDB-to-Postgres migration in a past project that taught us to prefer boring, stable technologies.
+seoTitle: Choosing a Solo Project Stack: .NET, PostgreSQL, Nuxt
+seoDescription: Part 4: why .NET 10, PostgreSQL 18, Nuxt 4 and Vue 3, and how a MongoDB-to-Postgres migration taught us to prefer boring, stable technologies.
 type: article
 createdAt: 2026-06-20 22:35
-updatedAt: 2026-09-30 07:44
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, nuxt, vue, postgres, mongodb, database, devlog, architecture]
 previousLink: telegram-saved-messages-to-task-tracker

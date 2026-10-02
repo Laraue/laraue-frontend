@@ -1,9 +1,11 @@
 ---
 title: Why users kept choosing Telegram Saved Messages over our bot — and what we changed
 description: Part 10 of building a Telegram task tracker solo. The story of a product mistake — we added epic and status selection to the bot, but real users kept using Saved Messages — and how we fixed it.
+seoTitle: Why Users Chose Telegram Saved Messages Over Our Bot
+seoDescription: Part 10: a product mistake — we added epic and status selection to the bot, but users kept using Saved Messages. What we learned and how we fixed it.
 type: article
 createdAt: 2026-06-25 13:00
-updatedAt: 2026-07-04 13:00
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [product, ux, telegram-bot, saved-messages, devlog]
 previousLink: issue-board-telegram-mini-app

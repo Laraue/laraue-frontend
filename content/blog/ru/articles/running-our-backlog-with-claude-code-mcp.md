@@ -1,9 +1,10 @@
 ---
 title: Как мы ведём бэклог в Boards через Claude Code и MCP
 description: Мы сделали MCP-сервер для Laraue Boards, чтобы разобраться, как работает MCP, а потом начали пользоваться им с Claude Code каждый день. Как за два часа появилась первая версия, что было в ней не так и какой ежедневный цикл он дал.
+seoDescription: Мы сделали MCP-сервер для Laraue Boards и каждый день работаем с ним через Claude Code: как за два часа появилась первая версия и какой цикл она дала.
 type: article
 createdAt: 2026-10-02 10:31
-updatedAt: 2026-10-02 10:31
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [mcp, claude-code, ai-workflow, task-management, boards, devlog]
 ---

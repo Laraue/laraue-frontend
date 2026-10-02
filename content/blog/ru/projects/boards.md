@@ -3,8 +3,10 @@ title: Laraue Boards — опенсорсный таск-трекер с Telegra
 type: project
 tags: [telegram, таск-трекер, kanban, project-management, open-source, saved-messages, jira-alternative, yandex-tracker-alternative, kaiten-alternative, yougile-alternative, weeek-alternative, trello-alternative]
 description: Опенсорсный таск-трекер, превращающий сообщения из Telegram в карточки на канбан-доске. Отправляете сообщение боту — получаете карточку, с которой можно работать в веб-приложении или Mini App. Бесплатно, код открыт.
+seoTitle: Laraue Boards — open source таск-трекер с Telegram
+seoDescription: Open source таск-трекер, превращающий сообщения Telegram в карточки канбан-доски. Пишете боту — работаете в веб-приложении или Mini App. Бесплатно.
 createdAt: 2026-04-16
-updatedAt: 2026-09-30
+updatedAt: 2026-10-02 18:05
 ---
 
 Пользователи Telegram часто используют мессенджер, как место для хранения мыслей, ссылок и фотографий в «Сохраненных сообщениях» или отдельных чатах. Проблемой является их последующая организация. Сообщения можно пометить тегом, что помогает в поиске и фильтрациях в простых случаях, но чем больше чатов и сообщений становится, тем сложнее понимать, что из этого актуально и ориентироваться между ними.

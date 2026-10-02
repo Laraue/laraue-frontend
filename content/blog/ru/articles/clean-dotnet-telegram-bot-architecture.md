@@ -1,9 +1,11 @@
 ﻿---
 title: Чистая архитектура Telegram-бота на .NET — контроллеры вместо гигантского switch
 description: Часть 5 цикла о разработке Telegram-таск-трекера в одиночку. Чистый Telegram-бот на .NET с контроллерами и middleware в стиле ASP.NET вместо гигантского switch, слоёная структура решения и связка EF Core и linq2db на одних моделях для запросов, с которыми EF Core справляется плохо.
+seoTitle: Архитектура Telegram-бота на .NET: контроллеры вместо switch
+seoDescription: Часть 5: контроллеры и middleware в стиле ASP.NET для Telegram-бота, слоёная структура решения и связка EF Core с linq2db на одних моделях.
 type: article
 createdAt: 2026-06-21
-updatedAt: 2026-09-30 07:44
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, telegram, postgres, ef-core, linq2db, clean-architecture, devlog]
 previousLink: choosing-stack-for-solo-project

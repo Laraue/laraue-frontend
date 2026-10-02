@@ -1,9 +1,10 @@
 ﻿---
 title: Прототипируем интерфейс с ИИ до написания кода
 description: Часть 2 цикла о разработке Telegram-таск-трекера в одиночку. Почему мы начинаем с интерфейса, как HTML-прототипы от ИИ заменили Figma и каким получился первый прототип Laraue Boards.
+seoDescription: Часть 2: почему мы начинаем с интерфейса, как HTML-прототипы от ИИ заменили Figma и каким получился первый прототип Laraue Boards.
 type: article
 createdAt: 2026-06-19 17:00
-updatedAt: 2026-07-09 13:00
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, nuxt, telegram, прототипирование, ai-workflow, devlog]
 previousLink: building-jira-alternative-solo-why-and-repositories

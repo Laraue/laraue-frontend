@@ -1,9 +1,11 @@
 ﻿---
 title: Как мы разрабатываем — инженерные принципы при работе над реальными продуктами
 description: Инженерные принципы, по которым делаются проекты Laraue — начинаем с пути пользователя, не переусложняем раньше времени, делим логику на слои, изолируем сторонние интеграции, где ИИ помогает, а где не допускается до кодовой базы.
+seoTitle: Как мы разрабатываем: инженерные принципы Laraue
+seoDescription: Принципы проектов Laraue: начинаем с пути пользователя, не переусложняем заранее, делим логику на слои, изолируем интеграции, ограничиваем ИИ.
 type: article
 createdAt: 2026-06-18
-updatedAt: 2026-07-12
+updatedAt: 2026-10-02 18:05
 tags: [engineering, architecture, testing, ai-workflow, database, development]
 nextLink: reviewing-ai-generated-cost
 previousLink: how-we-decide-what-to-build

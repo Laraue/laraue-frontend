@@ -6,8 +6,10 @@ githubLink: https://github.com/Laraue/Laraue.Apps.RealEstate
 applicationLink: https://apartments.laraue.com
 tags: [real-estate, apartment-search, saint-petersburg, ai-ranking, cian-alternative, renovation-quality, telegram, notifications]
 description: Stop scrolling bad listings. This free tool crawls Saint Petersburg real estate and ranks every apartment by renovation quality using AI photo analysis. Filter by district, price, rooms, and AI score. Get Telegram notifications for new matches.
+seoTitle: AI Apartment Search for Saint Petersburg by Photo Quality
+seoDescription: A free tool that crawls Saint Petersburg listings and ranks apartments by renovation quality with AI photo analysis. Filter, get Telegram alerts.
 createdAt: 2025-11-01
-updatedAt: 2026-09-30
+updatedAt: 2026-10-02 18:05
 ---
 Scrolling through hundreds of Saint Petersburg apartment listings is exhausting. Half the photos are dark, blurry, or staged to hide problems. Prices vary wildly for what looks like similar flats. And unless you've spent years in the market, it's nearly impossible to tell a genuinely good deal from a bad one just from the listing page.
 

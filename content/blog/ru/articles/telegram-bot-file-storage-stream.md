@@ -1,9 +1,11 @@
 ---
 title: Сохраняем медиа из Telegram-бота — храним превью, стримим оригинал
 description: Часть 11 цикла о разработке Telegram-таск-трекера в одиночку. Учим бота работать с фото и видео, разбираем решение с хранением файлов - маленькие превью в локальном хранилище и прямой стриминг больших файлов прямиком из Telegram, без буферизации в памяти.
+seoTitle: Медиа в Telegram-боте: храним превью, стримим оригинал
+seoDescription: Часть 11: фото и видео в боте — маленькие превью в локальном хранилище, большие файлы стримятся из Telegram по запросу через nginx без буферизации.
 type: article
 createdAt: 2026-06-26 09:00
-updatedAt: 2026-09-30
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, aspnet-core, telegram-bot, file-storage, nginx, streaming, devlog]
 previousLink: telegram-saved-messages-bot-lesson

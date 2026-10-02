@@ -51,16 +51,32 @@ const computedItems = computed<Article[]>(() => items.value
     }
   }))
 
-const title = computed(() => t('all'))
-const description = computed(() => t('seoDescription'))
-const subText = computed(() => t('sub'))
+const { getSection } = useBlogContent()
+const { data: section } = await useAsyncData(
+  () => `blog-section-blog-${locale.value}`,
+  () => getSection(locale.value, 'blog'),
+  { watch: [locale] },
+)
+const title = computed(() => section.value?.seoTitle)
+const description = computed(() => section.value?.seoDescription)
+const sub = computed(() => section.value?.subTitle)
+const { getBlogOgImageUrl } = usePathUtil()
+const imageUrl = getBlogOgImageUrl()
 
 useSeoMeta({
   title: title,
   ogTitle: title,
-  ogDescription: description,
   description: description,
+  ogDescription: description,
   ogType: "website",
+  ogImage: imageUrl,
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogImageType: "image/png",
+  ogLocale: locale,
+  twitterCard: "summary_large_image",
+  twitterTitle: title,
+  twitterImage: imageUrl,
 })
 
 useSchemaOrg([
@@ -84,16 +100,10 @@ watch(tag, async () => {
 <i18n lang="json">
 {
   "en": {
-    "all": "Laraue Blog — .NET, Nuxt, Telegram Bots and AI Workflow",
-    "seoDescription": "Notes from building Laraue Boards solo: .NET and Nuxt architecture, Telegram bots, AI-assisted development and open source libraries.",
-    "sub": "Real code, real decisions, real tradeoffs. We write about what we build — .NET libraries, Telegram bots, AI integrations, and the architecture mistakes worth learning from.",
     "bc_home": "Home",
     "bc_blog": "Blog"
   },
   "ru": {
-    "all": "Блог Laraue — .NET, Nuxt, Telegram-боты и работа с ИИ",
-    "seoDescription": "Заметки о том, как мы в одиночку строим Laraue Boards: архитектура на .NET и Nuxt, Telegram-боты, разработка с ИИ и open source библиотеки.",
-    "sub": "Реальный код, реальные решения, реальные компромиссы. Пишем о том, что строим — .NET библиотеки, Telegram-боты, интеграции с ИИ и архитектурные ошибки, на которых можно учиться.",
     "bc_home": "Главная",
     "bc_blog": "Блог"
   }
@@ -104,7 +114,7 @@ watch(tag, async () => {
   <DocsView
     v-if="items"
     :title="title"
-    :subTitle="subText"
+    :subTitle="sub"
     :articles="computedItems"
     :page="page"
     :has-next-page="hasNextPage"

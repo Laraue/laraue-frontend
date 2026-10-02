@@ -5,6 +5,7 @@ import type {
     ItemListItem,
     NeighborCard,
     PaginationData,
+    BlogSection,
     SidebarItem,
     Tag,
     InnerLink,
@@ -32,6 +33,9 @@ export interface BlogEntry {
     path: string[];
     title: string;
     description: string;
+    // Set when the title or the description is too long for the search results.
+    seoTitle: string | null;
+    seoDescription: string | null;
     createdAt: Date;
     updatedAt: Date;
     tags: string[] | null;
@@ -42,8 +46,7 @@ export interface BlogEntry {
     innerLinks: InnerLink[];
 }
 
-interface BlogSectionMeta {
-    title: string;
+interface BlogSectionMeta extends BlogSection {
     icon: string;
 }
 
@@ -168,9 +171,13 @@ export const createBlogCatalog = (files: Record<string, string>) => {
         // `en/index.md`, `en/articles/index.md`: a title and an icon of a section for the menu.
         if (name === 'index') {
             const folder = segments.length === 2 ? 'blog' : segments[1] ?? ''
+            const title = requireText(attributes, 'title', file)
             sections.set(`${locale}/${folder}`, {
                 icon: text(attributes, 'icon') ?? '',
-                title: requireText(attributes, 'title', file),
+                seoDescription: requireText(attributes, 'seoDescription', file),
+                seoTitle: text(attributes, 'seoTitle') ?? title,
+                subTitle: requireText(attributes, 'subTitle', file),
+                title,
             })
             continue
         }
@@ -197,6 +204,8 @@ export const createBlogCatalog = (files: Record<string, string>) => {
             previousLink: text(attributes, 'previousLink') ?? null,
             projects: list(attributes, 'projects'),
             section: section.folder,
+            seoDescription: text(attributes, 'seoDescription') ?? null,
+            seoTitle: text(attributes, 'seoTitle') ?? null,
             tags: list(attributes, 'tags'),
             title: requireText(attributes, 'title', file),
             updatedAt: requireDate(attributes, 'updatedAt', file),
@@ -253,6 +262,8 @@ export const createBlogCatalog = (files: Record<string, string>) => {
                 innerLinks: entry.innerLinks,
                 length: entry.html.length,
                 projects: entry.projects,
+                seoDescription: entry.seoDescription ?? entry.description,
+                seoTitle: entry.seoTitle ?? entry.title,
                 tags: entry.tags,
                 title: entry.title,
                 updatedAt: formatBlogDate(entry.updatedAt),
@@ -283,6 +294,12 @@ export const createBlogCatalog = (files: Record<string, string>) => {
                     ),
                 ),
             ]
+        },
+
+        // The texts of the page of a list: `blog` (all the pages), `articles` or `projects`.
+        section(locale: BlogLocale, folder: string): BlogSection | undefined {
+            const meta = sections.get(`${locale}/${folder}`)
+            return meta && { seoDescription: meta.seoDescription, seoTitle: meta.seoTitle, subTitle: meta.subTitle, title: meta.title }
         },
 
         tags(locale: BlogLocale): Tag[] {

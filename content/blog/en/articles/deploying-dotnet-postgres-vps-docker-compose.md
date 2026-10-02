@@ -1,9 +1,11 @@
 ﻿---
 title: Deploying a .NET app and PostgreSQL to a cheap VPS with Docker Compose
 description: Part 6 of building a Telegram task tracker solo. Deploying to a cheap VPS with Docker Compose — self-hosted PostgreSQL tuned for 1 GB of RAM, a GitHub CI pipeline running on push to main, and a walkthrough of the Dockerfiles.
+seoTitle: Deploy .NET and PostgreSQL to a Cheap VPS with Docker
+seoDescription: Part 6: Docker Compose on a cheap VPS — self-hosted PostgreSQL tuned for 1 GB of RAM, a GitHub CI pipeline on push to main, and the Dockerfiles.
 type: article
 createdAt: 2026-06-22 12:00
-updatedAt: 2026-07-07 09:00
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [docker, docker-compose, postgres, vps, self-hosting, devops, dotnet, devlog]
 previousLink: clean-dotnet-telegram-bot-architecture

@@ -47,16 +47,32 @@ const computedArticles = computed<Article[]>(() => articles.value
     }))
 
 const { t } = useI18n()
-const title = computed(() => t('all'))
-const description = computed(() => t('seoDescription'))
-const sub = computed(() => t('sub'))
+const { getSection } = useBlogContent()
+const { data: section } = await useAsyncData(
+  () => `blog-section-articles-${locale.value}`,
+  () => getSection(locale.value, 'articles'),
+  { watch: [locale] },
+)
+const title = computed(() => section.value?.seoTitle)
+const description = computed(() => section.value?.seoDescription)
+const sub = computed(() => section.value?.subTitle)
+const { getBlogOgImageUrl } = usePathUtil()
+const imageUrl = getBlogOgImageUrl()
 
 useSeoMeta({
-  title: title.value,
-  ogTitle: title.value,
-  description: description.value,
-  ogDescription: description.value,
+  title: title,
+  ogTitle: title,
+  description: description,
+  ogDescription: description,
   ogType: "website",
+  ogImage: imageUrl,
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogImageType: "image/png",
+  ogLocale: locale,
+  twitterCard: "summary_large_image",
+  twitterTitle: title,
+  twitterImage: imageUrl,
 })
 
 useSchemaOrg([
@@ -74,17 +90,11 @@ useSchemaOrg([
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "A series on building a Jira alternative solo — stack, Telegram bot and Mini App, deployment — plus deep dives on Ollama, crawlers and AI code review.",
-    "all": "Articles — Building a Task Tracker with .NET, Nuxt and AI",
-    "sub": "Architecture decisions, implementation deep-dives, and honest accounts of what went wrong. Written by engineers who shipped the code.",
     "bc_home": "Home",
     "bc_blog": "Blog",
     "bc_articles": "Articles"
   },
   "ru": {
-    "all": "Статьи — как мы строим трекер задач на .NET, Nuxt и ИИ",
-    "seoDescription": "Серия о том, как в одиночку сделать альтернативу Jira: стек, Telegram-бот и Mini App, деплой — и разборы Ollama, парсеров и ревью кода от ИИ.",
-    "sub": "Архитектурные решения, разборы реализаций и честные истории о том, что пошло не так. Написано инженерами, которые сами создавали этот код.",
     "bc_home": "Главная",
     "bc_blog": "Блог",
     "bc_articles": "Статьи"

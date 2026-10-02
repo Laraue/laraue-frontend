@@ -1,9 +1,11 @@
 ---
 title: Telegram Login Widget vs Mini App auth in .NET — two validation schemes, one JWT
 description: Part 13 of building a Telegram task tracker solo. Users asked for a web version outside Telegram, so it needed its own login. Adding the Telegram Login Widget meant a second validation scheme alongside the Mini App's — and both end at the same JWT, because the app barely depends on Telegram past login.
+seoTitle: Telegram Login Widget vs Mini App Auth in .NET, One JWT
+seoDescription: Part 13: adding the Telegram Login Widget for a web version — a second validation scheme next to the Mini App's, both ending at the same JWT.
 type: article
 createdAt: 2026-07-01
-updatedAt: 2026-09-30
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, aspnet-core, telegram, authentication, telegram-login-widget, jwt, devlog]
 previousLink: telegram-media-group-album-bot

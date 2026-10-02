@@ -47,9 +47,17 @@ const computedItems = computed<Article[]>(() => (projects.value ?? [])
     }))
 
 const { t } = useI18n()
-const title = computed(() => t('projects'))
-const description = computed(() => t('seoDescription'))
-const sub = computed(() => t('sub'))
+const { getSection } = useBlogContent()
+const { data: section } = await useAsyncData(
+  () => `blog-section-projects-${locale.value}`,
+  () => getSection(locale.value, 'projects'),
+  { watch: [locale] },
+)
+const title = computed(() => section.value?.seoTitle)
+const description = computed(() => section.value?.seoDescription)
+const sub = computed(() => section.value?.subTitle)
+const { getBlogOgImageUrl } = usePathUtil()
+const imageUrl = getBlogOgImageUrl()
 
 useSeoMeta({
   title: title,
@@ -57,6 +65,14 @@ useSeoMeta({
   description: description,
   ogDescription: description,
   ogType: "website",
+  ogImage: imageUrl,
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogImageType: "image/png",
+  ogLocale: locale,
+  twitterCard: "summary_large_image",
+  twitterTitle: title,
+  twitterImage: imageUrl,
 })
 
 useSchemaOrg([
@@ -73,17 +89,11 @@ useSchemaOrg([
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "Laraue Boards and our open source .NET libraries: EF Core triggers, a web crawler, a Telegram bot framework, a PDF query language and more.",
-    "projects": "Projects — Laraue Boards, .NET Libraries and Telegram Bots",
-    "sub": "Libraries we built because the existing options weren't good enough. All open source, all actively maintained.",
     "bc_home": "Home",
     "bc_blog": "Blog",
     "bc_projects": "Projects"
   },
   "ru": {
-    "projects": "Проекты — Laraue Boards, .NET библиотеки и Telegram-боты",
-    "seoDescription": "Laraue Boards и open source библиотеки .NET: триггеры EF Core, парсер сайтов, фреймворк для Telegram-ботов, язык запросов к PDF и другое.",
-    "sub": "Библиотеки, которые мы написали, потому что существующие варианты нас не устроили. Всё с открытым кодом и активно поддерживается.",
     "bc_home": "Главная",
     "bc_blog": "Блог",
     "bc_projects": "Проекты"
@@ -94,8 +104,8 @@ useSchemaOrg([
 <template>
   <docs-view
     v-if="projects"
-    :title=title
-    :subTitle=sub
+    :title="title"
+    :subTitle="sub"
     :articles="computedItems"
     :page="page"
     :has-next-page="hasNextPage"

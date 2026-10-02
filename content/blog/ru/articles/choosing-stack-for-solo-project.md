@@ -1,9 +1,11 @@
 ﻿---
 title: Выбор стека пет-проекта для соло-разработки — .NET, PostgreSQL, Nuxt и почему мы предпочитаем скучные технологии
 description: Часть 4 цикла о разработке Telegram-таск-трекера в одиночку. Причины выбора .NET 10, PostgreSQL 18, Nuxt 4 и Vue 3. Немного о переезде с MongoDB на Postgres в прошлом проекте, который научил нас отдавать предпочтение скучным стабильным технологиям.
+seoTitle: Выбор стека для соло-проекта: .NET, PostgreSQL, Nuxt
+seoDescription: Часть 4: почему .NET 10, PostgreSQL 18, Nuxt 4 и Vue 3, и как переезд с MongoDB на Postgres научил нас выбирать скучные, стабильные технологии.
 type: article
 createdAt: 2026-06-20 22:35
-updatedAt: 2026-09-30 07:44
+updatedAt: 2026-10-02 18:05
 projects: [boards]
 tags: [dotnet, nuxt, vue, postgres, mongodb, база-данных, devlog, архитектура]
 previousLink: telegram-saved-messages-to-task-tracker
