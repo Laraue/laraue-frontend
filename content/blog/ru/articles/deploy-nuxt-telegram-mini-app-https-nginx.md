@@ -5,9 +5,9 @@ seoTitle: Деплой Nuxt Telegram Mini App: nginx, HTTPS, Let's Encrypt
 seoDescription: Часть 7: деплой Nuxt Mini App за nginx с HTTPS, автопродление сертификатов через certbot, регистрация в BotFather и локальное тестирование через ngrok.
 type: article
 createdAt: 2026-06-23 12:00
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [nginx, nuxt, telegram-mini-app, https, lets-encrypt, certbot, ngrok, self-hosting, devlog]
+tags: [devlog, nuxt, telegram, deployment]
 previousLink: deploying-dotnet-postgres-vps-docker-compose
 nextLink: telegram-mini-app-authentication-dotnet
 ---

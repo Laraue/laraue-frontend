@@ -1,11 +1,11 @@
 ﻿---
 title: C# Web Scraping Library — Strongly Typed Crawling for .NET
 type: project
-tags: [csharp, dotnet, web-scraping, crawler, anglesharp, puppeteersharp, html-parsing]
+tags: [dotnet, crawling, open-source]
 description: Laraue.Crawling is a strongly typed C# web scraping library for .NET that supports static HTML, JavaScript-rendered pages, and XML. Define maintainable crawling schemas in code — no spaghetti selectors.
 seoDescription: Laraue.Crawling: a typed C# web scraping library for HTML, JS-rendered pages and XML. Define crawling schemas in code — no spaghetti selectors.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 ---
 Most C# web scraping code works until it doesn't. A site changes its layout, a selector breaks, and you're
 staring at a tangle of string selectors with no types, no tests, and no clear place to make the fix.

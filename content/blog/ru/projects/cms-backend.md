@@ -1,12 +1,12 @@
 ﻿---
 title: Markdown файлы как REST API на .NET — библиотека Laraue.CmsBackend
 type: project
-tags: [dotnet, csharp, cms, markdown, api, headless-cms, static-site, nuget]
+tags: [dotnet, open-source]
 description: Лёгкая .NET 10 библиотека, которая превращает Markdown файлы с frontmatter в фильтруемый REST API. Строгая типизация, без базы данных, без CMS. Open source, лицензия MIT
 seoTitle: Markdown как REST API на .NET — библиотека Laraue.CmsBackend
 seoDescription: Лёгкая .NET 10 библиотека, которая отдаёт Markdown-файлы с frontmatter как фильтруемый REST API. Строгая типизация, без БД. Open source, MIT.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 ---
 Строите блог или документацию на .NET и не хотите тащить полноценную CMS? **Laraue.CmsBackend** — это лёгкая .NET 10 библиотека, которая превращает **Markdown файлы из Git-репозитория в запрашиваемый REST API** — с фильтрацией, сортировкой, поддержкой frontmatter и строго типизированными схемами контента. База данных не нужна.
 

@@ -5,9 +5,9 @@ seoTitle: Выбор стека для соло-проекта: .NET, PostgreSQL
 seoDescription: Часть 4: почему .NET 10, PostgreSQL 18, Nuxt 4 и Vue 3, и как переезд с MongoDB на Postgres научил нас выбирать скучные, стабильные технологии.
 type: article
 createdAt: 2026-06-20 22:35
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [dotnet, nuxt, vue, postgres, mongodb, база-данных, devlog, архитектура]
+tags: [devlog, dotnet, nuxt, database, architecture]
 previousLink: telegram-saved-messages-to-task-tracker
 nextLink: clean-dotnet-telegram-bot-architecture
 ---

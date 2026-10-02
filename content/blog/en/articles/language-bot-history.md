@@ -4,8 +4,9 @@ description: A technical deep-dive into the architecture of an open-source Teleg
 seoTitle: Building a Vocabulary Telegram Bot with C# and .NET 9
 seoDescription: Architecture of an open-source Telegram vocabulary bot: the C# and .NET 9 stack, an AI auto-translation pipeline, the data model and local setup.
 type: article
+tags: [dotnet, telegram, ai, language-learning]
 createdAt: 2025-04-17
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [learn-language]
 ---
 **[Laraue.Apps.LearnLanguage](https://github.com/Laraue/Laraue.Apps.LearnLanguage)** is an open-source Telegram bot for learning vocabulary in multiple languages. This article covers the architecture, design decisions, and technical details behind the project — useful reading if you're building a Telegram bot in C#, designing a data pipeline with AI translation, or just curious how a production language-learning app is structured.

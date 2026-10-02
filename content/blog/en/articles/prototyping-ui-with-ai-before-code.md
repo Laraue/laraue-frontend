@@ -4,9 +4,9 @@ description: Part 2 of building a Telegram task tracker solo. Why we start with 
 seoDescription: Part 2: why we start with the interface, how AI-made HTML prototypes replaced Figma, and how the first Laraue Boards prototype turned out.
 type: article
 createdAt: 2026-06-19 17:00
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [dotnet, nuxt, telegram, prototyping, ai-workflow, devlog]
+tags: [devlog, product, ai]
 previousLink: building-jira-alternative-solo-why-and-repositories
 nextLink: telegram-saved-messages-to-task-tracker
 ---

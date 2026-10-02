@@ -5,9 +5,9 @@ seoTitle: Why Users Chose Telegram Saved Messages Over Our Bot
 seoDescription: Part 10: a product mistake — we added epic and status selection to the bot, but users kept using Saved Messages. What we learned and how we fixed it.
 type: article
 createdAt: 2026-06-25 13:00
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [product, ux, telegram-bot, saved-messages, devlog]
+tags: [devlog, telegram, product]
 previousLink: issue-board-telegram-mini-app
 nextLink: telegram-bot-file-storage-stream
 ---

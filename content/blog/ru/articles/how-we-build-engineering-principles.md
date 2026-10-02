@@ -5,8 +5,8 @@ seoTitle: Как мы разрабатываем: инженерные прин�
 seoDescription: Принципы проектов Laraue: начинаем с пути пользователя, не переусложняем заранее, делим логику на слои, изолируем интеграции, ограничиваем ИИ.
 type: article
 createdAt: 2026-06-18
-updatedAt: 2026-10-02 18:05
-tags: [engineering, architecture, testing, ai-workflow, database, development]
+updatedAt: 2026-10-02 18:44
+tags: [devlog, architecture, ai]
 nextLink: reviewing-ai-generated-cost
 previousLink: how-we-decide-what-to-build
 ---

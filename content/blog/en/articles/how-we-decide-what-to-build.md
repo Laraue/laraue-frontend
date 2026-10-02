@@ -5,8 +5,8 @@ seoTitle: How We Decide What to Build: Validating an Idea
 seoDescription: Validate a product idea before writing code: research the market, test the idea in public, and use AI to judge whether you can compete for the keywords.
 type: article
 createdAt: 2026-06-18
-updatedAt: 2026-10-02 18:05
-tags: [product, validation, indie-hacking, market-research, crowded-market, ai-workflow]
+updatedAt: 2026-10-02 18:44
+tags: [devlog, product, ai]
 nextLink: how-we-build-engineering-principles
 ---
 

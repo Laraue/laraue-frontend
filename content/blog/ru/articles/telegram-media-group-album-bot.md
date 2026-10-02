@@ -5,9 +5,9 @@ seoTitle: Альбомы и правки в Telegram-боте: одна запи
 seoDescription: Часть 12: как собрать медиагруппу Telegram в одну запись без таймера-аккумулятора и обработать правку сообщения как обновление, а не дубль.
 type: article
 createdAt: 2026-06-26 15:00
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [dotnet, telegram-bot, media-groups, devlog]
+tags: [devlog, dotnet, telegram]
 previousLink: telegram-bot-file-storage-stream
 nextLink: telegram-login-widget-dotnet-auth
 ---

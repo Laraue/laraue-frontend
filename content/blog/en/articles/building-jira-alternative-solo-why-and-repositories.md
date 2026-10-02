@@ -5,9 +5,9 @@ seoTitle: Building a Jira Alternative Solo: Why and Where the Code Is
 seoDescription: Part 1 of building a Telegram task tracker solo with AI: the problem we solve, why the world needs another task tracker, and the two repositories.
 type: article
 createdAt: 2026-06-19 13:00
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [dotnet, nuxt, telegram, task-tracker, devlog, architecture]
+tags: [devlog, product, task-tracker]
 nextLink: prototyping-ui-with-ai-before-code
 ---
 

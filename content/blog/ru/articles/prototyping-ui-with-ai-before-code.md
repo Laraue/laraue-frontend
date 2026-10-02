@@ -4,9 +4,9 @@ description: Часть 2 цикла о разработке Telegram-таск-�
 seoDescription: Часть 2: почему мы начинаем с интерфейса, как HTML-прототипы от ИИ заменили Figma и каким получился первый прототип Laraue Boards.
 type: article
 createdAt: 2026-06-19 17:00
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [dotnet, nuxt, telegram, прототипирование, ai-workflow, devlog]
+tags: [devlog, product, ai]
 previousLink: building-jira-alternative-solo-why-and-repositories
 nextLink: telegram-saved-messages-to-task-tracker
 ---

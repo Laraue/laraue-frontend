@@ -5,8 +5,8 @@ seoTitle: Ревью кода от ИИ часто дороже, чем напи
 seoDescription: ИИ пишет, разработчик направляет и проверяет — но ревью сгенерированного кода так, чтобы ему доверять, часто дольше, чем написать его самому.
 type: article
 createdAt: 2026-07-11
-updatedAt: 2026-10-02 18:05
-tags: [ai-workflow, code-review, backend, engineering, development]
+updatedAt: 2026-10-02 18:44
+tags: [ai, architecture]
 previousLink: how-we-build-engineering-principles
 ---
 

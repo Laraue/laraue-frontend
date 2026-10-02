@@ -1,12 +1,13 @@
 ﻿---
 title: Using Ollama in C# and .NET — Local LLM Integration With Structured Output
 type: article
+tags: [dotnet, ai, open-source]
 projects: [real-estate, learn-language]
 description: How to integrate Ollama with C# and .NET — native HTTP API, structured JSON output, vision model image analysis, and a typed NuGet adapter that generates schemas from C# classes automatically. No cloud API required.
 seoTitle: Ollama in C# and .NET: Local LLMs with Structured Output
 seoDescription: Integrate Ollama with C# and .NET: native HTTP API, structured JSON output, vision models and a typed NuGet adapter. No cloud API required.
 createdAt: 2025-12-26
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 ---
 **Integrating Ollama with C# and .NET** lets you run open-source language and vision models locally — no cloud API keys, no per-call costs, no data leaving your server. This article covers the native Ollama HTTP API, structured output with JSON Schema, vision model image analysis, and a typed .NET adapter library that generates request schemas automatically from C# classes.
 

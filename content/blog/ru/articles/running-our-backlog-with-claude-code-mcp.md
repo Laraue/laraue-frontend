@@ -4,9 +4,9 @@ description: Мы сделали MCP-сервер для Laraue Boards, чтоб
 seoDescription: Мы сделали MCP-сервер для Laraue Boards и каждый день работаем с ним через Claude Code: как за два часа появилась первая версия и какой цикл она дала.
 type: article
 createdAt: 2026-10-02 10:31
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [mcp, claude-code, ai-workflow, task-management, boards, devlog]
+tags: [devlog, ai, task-tracker, dotnet]
 ---
 
 Наш бэклог лежит в [Laraue Boards](https://boards.laraue.com/ru) — трекере задач, который мы делаем. У Boards есть удалённый MCP-сервер, поэтому ИИ-агент может читать и обновлять доску. Мы пользуемся этим каждый день: спрашиваем Claude Code, над чем работать, он смотрит на доску и на код, мы выбираем задачу — и он берётся за дело. Вот как мы к этому пришли.

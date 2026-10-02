@@ -5,9 +5,9 @@ seoTitle: Jira-альтернатива в одиночку: зачем и гд�
 seoDescription: Часть 1 цикла о разработке Telegram-таск-трекера с ИИ: какую проблему мы решаем, зачем ещё один таск-трекер и на каких двух репозиториях построен цикл.
 type: article
 createdAt: 2026-06-19 13:00
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [dotnet, nuxt, telegram, таск-трекер, devlog, архитектура]
+tags: [devlog, product, task-tracker]
 nextLink: prototyping-ui-with-ai-before-code
 ---
 

@@ -4,9 +4,9 @@ description: We built an MCP server for Laraue Boards to understand how MCP work
 seoDescription: We built an MCP server for Laraue Boards, then used it with Claude Code daily: how v1 came together in two hours, what was wrong, and the loop it enabled.
 type: article
 createdAt: 2026-10-02 10:31
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [mcp, claude-code, ai-workflow, task-management, boards, devlog]
+tags: [devlog, ai, task-tracker, dotnet]
 ---
 
 Our backlog lives in [Laraue Boards](https://boards.laraue.com), the task tracker we are building. Boards has a remote MCP server, so an AI agent can read and update it. We use it every day now: we ask Claude Code what to work on, it looks at the board and the code, we pick a task and it gets started. This is how we got there.

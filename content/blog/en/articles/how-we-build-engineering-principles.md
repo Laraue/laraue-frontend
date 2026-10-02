@@ -5,8 +5,8 @@ seoTitle: How We Build: Engineering Principles for Real Products
 seoDescription: The principles behind Laraue projects: start from the user path, don't overcomplicate early, split logic into layers, isolate integrations, limit AI.
 type: article
 createdAt: 2026-06-18
-updatedAt: 2026-10-02 18:05
-tags: [engineering, architecture, testing, ai-workflow, database, development]
+updatedAt: 2026-10-02 18:44
+tags: [devlog, architecture, ai]
 nextLink: reviewing-ai-generated-cost
 previousLink: how-we-decide-what-to-build
 ---

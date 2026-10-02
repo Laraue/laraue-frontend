@@ -4,8 +4,9 @@ description: Технический разбор архитектуры open-sou
 seoTitle: Telegram-бот для изучения языков на C# и .NET 9
 seoDescription: Архитектура open-source Telegram-бота для словарного запаса: стек C# и .NET 9, пайплайн автоперевода на Ollama, модель данных и локальная разработка.
 type: article
+tags: [dotnet, telegram, ai, language-learning]
 createdAt: 2025-04-17
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [learn-language]
 ---
 **[Laraue.Apps.LearnLanguage](https://github.com/Laraue/Laraue.Apps.LearnLanguage)** — open-source Telegram-бот для изучения словарного запаса на нескольких языках. В этой статье разбираем архитектуру, технические решения и детали реализации — полезно, если вы строите Telegram-бота на C#, проектируете пайплайн с AI-переводом или просто интересуетесь, как устроено production-приложение для изучения языков.

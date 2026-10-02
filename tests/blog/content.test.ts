@@ -155,3 +155,20 @@ test('has titles and descriptions short enough for the search results', () => {
 
     assert.deepEqual(long, [])
 })
+
+test('uses the same few tags in both languages, each on more than one page', () => {
+    const counts = (locale: 'en' | 'ru') => {
+        const result = new Map<string, number>()
+        for (const entry of catalog.entries(locale)) {
+            for (const tag of entry.tags ?? []) {
+                result.set(tag, (result.get(tag) ?? 0) + 1)
+            }
+        }
+        return result
+    }
+
+    const english = counts('en')
+    assert.deepEqual([...counts('ru').keys()].toSorted(), [...english.keys()].toSorted())
+    assert.deepEqual([...english].filter(([, count]) => count < 2).map(([tag]) => tag), [])
+    assert.isAtMost(english.size, 20)
+})

@@ -5,9 +5,9 @@ seoTitle: Deploy .NET and PostgreSQL to a Cheap VPS with Docker
 seoDescription: Part 6: Docker Compose on a cheap VPS — self-hosted PostgreSQL tuned for 1 GB of RAM, a GitHub CI pipeline on push to main, and the Dockerfiles.
 type: article
 createdAt: 2026-06-22 12:00
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [docker, docker-compose, postgres, vps, self-hosting, devops, dotnet, devlog]
+tags: [devlog, dotnet, database, deployment]
 previousLink: clean-dotnet-telegram-bot-architecture
 nextLink: deploy-nuxt-telegram-mini-app-https-nginx
 ---

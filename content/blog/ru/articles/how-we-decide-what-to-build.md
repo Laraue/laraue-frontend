@@ -5,8 +5,8 @@ seoTitle: Как мы решаем, что разрабатывать: пров�
 seoDescription: Проверка продуктовой идеи до кода: исследуем рынок, тестируем идею публично и с помощью ИИ оцениваем, реально ли конкурировать за ключевые слова.
 type: article
 createdAt: 2026-06-18
-updatedAt: 2026-10-02 18:05
-tags: [продукт, validation, indie-hacking, market-research, crowded-market, ai-workflow]
+updatedAt: 2026-10-02 18:44
+tags: [devlog, product, ai]
 nextLink: how-we-build-engineering-principles
 ---
 

@@ -5,9 +5,9 @@ seoTitle: Почему пользователи выбирали «Сохран�
 seoDescription: Часть 10: продуктовая ошибка — мы добавили в бота выбор эпика и статуса, но пользователи продолжали писать в «Сохранённые». Что мы изменили.
 type: article
 createdAt: 2026-06-25 13:00
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [продукт, ux, telegram-bot, saved-messages, devlog]
+tags: [devlog, telegram, product]
 previousLink: issue-board-telegram-mini-app
 nextLink: telegram-bot-file-storage-stream
 ---

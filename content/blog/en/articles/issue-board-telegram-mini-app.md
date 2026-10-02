@@ -5,9 +5,9 @@ seoTitle: When Not to Use a Nullable Foreign Key in a Database
 seoDescription: Part 9: the issue layer of a web app and a database design choice — why a dedicated default row can beat a nullable foreign key. Issues, epics, backlog.
 type: article
 createdAt: 2026-06-25 09:00
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [database-design, dotnet, aspnet-core, postgres, vue, devlog]
+tags: [devlog, dotnet, database, architecture]
 previousLink: telegram-mini-app-authentication-dotnet
 nextLink: telegram-saved-messages-bot-lesson
 ---

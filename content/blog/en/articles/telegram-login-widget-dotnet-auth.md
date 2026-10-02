@@ -5,9 +5,9 @@ seoTitle: Telegram Login Widget vs Mini App Auth in .NET, One JWT
 seoDescription: Part 13: adding the Telegram Login Widget for a web version — a second validation scheme next to the Mini App's, both ending at the same JWT.
 type: article
 createdAt: 2026-07-01
-updatedAt: 2026-10-02 18:05
+updatedAt: 2026-10-02 18:44
 projects: [boards]
-tags: [dotnet, aspnet-core, telegram, authentication, telegram-login-widget, jwt, devlog]
+tags: [devlog, dotnet, nuxt, telegram, authentication]
 previousLink: telegram-media-group-album-bot
 ---
 
