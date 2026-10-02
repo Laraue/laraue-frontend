@@ -1,6 +1,7 @@
 ﻿---
 title: AI Apartment Search for Saint Petersburg — Ranked by Photo Quality
 type: project
+name: AI Apartment Search
 projectType: application
 githubLink: https://github.com/Laraue/Laraue.Apps.RealEstate
 applicationLink: https://apartments.laraue.com
@@ -9,7 +10,7 @@ description: Stop scrolling bad listings. This free tool crawls Saint Petersburg
 seoTitle: AI Apartment Search for Saint Petersburg by Photo Quality
 seoDescription: A free tool that crawls Saint Petersburg listings and ranks apartments by renovation quality with AI photo analysis. Filter, get Telegram alerts.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-02 19:21
 ---
 Scrolling through hundreds of Saint Petersburg apartment listings is exhausting. Half the photos are dark, blurry, or staged to hide problems. Prices vary wildly for what looks like similar flats. And unless you've spent years in the market, it's nearly impossible to tell a genuinely good deal from a bad one just from the listing page.
 

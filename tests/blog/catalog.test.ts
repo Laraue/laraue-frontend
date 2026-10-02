@@ -68,6 +68,7 @@ test('describes a page with its neighbors, dropping the ones that do not exist',
     assert.deepEqual(second?.previousLink, { path: ['blog', 'articles', 'first'], title: 'First' })
     assert.isUndefined(second?.nextLink)
     assert.deepEqual(first?.projects, ['tool'])
+    assert.deepEqual(first?.relatedProjects, [{ path: ['blog', 'projects', 'tool'], title: 'Tool' }])
     assert.deepEqual(
         [first?.createdAt, first?.updatedAt, first?.createdAtIso, first?.updatedAtIso],
         ['02 Jan 2026', '03 Jan 2026', '2026-01-02T00:00:00', '2026-01-03T10:30:00'],

@@ -49,6 +49,8 @@ export interface ItemDetails {
     nextLink?: NeighborCard;
     tags: string[] | null;
     projects: string[] | null;
+    // The pages of the projects the page is related to (`projects` are their names).
+    relatedProjects: NeighborCard[];
     length: number;
 }
 

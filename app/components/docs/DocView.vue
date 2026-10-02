@@ -4,7 +4,7 @@ import ReadTime from "~/components/docs/ReadTime.vue";
 import LContentTypeBadge from "~/components/docs/LContentTypeBadge.vue";
 import LMobileToc from "~/components/docs/LMobileToc.vue";
 
-defineProps<{
+const props = defineProps<{
   item: ItemDetails
 }>()
 
@@ -18,12 +18,22 @@ const breadCrumbs = computed(() => {
   const breadcrumbs = [] as {href?: string, title: string}[];
   let currentPath = '/'
 
-  routeSegments.forEach(segment => {
-    breadcrumbs.push({ href: localePath(currentPath + segment), title: segment })
+  const names: Record<string, string> = { blog: t('blog'), articles: t('articles'), projects: t('projects') }
+
+  routeSegments.forEach((segment, index) => {
+    // The last one is the page itself: its title, not the name of its file.
+    const title = index === routeSegments.length - 1 ? props.item.title : names[segment] ?? segment
+    breadcrumbs.push({ href: localePath(currentPath + segment), title })
     currentPath = currentPath + segment + '/'
   })
 
   return breadcrumbs
+})
+
+// "Back to articles", with the word in the form the phrase needs.
+const backLabel = computed(() => {
+  const section = getRouteSegments()[1]
+  return section === 'articles' ? t('backToArticles') : section === 'projects' ? t('backToProjects') : t('backToBlog')
 })
 
 const backAddress = computed(() => {
@@ -39,22 +49,32 @@ const backAddress = computed(() => {
 {
   "en": {
     "onThisPage": "On this page",
-    "backTo": "Back to",
+    "backToArticles": "Back to articles",
+    "backToProjects": "Back to projects",
+    "backToBlog": "Back to the blog",
     "previous": "Previous",
     "next": "Next",
     "created": "Created",
     "updated": "Updated",
     "relatedProjects": "Related projects",
+    "blog": "Blog",
+    "articles": "Articles",
+    "projects": "Projects",
     "project": "project"
   },
   "ru": {
     "onThisPage": "На этой странице",
-    "backTo": "Назад к",
+    "backToArticles": "Назад к статьям",
+    "backToProjects": "Назад к проектам",
+    "backToBlog": "Назад в блог",
     "previous": "Предыдущая",
     "next": "Следующая",
     "created": "Создано",
     "updated": "Обновлено",
     "relatedProjects": "Связанные проекты",
+    "blog": "Блог",
+    "articles": "Статьи",
+    "projects": "Проекты",
     "project": "проект"
   }
 }
@@ -68,7 +88,7 @@ const backAddress = computed(() => {
     <aside class="toc-sidebar" aria-label="Table of contents">
       <nuxt-link :to="backAddress?.href" class="toc-back">
         <svg viewBox="0 0 12 12" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="8,2 4,6 8,10"/></svg>
-        <span>{{ t('backTo') }} {{ backAddress?.title }}</span>
+        <span>{{ backLabel }}</span>
       </nuxt-link>
 
       <template v-if="item.innerLinks?.length > 1">
@@ -80,10 +100,10 @@ const backAddress = computed(() => {
 
       <div class="toc-divider"></div>
 
-      <template v-if="item.projects">
+      <template v-if="item.relatedProjects?.length">
         <div class="toc-related-label" data-i18n="toc_related">{{ t('relatedProjects') }}</div>
-        <nuxt-link v-for="project in item.projects" :to="localePath('/blog/projects/' + project)" class="toc-related-link">
-          🚀 {{ project }}
+        <nuxt-link v-for="project in item.relatedProjects" :to="localePathFromSegments(project.path)" class="toc-related-link">
+          🚀 {{ project.title }}
           <span class="toc-related-badge" data-i18n="badge_project">{{ t('project') }}</span>
         </nuxt-link>
       </template>
@@ -94,7 +114,7 @@ const backAddress = computed(() => {
       <article class="article-wrap">
         <nuxt-link :to="backAddress?.href" class="toc-back mobile">
           <svg viewBox="0 0 12 12" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="8,2 4,6 8,10"/></svg>
-          <span>{{ t('backTo') }} {{ backAddress?.title }}</span>
+          <span>{{ backLabel }}</span>
         </nuxt-link>
 
         <!-- mobile TOC toggle -->

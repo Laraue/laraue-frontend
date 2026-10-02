@@ -36,6 +36,8 @@ export interface BlogEntry {
     // Set when the title or the description is too long for the search results.
     seoTitle: string | null;
     seoDescription: string | null;
+    // A short name of a project (the title is a long headline).
+    name: string | null;
     createdAt: Date;
     updatedAt: Date;
     tags: string[] | null;
@@ -199,6 +201,7 @@ export const createBlogCatalog = (files: Record<string, string>) => {
             html,
             innerLinks,
             locale,
+            name: text(attributes, 'name') ?? null,
             nextLink: text(attributes, 'nextLink') ?? null,
             path: ['blog', section.folder, name],
             previousLink: text(attributes, 'previousLink') ?? null,
@@ -262,6 +265,10 @@ export const createBlogCatalog = (files: Record<string, string>) => {
                 innerLinks: entry.innerLinks,
                 length: entry.html.length,
                 projects: entry.projects,
+                relatedProjects: (entry.projects ?? []).flatMap((name) => {
+                    const project = entries.get(entryKey(entry.locale, 'projects', name))
+                    return project ? [{ path: project.path, title: project.name ?? project.title }] : []
+                }),
                 seoDescription: entry.seoDescription ?? entry.description,
                 seoTitle: entry.seoTitle ?? entry.title,
                 tags: entry.tags,
