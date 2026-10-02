@@ -27,7 +27,7 @@ pnpm create nuxt@latest laraue-boards
 
 Минимальный запускаемый Nuxt-проект — содержит лишь файловую структуру для будущего приложения и шаблонную страницу в `app.vue`.
 
-В первой версии мы хотим лишь научиться определять, что приложение было запущено из Telegram и вывести данные текущего пользователя. Telegram передаёт в mini app данные через свой SDK. Мы решили читать эти данные через Nuxt-плагин [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/master/app/plugins/auth.init.ts), запускающийся до отрисовки приложения:
+В первой версии мы хотим лишь научиться определять, что приложение было запущено из Telegram и вывести данные текущего пользователя. Telegram передаёт в mini app данные через свой SDK. Мы решили читать эти данные через Nuxt-плагин [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/185cc189361ba9345913226c10616ab015e958b4/app/plugins/auth.init.ts), запускающийся до отрисовки приложения:
 
 ```ts
 export default defineNuxtPlugin(async (nuxtApp) => {

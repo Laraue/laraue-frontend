@@ -3,9 +3,9 @@ title: Laraue.Telegram.NET — Write Telegram Bots Like ASP.NET Controllers in C
 type: project
 name: Laraue.Telegram.NET
 tags: [dotnet, telegram, open-source]
-description: Stop writing if-else chains for Telegram bot routing. Laraue.Telegram.NET brings ASP.NET-style controllers, middleware, authentication, and localization to .NET 9 Telegram bot development.
+description: Stop writing if-else chains for Telegram bot routing. Laraue.Telegram.NET brings ASP.NET-style controllers, middleware, authentication, and localization to .NET 10 Telegram bot development.
 seoTitle: Laraue.Telegram.NET: Telegram Bots Like ASP.NET Controllers
-seoDescription: Stop writing if-else routing for Telegram bots. ASP.NET-style controllers, middleware, authentication and localization for .NET 9 bot development.
+seoDescription: Stop writing if-else routing for Telegram bots. ASP.NET-style controllers, middleware, authentication and localization for .NET 10 bot development.
 createdAt: 2025-11-01
 updatedAt: 2026-10-02 19:21
 ---

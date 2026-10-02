@@ -2,15 +2,15 @@
 title: Как написать интерпретатор языка запросов на C# — разбор на реальном примере
 type: project
 name: PdfQL
-githubLink: https://github.com/win7user10/Laraue.PdfQL
+githubLink: https://github.com/Laraue/Laraue.PdfQL
 tags: [dotnet, open-source]
 description: Разбор архитектуры интерпретатора языка запросов на C# — лексер, парсер, AST и конвейерный исполнитель — на примере открытого проекта PdfQL. Практическое руководство для .NET разработчиков.
 seoTitle: Интерпретатор языка запросов на C#: разбор на примере
 seoDescription: Интерпретатор языка запросов на C# по шагам — лексер, парсер, AST и исполнитель — на примере открытого проекта PdfQL.
 createdAt: 2025-03-04
-updatedAt: 2026-10-02 20:05
+updatedAt: 2026-10-02 20:35
 ---
-Написать **интерпретатор языка запросов на C#** — задача, которая пугает до тех пор, пока не разбить её на части. В этой статье разобрана архитектура и ключевые решения [PdfQL](https://github.com/win7user10/Laraue.PdfQL) — открытой C# библиотеки, реализующей конвейерный язык запросов для извлечения структурированных данных из PDF-документов.
+Написать **интерпретатор языка запросов на C#** — задача, которая пугает до тех пор, пока не разбить её на части. В этой статье разобрана архитектура и ключевые решения [PdfQL](https://github.com/Laraue/Laraue.PdfQL) — открытой C# библиотеки, реализующей конвейерный язык запросов для извлечения структурированных данных из PDF-документов.
 
 PdfQL — концептуальный проект, не production-библиотека. Но в реализации есть рабочий **сканер, парсер, AST и исполнитель конвейера**, написанные на C# под .NET 10 — что делает его полезным справочным примером для тех, кто строит DSL или интерпретатор на .NET.
 
@@ -19,13 +19,12 @@ PdfQL — концептуальный проект, не production-библи�
 | Язык         | C#                                                                   |
 | Фреймворк    | .NET 10                                                              |
 | Тип проекта  | Библиотека                                                           |
-| Статус       | Концепция                                                            |
+| Статус       | Концепция, на паузе                                                  |
 | Лицензия     | AGPL-3.0                                                             |
 | NuGet        | ![последняя версия](https://img.shields.io/nuget/v/Laraue.PdfQL)     |
 | Загрузки     | ![загрузки](https://img.shields.io/nuget/dt/Laraue.PdfQL)            |
-| GitHub       | [Laraue.PdfQL](https://github.com/win7user10/Laraue.PdfQL)           |
-| Демо-приложение | [Laraue.Apps.PdfQL](https://github.com/Laraue/Laraue.Apps.PdfQL) |
-| Живое демо   | [PDF Extractor](https://laraue.com/ru/pdf-extractor)                 |
+| GitHub       | [Laraue.PdfQL](https://github.com/Laraue/Laraue.PdfQL)           |
+| Демо-приложение | [Laraue.Apps.PdfQL](https://github.com/Laraue/Laraue.Apps.PdfQL) (в архиве) |
 
 ---
 
@@ -74,7 +73,7 @@ PdfQL добавляет четвёртый слой, специфичный д�
 
 Задача сканера — **токенизация**: разбить строку запроса на осмысленные единицы, отбросив пробелы и переносы строк.
 
-Полный словарь токенов определён в [`TokenType.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/TokenType.cs):
+Полный словарь токенов определён в [`TokenType.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/TokenType.cs):
 
 ```csharp
 public enum TokenType
@@ -93,7 +92,7 @@ public enum TokenType
 }
 ```
 
-[`Scanner`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/Scanner.cs) обрабатывает входную строку посимвольно внутри приватного класса `ScannerImplementation`. Ключевой паттерн: отслеживаются и **абсолютная позиция** (смещение в сырой строке для нарезки лексем), и **относительная позиция** (столбец в текущей строке для сообщений об ошибках). Двухсимвольные операторы — `->`, `=>`, `==`, `!=` — обрабатываются вспомогательным методом `PopNextCharIf`, который условно поглощает следующий символ, только если предикат совпадает:
+[`Scanner`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/Scanner.cs) обрабатывает входную строку посимвольно внутри приватного класса `ScannerImplementation`. Ключевой паттерн: отслеживаются и **абсолютная позиция** (смещение в сырой строке для нарезки лексем), и **относительная позиция** (столбец в текущей строке для сообщений об ошибках). Двухсимвольные операторы — `->`, `=>`, `==`, `!=` — обрабатываются вспомогательным методом `PopNextCharIf`, который условно поглощает следующий символ, только если предикат совпадает:
 
 ```csharp
 case '-':
@@ -116,7 +115,7 @@ case '=':
 
 Парсер берёт плоский поток токенов и строит **Abstract Syntax Tree (AST)** — иерархическую структуру, отражающую грамматику запроса.
 
-Базовый узел AST намеренно минимален — [`Expr.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/Expr.cs) — это просто пустой базовый record:
+Базовый узел AST намеренно минимален — [`Expr.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/Expr.cs) — это просто пустой базовый record:
 
 ```csharp
 public record Expr
@@ -126,7 +125,7 @@ public record Expr
 
 Все типы выражений наследуют от него. Использование C# `record` даёт структурное равенство бесплатно, что делает юнит-тесты парсера чистыми — ожидаемые и фактические деревья корректно сравниваются без кастомной логики равенства.
 
-Конкретный пример — [`BinaryExpr.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/BinaryExpr.cs), представляющий любое двуоперандное выражение (`==`, `!=`, `<`, `>`, `+` и т.д.):
+Конкретный пример — [`BinaryExpr.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/BinaryExpr.cs), представляющий любое двуоперандное выражение (`==`, `!=`, `<`, `>`, `+` и т.д.):
 
 ```csharp
 public record BinaryExpr : Expr
@@ -148,7 +147,7 @@ public record BinaryExpr : Expr
 
 Поле `Operator` хранит полный `Token` — не только тип оператора — чтобы сообщения об ошибках могли указывать точный текст источника и позицию. Рекурсивный `ToString()` делает всё дерево распечатываемым для отладки, что бесценно при тестировании парсера в изоляции.
 
-[`Parser`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Parser.cs) использует **рекурсивный спуск** — каждое грамматическое правило становится методом, вызывающим другие методы для подправил. Это наиболее читаемый подход для написанных вручную парсеров и хорошо ложится на C# без инструментов генерации парсеров вроде ANTLR.
+[`Parser`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Parser.cs) использует **рекурсивный спуск** — каждое грамматическое правило становится методом, вызывающим другие методы для подправил. Это наиболее читаемый подход для написанных вручную парсеров и хорошо ложится на C# без инструментов генерации парсеров вроде ANTLR.
 
 ---
 
@@ -175,7 +174,7 @@ public record BinaryExpr : Expr
 
 ## Генерация анонимных типов в рантайме через Reflection.Emit
 
-Одна из наиболее нестандартных частей реализации — [`AnonymousTypeRegistry.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs). Когда стадия `map` проецирует объекты документа в новые формы — например, возвращает только текстовое содержимое ячейки, а не весь объект ячейки — исполнителю нужно конструировать результирующие типы, **структура которых не известна до парсинга запроса в рантайме**.
+Одна из наиболее нестандартных частей реализации — [`AnonymousTypeRegistry.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs). Когда стадия `map` проецирует объекты документа в новые формы — например, возвращает только текстовое содержимое ячейки, а не весь объект ячейки — исполнителю нужно конструировать результирующие типы, **структура которых не известна до парсинга запроса в рантайме**.
 
 Стандартный анонимный тип C# (`new { Name = "x" }`) здесь не подходит — он требует, чтобы форма была известна на этапе компиляции. Вместо этого `AnonymousTypeRegistry` генерирует настоящие CLR-типы динамически с помощью `System.Reflection.Emit`:
 
@@ -208,22 +207,22 @@ public class AnonymousTypeRegistry
 
 ## Демо-приложение
 
-Живое демо на [laraue.com/pdf-extractor](https://laraue.com/pdf-extractor) позволяет тестировать PdfQL-запросы прямо в браузере — загрузите PDF, напишите запрос и получите JSON-вывод. Готовые пресеты (извлечь все таблицы, извлечь все изображения) компилируются в PdfQL внутри.
+У PdfQL было живое демо: можно было загрузить PDF, написать запрос и получить JSON-вывод; готовые пресеты (извлечь все таблицы, извлечь все изображения) компилировались в PdfQL внутри. Мы его убрали: решили пока не тратить время на этот проект. Сама идея нам по-прежнему кажется интересной, но мы пока не знаем, для чего этот проект мог бы пригодиться.
 
-Веб-API, лежащий в основе демо, находится в отдельном репозитории: [github.com/Laraue/Laraue.Apps.PdfQL](https://github.com/Laraue/Laraue.Apps.PdfQL). Это тонкая ASP.NET Core обёртка над библиотекой — полезная как референс для хостинга PdfQL в веб-контексте.
+Веб-API, на котором работало демо, лежит в архивном репозитории: [github.com/Laraue/Laraue.Apps.PdfQL](https://github.com/Laraue/Laraue.Apps.PdfQL). Это тонкая ASP.NET Core обёртка над библиотекой — по-прежнему полезная как референс для хостинга PdfQL в веб-контексте. Сама библиотека не в архиве и находится в организации Laraue: [github.com/Laraue/Laraue.PdfQL](https://github.com/Laraue/Laraue.PdfQL).
 
 ---
 
 ## Исходный код
 
-Полная реализация на [github.com/win7user10/Laraue.PdfQL](https://github.com/win7user10/Laraue.PdfQL). Ключевые файлы:
+Полная реализация на [github.com/Laraue/Laraue.PdfQL](https://github.com/Laraue/Laraue.PdfQL). Ключевые файлы:
 
-- [`Interpreter/Scanning/TokenType.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/TokenType.cs) — полный словарь токенов
-- [`Interpreter/Scanning/Scanner.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/Scanner.cs) — реализация сканера
-- [`Interpreter/Parsing/Expressions/Expr.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/Expr.cs) — базовый узел AST
-- [`Interpreter/Parsing/Expressions/BinaryExpr.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/BinaryExpr.cs) — узел бинарного выражения
-- [`Interpreter/Parsing/Parser.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Parser.cs) — рекурсивно-спускающий парсер
-- [`Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs) — генерация типов в рантайме
+- [`Interpreter/Scanning/TokenType.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/TokenType.cs) — полный словарь токенов
+- [`Interpreter/Scanning/Scanner.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/Scanner.cs) — реализация сканера
+- [`Interpreter/Parsing/Expressions/Expr.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/Expr.cs) — базовый узел AST
+- [`Interpreter/Parsing/Expressions/BinaryExpr.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/BinaryExpr.cs) — узел бинарного выражения
+- [`Interpreter/Parsing/Parser.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Parser.cs) — рекурсивно-спускающий парсер
+- [`Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs) — генерация типов в рантайме
 
 Проект распространяется под лицензией AGPL-3.0.
 
@@ -231,7 +230,7 @@ public class AnonymousTypeRegistry
 
 ## Что дальше
 
-Текущая реализация покрывает извлечение таблиц с фильтрацией. Запланированные расширения:
+Текущая реализация покрывает извлечение таблиц с фильтрацией. Проект на паузе, поэтому расширения ниже — это идеи, а не план:
 
 - **Поддержка обычного текста** — `select(textRows)`, `select(words)`, `select(sentences)`
 - **Поддержка изображений** — возврат изображений по условиям; функции вроде `resize(600, 400)`

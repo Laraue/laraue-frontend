@@ -97,7 +97,7 @@ One of the library's core design decisions is **enforcing content schemas throug
 
 Each content category — blog posts, documentation pages, project pages — gets its own class that inherits `BaseContentType`. Properties marked `required` must be present in the Markdown frontmatter. If any file is missing a required field, **the application throws at startup**, making the problem immediately visible rather than manifesting as a broken page in production.
 
-Here's the real `Documentation` content type used on this blog ([source on GitHub](https://github.com/Laraue/Laraue.Apps.Blog/blob/main/src/Laraue.Apps.Blog.ApiHost/docTypes/Documentation.cs)):
+Here's the real `Documentation` content type used on this blog ([source on GitHub](https://github.com/Laraue/Laraue.Apps.Blog/blob/1af74798036c01357d1541dbed64a43a0fe38d9c/src/Laraue.Apps.Blog.ApiHost/docTypes/Documentation.cs)):
 
 ```csharp
 using Laraue.CmsBackend;

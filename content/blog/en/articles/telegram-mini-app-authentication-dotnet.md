@@ -88,7 +88,7 @@ New here are a couple of lines: `AddAuthentication()` / `UseAuthentication()` an
 
 Before moving to the code, let's define the sequence of steps for a login from the Mini App:
 
-1. The app checks whether it is running inside Telegram, by making sure init data is available (the [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/master/app/plugins/auth.init.ts) plugin from the previous article).
+1. The app checks whether it is running inside Telegram, by making sure init data is available (the [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/185cc189361ba9345913226c10616ab015e958b4/app/plugins/auth.init.ts) plugin from the previous article).
 2. Send the init data to the web API's authentication endpoint.
 3. The backend validates the init data signature against the bot token and returns an authorization **bearer token**.
 4. The frontend saves the bearer to local storage.
@@ -100,7 +100,7 @@ After that, every backend call adds the authorization header with the bearer, an
 
 ### Steps 1–2: the frontend sends init data
 
-The trigger is the startup plugin from the previous article, [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/master/app/plugins/auth.init.ts). It is a Nuxt plugin from the `/app/plugins` directory that runs automatically when the app loads. In the first version the plugin simply set the user object into `appState` from the available init data: `setUser(WebApp.initData)`. Now the init data is sent to the backend for validation instead.
+The trigger is the startup plugin from the previous article, [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/185cc189361ba9345913226c10616ab015e958b4/app/plugins/auth.init.ts). It is a Nuxt plugin from the `/app/plugins` directory that runs automatically when the app loads. In the first version the plugin simply set the user object into `appState` from the available init data: `setUser(WebApp.initData)`. Now the init data is sent to the backend for validation instead.
 
 Each backend controller has a matching composable on the frontend, which defines the endpoint calls as typed functions. For example, this is `loadUser` in `userApi.ts`, calling the backend's `GET /user` method and returning a `UserDto`:
 

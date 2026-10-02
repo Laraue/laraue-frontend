@@ -3,9 +3,9 @@ title: Building an AI-Powered Real Estate Ranking System with C#, Ollama, and a 
 type: article
 tags: [dotnet, ai, crawling, real-estate]
 projects: [real-estate]
-description: A technical deep-dive into an open-source real estate aggregator for Saint Petersburg — covering the C# / .NET 9 architecture, Ollama vision model integration, custom crawler design, and the ideality scoring formula.
+description: A technical deep-dive into an open-source real estate aggregator for Saint Petersburg — covering the C# / .NET 10 architecture, Ollama vision model integration, custom crawler design, and the ideality scoring formula.
 seoTitle: AI Real Estate Ranking with C#, Ollama and a Custom Crawler
-seoDescription: How an open-source apartment aggregator ranks listings by renovation quality: .NET 9 architecture, Ollama vision models, a custom crawler and scoring.
+seoDescription: How an open-source apartment aggregator ranks listings by renovation quality: .NET 10 architecture, Ollama vision models, a custom crawler and scoring.
 createdAt: 2026-04-16
 updatedAt: 2026-10-02 20:05
 ---

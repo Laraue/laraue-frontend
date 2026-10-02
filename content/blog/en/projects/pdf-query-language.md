@@ -2,16 +2,16 @@
 title: How to Build a Query Language Interpreter in C# — A Worked Example
 type: project
 name: PdfQL
-githubLink: https://github.com/win7user10/Laraue.PdfQL
+githubLink: https://github.com/Laraue/Laraue.PdfQL
 tags: [dotnet, open-source]
 description: A step-by-step walkthrough of building a query language interpreter in C# — lexer, parser, AST, and pipeline executor — using PdfQL as a real worked example. Open source.
 seoTitle: Build a Query Language Interpreter in C#: A Worked Example
 seoDescription: Build a query language interpreter in C# step by step — lexer, parser, AST and executor — with PdfQL as a real, open source example.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 20:05
+updatedAt: 2026-10-02 20:35
 ---
 
-Building a **query language interpreter in C#** is one of those projects that sounds intimidating until you break it into parts. This article walks through the architecture and key decisions behind [PdfQL](https://github.com/win7user10/Laraue.PdfQL) — an open source C# library that implements a pipeline-style query language for extracting structured data from PDF documents.
+Building a **query language interpreter in C#** is one of those projects that sounds intimidating until you break it into parts. This article walks through the architecture and key decisions behind [PdfQL](https://github.com/Laraue/Laraue.PdfQL) — an open source C# library that implements a pipeline-style query language for extracting structured data from PDF documents.
 
 PdfQL is a concept project, not a production library. But the implementation contains a working **scanner, parser, AST, and pipeline executor**, all written in C# and targeting .NET 10 — making it a useful reference for anyone building a domain-specific language or interpreter on .NET.
 
@@ -20,13 +20,12 @@ PdfQL is a concept project, not a production library. But the implementation con
 | Language     | C#                                                               |
 | Framework    | .NET 10                                                          |
 | Project type | Library                                                          |
-| Status       | Concept                                                          |
+| Status       | Concept, on pause                                                |
 | License      | AGPL-3.0                                                         |
 | NuGet        | ![latest version](https://img.shields.io/nuget/v/Laraue.PdfQL)  |
 | Downloads    | ![downloads](https://img.shields.io/nuget/dt/Laraue.PdfQL)      |
-| GitHub       | [Laraue.PdfQL](https://github.com/win7user10/Laraue.PdfQL)       |
-| Demo app     | [Laraue.Apps.PdfQL](https://github.com/Laraue/Laraue.Apps.PdfQL) |
-| Live demo    | [PDF Extractor](https://laraue.com/pdf-extractor)                |
+| GitHub       | [Laraue.PdfQL](https://github.com/Laraue/Laraue.PdfQL)       |
+| Demo app     | [Laraue.Apps.PdfQL](https://github.com/Laraue/Laraue.Apps.PdfQL) (archived) |
 
 ---
 
@@ -75,7 +74,7 @@ PdfQL adds a fourth layer specific to its domain: the **DocumentObjectsExtractor
 
 The scanner's job is **tokenization** — breaking the raw query string into meaningful units, discarding whitespace and newlines.
 
-The full token vocabulary is defined in [`TokenType.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/TokenType.cs):
+The full token vocabulary is defined in [`TokenType.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/TokenType.cs):
 
 ```csharp
 public enum TokenType
@@ -94,7 +93,7 @@ public enum TokenType
 }
 ```
 
-The [`Scanner`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/Scanner.cs) processes the input character by character inside a private `ScannerImplementation` class. The key design pattern: it tracks both an **absolute position** (offset into the raw string for slicing lexemes) and a **relative position** (column within the current line for error reporting). Two-character operators like `->`, `=>`, `==`, and `!=` use a `PopNextCharIf` lookahead helper that conditionally consumes the next character only if a predicate matches:
+The [`Scanner`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/Scanner.cs) processes the input character by character inside a private `ScannerImplementation` class. The key design pattern: it tracks both an **absolute position** (offset into the raw string for slicing lexemes) and a **relative position** (column within the current line for error reporting). Two-character operators like `->`, `=>`, `==`, and `!=` use a `PopNextCharIf` lookahead helper that conditionally consumes the next character only if a predicate matches:
 
 ```csharp
 case '-':
@@ -117,7 +116,7 @@ The scanner returns a `ScanResult` containing both the token array and any `Scan
 
 The parser takes the flat token stream and builds an **Abstract Syntax Tree (AST)** — a hierarchical structure that captures the grammar of the query.
 
-The base AST node is minimal by design — [`Expr.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/Expr.cs) is just an empty record base class:
+The base AST node is minimal by design — [`Expr.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/Expr.cs) is just an empty record base class:
 
 ```csharp
 public record Expr
@@ -127,7 +126,7 @@ public record Expr
 
 All expression types inherit from it. Using C# `record` types gives structural equality for free, which makes unit-testing the parser clean — expected and actual trees compare correctly without custom equality logic.
 
-A concrete example is [`BinaryExpr.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/BinaryExpr.cs), which represents any two-operand expression (`==`, `!=`, `<`, `>`, `+`, etc.):
+A concrete example is [`BinaryExpr.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/BinaryExpr.cs), which represents any two-operand expression (`==`, `!=`, `<`, `>`, `+`, etc.):
 
 ```csharp
 public record BinaryExpr : Expr
@@ -149,7 +148,7 @@ public record BinaryExpr : Expr
 
 The `Operator` field stores the full `Token` — not just the operator type — so error messages can report the exact source text and position. The recursive `ToString()` override makes the whole tree printable for debugging, which is invaluable when testing the parser in isolation.
 
-The [`Parser`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Parser.cs) uses **recursive descent** — each grammar rule becomes a method that calls other methods for sub-rules. It's the most readable approach for hand-written parsers and maps cleanly to C# without requiring external parser generator tools like ANTLR.
+The [`Parser`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Parser.cs) uses **recursive descent** — each grammar rule becomes a method that calls other methods for sub-rules. It's the most readable approach for hand-written parsers and maps cleanly to C# without requiring external parser generator tools like ANTLR.
 
 ---
 
@@ -176,7 +175,7 @@ Lambda expression nodes in the AST are compiled into C# `Func<>` delegates at ex
 
 ## Generating Anonymous Types at Runtime With Reflection.Emit
 
-One of the more unusual parts of the implementation is [`AnonymousTypeRegistry.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs). When the `map` stage projects document objects into new shapes — for example, returning only the text content of a cell rather than the full cell object — the executor needs to construct result types **whose structure isn't known until the query is parsed at runtime**.
+One of the more unusual parts of the implementation is [`AnonymousTypeRegistry.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs). When the `map` stage projects document objects into new shapes — for example, returning only the text content of a cell rather than the full cell object — the executor needs to construct result types **whose structure isn't known until the query is parsed at runtime**.
 
 The standard C# anonymous type (`new { Name = "x" }`) doesn't work here because it requires the shape to be known at compile time. Instead, `AnonymousTypeRegistry` generates real CLR types dynamically using `System.Reflection.Emit`:
 
@@ -209,22 +208,22 @@ This pattern — generating types at runtime and caching them by structural equa
 
 ## The Demo App
 
-The live demo at [laraue.com/pdf-extractor](https://laraue.com/pdf-extractor) lets you test PdfQL queries in the browser — upload a PDF, write a query, and see JSON output. Preset options (extract all tables, extract all images) compile to PdfQL internally.
+PdfQL had a live demo where you could upload a PDF, write a query, and see JSON output; preset options (extract all tables, extract all images) compiled to PdfQL internally. We removed it: we have decided not to spend time on this project for now. The concept still looks interesting to us, but we do not yet know what the project would be useful for.
 
-The web API that backs the demo is in a separate repository: [github.com/Laraue/Laraue.Apps.PdfQL](https://github.com/Laraue/Laraue.Apps.PdfQL). It's a thin ASP.NET Core wrapper around the library — useful as a reference for how to host PdfQL in a web context.
+The web API that backed the demo is kept in an archived repository: [github.com/Laraue/Laraue.Apps.PdfQL](https://github.com/Laraue/Laraue.Apps.PdfQL). It's a thin ASP.NET Core wrapper around the library — still useful as a reference for how to host PdfQL in a web context. The library itself is not archived and lives in the Laraue organization: [github.com/Laraue/Laraue.PdfQL](https://github.com/Laraue/Laraue.PdfQL).
 
 ---
 
 ## Exploring the Source Code
 
-The full implementation is at [github.com/win7user10/Laraue.PdfQL](https://github.com/win7user10/Laraue.PdfQL). Key files:
+The full implementation is at [github.com/Laraue/Laraue.PdfQL](https://github.com/Laraue/Laraue.PdfQL). Key files:
 
-- [`Interpreter/Scanning/TokenType.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/TokenType.cs) — the complete token vocabulary
-- [`Interpreter/Scanning/Scanner.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/Scanner.cs) — the scanner implementation
-- [`Interpreter/Parsing/Expressions/Expr.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/Expr.cs) — AST base node
-- [`Interpreter/Parsing/Expressions/BinaryExpr.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/BinaryExpr.cs) — binary expression node
-- [`Interpreter/Parsing/Parser.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Parser.cs) — recursive descent parser
-- [`Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs`](https://github.com/win7user10/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs) — runtime type generation
+- [`Interpreter/Scanning/TokenType.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/TokenType.cs) — the complete token vocabulary
+- [`Interpreter/Scanning/Scanner.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Scanning/Scanner.cs) — the scanner implementation
+- [`Interpreter/Parsing/Expressions/Expr.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/Expr.cs) — AST base node
+- [`Interpreter/Parsing/Expressions/BinaryExpr.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Expressions/BinaryExpr.cs) — binary expression node
+- [`Interpreter/Parsing/Parser.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/Parsing/Parser.cs) — recursive descent parser
+- [`Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs`](https://github.com/Laraue/Laraue.PdfQL/blob/main/src/Laraue.PdfQL/Interpreter/DelegateCompiling/AnonymousTypeRegistry.cs) — runtime type generation
 
 The project is under the AGPL-3.0 license.
 
@@ -232,7 +231,7 @@ The project is under the AGPL-3.0 license.
 
 ## What's Next
 
-Current implementation covers table extraction with filtering. Planned extensions:
+Current implementation covers table extraction with filtering. The project is on pause, so treat the extensions below as ideas, not as a schedule:
 
 - **Plain text support** — `select(textRows)`, `select(words)`, `select(sentences)`
 - **Image support** — return images matching conditions; apply functions like `resize(600, 400)`

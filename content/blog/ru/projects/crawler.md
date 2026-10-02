@@ -152,35 +152,14 @@ public class ProductCrawlerJob : BaseCrawlerJob<ProductPage>
 
 ---
 
-## Частые вопросы
-
-**Можно ли парсить сайты с JavaScript-рендерингом?**
-Да — используйте пакет `Laraue.Crawling.Dynamic.PuppeteerSharp`. Он управляет настоящим
-headless Chromium, поэтому обрабатывает ленивую загрузку, SPA и динамический контент так же,
-как это делает PuppeteerSharp напрямую.
-
-**Чем это отличается от прямого использования AngleSharp или HtmlAgilityPack?**
-Эти библиотеки парсят HTML — они возвращают DOM для навигации. Laraue.Crawling добавляет
-слой схем: вы описываете *что* извлечь и *в какое свойство модели*, а библиотека сама
-выполняет выборку. Результат типизирован, тестируем и одинаков для всех бэкендов парсинга.
-
-**Можно ли добавить поддержку произвольной древовидной структуры?**
-Да. Реализуйте интерфейс парсера для вашего типа узла (XML-парсер можно взять как пример),
-добавьте соответствующий schema builder — остальной API работает без изменений.
-
-**Совместима ли библиотека с .NET 9 и .NET 10?**
-Да, библиотека ориентирована на современные версии .NET.
-
----
-
 ## Использование в реальных проектах
 
 Laraue.Crawling работает в продакшне в составе проекта [SPB Real Estate](https://github.com/Laraue/Laraue.Apps.RealEstate) —
 сервиса мониторинга объявлений о недвижимости, который регулярно обходит два крупнейших
 российских сайта с объявлениями:
-[Avito](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Crawling.Impl/Avito/AvitoCrawlingSchema.cs)
+[Avito](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Crawling.AppServices/Avito/AvitoCrawlingSchema.cs)
 и
-[Cian](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Crawling.Impl/Cian/CianCrawlingSchema.cs),
+[Cian](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Crawling.AppServices/Cian/CianCrawlingSchema.cs),
 извлекая объявления как планируемые задачи.
 
 ---

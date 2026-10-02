@@ -98,7 +98,7 @@ CMS ускоряет выход в продакшн: берёт на себя а
 
 Каждая категория контента — посты блога, страницы документации, страницы проектов — получает собственный класс, наследующий `BaseContentType`. Свойства с `required` должны присутствовать в frontmatter Markdown файла. Если в каком-либо файле отсутствует обязательное поле, **приложение падает при запуске** — проблема проявляется сразу, а не в виде сломанной страницы в продакшне.
 
-Вот реальный тип контента `Documentation`, используемый в этом блоге ([исходник на GitHub](https://github.com/Laraue/Laraue.Apps.Blog/blob/main/src/Laraue.Apps.Blog.ApiHost/docTypes/Documentation.cs)):
+Вот реальный тип контента `Documentation`, используемый в этом блоге ([исходник на GitHub](https://github.com/Laraue/Laraue.Apps.Blog/blob/1af74798036c01357d1541dbed64a43a0fe38d9c/src/Laraue.Apps.Blog.ApiHost/docTypes/Documentation.cs)):
 
 ```csharp
 using Laraue.CmsBackend;

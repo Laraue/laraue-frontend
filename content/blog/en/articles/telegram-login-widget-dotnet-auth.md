@@ -34,7 +34,7 @@ A browser opened outside Telegram has no init data object, which the Mini App ha
 };
 ```
 
-When the user authorises through Telegram's standard authorization window, the widget calls `onTelegramAuth` with the signed data, the frontend posts it to the backend, and gets back a bearer token — after which [`initUserWithBearer`](https://github.com/Laraue/laraue-boards/blob/master/app/composables/auth.ts) puts the app in exactly the state a Mini App login would.
+When the user authorises through Telegram's standard authorization window, the widget calls `onTelegramAuth` with the signed data, the frontend posts it to the backend, and gets back a bearer token — after which [`initUserWithBearer`](https://github.com/Laraue/laraue-boards/blob/185cc189361ba9345913226c10616ab015e958b4/app/composables/auth.ts) puts the app in exactly the state a Mini App login would.
 
 On the backend, widget authorization gets its own endpoint in [`TelegramAuthController`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.WebApiHost/Controllers/TelegramAuthController.cs):
 

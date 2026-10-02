@@ -21,7 +21,7 @@ Until now the save process assumed a message in the chat never changes after the
 
 Start with the simpler case. When someone edits a message they already sent to the chat, the app receives an *edited message* update from Telegram and has to handle it as an `upsert` — `update` if the message was saved before, `insert` if not.
 
-For that, the middleware from the [previous article](telegram-bot-file-storage-stream) ([`HandleAllMessagesMiddleware`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.TelegramHost/HandleAllMessagesMiddleware.cs)) allows reading two update types:
+For that, the middleware from the [previous article](telegram-bot-file-storage-stream) ([`HandleAllMessagesMiddleware`](https://github.com/Laraue/Laraue.Apps.Boards/blob/31a490748edc7ad53aaf9a7ef7fe54d4a262e891/src/Laraue.Apps.Boards.TelegramHost/HandleAllMessagesMiddleware.cs)) allows reading two update types:
 
 ```csharp
 private static readonly UpdateType[] AllowedUpdates =
@@ -37,7 +37,7 @@ The `Message` object is the same in both update types, so we read it like this:
 var message = context.Update.Message ?? context.Update.EditedMessage;
 ```
 
-For the app there is no difference whether a message was edited or saved for the first time — its handling logic was built around `upsert` from the start: save if it was not there, update if it was. The reason is fault tolerance. When the system lags, any message can be processed more than once, and without `upsert` logic that would create phantom records. As a result, an edited photo is still mapped by `GetPhotoRequest`, an edited text by `GetMessageRequest`, and so on. The [middleware](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.TelegramHost/HandleAllMessagesMiddleware.cs) has no branch like "is this an edit or not"; it does the mapping, and the decision of how to handle the record — as new or existing — is delegated to the [save service](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.TelegramServices/Services/Messages/TelegramSaveMessageService.cs).
+For the app there is no difference whether a message was edited or saved for the first time — its handling logic was built around `upsert` from the start: save if it was not there, update if it was. The reason is fault tolerance. When the system lags, any message can be processed more than once, and without `upsert` logic that would create phantom records. As a result, an edited photo is still mapped by `GetPhotoRequest`, an edited text by `GetMessageRequest`, and so on. The [middleware](https://github.com/Laraue/Laraue.Apps.Boards/blob/31a490748edc7ad53aaf9a7ef7fe54d4a262e891/src/Laraue.Apps.Boards.TelegramHost/HandleAllMessagesMiddleware.cs) has no branch like "is this an edit or not"; it does the mapping, and the decision of how to handle the record — as new or existing — is delegated to the [save service](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.TelegramServices/Services/Messages/TelegramSaveMessageService.cs).
 
 ## Implementing upsert for a new or edited message
 

@@ -27,7 +27,7 @@ pnpm create nuxt@latest laraue-boards
 
 A minimal runnable Nuxt project — it contains only the file structure for the future app and a template page in `app.vue`.
 
-In the first version we only want to learn to detect that the app was launched from Telegram, and display the current user's data. Telegram passes data into the mini app through its SDK. We decided to read that data in the Nuxt plugin [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/master/app/plugins/auth.init.ts), which runs before the app renders:
+In the first version we only want to learn to detect that the app was launched from Telegram, and display the current user's data. Telegram passes data into the mini app through its SDK. We decided to read that data in the Nuxt plugin [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/185cc189361ba9345913226c10616ab015e958b4/app/plugins/auth.init.ts), which runs before the app renders:
 
 ```ts
 export default defineNuxtPlugin(async (nuxtApp) => {

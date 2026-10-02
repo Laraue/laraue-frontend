@@ -21,7 +21,7 @@ nextLink: telegram-login-widget-dotnet-auth
 
 Начнём с простого. Когда кто-то правит сообщение, ранее отправленное в чат, приложение получит от Telegram апдейт *отредактированного сообщения* и должно обработать его как `upsert` (`update`, если сообщение было сохранено ранее, `insert` - если нет).
 
-Для этого в Middleware из [прошлой статьи](telegram-bot-file-storage-stream) ([`HandleAllMessagesMiddleware`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.TelegramHost/HandleAllMessagesMiddleware.cs)), разрешается чтение двух типов апдейтов:
+Для этого в Middleware из [прошлой статьи](telegram-bot-file-storage-stream) ([`HandleAllMessagesMiddleware`](https://github.com/Laraue/Laraue.Apps.Boards/blob/31a490748edc7ad53aaf9a7ef7fe54d4a262e891/src/Laraue.Apps.Boards.TelegramHost/HandleAllMessagesMiddleware.cs)), разрешается чтение двух типов апдейтов:
 
 ```csharp
 private static readonly UpdateType[] AllowedUpdates =
@@ -37,7 +37,7 @@ private static readonly UpdateType[] AllowedUpdates =
 var message = context.Update.Message ?? context.Update.EditedMessage;
 ```
 
-Для приложения нет никакой разницы, было сообщение отредактировано или сохраняется впервые - его логика обработки и так была построена на `upsert` — сохранить, если не было; обновить, если было. Причина этого - стремление к отказоустойчивости. При лагах в системе, любое сообщение может обработаться несколько раз и без `upsert` логики могли бы появляться фантомные записи. Как результат, отредактированное фото всё так же маппится через `GetPhotoRequest`, отредактированный текст — через `GetMessageRequest`, и так далее. [Middleware](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.TelegramHost/HandleAllMessagesMiddleware.cs) не содержит ветвлений вида «правка это или нет»; он занимается маппингом, а разбор как обрабатывать запись, как новую или старую, делегируется в [save-сервис](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.TelegramServices/Services/Messages/TelegramSaveMessageService.cs).
+Для приложения нет никакой разницы, было сообщение отредактировано или сохраняется впервые - его логика обработки и так была построена на `upsert` — сохранить, если не было; обновить, если было. Причина этого - стремление к отказоустойчивости. При лагах в системе, любое сообщение может обработаться несколько раз и без `upsert` логики могли бы появляться фантомные записи. Как результат, отредактированное фото всё так же маппится через `GetPhotoRequest`, отредактированный текст — через `GetMessageRequest`, и так далее. [Middleware](https://github.com/Laraue/Laraue.Apps.Boards/blob/31a490748edc7ad53aaf9a7ef7fe54d4a262e891/src/Laraue.Apps.Boards.TelegramHost/HandleAllMessagesMiddleware.cs) не содержит ветвлений вида «правка это или нет»; он занимается маппингом, а разбор как обрабатывать запись, как новую или старую, делегируется в [save-сервис](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.TelegramServices/Services/Messages/TelegramSaveMessageService.cs).
 
 ## Реализация upsert логики для обработки нового или редактирования старого сообщения
 

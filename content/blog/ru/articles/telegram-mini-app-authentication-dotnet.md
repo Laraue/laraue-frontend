@@ -88,7 +88,7 @@ app.Run();
 
 Прежде чем переходить к коду — определим последовательность шагов при логине из Mini App:
 
-1. Приложение проверяет, запущено ли оно внутри Telegram. Для этого нужно удостовериться, что init data доступен (плагин [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/master/app/plugins/auth.init.ts) из прошлой статьи).
+1. Приложение проверяет, запущено ли оно внутри Telegram. Для этого нужно удостовериться, что init data доступен (плагин [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/185cc189361ba9345913226c10616ab015e958b4/app/plugins/auth.init.ts) из прошлой статьи).
 2. Отправляем init data на эндпоинт аутентификации web API.
 3. Бэкенд валидирует подпись init data по токену бота и возвращает авторизационный **bearer-токен**.
 4. Фронтенд сохраняет bearer в local storage.
@@ -100,7 +100,7 @@ app.Run();
 
 ### Шаги 1–2: фронтенд отправляет init data
 
-Триггером является стартовый плагин из прошлой статьи [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/master/app/plugins/auth.init.ts). Это плагин Nuxt из директории `/app/plugins`, который запускается автоматически при загрузке приложения. В первой версии плагин просто устанавливал объект пользователя в `appState` из доступной init data: `setUser(WebApp.initData)`. Теперь же init data отправляется на бэкенд для валидации.
+Триггером является стартовый плагин из прошлой статьи [`auth.init.ts`](https://github.com/Laraue/laraue-boards/blob/185cc189361ba9345913226c10616ab015e958b4/app/plugins/auth.init.ts). Это плагин Nuxt из директории `/app/plugins`, который запускается автоматически при загрузке приложения. В первой версии плагин просто устанавливал объект пользователя в `appState` из доступной init data: `setUser(WebApp.initData)`. Теперь же init data отправляется на бэкенд для валидации.
 
 Каждому контроллеру бэкенда соответствует composable на фронтенде, которые определяют вызовы эндпоинтов как типизированные функции. Например, так выглядит `loadUser` в `userApi.ts`, вызывающий метод бэкенда `GET /user` и возвращающий `UserDto`:
 

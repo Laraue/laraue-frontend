@@ -1,8 +1,8 @@
 ﻿---
-title: Building a Vocabulary Learning Telegram Bot with C# and .NET 9
-description: A technical deep-dive into the architecture of an open-source Telegram vocabulary bot — covering the C# / .NET 9 stack, AI-powered auto-translation pipeline, data model, and local development setup.
-seoTitle: Building a Vocabulary Telegram Bot with C# and .NET 9
-seoDescription: Architecture of an open-source Telegram vocabulary bot: the C# and .NET 9 stack, an AI auto-translation pipeline, the data model and local setup.
+title: Building a Vocabulary Learning Telegram Bot with C# and .NET 10
+description: A technical deep-dive into the architecture of an open-source Telegram vocabulary bot — covering the C# / .NET 10 stack, AI-powered auto-translation pipeline, data model, and local development setup.
+seoTitle: Building a Vocabulary Telegram Bot with C# and .NET 10
+seoDescription: Architecture of an open-source Telegram vocabulary bot: the C# and .NET 10 stack, an AI auto-translation pipeline, the data model and local setup.
 type: article
 tags: [dotnet, telegram, ai, language-learning]
 createdAt: 2025-04-17
@@ -20,7 +20,7 @@ The deployed bot is [@learn_lang_bot](https://t.me/learn_lang_bot).
 | Layer | Technology |
 |---|---|
 | Language | C# |
-| Framework | .NET 9 |
+| Framework | .NET 10 |
 | Bot framework | Telegram.NET |
 | AI translation | Ollama (local LLM inference) |
 | Data format | JSON (word/translation definitions) + EF Core migrations |
@@ -47,7 +47,7 @@ The two apps share the `DataAccess` project, which owns the database schema, mig
 
 ## Application 1: TelegramApiHost
 
-The main application is a .NET 9 web API that handles incoming Telegram updates via [Telegram.NET](https://github.com/TelegramBots/Telegram.Bot). It uses the **long-polling** mode for local development and webhook mode in production.
+The main application is a .NET 10 web API that handles incoming Telegram updates via [Telegram.NET](https://github.com/TelegramBots/Telegram.Bot). It uses the **long-polling** mode for local development and webhook mode in production.
 
 ### Bot Commands & Access Control
 

@@ -10,7 +10,13 @@ export default defineEventHandler(async (event) => {
     const perPage = Math.min(100, Math.max(1, Number.parseInt(String(query.perPage ?? 16), 10) || 16))
     const tag = typeof query.tag === 'string' && query.tag !== '' ? query.tag : undefined
 
-    return (await useBlogCatalog()).list(locale, {
+    const catalog = await useBlogCatalog()
+    // A tag the blog does not have is a page that does not exist (old addresses of the removed tags).
+    if (!section && tag && !catalog.tags(locale).some((candidate) => candidate.key === tag)) {
+        throw createError({ statusCode: 404, statusMessage: 'Tag not found' })
+    }
+
+    return catalog.list(locale, {
         contentTypes: section ? [section.contentType] : blogSections.map(({ contentType }) => contentType),
         page,
         perPage,

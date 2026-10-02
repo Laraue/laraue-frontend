@@ -204,7 +204,7 @@ The reason we did not ask it to generate all the components at once is the wish 
 
 ### Frontend API clients
 
-Each backend controller has a matching composable client on the frontend, in the same style as `userApi` from the previous article. Epics have [`epicsApi.ts`](https://github.com/Laraue/laraue-boards/blob/master/app/composables/epicsApi.ts), issues have their own.
+Each backend controller has a matching composable client on the frontend, in the same style as `userApi` from the previous article. Epics have [`epicsApi.ts`](https://github.com/Laraue/laraue-boards/blob/185cc189361ba9345913226c10616ab015e958b4/app/composables/epicsApi.ts), issues have their own.
 
 We write them ourselves. The alternative is generating the clients from an OpenAPI/Swagger document, so the frontend types stay automatically in sync with the backend. But that takes time — to make the code generate in exactly the shape we need. While the API has not grown large, we settled on the manual option.
 

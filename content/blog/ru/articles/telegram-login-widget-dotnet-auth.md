@@ -34,7 +34,7 @@ Mini App выполняет авторизацию через init data Telegram
 };
 ```
 
-Когда пользователь авторизуется через стандартное окно авторизации Telegram, виджет вызывает `onTelegramAuth` с подписанными данными, фронтенд отправляет их на бэкенд и получает bearer-токен — после чего [`initUserWithBearer`](https://github.com/Laraue/laraue-boards/blob/master/app/composables/auth.ts) приводит приложение ровно в то состояние, в которое привёл бы и логин через Mini App.
+Когда пользователь авторизуется через стандартное окно авторизации Telegram, виджет вызывает `onTelegramAuth` с подписанными данными, фронтенд отправляет их на бэкенд и получает bearer-токен — после чего [`initUserWithBearer`](https://github.com/Laraue/laraue-boards/blob/185cc189361ba9345913226c10616ab015e958b4/app/composables/auth.ts) приводит приложение ровно в то состояние, в которое привёл бы и логин через Mini App.
 
 На бэкенде для авторизации через виджет сделан отдельный эндпоинт в ([`TelegramAuthController`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.WebApiHost/Controllers/TelegramAuthController.cs)):
 

@@ -143,34 +143,13 @@ Register it in your DI container and it runs on your schedule automatically.
 
 ---
 
-## FAQ
-
-**Can I scrape JavaScript-rendered pages with this library?**
-Yes — use the `Laraue.Crawling.Dynamic.PuppeteerSharp` package. It drives a real headless Chromium
-browser, so it handles lazy loading, client-side rendering, and dynamic content the same way
-PuppeteerSharp does directly.
-
-**How is this different from using AngleSharp or HtmlAgilityPack directly?**
-Those libraries parse HTML — they give you a DOM to query. Laraue.Crawling adds a schema layer on top:
-you define *what* to extract into *which model property*, and the library handles the selector execution.
-The result is typed, testable, and consistent across parser backends.
-
-**Can I add support for a custom tree structure?**
-Yes. Implement the parser interface for your node type (see the XML parser as a reference), add the
-related schema builder, and the rest of the API works unchanged.
-
-**Does it work with .NET 9 and .NET 10?**
-Yes, the library targets modern .NET versions.
-
----
-
 ## Real-World Usage
 
 Laraue.Crawling runs in production as part of [SPB Real Estate](https://github.com/Laraue/Laraue.Apps.RealEstate),
 a property monitoring service that continuously crawls two of Russia's largest listing platforms —
-[Avito](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Crawling.Impl/Avito/AvitoCrawlingSchema.cs)
+[Avito](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Crawling.AppServices/Avito/AvitoCrawlingSchema.cs)
 and
-[Cian](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Crawling.Impl/Cian/CianCrawlingSchema.cs)
+[Cian](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Crawling.AppServices/Cian/CianCrawlingSchema.cs)
 — extracting listings as scheduled jobs.
 
 ---

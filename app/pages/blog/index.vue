@@ -22,11 +22,15 @@ const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 
 const tag = computed(() => typeof route.query.tag === 'string' ? route.query.tag : undefined);
 
-const { data: feed } = await useAsyncData(
+const { data: feed, error } = await useAsyncData(
   () => `blog-feed-${locale.value}-${tag.value ?? ''}-${page.value}`,
   () => getFeed(locale.value, tag.value, page.value - 1, PER_PAGE),
   { watch: [locale, tag, page] },
 )
+
+if (error.value) {
+  throw createError({ statusCode: error.value.statusCode ?? 500, statusMessage: error.value.statusMessage, fatal: true })
+}
 
 const items = computed(() => feed.value?.data ?? [])
 const hasNextPage = computed(() => feed.value?.hasNextPage ?? false)

@@ -204,7 +204,7 @@ public interface IAccessService
 
 ### Клиенты API на фронтенде
 
-Каждому контроллеру бэкенда соответствует composable-клиент на фронтенде, в том же стиле, что и `userApi` из прошлой статьи. У эпиков — [`epicsApi.ts`](https://github.com/Laraue/laraue-boards/blob/master/app/composables/epicsApi.ts), у issues свой.
+Каждому контроллеру бэкенда соответствует composable-клиент на фронтенде, в том же стиле, что и `userApi` из прошлой статьи. У эпиков — [`epicsApi.ts`](https://github.com/Laraue/laraue-boards/blob/185cc189361ba9345913226c10616ab015e958b4/app/composables/epicsApi.ts), у issues свой.
 
 Мы пишем их самостоятельно. Альтернатива — генерация клиентов из документа OpenAPI/Swagger, тогда типы фронтенда будут автоматически синхронизированы с бэкендом. Но на это придется потратить время - чтобы код генерировался в том виде, что нам нужен. Пока API не разросся мы остановились на ручном варианте. 
 

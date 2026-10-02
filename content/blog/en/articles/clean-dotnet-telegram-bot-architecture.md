@@ -141,7 +141,7 @@ public class CommandsController(ITelegramCommandsService commandsService)
 
 In .NET bots this pattern is almost never used; we made this library ourselves. Most C# Telegram bot examples look like a single method handling all the messages with a big set of switches. That works in small bots but becomes hard to maintain in large ones. So we decided to take the MVC architecture and carry it over into this library.
 
-When the user sent something that is not a command, none of the routes will match, and the message is handled by [`HandleAllMessagesMiddleware`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.TelegramHost/HandleAllMessagesMiddleware.cs), working as a fallback. It is not ASP.NET middleware; it is added to the container with `AddTelegramMiddleware<HandleAllMessagesMiddleware>()` — an extension method from [Laraue.Telegram.NET](https://github.com/Laraue/Laraue.Telegram.NET).
+When the user sent something that is not a command, none of the routes will match, and the message is handled by [`HandleAllMessagesMiddleware`](https://github.com/Laraue/Laraue.Apps.Boards/blob/31a490748edc7ad53aaf9a7ef7fe54d4a262e891/src/Laraue.Apps.Boards.TelegramHost/HandleAllMessagesMiddleware.cs), working as a fallback. It is not ASP.NET middleware; it is added to the container with `AddTelegramMiddleware<HandleAllMessagesMiddleware>()` — an extension method from [Laraue.Telegram.NET](https://github.com/Laraue/Laraue.Telegram.NET).
 
 ```csharp
 if (context.GetExecutedRoute() is null && AllowedUpdates.Contains(context.Update.Type))

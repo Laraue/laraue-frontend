@@ -1,8 +1,8 @@
 ﻿---
-title: Telegram-бот для изучения языков на C# и .NET 9 — архитектура и технические решения
-description: Технический разбор архитектуры open-source Telegram-бота для пополнения словарного запаса: стек C# / .NET 9, пайплайн автоперевода на базе Ollama, модель данных и настройка локальной разработки.
-seoTitle: Telegram-бот для изучения языков на C# и .NET 9
-seoDescription: Архитектура open-source Telegram-бота для словарного запаса: стек C# и .NET 9, пайплайн автоперевода на Ollama, модель данных и локальная разработка.
+title: Telegram-бот для изучения языков на C# и .NET 10 — архитектура и технические решения
+description: Технический разбор архитектуры open-source Telegram-бота для пополнения словарного запаса: стек C# / .NET 10, пайплайн автоперевода на базе Ollama, модель данных и настройка локальной разработки.
+seoTitle: Telegram-бот для изучения языков на C# и .NET 10
+seoDescription: Архитектура open-source Telegram-бота для словарного запаса: стек C# и .NET 10, пайплайн автоперевода на Ollama, модель данных и локальная разработка.
 type: article
 tags: [dotnet, telegram, ai, language-learning]
 createdAt: 2025-04-17
@@ -20,7 +20,7 @@ projects: [learn-language]
 | Слой | Технология |
 |---|---|
 | Язык | C# |
-| Фреймворк | .NET 9 |
+| Фреймворк | .NET 10 |
 | Бот-фреймворк | Telegram.NET |
 | AI-перевод | Ollama (локальный LLM-инференс) |
 | Формат данных | JSON (слова и переводы) + EF Core миграции |
@@ -47,7 +47,7 @@ tests/
 
 ## Приложение 1: TelegramApiHost
 
-Основное приложение — .NET 9 Web API, которое обрабатывает входящие Telegram-апдейты через [Telegram.NET](https://github.com/TelegramBots/Telegram.Bot). В режиме локальной разработки используется **long-polling**, в production — webhook.
+Основное приложение — .NET 10 Web API, которое обрабатывает входящие Telegram-апдейты через [Telegram.NET](https://github.com/TelegramBots/Telegram.Bot). В режиме локальной разработки используется **long-polling**, в production — webhook.
 
 ### Команды и контроль доступа
 
