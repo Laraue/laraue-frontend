@@ -7,7 +7,7 @@ description: How to integrate Ollama with C# and .NET — native HTTP API, struc
 seoTitle: Ollama in C# and .NET: Local LLMs with Structured Output
 seoDescription: Integrate Ollama with C# and .NET: native HTTP API, structured JSON output, vision models and a typed NuGet adapter. No cloud API required.
 createdAt: 2025-12-26
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-02 20:05
 ---
 **Integrating Ollama with C# and .NET** lets you run open-source language and vision models locally — no cloud API keys, no per-call costs, no data leaving your server. This article covers the native Ollama HTTP API, structured output with JSON Schema, vision model image analysis, and a typed .NET adapter library that generates request schemas automatically from C# classes.
 
@@ -246,27 +246,3 @@ var result = await ollamaPredictor.PredictAsync<PredictionResult>(
 ## Real-World Usage
 
 The [real estate aggregator](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Prediction.AppServices/OllamaRealEstatePredictor.cs) uses `IOllamaPredictor` with `qwen2.5vl` to score apartment photos for renovation quality. Every listing photo gets a `RenovationRating` between 0 and 1, plus arrays of `Advantages` and `Problems` tags that are stored for prompt debugging. The per-listing average across all photos feeds into the final ideality ranking. [How the ranking formula works](../projects/real-estate).
-
----
-
-## Frequently Asked Questions
-
-**What port does Ollama use by default?**
-
-Ollama listens on port `11434` by default. The base URL for all API calls is `http://localhost:11434`. This can be changed via the `OLLAMA_HOST` environment variable if you're running Ollama on a separate machine or container.
-
-**How does Ollama structured output work in C#?**
-
-Ollama's `format` field accepts a JSON Schema object. The model constrains its output to match the schema before returning. The `Laraue.Ollama.NET` adapter generates this schema automatically from your C# class using reflection — you define the response shape as a C# record, and the adapter handles the rest.
-
-**Can I use Ollama with vision models in C#?**
-
-Yes. Pass base64-encoded image bytes in the `images` field of the request, or use the `PredictAsync<TModel>(modelName, prompt, base64EncodedImage, ct)` overload in the adapter. Only models with vision capability process images — confirm support on the model's page at [ollama.com/library](https://ollama.com/library) before downloading.
-
-**How do I switch between models in Ollama?**
-
-Change the `model` parameter in the API call or `PredictAsync` invocation. No other code changes are required. Ollama handles downloading, loading, and unloading models automatically. This makes it straightforward to compare model quality for your specific task without infrastructure changes.
-
-**Is Ollama suitable for production use?**
-
-Ollama works well in production for latency-tolerant, GPU-bound workloads where data privacy or cost constraints rule out cloud APIs. For latency-sensitive or high-concurrency production systems, evaluate throughput carefully on your target hardware before committing. The architecture pattern used in the [real estate project](building-ai-real-estate-system) — an isolated `GpuWorkerHost` draining a queue — is a practical way to decouple inference throughput from the rest of the application.

@@ -7,7 +7,7 @@ description: A technical deep-dive into an open-source real estate aggregator fo
 seoTitle: AI Real Estate Ranking with C#, Ollama and a Custom Crawler
 seoDescription: How an open-source apartment aggregator ranks listings by renovation quality: .NET 9 architecture, Ollama vision models, a custom crawler and scoring.
 createdAt: 2026-04-16
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-02 20:05
 ---
 **Scraping JavaScript-rendered real estate listings in C#, scoring every photo with a local vision model, and ranking results by renovation quality** sounds like a weekend project until you hit the real problems: anti-bot redirects, GPU-bound inference blocking your crawler, and TensorFlow models that plateau at useless accuracy. This article walks through how [Laraue.Apps.RealEstate](https://github.com/Laraue/Laraue.Apps.RealEstate) solves each of these — with real code from the repo.
 
@@ -275,23 +275,3 @@ The sender uses edit-vs-send logic: if a `messageId` is provided, it edits the e
 - **Main repo:** [github.com/Laraue/Laraue.Apps.RealEstate](https://github.com/Laraue/Laraue.Apps.RealEstate)
 - **Crawler library:** [github.com/win7user10/Laraue.Crawling](https://github.com/win7user10/Laraue.Crawling)
 - **Live app:** [apartments.laraue.com](https://apartments.laraue.com)
-
----
-
-## Frequently Asked Questions
-
-**How does PuppeteerSharp differ from AngleSharp for web scraping in C#?**
-
-AngleSharp parses static HTML — it works on the raw response bytes and is fast and lightweight. PuppeteerSharp controls a real Chromium browser, executing JavaScript before extracting the DOM. Use AngleSharp when the page content is in the initial HTML response; use PuppeteerSharp when content is rendered by JavaScript after page load. Most modern real estate aggregators fall into the second category.
-
-**How do you integrate Ollama with C# for image analysis?**
-
-Ollama exposes a local HTTP API. Pass image bytes as base64 in the request body along with a prompt, and the model returns a text response. For structured output, prompt the model to respond in JSON and parse the response. The `OllamaRealEstatePredictor` in this project follows this pattern with the `qwen2.5` vision model.
-
-**Why separate the GPU inference into its own host process?**
-
-Image inference is slow and GPU-bound. If it ran in the same process as the crawler, the crawler would stall waiting for predictions to complete before moving to the next listing. Separating them means the crawler runs on its own schedule, the predictor drains the queue independently, and the GPU host can be moved to a dedicated machine without changing the crawling code.
-
-**Why does a penalty-based ranking formula work better than a weighted sum here?**
-
-In a weighted sum, changing one weight shifts the relative contribution of all other factors simultaneously, making tuning non-intuitive. In a penalty model, each negative signal contributes independently and additively. Adding a new factor or adjusting an existing one has a predictable, isolated effect.

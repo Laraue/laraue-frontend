@@ -5,7 +5,7 @@ seoTitle: Choosing a Solo Project Stack: .NET, PostgreSQL, Nuxt
 seoDescription: Part 4: why .NET 10, PostgreSQL 18, Nuxt 4 and Vue 3, and how a MongoDB-to-Postgres migration taught us to prefer boring, stable technologies.
 type: article
 createdAt: 2026-06-20 22:35
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-02 19:51
 projects: [boards]
 tags: [devlog, dotnet, nuxt, database, architecture]
 previousLink: telegram-saved-messages-to-task-tracker
@@ -61,7 +61,7 @@ All the cases looked implementable on a relational database. Peeking a little ah
 
 It so happens that none of us is a professional frontend developer. Long ago we tried Vue in our projects (back then it was still version 2) — and we liked it. Since then we simply use it always — we have never noticed problems with it. The main thing is not to forget to add TypeScript to the project — otherwise developing the client side turns into walking through a minefield, where you never know where the next error is waiting for you.
 
-The choice of Nuxt 4 comes down to the framework's rich ecosystem and its stability. We had recent experience with it: this blog is built on Nuxt 4, and it was noticeable how capable the framework is — everything you might need is already implemented, in the core or as a plugin.
+The choice of Nuxt 4 comes down to the framework's rich ecosystem and its stability. We had recent experience with it: this blog is built on Nuxt 4, and it was noticeable how capable the framework is — everything you might need is already implemented, in the core or as a plugin. (The blog's content used to live in a separate .NET backend; [why we moved it into Nuxt](why-we-dropped-cms-backend-for-nuxt-ssr).)
 
 In the first iterations the app will run as an SPA, but further on, the following framework features may come in handy.
 

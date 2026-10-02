@@ -8,7 +8,7 @@ description: A deep dive into Laraue.EfCoreTriggers — how to define database t
 seoTitle: EF Core Triggers in C#: Fluent Syntax and Expression Trees
 seoDescription: Laraue.EfCoreTriggers: define database triggers in C# with fluent syntax, see how expression trees become SQL, and add new database providers.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 19:21
+updatedAt: 2026-10-02 20:05
 ---
 **Database triggers in EF Core** have always been second-class citizens. The standard approach is a raw SQL string in a migration — invisible to your model, out of sync the moment a column renames, and impossible to validate at compile time. [Laraue.EfCoreTriggers](https://github.com/win7user10/Laraue.EfCoreTriggers) solves this by letting you define triggers using the same **fluent C# syntax** you already use for indexes and foreign keys, with **expression tree–based SQL generation** that ties trigger logic to your entity model.
 
@@ -307,27 +307,3 @@ The architecture is designed so that **adding a provider requires zero changes t
 ## Further Improvements
 
 The current method translation system requires explicit converter registration per provider. A planned improvement is to adopt the Linq2DB pattern: mark C# methods with attributes that declare their SQL translation, so the framework can discover converters automatically rather than requiring manual registration in each provider's service collection.
-
----
-
-## Frequently Asked Questions
-
-**How are triggers kept in sync when entity properties are renamed?**
-
-Trigger definitions use C# lambda expressions referencing entity properties directly (e.g. `tableRefs.New.Balance`). If `Balance` is renamed in the entity class, the trigger definition fails to compile — the error surfaces at build time, not at runtime or in production.
-
-**Can I use the library without EF Core?**
-
-Yes. The trigger generation core (`Laraue.Linq2Triggers.Core`) is decoupled from EF Core. Implement `IDbSchemaRetriever` to provide table and column name resolution, and you can use the SQL generation pipeline in any .NET project.
-
-**How do expression trees get translated to provider-specific SQL?**
-
-Each database provider registers a set of method call converters and member access converters via `IServiceCollection`. When the expression visitor encounters a C# method or static property, it checks the registered converters in order and delegates to the first one that returns `IsApplicable = true`. The same expression tree produces different SQL output for each provider.
-
-**What's the difference between a method call converter and a member access converter?**
-
-Method call converters handle expressions like `string.ToUpper()` or `Math.Abs(x)` — C# methods with parentheses. Member access converters handle property/field accesses like `DateTime.UtcNow` or `DateTimeOffset.Now` — C# properties without invocation. Both implement separate interfaces and are registered via separate extension methods (`AddMethodCallConverter` / `AddMemberAccessConverter`).
-
-**How does the trigger SQL get into the migration file?**
-
-The library registers `TriggerModelDiffer` as a replacement for EF Core's built-in `IMigrationsModelDiffer`. When EF Core scaffolds a migration, `TriggerModelDiffer` compares trigger annotations on entity types between the old and new model snapshots. Added, changed, or removed triggers produce `SqlOperation` entries that EF Core writes into the migration's `Up` and `Down` methods.

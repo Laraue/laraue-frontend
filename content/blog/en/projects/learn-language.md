@@ -5,7 +5,7 @@ tags: [telegram, language-learning]
 type: project
 name: Vocabulary Bot
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 19:21
+updatedAt: 2026-10-02 20:05
 ---
 Want a **free Telegram language learning bot** that actually works — with no app to install, no account to create, and no credit card? **Vocabulary Bot** (`@learn_lang_bot`) lets you build real English vocabulary in minutes a day, directly inside Telegram. It covers 7 language pairs, CEFR levels A1 through C1, and is completely free to use, forever.
 
@@ -114,23 +114,3 @@ You can contribute new words, fix translations, or add a language pair directly 
 Whether you're preparing for a trip, studying for a CEFR exam, or just starting to explore a new language — **Vocabulary Bot** offers a no-friction way to build real vocabulary, one quiz at a time.
 
 [👉 Open @learn_lang_bot on Telegram](https://t.me/learn_lang_bot?start=source-blog) or visit the [product page](https://laraue.com/learn-language-bot) for full details.
-
----
-
-## Frequently Asked Questions
-
-**Is the Vocabulary Bot free to use?**
-
-Yes. The bot is completely free with no premium tiers, word limits, or ads. It's open source under the MIT license.
-
-**What languages can I learn with the Telegram bot?**
-
-The bot currently supports 7 language pairs, all English-based: Russian, Japanese, French, Hindi, German, Chinese, and Spanish. New languages can be added via the open-source GitHub repository.
-
-**Do I need to create an account to use the vocabulary bot?**
-
-No account or registration is needed. Open `@learn_lang_bot` in Telegram, tap Start, and begin your first quiz immediately.
-
-**What CEFR levels does the bot support?**
-
-The bot covers levels A1 (beginner) through C1 (advanced), following the Common European Framework of Reference for Languages. You can switch levels at any time in the bot's settings.

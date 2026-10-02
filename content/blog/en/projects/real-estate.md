@@ -10,7 +10,7 @@ description: Stop scrolling bad listings. This free tool crawls Saint Petersburg
 seoTitle: AI Apartment Search for Saint Petersburg by Photo Quality
 seoDescription: A free tool that crawls Saint Petersburg listings and ranks apartments by renovation quality with AI photo analysis. Filter, get Telegram alerts.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 19:21
+updatedAt: 2026-10-02 20:05
 ---
 Scrolling through hundreds of Saint Petersburg apartment listings is exhausting. Half the photos are dark, blurry, or staged to hide problems. Prices vary wildly for what looks like similar flats. And unless you've spent years in the market, it's nearly impossible to tell a genuinely good deal from a bad one just from the listing page.
 
@@ -95,27 +95,3 @@ Real data, real AI scores, updated every 4 hours from live Saint Petersburg list
 **[Open the app at apartments.laraue.com](https://apartments.laraue.com)**
 
 The project is open source (MIT license) at [github.com/Laraue/Laraue.Apps.RealEstate](https://github.com/Laraue/Laraue.Apps.RealEstate). The most useful contributions are new crawler schemas for additional real estate sources, or improvements to the Ollama prompt for more accurate renovation scoring.
-
----
-
-## Frequently Asked Questions
-
-**Is the app free?**
-
-Yes. There are no paid tiers, no sign-up requirements, and no limits on browsing or filtering.
-
-**How often are listings updated?**
-
-The crawler runs every 4 hours. New listings appear in the ranked results after the next crawl and scoring cycle completes.
-
-**How accurate is the AI photo scoring?**
-
-The model performs well on average across a listing's full photo set. Individual photo predictions can be wrong, particularly for dark, ambiguous, or heavily staged photos. The per-listing average across multiple photos is significantly more reliable than any single prediction.
-
-**Can I get notified about new listings matching my criteria?**
-
-Yes — via the Telegram bot. Configure a personal selection with your price range, rooms, preferred districts, and minimum AI score, and the bot will send you matching new listings on your chosen schedule.
-
-**Does the app cover all Saint Petersburg districts?**
-
-The crawler collects listings across all Saint Petersburg districts available on the source platform. You can filter by specific district in the web UI.
