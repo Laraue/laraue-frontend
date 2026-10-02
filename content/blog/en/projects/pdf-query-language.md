@@ -2,8 +2,10 @@
 title: How to Build a Query Language Interpreter in C# — A Worked Example
 type: project
 name: PdfQL
-githubLink: https://github.com/Laraue/Laraue.PdfQL
 tags: [dotnet, open-source]
+repository: https://github.com/Laraue/Laraue.PdfQL
+language: C#
+license: AGPL-3.0
 description: A step-by-step walkthrough of building a query language interpreter in C# — lexer, parser, AST, and pipeline executor — using PdfQL as a real worked example. Open source.
 seoTitle: Build a Query Language Interpreter in C#: A Worked Example
 seoDescription: Build a query language interpreter in C# step by step — lexer, parser, AST and executor — with PdfQL as a real, open source example.

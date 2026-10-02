@@ -6,7 +6,7 @@ type: article
 series: architecture-first
 part: 2
 createdAt: 2026-06-19 17:00
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-07-09 13:00
 projects: [boards]
 tags: [devlog, product, ai]
 ---

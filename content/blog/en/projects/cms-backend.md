@@ -3,6 +3,9 @@ title: Serve Markdown Files as an API in .NET — Laraue.CmsBackend
 type: project
 name: Laraue.CmsBackend
 tags: [dotnet, open-source]
+repository: https://github.com/win7user10/Laraue.CmsBackend
+language: C#
+license: MIT
 description: A lightweight .NET 10 library that turns Markdown files with frontmatter into a filterable, sortable REST API. Strongly typed content schemas, no database, no CMS overhead. Open source, MIT license.
 seoDescription: A lightweight .NET 10 library that serves Markdown files with frontmatter as a filterable REST API. Typed schemas, no database. Open source, MIT.
 createdAt: 2025-11-01

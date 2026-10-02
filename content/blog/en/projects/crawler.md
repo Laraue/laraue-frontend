@@ -3,6 +3,9 @@ title: C# Web Scraping Library — Strongly Typed Crawling for .NET
 type: project
 name: Laraue.Crawling
 tags: [dotnet, crawling, open-source]
+repository: https://github.com/win7user10/Laraue.Crawling
+language: C#
+license: MIT
 description: Laraue.Crawling is a strongly typed C# web scraping library for .NET that supports static HTML, JavaScript-rendered pages, and XML. Define maintainable crawling schemas in code — no spaghetti selectors.
 seoDescription: Laraue.Crawling: a typed C# web scraping library for HTML, JS-rendered pages and XML. Define crawling schemas in code — no spaghetti selectors.
 createdAt: 2025-11-01

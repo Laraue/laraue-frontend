@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 1
 createdAt: 2026-06-19 13:00
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-09-30 07:44
 projects: [boards]
 tags: [devlog, product, task-tracker]
 ---

@@ -2,8 +2,10 @@
 title: Триггеры в EF Core на C# — fluent-синтаксис и деревья выражений для генерации SQL
 type: project
 name: Laraue.EfCoreTriggers
-githubLink: https://github.com/win7user10/Laraue.EfCoreTriggers
 tags: [dotnet, database, open-source]
+repository: https://github.com/win7user10/Laraue.EfCoreTriggers
+language: C#
+license: MIT
 description: Разбор библиотеки Laraue.EfCoreTriggers — как определять триггеры базы данных на C#, как деревья выражений транслируются в SQL, и как расширить библиотеку под новый провайдер БД.
 seoTitle: Триггеры EF Core на C#: fluent-синтаксис и деревья выражений
 seoDescription: Laraue.EfCoreTriggers: триггеры БД на C# с fluent-синтаксисом, трансляция деревьев выражений в SQL и расширение под новый провайдер.

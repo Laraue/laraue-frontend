@@ -3,11 +3,14 @@ title: Laraue.Telegram.NET — ASP.NET-подобные контроллеры �
 type: project
 name: Laraue.Telegram.NET
 tags: [dotnet, telegram, open-source]
+repository: https://github.com/Laraue/Laraue.Telegram.NET
+language: C#
+license: MIT
 description: Устали от цепочек if-else в Telegram-боте? Laraue.Telegram.NET привносит контроллеры, middleware, аутентификацию и локализацию в стиле ASP.NET Core в разработку ботов на .NET.
 seoTitle: Laraue.Telegram.NET: контроллеры как в ASP.NET для ботов
 seoDescription: Хватит цепочек if-else в Telegram-боте. Контроллеры, middleware, аутентификация и локализация в стиле ASP.NET Core для ботов на .NET.
 createdAt: 2025-03-04
-updatedAt: 2026-10-02 19:21
+updatedAt: 2026-09-30
 ---
 Если вы уже разрабатывали ASP.NET Core API, написание Telegram-бота не должно ощущаться как нечто новое.
 **Laraue.Telegram.NET** переносит знакомый паттерн контроллеров и middleware в разработку Telegram-ботов —

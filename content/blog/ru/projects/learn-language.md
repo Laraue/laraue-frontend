@@ -3,6 +3,9 @@ title: Бесплатный Telegram-бот для изучения англий
 type: project
 name: Бот для изучения слов
 tags: [telegram, language-learning]
+repository: https://github.com/Laraue/Laraue.Apps.LearnLanguage
+language: C#
+license: MIT
 description: Пополняйте словарный запас английского языка с помощью Telegram-бота. Квизы, уровни CEFR от A1 до C1, 7 языковых пар. Бесплатно, без регистрации, на любом устройстве.
 seoTitle: Бесплатный Telegram-бот для изучения английских слов
 seoDescription: Пополняйте словарный запас английского с Telegram-ботом: квизы, уровни CEFR A1–C1, 7 языковых пар. Бесплатно, без регистрации, на любом устройстве.

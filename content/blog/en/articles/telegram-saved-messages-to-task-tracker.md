@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 3
 createdAt: 2026-06-20 16:20
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-07-09 11:00
 projects: [boards]
 tags: [devlog, telegram, product, task-tracker]
 ---

@@ -5,7 +5,7 @@ seoTitle: Reviewing AI Code Often Costs More Than Writing It Yourself
 seoDescription: AI writes, the developer steers and checks — but reviewing generated code well enough to trust it is often slower than writing it. The hidden cost.
 type: article
 createdAt: 2026-07-11
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-07-11
 tags: [ai, architecture]
 ---
 

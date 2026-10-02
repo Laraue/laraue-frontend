@@ -3,9 +3,11 @@ title: Поиск квартир в Санкт-Петербурге с ИИ-оц
 type: project
 name: ИИ-поиск квартир
 projectType: application
-githubLink: https://github.com/Laraue/Laraue.Apps.RealEstate
 applicationLink: https://laraue.com/crawled-apartments
 tags: [ai, crawling, real-estate]
+repository: https://github.com/Laraue/Laraue.Apps.RealEstate
+language: C#
+license: MIT
 description: Бесплатный агрегатор квартир Санкт-Петербурга с ИИ-ранжированием по качеству ремонта. Фильтры по районам СПб, цене, комнатам и ИИ-рейтингу. Уведомления в Telegram о новых подходящих объявлениях.
 seoTitle: Поиск квартир в СПб с ИИ-оценкой фото ремонта
 seoDescription: Бесплатный агрегатор квартир Санкт-Петербурга с ИИ-ранжированием по качеству ремонта. Фильтры по району, цене и комнатам, уведомления в Telegram.
