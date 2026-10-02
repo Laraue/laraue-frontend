@@ -6,8 +6,10 @@ tags: [dotnet, open-source]
 description: A lightweight .NET 10 library that turns Markdown files with frontmatter into a filterable, sortable REST API. Strongly typed content schemas, no database, no CMS overhead. Open source, MIT license.
 seoDescription: A lightweight .NET 10 library that serves Markdown files with frontmatter as a filterable REST API. Typed schemas, no database. Open source, MIT.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 19:21
+updatedAt: 2026-10-02 20:05
 ---
+> **Update:** this blog no longer uses Laraue.CmsBackend. Keeping a separate API and a frontend in sync cost us more than it gave, so we moved the content into the Nuxt app — [the full story](../articles/why-we-dropped-cms-backend-for-nuxt-ssr). We archived the library but did not delete it: it stays available as history, and for future ideas if they appear.
+
 Building a blog or documentation site in .NET and don't want to drag in a full CMS? **Laraue.CmsBackend** is a lightweight .NET 10 library that turns **Markdown files stored in Git into a queryable REST API** — with filtering, sorting, frontmatter support, and strongly typed content schemas. No database required.
 
 |              |                                                                       |
@@ -15,7 +17,7 @@ Building a blog or documentation site in .NET and don't want to drag in a full C
 | Language     | C#                                                                    |
 | Framework    | .NET 10                                                               |
 | Project type | Library                                                               |
-| Status       | Active Development                                                    |
+| Status       | Archived                                                              |
 | License      | MIT                                                                   |
 | NuGet        | ![latest version](https://img.shields.io/nuget/v/Laraue.CmsBackend)  |
 | Downloads    | ![downloads](https://img.shields.io/nuget/dt/Laraue.CmsBackend)      |
@@ -31,7 +33,7 @@ The available options didn't fit. Storing Markdown inside the frontend loses the
 
 **The result is a third path:** Markdown files in Git, served through a typed .NET API with frontmatter attribute support.
 
-> This blog itself is built on Laraue.CmsBackend. The full source code for the blog backend is publicly available at [Laraue.Apps.Blog on GitHub](https://github.com/Laraue/Laraue.Apps.Blog) — a working reference implementation you can inspect or fork.
+> This blog was built on Laraue.CmsBackend until October 2026. The source code of its backend is publicly available at [Laraue.Apps.Blog on GitHub](https://github.com/Laraue/Laraue.Apps.Blog) — a working reference implementation you can inspect or fork.
 
 ---
 
@@ -67,7 +69,7 @@ Sites built with reactive frameworks (React, Vue, Angular) may not render comple
 
 ### A Lesson Learned: Don't Skip SSR for Content Sites
 
-The first version of this blog launched without SSR. The reasoning seemed sound at the time: modern search engines are capable of rendering JavaScript, the API responses were fast, and skipping SSR meant simpler infrastructure and lower server load.
+The first version of our blog launched without SSR. The reasoning seemed sound at the time: modern search engines are capable of rendering JavaScript, the API responses were fast, and skipping SSR meant simpler infrastructure and lower server load.
 
 **That turned out to be a mistake.** In practice, pages took far too long to get indexed — even with fast API responses. Google's crawler does render JavaScript, but not on the same schedule as static HTML. New posts sat unindexed for weeks.
 
@@ -239,9 +241,9 @@ The library doesn't prescribe the API shape — you decide which endpoints to ex
 
 ---
 
-## Real-World Usage: This Blog
+## Real-World Usage: Our Former Blog Backend
 
-Laraue.CmsBackend isn't just a demo project — it powers the blog you're reading right now. The full backend source is available at [github.com/Laraue/Laraue.Apps.Blog](https://github.com/Laraue/Laraue.Apps.Blog), including the content folder structure, controller setup, and CI/CD workflow. If you're evaluating the library, this is the most direct reference for how it works in production.
+Laraue.CmsBackend isn't just a demo project — it powered this blog for a long time, until we [moved the content into the Nuxt app](../articles/why-we-dropped-cms-backend-for-nuxt-ssr). The full backend source is available at [github.com/Laraue/Laraue.Apps.Blog](https://github.com/Laraue/Laraue.Apps.Blog), including the content folder structure, controller setup, and CI/CD workflow. If you're evaluating the library, this is the most direct reference for how it works in production.
 
 ---
 
@@ -260,27 +262,3 @@ Source code and issue tracker: [github.com/win7user10/Laraue.CmsBackend](https:/
 ## Roadmap
 
 The library's current scope is serving Markdown content via API. A planned extension — `Laraue.CmsBackend.Telegram` — would add tooling to run a bot that automatically posts new content to Telegram channels based on configurable criteria, with per-post attributes controlling which distribution channels receive each post.
-
----
-
-## Frequently Asked Questions
-
-**What happens if a Markdown file is missing a required frontmatter field?**
-
-The application throws at startup. Content types use C#'s `required` keyword on properties that must be present in frontmatter. This means schema violations are caught immediately when the app starts, not silently at query time or as a null reference in production.
-
-**Do I need a database to use Laraue.CmsBackend?**
-
-No. Content is stored as `.md` files in your repository. The library reads and parses them at runtime — no database setup, migrations, or connection strings required.
-
-**What .NET version does the library target?**
-
-The library targets .NET 10. It is published as a NuGet package (`Laraue.CmsBackend`) under the MIT license.
-
-**Can I filter and sort content by frontmatter fields?**
-
-Yes. The `GetEntitiesRequest` API supports filtering by any frontmatter attribute and returns paginated, sortable results. You can also query for aggregated values like a sorted list of all unique tags across all content files.
-
-**Is there a working example I can reference?**
-
-Yes — the blog at [laraue.com/blog](https://laraue.com/blog) runs on Laraue.CmsBackend, and the full backend source is open at [github.com/Laraue/Laraue.Apps.Blog](https://github.com/Laraue/Laraue.Apps.Blog).

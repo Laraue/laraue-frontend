@@ -62,8 +62,7 @@ const backAddress = computed(() => {
     "relatedProjects": "Related projects",
     "blog": "Blog",
     "articles": "Articles",
-    "projects": "Projects",
-    "project": "project"
+    "projects": "Projects"
   },
   "ru": {
     "onThisPage": "На этой странице",
@@ -77,8 +76,7 @@ const backAddress = computed(() => {
     "relatedProjects": "Связанные проекты",
     "blog": "Блог",
     "articles": "Статьи",
-    "projects": "Проекты",
-    "project": "проект"
+    "projects": "Проекты"
   }
 }
 </i18n>
@@ -106,8 +104,8 @@ const backAddress = computed(() => {
       <template v-if="item.relatedProjects?.length">
         <div class="toc-related-label" data-i18n="toc_related">{{ t('relatedProjects') }}</div>
         <nuxt-link v-for="project in item.relatedProjects" :to="localePathFromSegments(project.path)" class="toc-related-link">
-          🚀 {{ project.title }}
-          <span class="toc-related-badge" data-i18n="badge_project">{{ t('project') }}</span>
+          <span class="toc-related-icon" aria-hidden="true">🚀</span>
+          <span class="toc-related-name">{{ project.title }}</span>
         </nuxt-link>
       </template>
     </aside>
@@ -258,11 +256,8 @@ const backAddress = computed(() => {
   transition:background .15s;
 }
 .toc-related-link:hover{background:rgba(16,24,40,.04)}
-.toc-related-badge{
-  font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-  background:var(--accent-light);color:var(--accent);
-  padding:2px 6px;border-radius:4px;
-}
+.toc-related-icon{flex:none}
+.toc-related-name{min-width:0;overflow-wrap:anywhere}
 
 /* progress bar */
 .reading-progress{

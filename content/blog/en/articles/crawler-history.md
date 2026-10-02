@@ -7,7 +7,7 @@ description: The journey of building a C# web scraping tool — from a no-code S
 seoTitle: From SaaS to Open Source: 5 Years Building a C# Web Scraper
 seoDescription: Building a C# web scraping tool: from a no-code SaaS with a schema builder to a typed open-source .NET library. Decisions, dead ends and lessons.
 createdAt: 2025-10-07
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-02 20:05
 ---
 Building a **C# web scraping tool** is a project I've come back to across five years and two fundamentally different approaches. What started as a no-code SaaS application — with a visual schema builder, user accounts, a wallet, and webhook delivery — eventually became [Laraue.Crawling](../projects/crawler): a strongly typed open-source .NET library. This article covers the full arc: the original idea, the first implementation's architecture and tests, where it broke down, and why abandoning the interface to build a library was the right call.
 
@@ -259,23 +259,3 @@ dotnet add package Laraue.Crawling.Static.Xml          # XML
 **Proxy and anti-bot problems deserve their own product.** Reliable proxy rotation is a hard, ongoing operational problem. Bundling it into a schema-definition tool was scope creep from the start.
 
 **A library with no UI serves the actual user.** Developers can compose the library with whatever scheduling, proxy, delivery, and monitoring solutions fit their stack. No UI decisions to fight against.
-
----
-
-## Frequently Asked Questions
-
-**What's the difference between `AngleSharpSchemaBuilder` and `PuppeteerSharpSchemaBuilder`?**
-
-`AngleSharpSchemaBuilder` parses static HTML — it works on the raw HTTP response without JavaScript execution, and is fast and lightweight. `PuppeteerSharpSchemaBuilder` drives a real headless Chromium browser, executing JavaScript before extracting the DOM. Use AngleSharp for static sites; use PuppeteerSharp when content is rendered by JavaScript after page load. The schema definition is identical for both — switching is a one-line change.
-
-**How do you handle sites that block crawlers?**
-
-The library itself doesn't manage proxies or solve CAPTCHAs — that's a deliberate scope decision. The `BaseCrawlingSchemaParser` in the real estate project demonstrates one practical pattern: Polly-based retry with exponential backoff, randomized delays between requests to mimic human timing, and redirect detection as a termination signal. For serious anti-bot challenges, integrating a third-party proxy or browser fingerprinting service at the HTTP client level, before the schema runs, is the recommended approach.
-
-**Can I test crawling schemas without hitting a live site?**
-
-Yes — and this is one of the main advantages of the schema-based approach. Schemas are plain C# objects; pass raw HTML strings to `ParseDataAsync` or the equivalent parser method in your tests. The `ParsingSchemeTests` in the original app repo demonstrate this pattern extensively: every block type and parsing mode is tested against inline HTML fixtures with no network calls.
-
-**Why use a schema-based approach instead of writing selector code directly?**
-
-Direct selector code works for one-off scripts. When you maintain a crawler for months, the schema approach pays off: a site layout change means updating one schema definition rather than hunting through scattered selector strings; compile-time types catch property mismatches before runtime; and the unified API means you can swap between static and dynamic parsers without rewriting extraction logic.

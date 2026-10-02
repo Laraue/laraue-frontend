@@ -8,7 +8,7 @@ description: A step-by-step walkthrough of building a query language interpreter
 seoTitle: Build a Query Language Interpreter in C#: A Worked Example
 seoDescription: Build a query language interpreter in C# step by step — lexer, parser, AST and executor — with PdfQL as a real, open source example.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 19:21
+updatedAt: 2026-10-02 20:05
 ---
 
 Building a **query language interpreter in C#** is one of those projects that sounds intimidating until you break it into parts. This article walks through the architecture and key decisions behind [PdfQL](https://github.com/win7user10/Laraue.PdfQL) — an open source C# library that implements a pipeline-style query language for extracting structured data from PDF documents.
@@ -238,31 +238,3 @@ Current implementation covers table extraction with filtering. Planned extension
 - **Image support** — return images matching conditions; apply functions like `resize(600, 400)`
 - **Refactoring** — decouple the executor from PDF-specific types to fully support the DocQL vision
 - **Custom functions** — allow users to register their own functions callable from query lambdas
-
----
-
-## Frequently Asked Questions
-
-**How does a recursive descent parser work in C#?**
-
-A recursive descent parser maps each rule of the grammar to a C# method. To parse a binary expression like `a == b`, the parser calls `ParseExpression()`, which calls `ParseEquality()`, which calls `ParseComparison()`, and so on down the precedence hierarchy. Each method consumes tokens it recognises and delegates to lower-precedence rules for sub-expressions. The result is a call stack that naturally mirrors the structure of the AST being built — making the code easy to read and the grammar easy to extend.
-
-**Is PdfQL ready for production use?**
-
-No — it's a concept project. The table extraction pipeline works and is covered by tests, but the library is not maintained with production reliability in mind. For production PDF extraction in C#, consider PdfPig or iTextSharp. PdfQL is most useful as a **reference implementation** for building interpreters and DSLs in C#.
-
-**Why not use ANTLR or another parser generator?**
-
-Parser generators are a good choice for complex grammars. PdfQL's grammar is simple enough that a hand-written recursive descent parser is easier to read, debug, and modify — and writing it by hand is itself the educational point. The full parser fits in a few hundred lines of C#.
-
-**What's the difference between a transpiler and an interpreter?**
-
-An interpreter executes the AST directly at runtime, as PdfQL does. A transpiler translates the AST into source code of another language (e.g. compiling PdfQL to LINQ expressions or C# code). The scanner and parser layers are identical for both — only the backend differs. PdfQL's architecture could be extended into a transpiler by replacing the executor with a code emitter.
-
-**Why generate anonymous types dynamically instead of using `Dictionary<string, object>`?**
-
-A dictionary would work, but it loses type information — you can't use reflection or expression trees against it in a meaningful way, and serialization produces less useful output. Generating a real CLR type with named, typed properties means the result behaves like any other .NET object: it serializes cleanly to JSON, supports property access via reflection, and can participate in further LINQ operations.
-
-**Can this approach work for formats other than PDF?**
-
-Yes — and that's the long-term design intent. The pipeline executor is already decoupled from the PDF extractor. Adding support for a new document format means implementing a new `DocumentObjectsExtractor` for that format; the query language and executor are reused unchanged.
