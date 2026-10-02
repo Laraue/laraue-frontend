@@ -1,6 +1,6 @@
 import { assert, test } from 'vitest'
 
-import { createBlogCatalog, formatBlogDate, parseBlogDate, toLocalIso, toUtcIso } from '../../shared/blog/catalog'
+import { createBlogCatalog, parseBlogDate, toLocalIso, toUtcIso } from '../../shared/blog/catalog'
 
 const page = (type: string, extra: string, title = 'Page') =>
     `---\ntitle: ${title}\ntype: ${type}\ndescription: About ${title}\ncreatedAt: 2026-01-02\nupdatedAt: 2026-01-03 10:30\n${extra}---\n\n## Text\n\nBody of ${title}.\n`
@@ -70,8 +70,8 @@ test('describes a page with its neighbors, dropping the ones that do not exist',
     assert.deepEqual(first?.projects, ['tool'])
     assert.deepEqual(first?.relatedProjects, [{ path: ['blog', 'projects', 'tool'], title: 'Tool' }])
     assert.deepEqual(
-        [first?.createdAt, first?.updatedAt, first?.createdAtIso, first?.updatedAtIso],
-        ['02 Jan 2026', '03 Jan 2026', '2026-01-02T00:00:00', '2026-01-03T10:30:00'],
+        [first?.createdAtIso, first?.updatedAtIso],
+        ['2026-01-02T00:00:00', '2026-01-03T10:30:00'],
     )
     assert.deepEqual(first?.innerLinks, [{ level: 2, link: '#text', title: 'Text' }])
     assert.include(first?.content, 'Body of First.')
@@ -129,7 +129,6 @@ test('rejects a page without a required field, with a wrong type or in a wrong p
 test('reads and writes the dates as the wall clock time', () => {
     const date = parseBlogDate('2026-06-26 15:00')
     assert.isDefined(date)
-    assert.equal(formatBlogDate(date!), '26 Jun 2026')
     assert.equal(toLocalIso(date!), '2026-06-26T15:00:00')
     assert.equal(toUtcIso(date!), '2026-06-26T15:00:00Z')
     assert.isUndefined(parseBlogDate('2026-02-30'))

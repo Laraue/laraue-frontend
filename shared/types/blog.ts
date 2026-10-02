@@ -39,8 +39,7 @@ export interface ItemDetails {
     seoTitle: string;
     seoDescription: string;
     content: string;
-    createdAt: string;
-    updatedAt: string;
+    // `2026-06-26T15:00:00`, the wall clock time: the page shows it in the language of the visitor.
     createdAtIso: string;
     updatedAtIso: string;
     contentType: BlogContentType;

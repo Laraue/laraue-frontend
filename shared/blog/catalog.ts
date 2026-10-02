@@ -68,8 +68,6 @@ export interface BlogSitemapUrl {
     updatedAt: Date;
 }
 
-const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
 const pad = (value: number): string => String(value).padStart(2, '0')
 
 // A date of a file is a wall clock time without a zone (`2026-06-26` or `2026-06-26 15:00`), it is
@@ -87,10 +85,6 @@ export const parseBlogDate = (value: string): Date | undefined => {
 
     return date.getUTCMonth() === month - 1 && date.getUTCDate() === day ? date : undefined
 }
-
-// `26 Jun 2026`
-export const formatBlogDate = (date: Date): string =>
-    `${pad(date.getUTCDate())} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`
 
 // `2026-06-26T15:00:00`
 export const toLocalIso = (date: Date): string => date.toISOString().slice(0, 19)
@@ -259,7 +253,6 @@ export const createBlogCatalog = (files: Record<string, string>) => {
             return {
                 content: entry.html,
                 contentType: entry.contentType,
-                createdAt: formatBlogDate(entry.createdAt),
                 createdAtIso: toLocalIso(entry.createdAt),
                 description: entry.description,
                 innerLinks: entry.innerLinks,
@@ -273,7 +266,6 @@ export const createBlogCatalog = (files: Record<string, string>) => {
                 seoTitle: entry.seoTitle ?? entry.title,
                 tags: entry.tags,
                 title: entry.title,
-                updatedAt: formatBlogDate(entry.updatedAt),
                 updatedAtIso: toLocalIso(entry.updatedAt),
                 ...(previousLink && { previousLink }),
                 ...(nextLink && { nextLink }),
