@@ -3,18 +3,19 @@ import resvgWasm from '@resvg/resvg-wasm/index_bg.wasm?module'
 import opentype, { type Font } from 'opentype.js'
 import satori from 'satori'
 
-// The Open Graph preview of a blog page, the same card as before: the paper background, the site
+// The Open Graph preview of a blog page, in the colors and the font (Inter) of the site: the site
 // name, the title (up to three lines) and as much of the description as is left. The lines are
 // wrapped here (by words, to the width of the text) and drawn one by one.
 const width = 1200
 const height = 630
 
-const paper = '#f7f4ee'
-const cream = '#ede9e0'
-const ink = '#0f0e0c'
-const accent = '#c84b2f'
-const muted = '#7a7469'
-const border = '#d9d4c9'
+// The tokens of the site (app/assets/css/tokens.css).
+const workspace = '#f8f8fa'
+const background = '#f2f2f4'
+const ink = '#242429'
+const accent = '#3568d4'
+const muted = '#71717b'
+const border = '#dddde2'
 
 const paddingX = 80
 const stripHeight = 100
@@ -23,21 +24,24 @@ const contentWidth = width - paddingX * 2
 
 const siteNameSize = 24
 const titleSize = 52
-const titleLineHeight = titleSize * 1.22
+const titleLineHeight = titleSize * 1.2
 const descriptionSize = 26
-const descriptionLineHeight = descriptionSize * 1.55
+const descriptionLineHeight = descriptionSize * 1.5
 const domainSize = 20
 
-// Ascent and descent of the font (DejaVu Sans) in em, to put a baseline where the layout needs it.
-const ascent = 0.928
-const descent = 0.236
+// Ascent and descent of the font (Inter) in em, to put a baseline where the layout needs it.
+const ascent = 0.96875
+const descent = 0.2412
+
+// The site name and the domain are spaced out as the labels of the site are.
+const labelSpacing = 0.12
 
 const baselineOffset = (size: number, lineHeight: number): number =>
     (lineHeight - (ascent + descent) * size) / 2 + ascent * size
 
 interface Renderer {
-    fonts: { data: ArrayBuffer; name: string; style: 'normal'; weight: 400 | 700 }[]
-    measure: Record<400 | 700, Font>
+    fonts: { data: ArrayBuffer; name: string; style: 'normal'; weight: 400 | 700 | 800 }[]
+    measure: Record<400 | 700 | 800, Font>
 }
 
 let ready: Promise<Renderer> | undefined
@@ -50,21 +54,28 @@ const toArrayBuffer = (raw: unknown): ArrayBuffer => {
 const load = () =>
     (ready ??= (async () => {
         const assets = useStorage('assets:server')
-        const [regular, bold] = await Promise.all([
-            assets.getItemRaw('og-fonts:DejaVuSans.ttf'),
-            assets.getItemRaw('og-fonts:DejaVuSans-Bold.ttf'),
+        const [regular, bold, extraBold] = await Promise.all([
+            assets.getItemRaw('og-fonts:Inter_400Regular.ttf'),
+            assets.getItemRaw('og-fonts:Inter_700Bold.ttf'),
+            assets.getItemRaw('og-fonts:Inter_800ExtraBold.ttf'),
         ])
         await initWasm(resvgWasm)
 
         const regularData = toArrayBuffer(regular)
         const boldData = toArrayBuffer(bold)
+        const extraBoldData = toArrayBuffer(extraBold)
 
         return {
             fonts: [
-                { data: regularData, name: 'DejaVu Sans', style: 'normal', weight: 400 },
-                { data: boldData, name: 'DejaVu Sans', style: 'normal', weight: 700 },
+                { data: regularData, name: 'Inter', style: 'normal', weight: 400 },
+                { data: boldData, name: 'Inter', style: 'normal', weight: 700 },
+                { data: extraBoldData, name: 'Inter', style: 'normal', weight: 800 },
             ],
-            measure: { 400: opentype.parse(regularData), 700: opentype.parse(boldData) },
+            measure: {
+                400: opentype.parse(regularData),
+                700: opentype.parse(boldData),
+                800: opentype.parse(extraBoldData),
+            },
         }
     })())
 
@@ -123,7 +134,7 @@ const box = (style: Record<string, unknown>, children?: unknown): Node => ({
 // A line of text whose baseline is at `baseline`.
 const line = (
     content: string,
-    style: { size: number; lineHeight: number; weight: number; color: string },
+    style: { size: number; lineHeight: number; weight: number; color: string; letterSpacing?: number },
     position: { left: number; baseline: number },
 ): Node =>
     box(
@@ -132,6 +143,7 @@ const line = (
             fontSize: style.size,
             fontWeight: style.weight,
             left: position.left,
+            ...(style.letterSpacing !== undefined && { letterSpacing: style.letterSpacing }),
             lineHeight: `${style.lineHeight}px`,
             position: 'absolute',
             top: position.baseline - baselineOffset(style.size, style.lineHeight),
@@ -142,7 +154,7 @@ const line = (
 
 const lines = (
     content: string[],
-    style: { size: number; lineHeight: number; weight: number; color: string },
+    style: { size: number; lineHeight: number; weight: number; color: string; letterSpacing?: number },
     firstBaseline: number,
 ): Node[] =>
     content.map((text, index) =>
@@ -156,10 +168,11 @@ export const renderOgImage = async (options: {
     description: string
 }): Promise<Uint8Array> => {
     const { fonts, measure } = await load()
+    const heavy = (text: string, size: number) => measureText(measure[800], text, size)
     const bold = (text: string, size: number) => measureText(measure[700], text, size)
     const regular = (text: string, size: number) => measureText(measure[400], text, size)
 
-    const titleLines = wrapText(options.title, (text) => bold(text, titleSize), contentWidth, 3)
+    const titleLines = wrapText(options.title, (text) => heavy(text, titleSize), contentWidth, 3)
     const titleBaseline = 156 + titleSize
     const lastTitleBaseline = titleBaseline + Math.max(0, titleLines.length - 1) * titleLineHeight
 
@@ -178,13 +191,13 @@ export const renderOgImage = async (options: {
     const siteName = options.siteName.toUpperCase()
     const domain = 'LARAUE.COM'
 
-    const card = box({ background: paper, height, position: 'relative', width }, [
-        box({ background: cream, height: stripHeight, left: 0, position: 'absolute', top: height - stripHeight, width }),
+    const card = box({ background: workspace, height, position: 'relative', width }, [
+        box({ background: background, height: stripHeight, left: 0, position: 'absolute', top: height - stripHeight, width }),
         box({ background: border, height: 1, left: 0, position: 'absolute', top: height - stripHeight - 0.5, width }),
         box({ background: accent, height, left: 0, position: 'absolute', top: 0, width: 5 }),
-        line(siteName, { color: accent, lineHeight: 30, size: siteNameSize, weight: 700 }, { baseline: 72 + siteNameSize, left: paddingX }),
+        line(siteName, { color: accent, letterSpacing: siteNameSize * labelSpacing, lineHeight: 30, size: siteNameSize, weight: 700 }, { baseline: 72 + siteNameSize, left: paddingX }),
         box({ background: border, height: 1.5, left: paddingX, position: 'absolute', top: 115.25, width: contentWidth }),
-        ...lines(titleLines, { color: ink, lineHeight: titleLineHeight, size: titleSize, weight: 700 }, titleBaseline),
+        ...lines(titleLines, { color: ink, letterSpacing: -0.5, lineHeight: titleLineHeight, size: titleSize, weight: 800 }, titleBaseline),
         ...lines(
             descriptionLines,
             { color: muted, lineHeight: descriptionLineHeight, size: descriptionSize, weight: 400 },
@@ -192,8 +205,11 @@ export const renderOgImage = async (options: {
         ),
         line(
             domain,
-            { color: accent, lineHeight: 26, size: domainSize, weight: 700 },
-            { baseline: height - bottomPadding + 10, left: width - paddingX - bold(domain, domainSize) },
+            { color: accent, letterSpacing: domainSize * labelSpacing, lineHeight: 26, size: domainSize, weight: 700 },
+            {
+                baseline: height - bottomPadding + 10,
+                left: width - paddingX - bold(domain, domainSize) - domain.length * domainSize * labelSpacing,
+            },
         ),
     ])
 
