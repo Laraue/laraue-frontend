@@ -6,5 +6,5 @@ export default defineEventHandler(async (event) => {
     setHeader(event, 'Content-Type', 'application/rss+xml; charset=utf-8')
     setHeader(event, 'Cache-Control', 'public, max-age=3600')
 
-    return buildRssFeed(useRuntimeConfig(event).public.siteUrl, locale, catalog.rssItems(locale))
+    return buildRssFeed(getSiteUrl(event), locale, catalog.rssItems(locale))
 })

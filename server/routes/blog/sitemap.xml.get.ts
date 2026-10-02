@@ -3,7 +3,7 @@ import { toUtcIso } from '../../../shared/blog/catalog'
 // The sitemap of the blog: its lists and pages in both languages. The sitemap index
 // (`/sitemap.xml`) points to it.
 export default defineEventHandler(async (event) => {
-    const siteUrl = useRuntimeConfig(event).public.siteUrl
+    const siteUrl = getSiteUrl(event)
     const urls = (await useBlogCatalog()).sitemapUrls()
 
     setHeader(event, 'Content-Type', 'text/xml; charset=utf-8')
