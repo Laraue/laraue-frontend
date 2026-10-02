@@ -399,10 +399,10 @@ useSchemaOrg([
     <section class="screenshot" id="quiz">
       <div class="screenshot-inner">
         <div>
-          <div class="section-label reveal">{{ t('quiz_label') }}</div>
-          <h2 class="section-title reveal">{{ t('quiz_title') }}</h2>
-          <p class="screenshot-desc reveal">{{ t('quiz_desc') }}</p>
-          <ul class="screenshot-feats reveal">
+          <div class="section-label">{{ t('quiz_label') }}</div>
+          <h2 class="section-title">{{ t('quiz_title') }}</h2>
+          <p class="screenshot-desc">{{ t('quiz_desc') }}</p>
+          <ul class="screenshot-feats">
             <li>{{ t('qf1') }}</li>
             <li>{{ t('qf2') }}</li>
             <li>{{ t('qf3') }}</li>
@@ -411,7 +411,7 @@ useSchemaOrg([
           </ul>
           <LActionButton :title="t('hero_cta')" type="telegram" link="https://t.me/learn_lang_bot" />
         </div>
-        <div class="reveal">
+        <div>
           <!-- Real screenshot if available, placeholder otherwise -->
           <div class="screenshot-img">
             <img :src="configuration.public.imagesBaseAddress + 'quiz-mode.jpg'" alt="Quiz Mode screenshot" width="470" height="611" loading="lazy" />
@@ -422,14 +422,14 @@ useSchemaOrg([
 
     <LSection class="features" :pre-title="t('lang_label')" :postTitle="t('lang_sub')" :title="t('lang_title')" type="cream">
       <div class="languages-grid">
-        <div v-for="language in supportedLanguages" class="lang-card reveal">
+        <div v-for="language in supportedLanguages" class="lang-card">
           <div class="lang-flag">{{ language.value }}</div>
           <div class="lang-info">
             <div class="lang-pair">{{ language.name }}</div>
             <div class="lang-code">EN -> {{ language.value }}</div>
           </div>
         </div>
-        <div class="lang-card reveal" style="border-style:dashed;background:transparent;cursor:default;justify-content:center;opacity:.6">
+        <div class="lang-card" style="border-style:dashed;background:transparent;cursor:default;justify-content:center;opacity:.6">
           <div style="text-align:center">
             <div class="lang-pair" style="font-size:13px"> + {{ t('more_coming') }}</div>
           </div>
@@ -441,11 +441,11 @@ useSchemaOrg([
     <section class="oss" id="oss">
       <div class="oss-inner">
         <div>
-          <div class="section-label reveal">{{ t('oss_label') }}</div>
-          <h2 class="section-title reveal">{{ t('oss_title') }}</h2>
-          <p class="section-sub reveal">{{ t('oss_sub') }}</p>
+          <div class="section-label">{{ t('oss_label') }}</div>
+          <h2 class="section-title">{{ t('oss_title') }}</h2>
+          <p class="section-sub">{{ t('oss_sub') }}</p>
         </div>
-        <div class="reveal">
+        <div>
           <div class="oss-card">
             <div class="oss-icon"><LNavIcon name="code" /></div>
             <h3 class="oss-title">Laraue.Apps.LearnLanguage</h3>

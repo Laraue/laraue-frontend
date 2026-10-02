@@ -290,18 +290,18 @@ useSchemaOrg([
       <div class="section">
         <div class="about-grid">
           <div class="about-text">
-            <div class="section-label reveal" data-i18n="about_label">{{ t('about_label') }}</div>
-            <h2 class="section-title reveal" id="about-heading">{{ t('about_title_1') }}<br>{{ t('about_title_2') }}</h2>
-            <p class="reveal" data-i18n="about_p1"><strong>Laraue Software</strong> {{ t('about_p1') }}</p>
-            <p class="reveal" data-i18n="about_p2">{{ t('about_p2') }} <strong>{{ t('about_p3') }}</strong> {{ t('about_p4') }}</p>
-            <div class="about-values reveal">
+            <div class="section-label" data-i18n="about_label">{{ t('about_label') }}</div>
+            <h2 class="section-title" id="about-heading">{{ t('about_title_1') }}<br>{{ t('about_title_2') }}</h2>
+            <p data-i18n="about_p1"><strong>Laraue Software</strong> {{ t('about_p1') }}</p>
+            <p data-i18n="about_p2">{{ t('about_p2') }} <strong>{{ t('about_p3') }}</strong> {{ t('about_p4') }}</p>
+            <div class="about-values">
               <div class="value-card"><div class="value-card-icon"><LNavIcon name="gear" /></div><h3 class="value-card-title" data-i18n="v1t">{{ t('v1t') }}</h3><div class="value-card-text" data-i18n="v1d">{{ t('v1d') }}</div></div>
               <div class="value-card"><div class="value-card-icon"><LNavIcon name="partners" /></div><h3 class="value-card-title" data-i18n="v2t">{{ t('v2t') }}</h3><div class="value-card-text" data-i18n="v2d">{{ t('v2d') }}</div></div>
               <div class="value-card"><div class="value-card-icon"><LNavIcon name="search" /></div><h3 class="value-card-title" data-i18n="v3t">{{ t('v3t') }}</h3><div class="value-card-text" data-i18n="v3d">{{ t('v3d') }}</div></div>
               <div class="value-card"><div class="value-card-icon"><LNavIcon name="leaf" /></div><h3 class="value-card-title" data-i18n="v4t">{{ t('v4t') }}</h3><div class="value-card-text" data-i18n="v4d">{{ t('v4d') }}</div></div>
             </div>
           </div>
-          <div class="about-stats reveal">
+          <div class="about-stats">
             <div class="stat-card"><div class="stat-num">4+</div><div class="stat-label" data-i18n="stat1">{{ t('stat1') }}</div></div>
             <div class="stat-card"><div class="stat-num">100%</div><div class="stat-label" data-i18n="stat2">{{ t('stat2') }}</div></div>
             <div class="stat-card"><div class="stat-num">$0</div><div class="stat-label" data-i18n="stat3">{{ t('stat3') }}</div></div>
@@ -314,10 +314,10 @@ useSchemaOrg([
     <!-- FEATURED PRODUCT -->
     <section class="product-section" id="products" aria-labelledby="product-heading">
       <div class="product-section-inner">
-        <div class="section-label reveal" data-i18n="prod_label">{{ t('prod_label') }}</div>
-        <h2 class="section-title reveal" id="product-heading">Laraue Boards</h2>
-        <p class="product-section-sub reveal" data-i18n="prod_sub">{{ t('prod_sub') }}</p>
-        <div class="features-grid reveal">
+        <div class="section-label" data-i18n="prod_label">{{ t('prod_label') }}</div>
+        <h2 class="section-title" id="product-heading">Laraue Boards</h2>
+        <p class="product-section-sub" data-i18n="prod_sub">{{ t('prod_sub') }}</p>
+        <div class="features-grid">
           <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="mail" /></div><h3 class="feature-cell-title" data-i18n="f1t">{{ t('f1t') }}</h3><div class="feature-cell-text" data-i18n="f1d">{{ t('f1d') }}</div></div>
           <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="folder" /></div><h3 class="feature-cell-title" data-i18n="f2t">{{ t('f2t') }}</h3><div class="feature-cell-text" data-i18n="f2d">{{ t('f2d') }}</div></div>
           <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="sparkle" /></div><h3 class="feature-cell-title" data-i18n="f3t">{{ t('f3t') }}</h3><div class="feature-cell-text" data-i18n="f3d">{{ t('f3d') }}</div></div>
@@ -325,7 +325,7 @@ useSchemaOrg([
           <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="search" /></div><h3 class="feature-cell-title" data-i18n="f5t">{{ t('f5t') }}</h3><div class="feature-cell-text" data-i18n="f5d">{{ t('f5d') }}</div></div>
           <div class="feature-cell"><div class="feature-cell-icon"><LNavIcon name="dollar" /></div><h3 class="feature-cell-title" data-i18n="f6t">{{ t('f6t') }}</h3><div class="feature-cell-text" data-i18n="f6d">{{ t('f6d') }}</div></div>
         </div>
-        <div class="product-cta-row reveal">
+        <div class="product-cta-row">
           <a rel="nofollow" target="_blank" href="https://t.me/msgboard_bot" class="btn-primary">{{ t('prod_cta1') }} @msgboard_bot →</a>
           <a rel="nofollow" target="_blank" :href="boardsUrl" class="btn-ghost">{{ t('prod_cta2') }}</a>
         </div>
@@ -334,11 +334,11 @@ useSchemaOrg([
 
     <!-- TOOLS -->
     <section class="tools-section" id="tools" aria-labelledby="tools-heading">
-      <div class="section-label reveal" data-i18n="tools_label">{{ t('tools_label') }}</div>
-      <h2 class="section-title reveal" id="tools-heading" data-i18n="tools_title">{{ t('tools_title') }}</h2>
+      <div class="section-label" data-i18n="tools_label">{{ t('tools_label') }}</div>
+      <h2 class="section-title" id="tools-heading" data-i18n="tools_title">{{ t('tools_title') }}</h2>
       <div class="tools-grid">
 
-        <a :href="localPath('markdown-converter')" class="tool-card reveal">
+        <a :href="localPath('markdown-converter')" class="tool-card">
           <div class="tool-logo">
             <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="48" height="48" fill="#1a1a2e"/>
@@ -355,7 +355,7 @@ useSchemaOrg([
           <div class="tool-card-arrow" data-i18n="try_it">{{ t('try_it') }}</div>
         </a>
 
-        <a :href="localPath('crawled-apartments')" class="tool-card reveal">
+        <a :href="localPath('crawled-apartments')" class="tool-card">
           <div class="tool-logo">
             <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="48" height="48" fill="#1c2b1e"/>
@@ -374,7 +374,7 @@ useSchemaOrg([
           <div class="tool-card-arrow" data-i18n="try_it">{{ t('try_it') }}</div>
         </a>
 
-        <a :href="localPath('learn-language-bot')" class="tool-card reveal">
+        <a :href="localPath('learn-language-bot')" class="tool-card">
           <div class="tool-logo">
             <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="48" height="48" fill="#1a1a2e"/>
@@ -391,7 +391,7 @@ useSchemaOrg([
           <div class="tool-card-arrow" data-i18n="try_it">{{ t('try_it') }}</div>
         </a>
 
-        <a :href="localPath('markdown-translator')" class="tool-card reveal">
+        <a :href="localPath('markdown-translator')" class="tool-card">
           <div class="tool-logo">
             <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="48" height="48" fill="#1a1f2b"/>
@@ -408,7 +408,7 @@ useSchemaOrg([
           <div class="tool-card-arrow" data-i18n="try_it">{{ t('try_it') }}</div>
         </a>
 
-        <a rel="nofollow" target="_blank" href="https://github.com/Laraue" class="tool-card reveal" style="background:var(--cream)">
+        <a rel="nofollow" target="_blank" href="https://github.com/Laraue" class="tool-card" style="background:var(--cream)">
           <div class="tool-logo" style="background:#f7f4ee">
             <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="48" height="48" fill="#f7f4ee"/>
@@ -427,16 +427,16 @@ useSchemaOrg([
     <section class="transparency-section" id="contact" aria-labelledby="trust-heading">
       <div class="transparency-inner">
         <div>
-          <div class="section-label reveal" data-i18n="trust_label">{{ t('trust_label') }}</div>
-          <h2 class="section-title reveal" id="trust-heading">{{ t('trust_title_1') }}<br>{{ t('trust_title_2') }}</h2>
-          <ul class="transparency-pledges reveal">
+          <div class="section-label" data-i18n="trust_label">{{ t('trust_label') }}</div>
+          <h2 class="section-title" id="trust-heading">{{ t('trust_title_1') }}<br>{{ t('trust_title_2') }}</h2>
+          <ul class="transparency-pledges">
             <li class="pledge-item"><div class="pledge-check" aria-hidden="true"><LNavIcon name="check" /></div><div class="pledge-text"><strong data-i18n="p1t">{{ t('p1t') }}</strong><span data-i18n="p1d">{{ t('p1d') }}</span></div></li>
             <li class="pledge-item"><div class="pledge-check" aria-hidden="true"><LNavIcon name="check" /></div><div class="pledge-text"><strong data-i18n="p2t">{{ t('p2t') }}</strong><span data-i18n="p2d">{{ t('p2d') }}</span></div></li>
             <li class="pledge-item"><div class="pledge-check" aria-hidden="true"><LNavIcon name="check" /></div><div class="pledge-text"><strong data-i18n="p3t">{{ t('p3t') }}</strong><span data-i18n="p3d">{{ t('p3d') }}</span></div></li>
             <li class="pledge-item"><div class="pledge-check" aria-hidden="true"><LNavIcon name="check" /></div><div class="pledge-text"><strong data-i18n="p4t">{{ t('p4t') }}</strong><span data-i18n="p4d">{{ t('p4d') }}</span></div></li>
           </ul>
         </div>
-        <div class="reveal">
+        <div>
           <div class="founder-card">
             <div class="founder-card-top">
               <div class="founder-avatar-wrap" aria-hidden="true">
@@ -491,15 +491,14 @@ useSchemaOrg([
 .hero-inner{position:relative;z-index:1;max-width:1160px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:28px}
 .hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--accent)}
-.hero-title{font-family:var(--serif);font-size:clamp(36px,4.5vw,60px);line-height:1.08;letter-spacing:-.5px;color:var(--ink);margin-bottom:24px;animation:fadeUp .8s .1s ease both}
+.hero-title{font-family:var(--serif);font-size:clamp(36px,4.5vw,60px);line-height:1.08;letter-spacing:-.5px;color:var(--ink);margin-bottom:24px;}
 .hero-title em{font-style:italic;color:var(--accent)}
-.hero-sub{font-size:18px;color:var(--muted);line-height:1.65;max-width:440px;margin-bottom:40px;font-weight:300;animation:fadeUp .8s .2s ease both}
-.hero-actions{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
+.hero-sub{font-size:18px;color:var(--muted);line-height:1.65;max-width:440px;margin-bottom:40px;font-weight:300;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
 .btn-primary{background:var(--color-accent);color:#fff;padding:12px 24px;border-radius:var(--radius-control);text-decoration:none;font-weight:600;font-size:15px;letter-spacing:-.01em;transition:background .2s,transform .15s,box-shadow .2s;}
 .btn-primary:hover{background:var(--accent-mid);transform:translateY(-1px)}
 .btn-secondary{background:transparent;color:var(--ink);padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:500;font-size:15px;border:1px solid var(--border);transition:border-color .2s,background .2s,transform .15s}
 .btn-secondary:hover{border-color:var(--ink);background:var(--cream);transform:translateY(-2px)}
-.hero-visual{animation:fadeUp .9s .25s ease both}
 /* product card */
 .product-card{background:var(--color-surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(16,24,40,.1),0 2px 8px rgba(16,24,40,.06)}
 .product-card-header{background:var(--ink);padding:12px 18px;display:flex;align-items:center;gap:10px}

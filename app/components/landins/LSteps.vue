@@ -23,7 +23,7 @@ const isIconName = (icon: string) => /^[a-z]+$/.test(icon)
   <LSection class="how" :pre-title="preTitle" :title="title" :post-title="postTitle" type="light">
     <div class="how-inner" :style="{ '--steps-count': steps.length }">
       <div class="how-steps">
-        <div v-for="(step, i) in steps" class="how-step reveal">
+        <div v-for="(step, i) in steps" class="how-step">
           <div class="how-step-num">{{ i + 1 }}</div>
           <div class="how-step-icon" v-if="step.icon" :class="{ 'how-step-icon-svg': isIconName(step.icon) }">
             <LNavIcon v-if="isIconName(step.icon)" :name="step.icon" />

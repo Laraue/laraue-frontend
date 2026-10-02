@@ -24,7 +24,7 @@ const isIconName = (icon: string) => /^[a-z]+$/.test(icon)
 <template>
   <LSection class="features" :pre-title="preTitle" :postTitle="postTitle" :title="title" :type="type" :class="type">
     <div class="features-grid">
-      <nuxt-link class="feat-cell reveal" :to="feature.link" v-for="(feature, index) in features" :style="{ animationDelay: `min(calc(var(--anim-stagger-sm) * ${index}), calc(var(--anim-stagger-sm) * 8))` }">
+      <nuxt-link class="feat-cell" :to="feature.link" v-for="(feature, index) in features">
         <div class="feat-icon" :class="{ 'feat-icon-svg': isIconName(feature.icon) }">
           <LNavIcon v-if="isIconName(feature.icon)" :name="feature.icon" />
           <template v-else>{{ feature.icon }}</template>

@@ -49,13 +49,3 @@ body{
     :root{--sidebar-w:0px}
 }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-
-.reveal{opacity:0}
-.reveal.is-visible{animation:fadeUp var(--anim-duration) var(--anim-ease) both}
-@media(prefers-reduced-motion:reduce){
-    .reveal{opacity:1;animation:none}
-}
-@media(prefers-reduced-motion:reduce){
-    .platform-badges,.hero-eyebrow,.hero-title,.hero-sub,.hero-actions,.hero-stats,.hero-visual,.hero-quick-links{animation:none!important;opacity:1!important;transform:none!important}
-}

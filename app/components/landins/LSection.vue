@@ -12,9 +12,9 @@ defineProps<{
   <section class="section" :class="type">
     <div class="section-inner" :class="{ horizontal: horizontal }">
       <div>
-        <div class="section-label reveal" v-if="preTitle">{{ preTitle }}</div>
-        <h2 class="section-title reveal">{{ title }}</h2>
-        <p class="section-sub reveal">{{ postTitle }}</p>
+        <div class="section-label" v-if="preTitle">{{ preTitle }}</div>
+        <h2 class="section-title">{{ title }}</h2>
+        <p class="section-sub">{{ postTitle }}</p>
       </div>
       <slot />
     </div>

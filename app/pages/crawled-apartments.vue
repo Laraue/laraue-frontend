@@ -338,19 +338,19 @@ useSchemaOrg([
     <!-- TECH STACK -->
     <LSection type="cream" :pre-title="t('tech_label')"  :title="t('tech_title')" :post-title="t('tech_sub')">
       <div class="tech-grid">
-        <div class="tech-card reveal">
+        <div class="tech-card">
           <div class="tech-card-icon"><LNavIcon name="bot" /></div>
           <h3 class="tech-card-name">Ollama</h3>
           <p class="tech-card-desc">{{ t('tc1') }}</p>
           <nuxt-link to="https://ollama.ai" class="tech-card-link" target="_blank" rel="noopener">{{ t('tc_learn') }}</nuxt-link>
         </div>
-        <div class="tech-card reveal">
+        <div class="tech-card">
           <div class="tech-card-icon"><LNavIcon name="globe" /></div>
           <h3 class="tech-card-name">Laraue.Crawler</h3>
           <p class="tech-card-desc">{{ t('tc2') }}</p>
           <nuxt-link :to="localePath('/blog/projects/crawler')" class="tech-card-link">{{ t('tc_project') }}</nuxt-link>
         </div>
-        <div class="tech-card reveal">
+        <div class="tech-card">
           <div class="tech-card-icon"><LNavIcon name="code" /></div>
           <h3 class="tech-card-name">ASP.NET Core + PostgreSQL</h3>
           <p class="tech-card-desc">{{ t('tc3') }}</p>
@@ -361,7 +361,7 @@ useSchemaOrg([
 
     <!-- ARTICLE CALLOUT -->
     <LSection type="light" :pre-title="t('art_label')" :title="t('art_title')" :post-title="t('art_sub')" horizontal>
-      <div class="reveal">
+      <div>
         <nuxt-link :to="localePath('/blog/projects/real-estate')" class="article-card">
           <div class="article-card-strip"></div>
           <div class="article-card-body">

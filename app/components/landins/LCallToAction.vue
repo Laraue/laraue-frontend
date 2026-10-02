@@ -10,10 +10,10 @@
   <!-- ══ CTA ══ -->
   <section class="cta-section">
     <div class="cta-inner">
-      <div class="cta-label reveal">{{ preTitle }}</div>
-      <h2 class="cta-title reveal">{{ title }}</h2>
-      <p class="cta-sub reveal">{{ postTitle }}</p>
-      <div class="cta-actions reveal">
+      <div class="cta-label">{{ preTitle }}</div>
+      <h2 class="cta-title">{{ title }}</h2>
+      <p class="cta-sub">{{ postTitle }}</p>
+      <div class="cta-actions">
         <slot></slot>
       </div>
     </div>
@@ -30,10 +30,6 @@
 .cta-sub{font-size:17px;color:var(--color-muted);font-weight:400;line-height:1.6;margin-bottom:40px}
 .cta-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
 
-.cta-label.reveal.is-visible{animation:fadeUp var(--anim-duration) 0s var(--anim-ease) both}
-.cta-title.reveal.is-visible{animation:fadeUp var(--anim-duration) var(--anim-stagger-sm) var(--anim-ease) both}
-.cta-sub.reveal.is-visible{animation:fadeUp var(--anim-duration) calc(var(--anim-stagger-sm) * 2) var(--anim-ease) both}
-.cta-actions.reveal.is-visible{animation:fadeUp var(--anim-duration) calc(var(--anim-stagger-sm) * 3) var(--anim-ease) both}
 
 @media(max-width:720px){
   .cta-section{padding:60px 22px}

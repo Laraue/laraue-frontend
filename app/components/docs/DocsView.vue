@@ -44,7 +44,7 @@ export interface Article {
 </i18n>
 
 <template>
-  <LHero disable-reveal-animation :title="title" :subTitle="subTitle" />
+  <LHero :title="title" :subTitle="subTitle" />
   <div class="blog-tabs" role="tablist">
     <router-link :to="localePathFromSegments(item.path)" v-for="item in blogState.otherItems" active-class="active" class="blog-tab">
       {{ item.title }}
@@ -59,7 +59,7 @@ export interface Article {
     <div class="post-grid" id="postGrid" aria-live="polite">
       <nuxt-link
           v-for="article in articles"
-          :to="localePathFromSegments(article.path)" class="post-card reveal">
+          :to="localePathFromSegments(article.path)" class="post-card">
         <div class="post-thumb type-article"></div>
         <div class="post-body">
           <div class="post-meta">
