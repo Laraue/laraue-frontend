@@ -62,6 +62,8 @@ export interface BlogSection {
 
 export interface Tag {
     key: string;
+    // The number of pages with the tag.
+    count: number;
 }
 
 export interface PaginationData<T> {

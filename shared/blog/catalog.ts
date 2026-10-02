@@ -303,8 +303,14 @@ export const createBlogCatalog = (files: Record<string, string>) => {
         },
 
         tags(locale: BlogLocale): Tag[] {
-            const keys = new Set(localeEntries(locale).flatMap((entry) => entry.tags ?? []))
-            return [...keys].toSorted((left, right) => left.localeCompare(right)).map((key) => ({ key }))
+            const counts = new Map<string, number>()
+            for (const tag of localeEntries(locale).flatMap((entry) => entry.tags ?? [])) {
+                counts.set(tag, (counts.get(tag) ?? 0) + 1)
+            }
+
+            return [...counts]
+                .map(([key, count]) => ({ count, key }))
+                .toSorted((left, right) => left.key.localeCompare(right.key))
         },
 
         // The title and the description of a page, for its preview image.

@@ -89,8 +89,8 @@ test('builds the menu and the tags of a language', () => {
         { count: 1, icon: 'C', key: 'projects', path: ['blog', 'projects'], title: 'Projects' },
     ])
     assert.deepEqual(catalog.categories('ru').map((item) => [item.title, item.count]), [['Все', 1], ['Статьи', 1], ['Проекты', 0]])
-    assert.deepEqual(catalog.tags('en'), [{ key: 'a' }, { key: 'b' }])
-    assert.deepEqual(catalog.tags('ru'), [{ key: 'а' }])
+    assert.deepEqual(catalog.tags('en'), [{ count: 2, key: 'a' }, { count: 2, key: 'b' }])
+    assert.deepEqual(catalog.tags('ru'), [{ count: 1, key: 'а' }])
 })
 
 test('gives the texts of the page of a list', () => {
