@@ -6,10 +6,7 @@ import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const PER_PAGE = 16;
 
-const articles = ref<ItemListItem[]>([])
-const hasNextPage = ref(false)
-const hasPreviousPage = ref(false)
-const { getArticles } = useBlogApi()
+const { getArticles } = useBlogContent()
 
 const { locale } = useI18n();
 const route = useRoute();
@@ -22,29 +19,26 @@ definePageMeta({
 
 const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 
-const loadPage = async () => {
-  const result = await getArticles(locale.value, undefined, page.value - 1, PER_PAGE);
-  articles.value = result.data
-  hasNextPage.value = result.hasNextPage
-  hasPreviousPage.value = result.hasPreviousPage
-}
+const { data: result } = await useAsyncData(
+  () => `blog-articles-${locale.value}-${page.value}`,
+  () => getArticles(locale.value, undefined, page.value - 1, PER_PAGE),
+  { watch: [locale, page] },
+)
+
+const articles = computed(() => result.value?.data ?? [])
+const hasNextPage = computed(() => result.value?.hasNextPage ?? false)
+const hasPreviousPage = computed(() => result.value?.hasPreviousPage ?? false)
 
 const goToPage = (newPage: number) => {
   router.push({ query: { ...route.query, page: newPage === 1 ? undefined : String(newPage) } })
 }
-
-watch(page, async () => {
-  await loadPage();
-})
-
-await loadPage();
 
 const computedArticles = computed<Article[]>(() => articles.value
     .map((article) => {
       return {
         fileName: article.fileName,
         description: article.description,
-        tags: article.projects,
+        tags: article.projects ?? undefined,
         title: article.title,
         contentLength: article.length,
         path: article.path,
@@ -53,16 +47,32 @@ const computedArticles = computed<Article[]>(() => articles.value
     }))
 
 const { t } = useI18n()
-const title = computed(() => t('all'))
-const description = computed(() => t('seoDescription'))
-const sub = computed(() => t('sub'))
+const { getSection } = useBlogContent()
+const { data: section } = await useAsyncData(
+  () => `blog-section-articles-${locale.value}`,
+  () => getSection(locale.value, 'articles'),
+  { watch: [locale] },
+)
+const title = computed(() => section.value?.seoTitle)
+const description = computed(() => section.value?.seoDescription)
+const sub = computed(() => section.value?.subTitle)
+const { getBlogOgImageUrl } = usePathUtil()
+const imageUrl = getBlogOgImageUrl()
 
 useSeoMeta({
-  title: title.value,
-  ogTitle: title.value,
-  description: description.value,
-  ogDescription: description.value,
+  title: title,
+  ogTitle: title,
+  description: description,
+  ogDescription: description,
   ogType: "website",
+  ogImage: imageUrl,
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogImageType: "image/png",
+  ogLocale: locale,
+  twitterCard: "summary_large_image",
+  twitterTitle: title,
+  twitterImage: imageUrl,
 })
 
 useSchemaOrg([
@@ -80,17 +90,11 @@ useSchemaOrg([
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "In-depth technical articles on C# and .NET — building web scrapers with PuppeteerSharp, integrating Ollama for local AI inference, real estate ranking systems, and more.",
-    "all": "Technical Articles — C# .NET Architecture & AI Integration",
-    "sub": "Architecture decisions, implementation deep-dives, and honest accounts of what went wrong. Written by engineers who shipped the code.",
     "bc_home": "Home",
     "bc_blog": "Blog",
     "bc_articles": "Articles"
   },
   "ru": {
-    "all": "Технические статьи — архитектура C# .NET и интеграция ИИ",
-    "seoDescription": "Глубокие технические статьи о C# и .NET — парсинг сайтов через PuppeteerSharp, интеграция Ollama для локального ИИ-инференса, системы ранжирования недвижимости и не только.",
-    "sub": "Архитектурные решения, разборы реализаций и честные истории о том, что пошло не так. Написано инженерами, которые сами создавали этот код.",
     "bc_home": "Главная",
     "bc_blog": "Блог",
     "bc_articles": "Статьи"

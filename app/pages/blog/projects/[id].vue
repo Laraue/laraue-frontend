@@ -1,16 +1,24 @@
 <script setup lang="ts">
 import DocView from "~/components/docs/DocView.vue";
-import {useBlogApi} from "~/composables/blogApi";
+import {useBlogContent} from "~/composables/blogContent";
 import {useSchemaOrg} from "@unhead/schema-org/vue";
 import {defineArticle, defineBreadcrumb} from "@unhead/schema-org";
 
 const { getBlogOgImageUrl } = usePathUtil();
-const { getProject } = useBlogApi();
+const { getProject } = useBlogContent();
 const { locale, t } = useI18n();
 const localePath = useLocalePath();
 const route = useRoute();
 
-const project = await getProject(locale.value, route.params.id as string);
+const id = route.params.id as string;
+const { data, error } = await useAsyncData(
+  `blog-project-${locale.value}-${id}`,
+  () => getProject(locale.value, id),
+);
+if (!data.value) {
+  throw createError({ statusCode: error.value?.statusCode ?? 404, statusMessage: 'Project not found', fatal: true });
+}
+const project = data.value;
 definePageMeta({
   layout: 'blog',
 })
@@ -19,9 +27,10 @@ const imageUrl = getBlogOgImageUrl();
 const { author } = useConstants()
 
 useSeoMeta({
-  title: project.title,
-  ogTitle: project.title,
-  description: project.description,
+  title: project.seoTitle,
+  ogTitle: project.seoTitle,
+  description: project.seoDescription,
+  ogDescription: project.seoDescription,
   ogType: "article",
   articlePublishedTime: project.createdAtIso,
   articleModifiedTime: project.updatedAtIso,
@@ -31,7 +40,7 @@ useSeoMeta({
   ogLocale: locale.value,
   ogImageType: "image/png",
   twitterCard: "summary_large_image",
-  twitterTitle: project.title,
+  twitterTitle: project.seoTitle,
   twitterImage: imageUrl,
   robots: 'index, follow, max-image-preview:large',
 })

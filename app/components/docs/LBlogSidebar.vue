@@ -5,8 +5,17 @@ const localePath = useLocalePath();
 const boardsUrl = useBoardsUrl();
 
 const {locale, t} = useI18n()
-const { getTags } = useBlogApi()
-const tags = await getTags(locale.value)
+const tagLabel = useTagLabel()
+const { getTags } = useBlogContent()
+const { data: tags } = await useAsyncData(
+  () => `blog-tags-${locale.value}`,
+  () => getTags(locale.value),
+  { watch: [locale] },
+)
+
+// Alphabetical by what the visitor reads, so the Russian labels are in the Russian order.
+const sortedTags = computed(() =>
+  [...(tags.value ?? [])].sort((left, right) => tagLabel(left.key).localeCompare(tagLabel(right.key), locale.value)))
 
 const route = useRoute()
 const isTagActive = (tag: string) => {
@@ -38,10 +47,10 @@ const isTagActive = (tag: string) => {
       <div class="filter-panel-title" data-i18n="filter_tags">{{ t('filterTags') }}</div>
       <div class="tag-list">
         <nuxt-link :to="localePath({ name: 'blog', query: isTagActive(tag.key) ? {} : {tag: tag.key} })"
-          v-for="tag in tags"
+          v-for="tag in sortedTags"
           class="tag-filter-btn"
           :class="{ active: route.query['tag'] === tag.key }">
-          {{ tag.key }}
+          {{ tagLabel(tag.key) }}<span class="tag-count">{{ tag.count }}</span>
         </nuxt-link>
       </div>
     </div>
@@ -61,6 +70,7 @@ const isTagActive = (tag: string) => {
 .filter-panel-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 .tag-list{display:flex;flex-wrap:wrap;gap:5px}
 .tag-filter-btn{font-size:11px;font-weight:600;background:var(--cream);color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:4px 9px;cursor:pointer;transition:background .15s,color .15s,border-color .15s;font-family:var(--sans);text-decoration:none;}
+.tag-count{margin-left:5px;font-size:10px;font-weight:700;opacity:.65}
 .tag-filter-btn:hover{background:var(--border);color:var(--ink)}
 .tag-filter-btn.active{background:var(--color-accent);color:#fff;border-color:var(--color-accent)}
 </style>

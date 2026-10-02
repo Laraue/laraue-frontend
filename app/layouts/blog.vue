@@ -1,26 +1,22 @@
 <script setup lang="ts">
-import {onMounted} from "vue";
-import {useBlogApi} from "~/composables/blogApi";
+import {useBlogContent} from "~/composables/blogContent";
 import LMainContent from "~/components/ui/LMainContent.vue";
 import {useBlogState} from "~/composables/blogState";
 import type {LinksSection} from "~/components/ui/LSidebar.vue";
 
-const { getCategories } = useBlogApi();
+const { getCategories } = useBlogContent();
 const { locale, t } = useI18n()
 const { setCategories, blogState } = useBlogState()
 
-watch(locale, () => {
-  loadData();
-})
+const { data: categories } = await useAsyncData(
+  () => `blog-categories-${locale.value}`,
+  () => getCategories(locale.value),
+  { watch: [locale] },
+)
 
-onMounted(() => {
-  loadData();
+watchEffect(() => {
+  setCategories(categories.value ?? []);
 })
-
-const loadData = async () => {
-  const categories = await getCategories(locale.value);
-  setCategories(categories);
-}
 
 const linksSections = computed<LinksSection[]>(() => {
   return [

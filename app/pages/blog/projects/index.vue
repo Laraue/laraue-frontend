@@ -2,7 +2,7 @@
 
 import DocsView, {type Article} from "~/components/docs/DocsView.vue";
 import {computed, ref, watch} from "vue";
-import {useBlogApi} from "~/composables/blogApi";
+import {useBlogContent} from "~/composables/blogContent";
 import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 definePageMeta({
@@ -15,36 +15,30 @@ const { locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const localePath = useLocalePath();
-const { getProjects } = useBlogApi();
+const { getProjects } = useBlogContent();
 
 const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 
-const projects = ref<ItemListItem[]>([]);
-const hasNextPage = ref(false)
-const hasPreviousPage = ref(false)
-const loadPage = async () => {
-  const result = await getProjects(locale.value, page.value - 1, PER_PAGE);
-  projects.value = result.data
-  hasNextPage.value = result.hasNextPage
-  hasPreviousPage.value = result.hasPreviousPage
-}
+const { data: result } = await useAsyncData(
+  () => `blog-projects-${locale.value}-${page.value}`,
+  () => getProjects(locale.value, page.value - 1, PER_PAGE),
+  { watch: [locale, page] },
+)
+
+const projects = computed(() => result.value?.data ?? [])
+const hasNextPage = computed(() => result.value?.hasNextPage ?? false)
+const hasPreviousPage = computed(() => result.value?.hasPreviousPage ?? false)
 
 const goToPage = (newPage: number) => {
   router.push({ query: { ...route.query, page: newPage === 1 ? undefined : String(newPage) } })
 }
-
-watch(page, async () => {
-  await loadPage();
-})
-
-await loadPage();
 
 const computedItems = computed<Article[]>(() => (projects.value ?? [])
     .map((project) => {
       return {
         fileName: project.fileName,
         description: project.description,
-        tags: project.tags,
+        tags: project.tags ?? undefined,
         title: project.title,
         contentLength: project.length,
         path: project.path,
@@ -53,9 +47,17 @@ const computedItems = computed<Article[]>(() => (projects.value ?? [])
     }))
 
 const { t } = useI18n()
-const title = computed(() => t('projects'))
-const description = computed(() => t('seoDescription'))
-const sub = computed(() => t('sub'))
+const { getSection } = useBlogContent()
+const { data: section } = await useAsyncData(
+  () => `blog-section-projects-${locale.value}`,
+  () => getSection(locale.value, 'projects'),
+  { watch: [locale] },
+)
+const title = computed(() => section.value?.seoTitle)
+const description = computed(() => section.value?.seoDescription)
+const sub = computed(() => section.value?.subTitle)
+const { getBlogOgImageUrl } = usePathUtil()
+const imageUrl = getBlogOgImageUrl()
 
 useSeoMeta({
   title: title,
@@ -63,6 +65,14 @@ useSeoMeta({
   description: description,
   ogDescription: description,
   ogType: "website",
+  ogImage: imageUrl,
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogImageType: "image/png",
+  ogLocale: locale,
+  twitterCard: "summary_large_image",
+  twitterTitle: title,
+  twitterImage: imageUrl,
 })
 
 useSchemaOrg([
@@ -79,17 +89,11 @@ useSchemaOrg([
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "Open source C# and .NET projects — EF Core trigger library, Markdown CMS backend, Telegram bot framework, web scraping library, PdfQL interpreter, and AI apartment search.",
-    "projects": "Open Source .NET Projects — Libraries, Bots & AI Tools",
-    "sub": "Libraries we built because the existing options weren't good enough. All open source, all actively maintained.",
     "bc_home": "Home",
     "bc_blog": "Blog",
     "bc_projects": "Projects"
   },
   "ru": {
-    "projects": "Open Source .NET проекты — библиотеки, боты и ИИ",
-    "seoDescription": "Open source проекты на C# и .NET — библиотека триггеров EF Core, CMS-бэкенд для Markdown, Telegram-боты, библиотека парсинга, интерпретатор PdfQL и ИИ-поиск квартир.",
-    "sub": "Libraries we built because the existing options weren't good enough. All open source, all actively maintained.",
     "bc_home": "Главная",
     "bc_blog": "Блог",
     "bc_projects": "Проекты"
@@ -100,8 +104,8 @@ useSchemaOrg([
 <template>
   <docs-view
     v-if="projects"
-    :title=title
-    :subTitle=sub
+    :title="title"
+    :subTitle="sub"
     :articles="computedItems"
     :page="page"
     :has-next-page="hasNextPage"

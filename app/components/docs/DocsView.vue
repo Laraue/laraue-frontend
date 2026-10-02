@@ -5,6 +5,8 @@ import LBlogSidebar from "~/components/docs/LBlogSidebar.vue";
 import ReadTime from "~/components/docs/ReadTime.vue";
 import LContentTypeBadge from "~/components/docs/LContentTypeBadge.vue";
 import LPagination from "~/components/docs/LPagination.vue";
+const { t } = useI18n()
+const tagLabel = useTagLabel()
 const { blogState } = useBlogState()
 const { localePathFromSegments } = usePathUtil()
 
@@ -34,6 +36,13 @@ export interface Article {
 
 </script>
 
+<i18n lang="json">
+{
+  "en": { "read": "Read" },
+  "ru": { "read": "Читать" }
+}
+</i18n>
+
 <template>
   <LHero disable-reveal-animation :title="title" :subTitle="subTitle" />
   <div class="blog-tabs" role="tablist">
@@ -60,9 +69,9 @@ export interface Article {
           <div class="post-title">{{ article.title }}</div>
           <div class="post-excerpt">{{ article.description }}</div>
           <div class="post-tags">
-            <span v-for="tag in article.tags" class="post-tag-chip">{{ tag }}</span>
+            <span v-for="tag in article.tags" class="post-tag-chip">{{ tagLabel(tag) }}</span>
           </div>
-          <span class="post-read-link">Read &#8594;</span>
+          <span class="post-read-link">{{ t('read') }} &#8594;</span>
         </div>
       </nuxt-link>
       <LPagination

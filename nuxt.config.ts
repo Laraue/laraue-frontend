@@ -1,3 +1,6 @@
+import { createRequire } from 'node:module'
+import { fileURLToPath } from 'node:url'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 // Laraue brand icons live on the shared CDN, not in this repo.
 const iconsBaseUrl = 'https://laraue.com/static/images/icons/laraue-'
@@ -31,7 +34,24 @@ export default defineNuxtConfig({
     '~/assets/css/tokens.css',
     '~/assets/css/main.css',
   ],
+  nitro: {
+    // The blog (`content/blog`) is bundled with the server and read by `server/utils/blogCatalog`.
+    serverAssets: [
+      { baseName: 'blog', dir: fileURLToPath(new URL('./content/blog', import.meta.url)) },
+    ],
+    // The preview images renderer (`server/utils/ogImage`): the wasm of the rasterizer is imported
+    // as a module, and the wasm of the text shaper, which satori loads from its folder at run time,
+    // is added to the traced files of the build.
+    experimental: { wasm: true },
+    externals: {
+      traceInclude: [
+        createRequire(createRequire(import.meta.url).resolve('satori')).resolve('harfbuzzjs/hb.wasm'),
+      ],
+    },
+  },
   routeRules: {
+    // Data for the blog pages, not pages themselves.
+    '/blog-content/**': { headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
     '/': { prerender: true },
     '/crawled-apartments': { prerender: true },
     '/learn-language-bot': { prerender: true },
@@ -71,8 +91,13 @@ export default defineNuxtConfig({
     detectBrowserLanguage: false,
   },
   runtimeConfig: {
+    // The key of the IndexNow file in `public/` (NUXT_INDEX_NOW_KEY): the blog addresses are sent
+    // to the search engines after a start when it is set.
+    indexNowKey: '',
     public: {
-      blogBaseAddress: process.env.NUXT_PUBLIC_BLOG_BASE_ADDRESS || 'https://laraue.com/api/blog',
+      // The public address of the site (NUXT_PUBLIC_SITE_URL): the addresses of the blog feed and
+      // preview images are built from it.
+      siteUrl: 'https://laraue.com',
       markdownBaseAddress: process.env.NUXT_PUBLIC_MARKDOWN_BASE_ADDRESS || 'https://laraue.com/api/markdown-transpiler',
       imagesBaseAddress: 'https://laraue.com/static/images/'
     },

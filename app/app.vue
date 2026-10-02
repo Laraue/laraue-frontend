@@ -2,6 +2,7 @@
 import LFooter from "~/components/ui/LFooter.vue";
 import LNav from "~/components/ui/LNav.vue";
 import LCookieConsent from "~/components/ui/LCookieConsent.vue";
+import LScrollTop from "~/components/ui/LScrollTop.vue";
 </script>
 
 <template>
@@ -13,6 +14,7 @@ import LCookieConsent from "~/components/ui/LCookieConsent.vue";
   </div>
   <LFooter />
   <LCookieConsent />
+  <LScrollTop />
 </template>
 
 <i18n lang="json">

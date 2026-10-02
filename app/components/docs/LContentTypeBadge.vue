@@ -2,11 +2,26 @@
   defineProps({
     contentType: String,
   })
+
+  const { t } = useI18n()
 </script>
+
+<i18n lang="json">
+{
+  "en": {
+    "article": "Article",
+    "project": "Project"
+  },
+  "ru": {
+    "article": "Статья",
+    "project": "Проект"
+  }
+}
+</i18n>
 
 <template>
   <span class="post-type-badge" :class="[contentType]" data-i18n="type_article">
-    {{ contentType }}
+    {{ contentType === 'article' || contentType === 'project' ? t(contentType) : contentType }}
   </span>
 </template>
 

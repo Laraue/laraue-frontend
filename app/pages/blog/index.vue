@@ -2,7 +2,7 @@
 
 import DocsView, {type Article} from "../../components/docs/DocsView.vue";
 import {computed, ref, watch} from "vue";
-import {useBlogApi} from "~/composables/blogApi";
+import {useBlogContent} from "~/composables/blogContent";
 import {defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 definePageMeta({
@@ -11,24 +11,26 @@ definePageMeta({
 
 const PER_PAGE = 16;
 
-const items = ref<ItemListItem[]>([])
-const hasNextPage = ref(false)
-const hasPreviousPage = ref(false)
 const { locale } = useI18n();
 const route = useRoute();
 const router = useRouter();
 const localePath = useLocalePath();
 
-const { getFeed } = useBlogApi();
+const { getFeed } = useBlogContent();
 
 const page = computed(() => Math.max(1, Number(route.query.page) || 1));
 
-const loadPage = async () => {
-  const data = await getFeed(locale.value, route.query.tag as string, page.value - 1, PER_PAGE)
-  items.value = data.data
-  hasNextPage.value = data.hasNextPage
-  hasPreviousPage.value = data.hasPreviousPage
-}
+const tag = computed(() => typeof route.query.tag === 'string' ? route.query.tag : undefined);
+
+const { data: feed } = await useAsyncData(
+  () => `blog-feed-${locale.value}-${tag.value ?? ''}-${page.value}`,
+  () => getFeed(locale.value, tag.value, page.value - 1, PER_PAGE),
+  { watch: [locale, tag, page] },
+)
+
+const items = computed(() => feed.value?.data ?? [])
+const hasNextPage = computed(() => feed.value?.hasNextPage ?? false)
+const hasPreviousPage = computed(() => feed.value?.hasPreviousPage ?? false)
 
 const goToPage = (newPage: number) => {
   router.push({ query: { ...route.query, page: newPage === 1 ? undefined : String(newPage) } })
@@ -36,7 +38,6 @@ const goToPage = (newPage: number) => {
 
 const { t } = useI18n()
 
-await loadPage();
 const computedItems = computed<Article[]>(() => items.value
   .map((article) => {
     return {
@@ -50,16 +51,32 @@ const computedItems = computed<Article[]>(() => items.value
     }
   }))
 
-const title = computed(() => t('all'))
-const description = computed(() => t('seoDescription'))
-const subText = computed(() => t('sub'))
+const { getSection } = useBlogContent()
+const { data: section } = await useAsyncData(
+  () => `blog-section-blog-${locale.value}`,
+  () => getSection(locale.value, 'blog'),
+  { watch: [locale] },
+)
+const title = computed(() => section.value?.seoTitle)
+const description = computed(() => section.value?.seoDescription)
+const sub = computed(() => section.value?.subTitle)
+const { getBlogOgImageUrl } = usePathUtil()
+const imageUrl = getBlogOgImageUrl()
 
 useSeoMeta({
   title: title,
   ogTitle: title,
-  ogDescription: description,
   description: description,
+  ogDescription: description,
   ogType: "website",
+  ogImage: imageUrl,
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogImageType: "image/png",
+  ogLocale: locale,
+  twitterCard: "summary_large_image",
+  twitterTitle: title,
+  twitterImage: imageUrl,
 })
 
 useSchemaOrg([
@@ -71,16 +88,11 @@ useSchemaOrg([
   }),
 ])
 
-watch(() => route.query.tag, async () => {
+// A new filter starts from the first page.
+watch(tag, async () => {
   if (route.query.page) {
     await router.replace({ query: { ...route.query, page: undefined } })
-    return
   }
-  await loadPage();
-})
-
-watch(page, async () => {
-  await loadPage();
 })
 
 </script>
@@ -88,16 +100,10 @@ watch(page, async () => {
 <i18n lang="json">
 {
   "en": {
-    "all": "Laraue Software Blog — C# .NET Development & Open Source",
-    "seoDescription": "Technical articles and open source project writeups from Laraue Software — covering C#, .NET, EF Core, web scraping, Telegram bots, local AI with Ollama, and more.",
-    "sub": "Real code, real decisions, real tradeoffs. We write about what we build — .NET libraries, Telegram bots, AI integrations, and the architecture mistakes worth learning from.",
     "bc_home": "Home",
     "bc_blog": "Blog"
   },
   "ru": {
-    "all": "Блог Laraue Software — C# .NET open source разработка",
-    "seoDescription": "Технические статьи и описания open source проектов от Laraue Software — C#, .NET, EF Core, парсинг сайтов, Telegram-боты, локальный ИИ с Ollama и многое другое.",
-    "sub": "Реальный код, реальные решения, реальные компромиссы. Пишем о том, что строим — .NET библиотеки, Telegram-боты, интеграции с ИИ и архитектурные ошибки, на которых можно учиться.",
     "bc_home": "Главная",
     "bc_blog": "Блог"
   }
@@ -108,7 +114,7 @@ watch(page, async () => {
   <DocsView
     v-if="items"
     :title="title"
-    :subTitle="subText"
+    :subTitle="sub"
     :articles="computedItems"
     :page="page"
     :has-next-page="hasNextPage"

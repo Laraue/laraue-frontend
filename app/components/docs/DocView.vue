@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import type {ItemDetails} from "~/composables/blogApi";
 import ReadTime from "~/components/docs/ReadTime.vue";
 import LContentTypeBadge from "~/components/docs/LContentTypeBadge.vue";
 import LMobileToc from "~/components/docs/LMobileToc.vue";
@@ -10,6 +9,7 @@ defineProps<{
 }>()
 
 const { t } = useI18n()
+const tagLabel = useTagLabel()
 const localePath = useLocalePath()
 const { localePathFromSegments } = usePathUtil()
 const { getRouteSegments } = usePathUtil();
@@ -44,7 +44,8 @@ const backAddress = computed(() => {
     "next": "Next",
     "created": "Created",
     "updated": "Updated",
-    "relatedProjects": "Related projects"
+    "relatedProjects": "Related projects",
+    "project": "project"
   },
   "ru": {
     "onThisPage": "На этой странице",
@@ -53,7 +54,8 @@ const backAddress = computed(() => {
     "next": "Следующая",
     "created": "Создано",
     "updated": "Обновлено",
-    "relatedProjects": "Связанные проекты"
+    "relatedProjects": "Связанные проекты",
+    "project": "проект"
   }
 }
 </i18n>
@@ -82,7 +84,7 @@ const backAddress = computed(() => {
         <div class="toc-related-label" data-i18n="toc_related">{{ t('relatedProjects') }}</div>
         <nuxt-link v-for="project in item.projects" :to="localePath('/blog/projects/' + project)" class="toc-related-link">
           🚀 {{ project }}
-          <span class="toc-related-badge" data-i18n="badge_project">project</span>
+          <span class="toc-related-badge" data-i18n="badge_project">{{ t('project') }}</span>
         </nuxt-link>
       </template>
     </aside>
@@ -141,7 +143,7 @@ const backAddress = computed(() => {
         <!-- ARTICLE FOOTER -->
         <div class="article-footer">
           <div class="article-tags">
-            <nuxt-link v-for="tag in item.tags" :to="'/blog?tag=' + tag" class="article-tag">{{ tag }}</nuxt-link>
+            <nuxt-link v-for="tag in item.tags" :to="localePath({ name: 'blog', query: { tag } })" class="article-tag">{{ tagLabel(tag) }}</nuxt-link>
           </div>
           <div class="article-nav">
             <nuxt-link v-if="item.previousLink" :to="localePathFromSegments(item.previousLink.path)" class="article-nav-card next">

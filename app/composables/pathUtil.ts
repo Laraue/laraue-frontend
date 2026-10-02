@@ -26,8 +26,8 @@ export const usePathUtil = () => {
     })
 
     const getBlogOgImageUrl = () => {
-        const config = useRuntimeConfig()
-        const ogImageUrl = new URL(config.public.blogBaseAddress + "/images/og-image");
+        // The address is served by this app and is the one social networks already cache.
+        const ogImageUrl = new URL(`${useSiteUrl()}/api/blog/images/og-image`);
         const routeSegments = getRouteSegments()
         routeSegments.forEach(id => ogImageUrl.searchParams.append('articlePath', id));
         ogImageUrl.searchParams.set("languageCode", locale.value);
