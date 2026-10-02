@@ -84,15 +84,15 @@ watch(tag, async () => {
 <i18n lang="json">
 {
   "en": {
-    "all": "Laraue Software Blog — C# .NET Development & Open Source",
-    "seoDescription": "Technical articles and open source project writeups from Laraue Software — covering C#, .NET, EF Core, web scraping, Telegram bots, local AI with Ollama, and more.",
+    "all": "Laraue Blog — .NET, Nuxt, Telegram Bots and AI Workflow",
+    "seoDescription": "Notes from building Laraue Boards solo: .NET and Nuxt architecture, Telegram bots, AI-assisted development and open source libraries.",
     "sub": "Real code, real decisions, real tradeoffs. We write about what we build — .NET libraries, Telegram bots, AI integrations, and the architecture mistakes worth learning from.",
     "bc_home": "Home",
     "bc_blog": "Blog"
   },
   "ru": {
-    "all": "Блог Laraue Software — C# .NET open source разработка",
-    "seoDescription": "Технические статьи и описания open source проектов от Laraue Software — C#, .NET, EF Core, парсинг сайтов, Telegram-боты, локальный ИИ с Ollama и многое другое.",
+    "all": "Блог Laraue — .NET, Nuxt, Telegram-боты и работа с ИИ",
+    "seoDescription": "Заметки о том, как мы в одиночку строим Laraue Boards: архитектура на .NET и Nuxt, Telegram-боты, разработка с ИИ и open source библиотеки.",
     "sub": "Реальный код, реальные решения, реальные компромиссы. Пишем о том, что строим — .NET библиотеки, Telegram-боты, интеграции с ИИ и архитектурные ошибки, на которых можно учиться.",
     "bc_home": "Главная",
     "bc_blog": "Блог"

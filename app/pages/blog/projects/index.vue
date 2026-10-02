@@ -73,17 +73,17 @@ useSchemaOrg([
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "Open source C# and .NET projects — EF Core trigger library, Markdown CMS backend, Telegram bot framework, web scraping library, PdfQL interpreter, and AI apartment search.",
-    "projects": "Open Source .NET Projects — Libraries, Bots & AI Tools",
+    "seoDescription": "Laraue Boards and our open source .NET libraries: EF Core triggers, a web crawler, a Telegram bot framework, a PDF query language and more.",
+    "projects": "Projects — Laraue Boards, .NET Libraries and Telegram Bots",
     "sub": "Libraries we built because the existing options weren't good enough. All open source, all actively maintained.",
     "bc_home": "Home",
     "bc_blog": "Blog",
     "bc_projects": "Projects"
   },
   "ru": {
-    "projects": "Open Source .NET проекты — библиотеки, боты и ИИ",
-    "seoDescription": "Open source проекты на C# и .NET — библиотека триггеров EF Core, CMS-бэкенд для Markdown, Telegram-боты, библиотека парсинга, интерпретатор PdfQL и ИИ-поиск квартир.",
-    "sub": "Libraries we built because the existing options weren't good enough. All open source, all actively maintained.",
+    "projects": "Проекты — Laraue Boards, .NET библиотеки и Telegram-боты",
+    "seoDescription": "Laraue Boards и open source библиотеки .NET: триггеры EF Core, парсер сайтов, фреймворк для Telegram-ботов, язык запросов к PDF и другое.",
+    "sub": "Библиотеки, которые мы написали, потому что существующие варианты нас не устроили. Всё с открытым кодом и активно поддерживается.",
     "bc_home": "Главная",
     "bc_blog": "Блог",
     "bc_projects": "Проекты"

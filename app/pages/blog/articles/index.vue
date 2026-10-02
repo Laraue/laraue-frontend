@@ -74,16 +74,16 @@ useSchemaOrg([
 <i18n lang="json">
 {
   "en": {
-    "seoDescription": "In-depth technical articles on C# and .NET — building web scrapers with PuppeteerSharp, integrating Ollama for local AI inference, real estate ranking systems, and more.",
-    "all": "Technical Articles — C# .NET Architecture & AI Integration",
+    "seoDescription": "A series on building a Jira alternative solo — stack, Telegram bot and Mini App, deployment — plus deep dives on Ollama, crawlers and AI code review.",
+    "all": "Articles — Building a Task Tracker with .NET, Nuxt and AI",
     "sub": "Architecture decisions, implementation deep-dives, and honest accounts of what went wrong. Written by engineers who shipped the code.",
     "bc_home": "Home",
     "bc_blog": "Blog",
     "bc_articles": "Articles"
   },
   "ru": {
-    "all": "Технические статьи — архитектура C# .NET и интеграция ИИ",
-    "seoDescription": "Глубокие технические статьи о C# и .NET — парсинг сайтов через PuppeteerSharp, интеграция Ollama для локального ИИ-инференса, системы ранжирования недвижимости и не только.",
+    "all": "Статьи — как мы строим трекер задач на .NET, Nuxt и ИИ",
+    "seoDescription": "Серия о том, как в одиночку сделать альтернативу Jira: стек, Telegram-бот и Mini App, деплой — и разборы Ollama, парсеров и ревью кода от ИИ.",
     "sub": "Архитектурные решения, разборы реализаций и честные истории о том, что пошло не так. Написано инженерами, которые сами создавали этот код.",
     "bc_home": "Главная",
     "bc_blog": "Блог",
