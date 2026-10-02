@@ -53,6 +53,17 @@ test('has no page that was updated before it was created', () => {
     assert.deepEqual(wrong, [])
 })
 
+test('has the language of a project with a repository or a license', () => {
+    const wrong = blogLocales.flatMap((locale) =>
+        catalog
+            .entries(locale)
+            .filter((entry) => (entry.repository || entry.license) && !entry.language)
+            .map((entry) => `${locale}/${entry.fileName}`),
+    )
+
+    assert.deepEqual(wrong, [])
+})
+
 test('links the projects that exist', () => {
     const broken: string[] = []
     for (const locale of blogLocales) {

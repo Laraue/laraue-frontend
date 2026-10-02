@@ -5,7 +5,7 @@ seoDescription: Мы сделали MCP-сервер для Laraue Boards и к�
 type: article
 featured: true
 createdAt: 2026-10-02 10:31
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-02 10:31
 projects: [boards]
 tags: [devlog, ai, task-tracker, dotnet]
 ---

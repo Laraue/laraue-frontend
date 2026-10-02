@@ -83,6 +83,9 @@ useSeoMeta({
   twitterImage: imageUrl,
 })
 
+const { itemList } = useBlogSeo()
+useListIndexing(page, tag)
+
 useSchemaOrg([
   defineBreadcrumb({
     itemListElement: [
@@ -90,6 +93,7 @@ useSchemaOrg([
       { name: t('bc_blog') },
     ]
   }),
+  itemList(computedItems.value, page.value, PER_PAGE),
 ])
 
 // A new filter starts from the first page.

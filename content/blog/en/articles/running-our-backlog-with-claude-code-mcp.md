@@ -5,7 +5,7 @@ seoDescription: We built an MCP server for Laraue Boards, then used it with Clau
 type: article
 featured: true
 createdAt: 2026-10-02 10:31
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-02 10:31
 projects: [boards]
 tags: [devlog, ai, task-tracker, dotnet]
 ---

@@ -40,6 +40,10 @@ export interface BlogEntry {
     seoDescription: string | null;
     // A short name of a project (the title is a long headline).
     name: string | null;
+    // A project: its source code, the language it is written in and the license.
+    repository: string | null;
+    language: string | null;
+    license: string | null;
     // A series of articles: its name and the number of this article in it.
     series: string | null;
     part: number | null;
@@ -238,6 +242,9 @@ export const createBlogCatalog = (files: Record<string, string>) => {
             part: seriesPart(attributes, file),
             path: ['blog', section.folder, name],
             projects: list(attributes, 'projects'),
+            repository: text(attributes, 'repository') ?? null,
+            language: text(attributes, 'language') ?? null,
+            license: text(attributes, 'license') ?? null,
             section: section.folder,
             series: text(attributes, 'series') ?? null,
             seoDescription: text(attributes, 'seoDescription') ?? null,
@@ -382,6 +389,9 @@ export const createBlogCatalog = (files: Record<string, string>) => {
                 tags: entry.tags,
                 title: entry.title,
                 updatedAtIso: toLocalIso(entry.updatedAt),
+                ...(entry.repository && { repository: entry.repository }),
+                ...(entry.language && { language: entry.language }),
+                ...(entry.license && { license: entry.license }),
                 ...(series && { series }),
                 ...(previousLink && { previousLink }),
                 ...(nextLink && { nextLink }),

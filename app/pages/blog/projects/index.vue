@@ -75,6 +75,9 @@ useSeoMeta({
   twitterImage: imageUrl,
 })
 
+const { itemList } = useBlogSeo()
+useListIndexing(page)
+
 useSchemaOrg([
   defineBreadcrumb({
     itemListElement: [
@@ -83,6 +86,7 @@ useSchemaOrg([
       { name: t('bc_projects') },
     ]
   }),
+  itemList(computedItems.value, page.value, PER_PAGE),
 ])
 </script>
 

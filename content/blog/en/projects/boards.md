@@ -3,6 +3,8 @@ title: Laraue Boards
 type: project
 name: Laraue Boards
 tags: [task-tracker, telegram, open-source]
+repository: https://github.com/Laraue/Laraue.Apps.Boards
+language: C#
 description: Laraue Boards is an open source task tracker with Telegram integration. The product site is boards.laraue.com; this page is about the project and how we build it.
 seoTitle: Laraue Boards: How We Build It
 seoDescription: The story and source code of Laraue Boards, an open source task tracker with Telegram integration. The product itself is at boards.laraue.com.

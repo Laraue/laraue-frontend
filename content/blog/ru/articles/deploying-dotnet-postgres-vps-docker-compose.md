@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 6
 createdAt: 2026-06-22 12:00
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-07-07 09:00
 projects: [boards]
 tags: [devlog, dotnet, database, deployment]
 ---

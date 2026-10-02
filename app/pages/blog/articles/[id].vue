@@ -26,6 +26,7 @@ if (!data.value) {
 const article = data.value;
 const imageUrl = getBlogOgImageUrl();
 const { author } = useConstants()
+const { publisher, mainEntityOfPage, toUtc } = useBlogSeo()
 
 useSeoMeta({
   title: article.seoTitle,
@@ -51,11 +52,13 @@ useSchemaOrg([
     headline: article.title,
     description: article.description,
     image: imageUrl,
-    datePublished: article.createdAtIso,
-    dateModified: article.updatedAtIso,
+    datePublished: toUtc(article.createdAtIso),
+    dateModified: toUtc(article.updatedAtIso),
     inLanguage: locale.value,
     keywords: article.tags,
-    author: author
+    author: author,
+    publisher: publisher,
+    mainEntityOfPage: mainEntityOfPage(),
   }),
   defineBreadcrumb({
     itemListElement: [

@@ -3,6 +3,9 @@ title: Библиотека для парсинга сайтов на C# — с�
 type: project
 name: Laraue.Crawling
 tags: [dotnet, crawling, open-source]
+repository: https://github.com/win7user10/Laraue.Crawling
+language: C#
+license: MIT
 description: Laraue.Crawling — библиотека для веб-скрапинга на C#, поддерживающая статический HTML, JavaScript-рендеринг и XML. Опишите схему парсинга как типизированный C# код — без разбросанных селекторов и сложной поддержки.
 seoTitle: Библиотека парсинга сайтов на C#: типизированный краулер
 seoDescription: Laraue.Crawling — веб-скрапинг на C# для статического HTML, JavaScript-страниц и XML. Схема парсинга как типизированный код, без россыпи селекторов.

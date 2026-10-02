@@ -68,6 +68,10 @@ export interface ItemDetails {
     nextLink?: NeighborCard;
     tags: string[] | null;
     projects: string[] | null;
+    // For a project: the source code, the language and the license.
+    repository?: string;
+    language?: string;
+    license?: string;
     // The pages of the projects the page is related to (`projects` are their names).
     relatedProjects: NeighborCard[];
     series?: Series;

@@ -24,7 +24,8 @@ definePageMeta({
 })
 
 const imageUrl = getBlogOgImageUrl();
-const { author } = useConstants()
+const { author, publisher } = useConstants()
+const { mainEntityOfPage, pageUrl, toUtc } = useBlogSeo()
 
 useSeoMeta({
   title: project.seoTitle,
@@ -50,12 +51,29 @@ useSchemaOrg([
     headline: project.title,
     description: project.description,
     image: imageUrl,
-    dateModified: project.updatedAtIso,
-    datePublished: project.createdAtIso,
+    dateModified: toUtc(project.updatedAtIso),
+    datePublished: toUtc(project.createdAtIso),
     inLanguage: locale.value,
     keywords: project.tags,
-    author: author
+    author: author,
+    publisher: publisher,
+    mainEntityOfPage: mainEntityOfPage(),
   }),
+  // The source code of the project, when it is open.
+  ...(project.repository ? [{
+    '@type': 'SoftwareSourceCode',
+    '@id': `${pageUrl()}#source-code`,
+    name: project.title,
+    description: project.description,
+    url: pageUrl(),
+    codeRepository: project.repository,
+    programmingLanguage: project.language,
+    ...(project.license && { license: `https://spdx.org/licenses/${project.license}.html` }),
+    inLanguage: locale.value,
+    datePublished: toUtc(project.createdAtIso),
+    dateModified: toUtc(project.updatedAtIso),
+    author: { '@type': 'Person', ...author },
+  }] : []),
   defineBreadcrumb({
     itemListElement: [
       { name: t('bc_home'), item: localePath('/') },
