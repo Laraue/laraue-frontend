@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 12
 createdAt: 2026-06-26 15:00
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-04 15:00
 projects: [boards]
 tags: [devlog, dotnet, telegram]
 ---
@@ -16,6 +16,13 @@ tags: [devlog, dotnet, telegram]
 > The [previous article](telegram-bot-file-storage-stream) taught the bot to save single messages with media, but left a few threads open. A message can be edited — which should update the record that was already saved — or it can consist of several media at once, which should be saved into one issue. This article handles both cases.
 
 Until now the save process assumed a message in the chat never changes after the user sends it. Because of that, issues on the board stayed exactly as they were first saved, even after the user edited them in the chat. On top of that, sending a group of images in one message created a separate card for each media element in the group, instead of merging all the media into one issue — a consequence of how Telegram delivers media groups.
+
+In short, what we ended up with:
+
+- an edit is handled by the same code as the first save: the record is looked up by the pair "message id + chat" and either created or updated (`upsert`);
+- an album is assembled into one card without a timer: all the messages of the group are linked through a row in the database, and the card is created by the message of the group that reached processing first;
+- the bot reports success with a reaction: 👍 for a new record, ❤ for an updated one;
+- the bot cannot see a message deleted in the chat, so issues are deleted only in the web version.
 
 ## Handling the edited-message update
 
@@ -41,7 +48,7 @@ For the app there is no difference whether a message was edited or saved for the
 
 ## Implementing upsert for a new or edited message
 
-Messages from Telegram are processed one at a time, so the create-or-update logic works in terms of a single message. First, the [save service](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.TelegramServices/Services/Messages/TelegramSaveMessageService.cs) tries to find an existing record by its external identity — the Telegram message id plus the chat it came from. The pair matters, because a message id can repeat across different chats:
+Messages from Telegram are processed one at a time (why that is guaranteed is explained below, in the media group section), so the create-or-update logic works in terms of a single message. First, the [save service](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.TelegramServices/Services/Messages/TelegramSaveMessageService.cs) tries to find an existing record by its external identity — the Telegram message id plus the chat it came from. The pair matters, because a message id can repeat across different chats:
 
 ```csharp
 var savedMessage = await context.TelegramMessages
@@ -186,7 +193,32 @@ private async Task<long> GetOrCreateTelegramMediaGroupId(string groupId)
 }
 ```
 
-**Only the first message of the group creates the card.** The later messages of the group find the existing issue and attach their media to it. Because all of this lives in the database rather than an in-memory buffer, a server restart during group handling causes no problems — the parts already processed are saved, and the rest are added after the restart.
+**Only the first message of the group creates the card.** "First" here means the one that reached the database before the others, that is, the one that was processed first, not necessarily the one that was sent first. The later messages of the group find the existing issue and attach their media to it. This does not affect the result: the card text can be taken from any message of the group, as shown below.
+
+And the state lives in the database rather than in an in-memory buffer. If the server restarts in the middle of handling a group, nothing is lost: the parts already processed are saved, and the rest are processed after the restart. The next section explains why.
+
+### Why two parts of an album will not create two cards
+
+The scheme "the first message creates the card, the others join it" would break if two messages of an album were processed at the same time: both would find no card, and each would create its own. That does not happen thanks to the layer under the bot, our library [Laraue.Telegram.NET](https://github.com/Laraue/Laraue.Telegram.NET). Two mechanisms work there.
+
+**An updates queue in the database.** The updates received through long polling are first written to a table and removed from it only after successful handling. If the service stopped in the middle of handling, the update stays in the table and is processed after the start. This is also why `upsert` is required: such an update can arrive again. An update whose handling ended with an exception is moved to a separate table with the error text and the stack trace, and is not retried automatically.
+
+**A queue per chat.** Updates of one chat are handled strictly one at a time, while updates of different chats may run in parallel. It is implemented with a semaphore keyed by the chat id:
+
+```csharp
+private readonly KeyedSemaphoreSlim<long> _requestByChatIdSemaphore = new (1);
+
+// Different chat messages can be processes in parallel.
+using var requestSemaphore = await _requestByChatIdSemaphore
+    .WaitAsync(chatId.Value, cancellationToken)
+    .ConfigureAwait(false);
+```
+
+Because of that, the parts of one album cannot be handled at the same time: the order they arrive in is undefined, but only one runs at any moment. The first of them creates the card, and the others already see it.
+
+This guarantee has a limit: the semaphore lives in the memory of the process. While the bot runs as a single instance, that is enough. With several instances, a lock at the database level would be needed.
+
+### The non-standard cases
 
 What is left are the non-standard cases — where you have to think carefully about whether to handle them at all, and if so, how. Those spots carry `TODO`s, their implementation deferred until they become real problems. One of the harder cases we did decide to handle: the first message of the group, the one that held the text content, is deleted, and the user adds the text to a different message in the group. The code allows updating the issue's text from any message in the media group, to support cases like this:
 
@@ -217,6 +249,8 @@ There is a small idea for the future: delete when the user puts a particular emo
 ## Conclusions
 
 The bot now supports all the cases real users ran into: handling text and media, editing them, and handling message groups. The bot still just saves what it was sent and sets a reaction confirming successful handling, which now differs depending on whether it was a save or an edit. With this, the part of the product responsible for the bot's message handling is finished.
+
+> **What changed since then.** The code in the article is shown as of this part. Later the service got save modes (every message, or only on the `/save` command), support for group chats and limits on creating issues, and the single middleware was split in two: for private chats and for group chats. The ideas stayed the same: an `upsert` by the pair "message id + chat" and a media group assembled through the database rather than a timer.
 
 ## What comes next
 
