@@ -7,9 +7,15 @@ description: The journey of building a C# web scraping tool — from a no-code S
 seoTitle: From SaaS to Open Source: 5 Years Building a C# Web Scraper
 seoDescription: Building a C# web scraping tool: from a no-code SaaS with a schema builder to a typed open-source .NET library. Decisions, dead ends and lessons.
 createdAt: 2025-10-07
-updatedAt: 2026-10-03 10:24
+updatedAt: 2026-10-04 13:00
 ---
 Building a **C# web scraping tool** is a project I've come back to across five years and two fundamentally different approaches. What started as a no-code SaaS application — with a visual schema builder, user accounts, a wallet, and webhook delivery — eventually became [Laraue.Crawling](../projects/crawler): a strongly typed open-source .NET library. This article covers the full arc: the original idea, the first implementation's architecture and tests, where it broke down, and why abandoning the interface to build a library was the right call.
+
+In short, what came out of it:
+
+- the no-code builder never found its user: the people who built schemas could write selectors without it;
+- proxies and anti-bot protection turned out to be a separate problem that cannot be solved inside such a product;
+- a library where the schema is typed C# code, and static HTML, JavaScript pages and XML are parsed the same way, proved far more useful in real projects.
 
 ---
 
@@ -38,6 +44,10 @@ After many iterations, the application took shape as a three-step workflow:
 ![Choosing pages to crawl](https://laraue.com/static/images/blog/crawling/crawler-schema-pages.jpg "Step 2: Choose Pages")
 
 ![Running and downloading results](https://laraue.com/static/images/blog/crawling/crawler-schema-result.jpg "Step 3: Run and Get Result")
+
+How it looked in use is shown by an archive recording, [Web-crawler basic example](https://youtu.be/xJspsptfRag):
+
+<div style="position:relative;aspect-ratio:16/9;max-width:100%"><iframe src="https://www.youtube-nocookie.com/embed/xJspsptfRag" title="Web-crawler basic example" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
 
 ---
 
@@ -134,7 +144,7 @@ var reservedTransactions = await Task.WhenAll(
 await Task.WhenAll(reservedTransactions.Select(x => x.CommitAsync()));
 
 var balance = await _mediator.Send(new GetBalanceCommand(userId));
-Assert.Equal(49.8M, balance.Total); // 100 - sum(0.01..1.00) = 49.8 - 0.2 bonus = 49.8
+Assert.Equal(49.8M, balance.Total); // 100 + 0.30 bonus - 50.50 (the sum of 0.01..1.00) = 49.80
 ```
 
 This was MediatR-based, with WebSocket notifications pushed to the user's browser when balance changed — the `IUserWebSocketHandler` mock in the tests captured those calls.
@@ -225,12 +235,28 @@ The need to parse XML for one project prompted a small generalization. The selec
 
 ```csharp
 public class DocumentSchemaBuilder<TElement, TSelector, TModel>
+    where TSelector : Selector
     where TModel : class, ICrawlingModel
 {
 }
 ```
 
 This separated HTML CSS selector semantics from XPath semantics without duplicating any schema logic. The same builder pattern now works for RSS feeds, sitemaps, and XML API responses.
+
+### What it looks like now
+
+In the current library a schema is a model plus a builder. Property names are expressions instead of strings, so a typo in a name does not compile:
+
+```csharp
+public record ProductPage(string Title, string Price) : ICrawlingModel;
+
+var schema = new AngleSharpSchemaBuilder<ProductPage>()
+    .HasProperty(x => x.Title, "h1.title")
+    .HasProperty(x => x.Price, ".price")
+    .Build();
+```
+
+The full API is on the [project page](../projects/crawler).
 
 ---
 
