@@ -132,7 +132,9 @@ services:
     image: postgres:18-alpine
     container_name: postgres_db
     restart: always
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
     environment:
+      PGDATA: /var/lib/postgresql/data
       POSTGRES_USER: PostgresUser
       POSTGRES_PASSWORD: PostgresPass
     volumes:
@@ -143,6 +145,8 @@ services:
       - dockerapi-dev
     expose:
       - "5432"
+    ports:
+      - "5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U PostgresUser -d laraue_messages_board"]
       interval: 10s
@@ -159,7 +163,7 @@ A few comments on the decisions made here.
 
 **Limits are set on memory only.** Every service has a memory cap, but no CPU limit. The VPS has a single core, and manually set CPU limits in that situation mostly get in the way: services start much slower than they could, and the database works slower. Memory limits, on the other hand, are needed and act as good insurance: they keep one container from taking all the memory and provoking an `OutOfMemoryException` in a neighbouring service. So memory is limited explicitly, and the CPU is managed by the standard OS scheduler.
 
-**The healthcheck uses the endpoint from the previous article.** The `/_health` endpoint added to the host is polled with `curl`. The container is restarted if it stops responding. Postgres has its own liveness check through `pg_isready`. The bot waits for the database through `depends_on`, so it does not start before the DB is operational.
+**The healthcheck uses the endpoint from the previous article.** The `/_health` endpoint added to the host is polled with `curl`. The healthcheck does not restart the container by itself: it only marks it `unhealthy`, which shows in `docker ps`, while `restart: always` brings the container back if its process dies. Postgres has its own check through `pg_isready`. The bot waits for the database through `depends_on` with `condition: service_healthy`, so it does not start before the DB is ready to accept connections.
 
 **Postgres keeps its data through a bind mount.** The VPS directory `/home/laraue/postgres_data` is mapped into the container's `/var/lib/postgresql/data` directory, where Postgres saves its data. The data physically sits on the VPS disk and is visible in its file system.
 
@@ -181,9 +185,19 @@ max_wal_size = 2GB
 checkpoint_completion_target = 0.9
 random_page_cost = 1.1
 effective_io_concurrency = 200
+listen_addresses = '*'
+hba_file = '/etc/postgresql/pg_hba.conf'
 ```
 
 The two main parameters are `shared_buffers` (256 MB, memory for the data page cache) and `effective_cache_size` (768 MB, a hint to the planner about the available disk cache). `random_page_cost = 1.1` tells the planner that random reads are cheap — the recommended value for servers with SSDs. This is the standard pass of tuning Postgres to the RAM actually available — exactly what a managed database does for you. The configuration file sits next to the `docker-compose` file and is passed into the container like this: `./postgres.conf:/etc/postgresql/postgresql.conf`.
+
+Mounting the file is not enough. The official image starts Postgres with the config from the data directory and does not read `/etc/postgresql/` on its own, so the `command` line in the compose file above points Postgres at our file. The last two lines of the config do the rest: `listen_addresses = '*'` lets the bot reach the database from another container (with a custom config the default is localhost only), and `hba_file` makes Postgres use our `pg_hba.conf` instead of the one in the data directory. We mounted both files at first and did not notice they were ignored. To check that the settings are applied, run:
+
+```bash
+docker exec postgres_db psql -U PostgresUser -c "show config_file; show hba_file; show shared_buffers;"
+```
+
+The expected answer is the two files from `/etc/postgresql/` and `256MB`. If you see paths in `/var/lib/postgresql/data` and `128MB`, the defaults are still in use.
 
 ### Restricting database access with pg_hba.conf
 
@@ -194,10 +208,11 @@ Restricting public access to the database is good practice. Access to Postgres i
 local   all       all                   trust
 host    all       all   127.0.0.1/32    md5
 host    all       all   ServerIp/32     md5
+host    all       all   172.16.0.0/12   md5
 host    all       all   0.0.0.0/0       reject
 ```
 
-We trust local connections and one IP; all other connections are rejected. Postgres stops at the first matching rule, so the final reject line is a safety net for clarity.
+We trust local connections, the VPN address and the Docker networks (`172.16.0.0/12` is the range Docker takes bridge networks from, and the bot connects from there); all other connections are rejected. The database port is published on the host, so this file is what keeps the internet out. Postgres stops at the first matching rule, so the final reject line is a safety net for clarity.
 
 `ServerIp` here is the address of a self-hosted VPN running on the same server. We connect to it from the local machine (Amnezia with AmneziaWG), and while the VPN is active, the local computer looks like the trusted IP to Postgres — the database can be opened directly from a tool like DataGrip.
 
@@ -223,6 +238,8 @@ docker-compose up -d
 ```
 
 `build` builds the updated services, `up -d` recreates the containers that changed. For a situation where one person always does the deployment, this is quite simple and predictable.
+
+> **The deployment changed later.** This article describes the state at the time of this part. Now GitHub Actions does everything without manual commands: each service is uploaded by its own job, and after the upload only that service is restarted, with `docker compose build <service>` and `docker compose up -d --force-recreate <service>` over SSH.
 
 ## Conclusions
 
