@@ -1,20 +1,32 @@
 ---
 title: Аутентификация Telegram Mini App в .NET от и до — валидация initData, выпуск JWT и фронтенд на Nuxt
-description: Часть 8 цикла о разработке Telegram-таск-трекера в одиночку. Полный флоу аутентификации Telegram Mini App в реальном приложении на .NET и Nuxt — валидация подписи initData на сервере через HMAC-SHA256, выпуск и использование JWT-bearer, чтение пользователя из HttpContext и почему важен CORS.
+description: Часть 8 цикла о разработке Telegram-таск-трекера в одиночку. Как аутентифицировать пользователя Telegram Mini App в .NET и Nuxt: проверка хеша initData через HMAC-SHA256, отклонение устаревших данных по auth_date, выпуск и использование JWT, пользователь из HttpContext и почему важен CORS.
 seoTitle: Аутентификация Telegram Mini App в .NET: initData и JWT
-seoDescription: Часть 8: полный флоу аутентификации Mini App на .NET и Nuxt — проверка initData через HMAC-SHA256, выпуск JWT, пользователь из HttpContext и CORS.
+seoDescription: Как провалидировать initData Telegram Mini App в .NET: хеш HMAC-SHA256, проверка auth_date, JWT и пользователь из HttpContext. Часть 8.
 type: article
 featured: true
 series: architecture-first
 part: 8
 createdAt: 2026-06-24 08:00
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-03 17:50
 projects: [boards]
 tags: [devlog, dotnet, nuxt, telegram, authentication]
 ---
 
 > **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 8.
 > В [Предыдущей статье](deploy-nuxt-telegram-mini-app-https-nginx) мы добились того, что Mini App открывается внутри Telegram и отображает JSON с объектом пользователя. Но этим данным пока нельзя доверять. В этой статье мы делаем настоящую аутентификацию — добавляем бэкенд для приложения и проверку на корректность данных на его стороне.
+
+## Краткое содержание
+
+Как аутентифицировать пользователя Telegram Mini App в .NET:
+
+1. Mini App отправляет на ваш бэкенд `Telegram.WebApp.initData` — строку запроса, подписанную Telegram.
+2. Бэкенд собирает из полей строки (кроме `hash`) data-check-string, подписывает её через `HMAC-SHA256` ключом, полученным из токена бота, и сравнивает результат с полем `hash`.
+3. Проверяет, что `auth_date` свежий, чтобы старую строку нельзя было отправить повторно.
+4. Находит пользователя по Telegram ID (или регистрирует нового) и возвращает собственный JWT.
+5. Фронтенд сохраняет JWT и отправляет его как bearer в каждом запросе к API; дальше работают `[Authorize]` и `HttpContext.User`.
+
+Остальная часть статьи по шагам строит именно это в реальном приложении на .NET и Nuxt.
 
 В конце прошлой статьи прототип Mini App начал открываться и показывать объект пользователя из init data, который Telegram инжектит в приложение. Однако эти данные пока нельзя было использовать. Кто угодно мог подсунуть приложению поддельную строку init data, и приложению необходимо убедиться в её достоверности. Чтобы сделать её валидацию, приложению необходимо для начала добавить отсутствующий ранее бэкенд.
 
@@ -86,7 +98,7 @@ app.Run();
 
 `ExceptionHandleMiddleware` — кастомный middleware из нашей общей сборки [Laraue.Core](https://github.com/Laraue/Laraue.Core), который автоматически маппит веб-исключения библиотеки на HTTP-коды. Если в коде выбрасывается необработанное исключение `BadRequestException` — клиенту возвращается ошибка `400`, `ForbiddenException` превращается в `403`, и так далее.
 
-## Аутентификация пользователя по init data из Telegram Mini App
+## Валидация init data Telegram Mini App и вход пользователя
 
 Прежде чем переходить к коду — определим последовательность шагов при логине из Mini App:
 
@@ -157,7 +169,7 @@ runtimeConfig: {
 }
 ```
 
-### Шаг 3: бэкенд валидирует init data
+### Шаг 3: бэкенд валидирует initData (хеш и auth_date)
 
 Перейдем к серверной части. Фронтенд отправил на нее строку `initData` — это Encoded строка с данными пользователя с подписью Telegram. Задача бэкенда — используя ключ от бота проверить, правильная ли установлена подпись и вернуть bearer токен для авторизации.
 
@@ -167,20 +179,25 @@ runtimeConfig: {
 
 ```csharp
 [ApiController]
-[Route("api/auth")]
-public class TelegramAuthController(ITelegramAuthService authService) : ControllerBase
+[Route("/api/user")]
+public class TelegramAuthController(
+    ITelegramAuthService authService,
+    IWebHostEnvironment environment)
+    : ControllerBase
 {
-    [HttpPost("mini-app")]
-    public Task<string> AuthenticateViaMiniApp(
+    [HttpPost("auth-via-mini-app")]
+    public async Task<string> Authenticate(
         [FromBody] AuthenticateViaStringInitDataRequest request,
         CancellationToken cancellationToken)
     {
-        return authService.Authenticate(request, cancellationToken);
+        var token = await authService.Authenticate(request, cancellationToken);
+        AuthCookies.Append(Response, AuthCookies.User, token, environment);
+        return token;
     }
 }
 ```
 
-[`TelegramAuthService`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.WebApiHost/TelegramAuthService.cs) выполняет две операции: валидирует init data и выпускает токен для проверенного пользователя.
+Актуальный контроллер ещё кладёт токен в cookie (`AuthCookies.Append`); эта статья идёт по пути, где фронтенд хранит bearer в local storage, так что эту строку можно пропустить. [`TelegramAuthService`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.WebApiHost/TelegramAuthService.cs) выполняет две операции: валидирует init data и выпускает токен для проверенного пользователя.
 
 ```csharp
 public Task<string> Authenticate(
@@ -210,6 +227,12 @@ private MiniAppUser ValidateInitData(string initData)
     if (!result)
         throw new ForbiddenException("Hash mismatch");
 
+    // Хеш покрывает auth_date, поэтому ему можно доверять
+    if (!long.TryParse(parsedData["auth_date"], out var authDate))
+        throw new ForbiddenException("Auth date is missing");
+
+    EnsureAuthIsFresh(authDate);
+
     var user = parsedData["user"];
     return JsonSerializer.Deserialize<MiniAppUser>(user!, JsonBotAPI.Options)!;
 }
@@ -236,10 +259,35 @@ public string BuildHash(NameValueCollection collection)
 `BuildHash` следует алгоритму Telegram из документации:
 
 1. **Собрать data-check-string.** Взять каждое поле из init data, кроме hash, отсортировать ключи по алфавиту, сделать из каждого поля строку в формате `key=value`, соединить строки в одну с разделителем `\n`.
-2. **Получить секретный ключ.** Секретный ключ — это `HMAC-SHA256` от строкового литерала `"WebAppData"`, ключом к которому выступает токен бота.
+2. **Получить секретный ключ.** Секретный ключ — это `HMAC-SHA256` от токена бота, где ключом HMAC служит строка `"WebAppData"`. Ключ и данные легко перепутать: `"WebAppData"` — это ключ, а токен бота — данные.
 3. **Вычислить подпись.** Прогнать `HMAC-SHA256` по data-check-string с полученным в пункте 2 секретным ключом и перевести результат в hex-строку.
 
-Если хеш, вычисленный сервером, совпадает с хешем от Telegram — данные подлинные. Тогда сервис десериализует поле `user` в `MiniAppUser` и считает запрос корректным. Любые отличия приведут к возникновению исключению `ForbiddenException` и клиенту вернется код `403`.
+Если хеш, вычисленный сервером, совпадает с хешем от Telegram — данные подлинные. Тогда сервис проверяет `auth_date` (см. ниже), десериализует поле `user` в `MiniAppUser` и считает запрос корректным. Любые отличия приведут к исключению `ForbiddenException`, и клиент получит код `403`.
+
+#### Отклоняем устаревшие данные: проверка `auth_date`
+
+Верный хеш доказывает, что строку создал Telegram. Он не доказывает, что строка свежая. Кто угодно, получивший копию init data пользователя (из лога, прокси или скриншота), может отправить её ещё раз, и хеш всё равно совпадёт. Документация Telegram рекомендует проверять поле `auth_date` — Unix-время создания данных — и отклонять устаревшие. В первой версии нашего кода этой проверки не было; позже мы добавили её с тем же лимитом в 24 часа, который уже был у входа через виджет:
+
+```csharp
+private static readonly TimeSpan MaxAuthAge = TimeSpan.FromHours(24);
+
+private static void EnsureAuthIsFresh(long authDate)
+{
+    var authAge = DateTimeOffset.UtcNow - DateTimeOffset.FromUnixTimeSeconds(authDate);
+    if (authAge > MaxAuthAge)
+        throw new ForbiddenException("Auth is expired");
+}
+```
+
+Важны две детали. Во-первых, проверка идёт после сравнения хеша: `auth_date` можно считать достоверным, только когда хеш подтвердил, что он входит в подписанное Telegram. Во-вторых, есть компромисс: init data создаются при открытии Mini App и не меняются, пока его не откроют заново. Если пользователь держит приложение открытым больше суток и ему снова нужно войти, старая строка будет отклонена, и приложение придётся открыть заново. Мы с этим согласились. Если ваши пользователи держат приложение открытым днями, лимит меняется одной константой.
+
+Интеграционные тесты покрывают три случая: свежие init data принимаются, данные старше суток дают `403`, данные без `auth_date` дают `403`. Тест сам подписывает данные, а не использует боевой метод хеширования, поэтому ошибка в боевом коде не спрячется в тесте.
+
+#### Две заметки: сравнение за постоянное время и проверка для третьей стороны
+
+Сравнение выше использует `Equals(..., StringComparison.OrdinalIgnoreCase)` ради читаемости. Хеши безопаснее сравнивать побайтово за постоянное время через `CryptographicOperations.FixedTimeEquals`: по времени выполнения тогда нельзя понять, сколько первых символов совпало. В нашем коде осталась простая форма; в более открытом сервисе используйте вариант с постоянным временем.
+
+Проверка `hash` требует токен бота, поэтому выполнить её может только ваш бэкенд. Telegram также добавляет в init data поле `signature` — подпись Ed25519, которую третья сторона может проверить, зная только ID вашего бота и публичный ключ Telegram, без токена. Data-check-string для неё начинается с `<bot_id>:WebAppData`. Это нужно, когда init data передают другому сервису. Нам это не нужно, потому что токен есть у нашего бэкенда, поэтому мы это не используем. Точный формат и публичные ключи смотрите в разделе «Validating data for Third-Party Use» [документации Telegram по Mini Apps](https://core.telegram.org/bots/webapps). Какой бы библиотекой для Ed25519 вы ни пользовались, проверка `auth_date` из примера выше нужна и здесь.
 
 ### Шаг 4: бэкенд выпускает bearer, фронтенд сохраняет его в local storage
 
@@ -255,27 +303,28 @@ private async Task<string> CreateBearerToken(
 {
     var data = await context.Users
         .Where(x => x.TelegramId == userData.Id)
-        .Select(x => new { x.Id })
+        .Select(x => new { x.Id, x.TokenVersion })
         .FirstOrDefaultAsyncEF(cancellationToken);
 
     if (data is not null)
-        return authService.CreateUserToken(data.Id);
+        return authService.CreateUserToken(data.Id, data.TokenVersion);
 
     var newUserId = await RegisterUser(userData, cancellationToken);
-    return authService.CreateUserToken(newUserId);
+    return authService.CreateUserToken(newUserId, tokenVersion: 0);
 }
 ```
 
 `CreateBearerToken` способен автоматически выполнять регистрацию пользователя. Он ищет пользователя по Telegram ID, находившемся в init data; если такой найден — выпускает токен для него, если нет — регистрирует пользователя, затем выпускает токен. То есть отдельного шага регистрации приложением не предусмотрено.
 
-Сам токен выпускает сервис `AuthService`, подписывая его секретом `Auth__Key` из конфигурации приложения. Это стандартный JWT, содержащий единственный claim — внутренний ID пользователя:
+Сам токен выпускает сервис `AuthService`, подписывая его секретом `Auth__Key` из конфигурации приложения. Это стандартный JWT с двумя claim: внутренним ID пользователя и версией токена пользователя:
 
 ```csharp
-public string CreateUserToken(Guid userId)
+public string CreateUserToken(Guid userId, int tokenVersion)
 {
     var claims = new List<Claim>
     {
-        new("id", userId.ToString())
+        new("id", userId.ToString()),
+        new(TokenVersionClaim, tokenVersion.ToString()),
     };
 
     var jwt = new JwtSecurityToken(
@@ -294,6 +343,8 @@ public static SymmetricSecurityKey GetSymmetricSecurityKey(string key)
     return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 }
 ```
+
+Claim `tv` — это `TokenVersion` пользователя на момент выпуска токена. Токен с версией старее текущей версии пользователя отклоняется, поэтому все токены пользователя можно отозвать одним действием, например после слияния двух аккаунтов. В первой версии этого кода был только claim `id`, версию добавили позже.
 
 #### Как bearer используется для аутентификации каждого следующего запроса
 

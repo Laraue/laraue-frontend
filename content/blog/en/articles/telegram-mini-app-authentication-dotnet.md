@@ -1,20 +1,32 @@
 ---
 title: Telegram Mini App authentication in .NET end to end — initData validation, JWT issuing and the Nuxt frontend
-description: Part 8 of building a Telegram task tracker solo. The full Telegram Mini App authentication flow in a real .NET and Nuxt app — validating the initData signature on the server with HMAC-SHA256, issuing and using a JWT bearer, reading the user from HttpContext, and why CORS matters.
+description: Part 8 of building a Telegram task tracker solo. How to authenticate a Telegram Mini App user in .NET and Nuxt: validating the initData hash with HMAC-SHA256, rejecting outdated data by auth_date, issuing and using a JWT bearer, reading the user from HttpContext, and why CORS matters.
 seoTitle: Telegram Mini App Authentication in .NET: initData and JWT
-seoDescription: Part 8: the full Mini App auth flow in .NET and Nuxt — validating initData with HMAC-SHA256, issuing a JWT bearer, reading the user from HttpContext, CORS.
+seoDescription: How to validate Telegram Mini App initData in .NET: the HMAC-SHA256 hash, the auth_date check, a JWT bearer, and the user from HttpContext. Part 8.
 type: article
 featured: true
 series: architecture-first
 part: 8
 createdAt: 2026-06-24 08:00
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-03 17:47
 projects: [boards]
 tags: [devlog, dotnet, nuxt, telegram, authentication]
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 8.
 > In the [previous article](deploy-nuxt-telegram-mini-app-https-nginx) we got the Mini App opening inside Telegram and displaying JSON with the user object. But that data cannot be trusted yet. In this article we build real authentication — adding a backend for the app and validating the data on its side.
+
+## The short version
+
+To authenticate a Telegram Mini App user in .NET:
+
+1. The Mini App sends `Telegram.WebApp.initData` (a query string signed by Telegram) to your backend.
+2. The backend rebuilds the data-check-string from the fields of the string except `hash`, signs it with `HMAC-SHA256` using a key derived from the bot token, and compares the result with the `hash` field.
+3. It checks that `auth_date` is recent, so an old string cannot be replayed.
+4. It finds the user by the Telegram id (or registers a new one) and returns its own JWT.
+5. The frontend stores the JWT and sends it as a bearer token on every API call; `[Authorize]` and `HttpContext.User` do the rest.
+
+The rest of the article builds exactly this, step by step, in a real .NET and Nuxt application.
 
 At the end of the previous article the Mini App prototype started opening and showing the user object from the init data that Telegram injects into the app. But that data could not be used yet. Anyone could hand the app a forged init data string, and the app has to verify its authenticity. To validate it, the app first needs to add the backend it has been missing.
 
@@ -86,7 +98,7 @@ New here are a couple of lines: `AddAuthentication()` / `UseAuthentication()` an
 
 `ExceptionHandleMiddleware` is a custom middleware from our shared [Laraue.Core](https://github.com/Laraue/Laraue.Core) package that automatically maps the library's web exceptions to HTTP codes. If an unhandled `BadRequestException` is thrown in the code, the client gets a `400` error; a `ForbiddenException` turns into a `403`, and so on.
 
-## Authenticating the user by init data from the Telegram Mini App
+## Validating Telegram Mini App init data and logging the user in
 
 Before moving to the code, let's define the sequence of steps for a login from the Mini App:
 
@@ -157,7 +169,7 @@ runtimeConfig: {
 }
 ```
 
-### Step 3: the backend validates init data
+### Step 3: the backend validates initData (hash and auth_date)
 
 Over to the server side. The frontend has sent it the `initData` string — an encoded string with the user's data, signed by Telegram. The backend's job is to use the bot's key to check that the signature is correct, and to return a bearer token for authorization.
 
@@ -167,20 +179,25 @@ The request arrives at [`TelegramAuthController`](https://github.com/Laraue/Lara
 
 ```csharp
 [ApiController]
-[Route("api/auth")]
-public class TelegramAuthController(ITelegramAuthService authService) : ControllerBase
+[Route("/api/user")]
+public class TelegramAuthController(
+    ITelegramAuthService authService,
+    IWebHostEnvironment environment)
+    : ControllerBase
 {
-    [HttpPost("mini-app")]
-    public Task<string> AuthenticateViaMiniApp(
+    [HttpPost("auth-via-mini-app")]
+    public async Task<string> Authenticate(
         [FromBody] AuthenticateViaStringInitDataRequest request,
         CancellationToken cancellationToken)
     {
-        return authService.Authenticate(request, cancellationToken);
+        var token = await authService.Authenticate(request, cancellationToken);
+        AuthCookies.Append(Response, AuthCookies.User, token, environment);
+        return token;
     }
 }
 ```
 
-[`TelegramAuthService`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.WebApiHost/TelegramAuthService.cs) performs two operations: it validates the init data and issues a token for the verified user.
+The current controller also puts the token into a cookie (`AuthCookies.Append`); this article follows the path where the frontend keeps the bearer in local storage, so you can ignore that line. [`TelegramAuthService`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.WebApiHost/TelegramAuthService.cs) performs two operations: it validates the init data and issues a token for the verified user.
 
 ```csharp
 public Task<string> Authenticate(
@@ -210,6 +227,12 @@ private MiniAppUser ValidateInitData(string initData)
     if (!result)
         throw new ForbiddenException("Hash mismatch");
 
+    // The hash covers auth_date, so it can be trusted here
+    if (!long.TryParse(parsedData["auth_date"], out var authDate))
+        throw new ForbiddenException("Auth date is missing");
+
+    EnsureAuthIsFresh(authDate);
+
     var user = parsedData["user"];
     return JsonSerializer.Deserialize<MiniAppUser>(user!, JsonBotAPI.Options)!;
 }
@@ -236,10 +259,35 @@ public string BuildHash(NameValueCollection collection)
 `BuildHash` follows the Telegram algorithm from the documentation:
 
 1. **Build the data-check-string.** Take every field of init data except hash, sort the keys alphabetically, turn each field into a `key=value` string, and join the strings into one with `\n` as the separator.
-2. **Get the secret key.** The secret key is the `HMAC-SHA256` of the string literal `"WebAppData"`, keyed with the bot token.
+2. **Get the secret key.** The secret key is the `HMAC-SHA256` of the bot token, where the HMAC key is the string literal `"WebAppData"`. The key and the data are easy to swap by mistake: `"WebAppData"` is the key, the bot token is the data.
 3. **Compute the signature.** Run `HMAC-SHA256` over the data-check-string with the secret key from step 2, and convert the result to a hex string.
 
-If the hash computed by the server matches the hash from Telegram, the data is genuine. Then the service deserializes the `user` field into a `MiniAppUser` and considers the request valid. Any difference raises a `ForbiddenException`, and the client gets a `403` code.
+If the hash computed by the server matches the hash from Telegram, the data is genuine. Then the service checks `auth_date` (see below), deserializes the `user` field into a `MiniAppUser` and considers the request valid. Any difference raises a `ForbiddenException`, and the client gets a `403` code.
+
+#### Reject outdated init data: the `auth_date` check
+
+A valid hash proves that Telegram created the string. It does not prove that the string is fresh. Anyone who gets a copy of a user's init data (from a log, a proxy or a shared screenshot) could send it again, and the hash would still match. Telegram's documentation recommends checking the `auth_date` field, a Unix timestamp of when the data was created, to reject outdated data. The first version of our code did not do this; we added it later, with the same 24-hour limit that the login widget path already had:
+
+```csharp
+private static readonly TimeSpan MaxAuthAge = TimeSpan.FromHours(24);
+
+private static void EnsureAuthIsFresh(long authDate)
+{
+    var authAge = DateTimeOffset.UtcNow - DateTimeOffset.FromUnixTimeSeconds(authDate);
+    if (authAge > MaxAuthAge)
+        throw new ForbiddenException("Auth is expired");
+}
+```
+
+Two details matter. First, the check runs after the hash comparison, because `auth_date` can only be trusted once the hash has confirmed that it is part of what Telegram signed. Second, there is a trade-off: init data is created when the Mini App is opened and stays the same until it is reopened. If a user keeps the app open for more than a day and needs to log in again, the old string is rejected, and they have to reopen the Mini App. We accepted that. A longer limit is a single constant if your users keep the app open for days.
+
+The integration tests cover three cases: fresh init data is accepted, data older than a day returns `403`, and data without `auth_date` returns `403`. The test signs the data itself instead of reusing the production hash method, so a mistake in the production code cannot hide in the test.
+
+#### Two notes: constant-time comparison and third-party validation
+
+The comparison above uses `Equals(..., StringComparison.OrdinalIgnoreCase)` for readability. For hash comparisons it is safer to compare the bytes in fixed time with `CryptographicOperations.FixedTimeEquals`, which does not reveal through its running time how many leading characters matched. Our code keeps the simple form; in a service that is more exposed, use the fixed-time one.
+
+The `hash` check needs the bot token, so only your own backend can do it. Telegram also adds a `signature` field to init data, an Ed25519 signature that a third party can verify with only your bot id and a public key published by Telegram, without the token. The data-check-string for it starts with `<bot_id>:WebAppData`. You need this when init data is passed to another service. We do not, because our backend holds the token, so we do not use it. See the "Validating data for Third-Party Use" part of [Telegram's Mini Apps documentation](https://core.telegram.org/bots/webapps) for the exact format and the public keys. Whatever library you use for Ed25519, the `auth_date` check from above applies here as well.
 
 ### Step 4: the backend issues a bearer, the frontend saves it to local storage
 
@@ -255,27 +303,28 @@ private async Task<string> CreateBearerToken(
 {
     var data = await context.Users
         .Where(x => x.TelegramId == userData.Id)
-        .Select(x => new { x.Id })
+        .Select(x => new { x.Id, x.TokenVersion })
         .FirstOrDefaultAsyncEF(cancellationToken);
 
     if (data is not null)
-        return authService.CreateUserToken(data.Id);
+        return authService.CreateUserToken(data.Id, data.TokenVersion);
 
     var newUserId = await RegisterUser(userData, cancellationToken);
-    return authService.CreateUserToken(newUserId);
+    return authService.CreateUserToken(newUserId, tokenVersion: 0);
 }
 ```
 
 `CreateBearerToken` can register the user automatically. It looks the user up by the Telegram ID found in the init data; if found, it issues a token for them; if not, it registers the user and then issues the token. So the app has no separate registration step.
 
-The token itself is issued by the `AuthService`, signing it with the `Auth__Key` secret from the app configuration. It is a standard JWT containing a single claim — the user's internal ID:
+The token itself is issued by the `AuthService`, signing it with the `Auth__Key` secret from the app configuration. It is a standard JWT with two claims: the user's internal ID and the user's token version:
 
 ```csharp
-public string CreateUserToken(Guid userId)
+public string CreateUserToken(Guid userId, int tokenVersion)
 {
     var claims = new List<Claim>
     {
-        new("id", userId.ToString())
+        new("id", userId.ToString()),
+        new(TokenVersionClaim, tokenVersion.ToString()),
     };
 
     var jwt = new JwtSecurityToken(
@@ -294,6 +343,8 @@ public static SymmetricSecurityKey GetSymmetricSecurityKey(string key)
     return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 }
 ```
+
+The `tv` claim is the user's `TokenVersion` at the moment the token was issued. A token with an older version than the user's current one is rejected, so all of a user's tokens can be revoked in one step, for example after two accounts are merged. The first version of this code had only the `id` claim; the version was added later.
 
 #### How the bearer authenticates every subsequent request
 
