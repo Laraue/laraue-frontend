@@ -10,19 +10,19 @@ description: A step-by-step walkthrough of building a query language interpreter
 seoTitle: Build a Query Language Interpreter in C#: A Worked Example
 seoDescription: Build a query language interpreter in C# step by step — lexer, parser, AST and executor — with PdfQL as a real, open source example.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 20:35
+updatedAt: 2026-10-03 15:31
 ---
 
 Building a **query language interpreter in C#** is one of those projects that sounds intimidating until you break it into parts. This article walks through the architecture and key decisions behind [PdfQL](https://github.com/Laraue/Laraue.PdfQL) — an open source C# library that implements a pipeline-style query language for extracting structured data from PDF documents.
 
-PdfQL is a concept project, not a production library. But the implementation contains a working **scanner, parser, AST, and pipeline executor**, all written in C# and targeting .NET 10 — making it a useful reference for anyone building a domain-specific language or interpreter on .NET.
+PdfQL is an investigation, not a product and not a production library. We wanted to see whether one common query language for documents (PDF first, other formats later) is practical, and we still like the concept. The implementation contains a working **scanner, parser, AST, and pipeline executor**, all written in C# and targeting .NET 10 — making it a useful reference for anyone building a domain-specific language or interpreter on .NET.
 
 |              |                                                                  |
 |--------------|------------------------------------------------------------------|
 | Language     | C#                                                               |
 | Framework    | .NET 10                                                          |
 | Project type | Library                                                          |
-| Status       | Concept, on pause                                                |
+| Status       | Investigation, on pause; the demo service is stopped             |
 | License      | AGPL-3.0                                                         |
 | NuGet        | ![latest version](https://img.shields.io/nuget/v/Laraue.PdfQL)  |
 | Downloads    | ![downloads](https://img.shields.io/nuget/dt/Laraue.PdfQL)      |
@@ -210,7 +210,7 @@ This pattern — generating types at runtime and caching them by structural equa
 
 ## The Demo App
 
-PdfQL had a live demo where you could upload a PDF, write a query, and see JSON output; preset options (extract all tables, extract all images) compiled to PdfQL internally. We removed it: we have decided not to spend time on this project for now. The concept still looks interesting to us, but we do not yet know what the project would be useful for.
+PdfQL had a live demo where you could upload a PDF, write a query, and see JSON output; preset options (extract all tables, extract all images) compiled to PdfQL internally. We removed it and stopped the service: we did not find a way to turn the project into a product, and we do not have time for it right now. The concept still looks interesting to us, but we do not yet know what it would be useful for.
 
 The web API that backed the demo is kept in an archived repository: [github.com/Laraue/Laraue.Apps.PdfQL](https://github.com/Laraue/Laraue.Apps.PdfQL). It's a thin ASP.NET Core wrapper around the library — still useful as a reference for how to host PdfQL in a web context. The library itself is not archived and lives in the Laraue organization: [github.com/Laraue/Laraue.PdfQL](https://github.com/Laraue/Laraue.PdfQL).
 
