@@ -10,7 +10,7 @@ description: A deep dive into Laraue.EfCoreTriggers — how to define database t
 seoTitle: EF Core Triggers in C#: Fluent Syntax and Expression Trees
 seoDescription: Laraue.EfCoreTriggers: define database triggers in C# with fluent syntax, see how expression trees become SQL, and add new database providers.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 20:05
+updatedAt: 2026-10-03 09:53
 ---
 **Database triggers in EF Core** have always been second-class citizens. The standard approach is a raw SQL string in a migration — invisible to your model, out of sync the moment a column renames, and impossible to validate at compile time. [Laraue.EfCoreTriggers](https://github.com/win7user10/Laraue.EfCoreTriggers) solves this by letting you define triggers using the same **fluent C# syntax** you already use for indexes and foreign keys, with **expression tree–based SQL generation** that ties trigger logic to your entity model.
 
@@ -19,11 +19,13 @@ updatedAt: 2026-10-02 20:05
 | Language     | C#                                                                             |
 | Framework    | .NET Standard 2.1 / .NET 6 / .NET 8 / .NET 9 / .NET 10                         |
 | Project type | Library                                                                        |
-| Status       | Active                                                                         |
+| Status       | Maintained, not used in our own projects                                       |
 | License      | MIT                                                                            |
 | NuGet        | ![latest version](https://img.shields.io/nuget/v/Laraue.EfCoreTriggers.Common) |
 | Downloads    | ![downloads](https://img.shields.io/nuget/dt/Laraue.EfCoreTriggers.Common)     |
 | GitHub       | [Laraue.EfCoreTriggers](https://github.com/win7user10/Laraue.EfCoreTriggers)   |
+
+**Where it came from.** We wrote the library in 2020 for our web crawler, a project that has been in the archive for five years now. The library outlived it: as of October 2026 it has 140 stars and 25 forks on GitHub and 138 releases on NuGet, the latest ones in 2026. We do not use it in our own projects any more, so this page describes what the library does and how it is built, not how it behaves under our production load.
 
 ---
 
@@ -66,7 +68,7 @@ Install the package for your database provider:
 dotnet add package Laraue.EfCoreTriggers.PostgreSql
 dotnet add package Laraue.EfCoreTriggers.SqlServer
 dotnet add package Laraue.EfCoreTriggers.MySql
-dotnet add package Laraue.EfCoreTriggers.Sqlite
+dotnet add package Laraue.EfCoreTriggers.SqlLite
 dotnet add package Laraue.EfCoreTriggers.Oracle
 ```
 
@@ -95,6 +97,28 @@ var options = new DbContextOptionsBuilder<AppDbContext>()
 ```
 
 Run `dotnet ef migrations add AddTransactionTrigger`. The migration's `Up` method will contain the full `CREATE TRIGGER` SQL, and `Down` will contain the corresponding `DROP TRIGGER`. From this point on, if `Transaction.Value` or `UserBalance.Balance` are renamed, the trigger definition fails to compile.
+
+---
+
+## Which Triggers Each Database Supports
+
+Not every database has every kind of trigger, and the library does not invent them. This is the table from the repository:
+
+| Trigger           | PostgreSQL | SQL Server | SQLite | MySQL | Oracle |
+|-------------------|------------|------------|--------|-------|--------|
+| Before Insert     | +          | -          | +      | +     | +      |
+| After Insert      | +          | +          | +      | +     | +      |
+| Instead Of Insert | +          | +          | +      | -     | +      |
+| Before Update     | +          | -          | +      | +     | +      |
+| After Update      | +          | +          | +      | +     | +      |
+| Instead Of Update | +          | +          | +      | -     | +      |
+| Before Delete     | +          | -          | +      | +     | +      |
+| After Delete      | +          | +          | +      | +     | +      |
+| Instead Of Delete | +          | +          | +      | -     | +      |
+
+After a trigger fires, it can run these actions: `Insert`, `InsertIfNotExists`, `Update`, `Upsert`, `Delete` and `ExecuteRawSql`.
+
+The major version of the package follows the EF Core major version: 10.x needs .NET 10, 9.x and 8.x need .NET 8, 7.x and 6.x need .NET 6, and 5.x targets .NET Standard 2.1.
 
 ---
 
@@ -291,8 +315,14 @@ The architecture is designed so that **adding a provider requires zero changes t
 | PostgreSQL | `Laraue.EfCoreTriggers.PostgreSql` |
 | SQL Server | `Laraue.EfCoreTriggers.SqlServer` |
 | MySQL | `Laraue.EfCoreTriggers.MySql` |
-| SQLite | `Laraue.EfCoreTriggers.Sqlite` |
+| SQLite | `Laraue.EfCoreTriggers.SqlLite` (spelled this way on NuGet) |
 | Oracle | `Laraue.EfCoreTriggers.Oracle` |
+
+---
+
+## Free, With Paid Support Available
+
+The library is and stays free and open source, including for commercial use (MIT). If a company needs a specific feature, a fix on its own timeline or help with integration, it can commission the work: the result is merged into the public repository, so everyone gets it. Write to sales@laraue.com and mention "EfCoreTriggers".
 
 ---
 
@@ -303,9 +333,4 @@ The architecture is designed so that **adding a provider requires zero changes t
 - **Dec 2022** Stable release with full math and string function support
 - **Dec 2025** Core trigger logic extracted to provider-agnostic packages (`Laraue.Linq2Triggers.Core`), enabling use without EF Core
 - **Feb 2026** Oracle provider added (v10.4.0); shadow property support; integration tests on CI
-
----
-
-## Further Improvements
-
-The current method translation system requires explicit converter registration per provider. A planned improvement is to adopt the Linq2DB pattern: mark C# methods with attributes that declare their SQL translation, so the framework can discover converters automatically rather than requiring manual registration in each provider's service collection.
+- **Aug 2026** Fix: creating and dropping triggers on SQL Server inside idempotent migration scripts

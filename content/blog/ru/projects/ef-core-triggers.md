@@ -10,7 +10,7 @@ description: Разбор библиотеки Laraue.EfCoreTriggers — как 
 seoTitle: Триггеры EF Core на C#: fluent-синтаксис и деревья выражений
 seoDescription: Laraue.EfCoreTriggers: триггеры БД на C# с fluent-синтаксисом, трансляция деревьев выражений в SQL и расширение под новый провайдер.
 createdAt: 2025-03-04
-updatedAt: 2026-10-02 20:05
+updatedAt: 2026-10-03 09:53
 ---
 **Триггеры базы данных в EF Core** всегда были второсортным инструментом. Стандартный подход — сырая SQL-строка в миграции — невидима для модели, выходит из синхронизации при первом переименовании колонки и не поддаётся валидации на этапе компиляции. [Laraue.EfCoreTriggers](https://github.com/win7user10/Laraue.EfCoreTriggers) решает эту проблему: триггеры определяются через **fluent C# синтаксис**, аналогичный индексам и внешним ключам, а генерация SQL основана на **деревьях выражений**, привязанных к модели сущностей.
 
@@ -19,11 +19,13 @@ updatedAt: 2026-10-02 20:05
 | Язык        | C#                                                                               |
 | Фреймворк   | .NET Standard 2.1 / .NET 6 / .NET 8 / .NET 9 / .NET 10                           |
 | Тип проекта | Библиотека                                                                       |
-| Статус      | Активная разработка                                                              |
+| Статус      | Поддерживается, в наших проектах не используется                                 |
 | Лицензия    | MIT                                                                              |
 | NuGet       | ![последняя версия](https://img.shields.io/nuget/v/Laraue.EfCoreTriggers.Common) |
 | Загрузки    | ![загрузки](https://img.shields.io/nuget/dt/Laraue.EfCoreTriggers.Common)        |
 | GitHub      | [Laraue.EfCoreTriggers](https://github.com/win7user10/Laraue.EfCoreTriggers)     |
+
+**Откуда она взялась.** Мы написали библиотеку в 2020 году для нашего веб-краулера, который вот уже пять лет лежит в архиве. Библиотека пережила его: на октябрь 2026 у неё 140 звёзд и 25 форков на GitHub и 138 релизов на NuGet, последние из них — 2026 года. В собственных проектах мы ею больше не пользуемся, поэтому эта страница рассказывает, что библиотека умеет и как устроена, а не как она ведёт себя под нашей боевой нагрузкой.
 
 ---
 
@@ -66,7 +68,7 @@ migrationBuilder.Sql("CREATE TRIGGER tr_after_update_transaction ...");
 dotnet add package Laraue.EfCoreTriggers.PostgreSql
 dotnet add package Laraue.EfCoreTriggers.SqlServer
 dotnet add package Laraue.EfCoreTriggers.MySql
-dotnet add package Laraue.EfCoreTriggers.Sqlite
+dotnet add package Laraue.EfCoreTriggers.SqlLite
 dotnet add package Laraue.EfCoreTriggers.Oracle
 ```
 
@@ -95,6 +97,28 @@ var options = new DbContextOptionsBuilder<AppDbContext>()
 ```
 
 Запустите `dotnet ef migrations add AddTransactionTrigger`. Метод `Up` миграции будет содержать полный SQL `CREATE TRIGGER`, а `Down` — соответствующий `DROP TRIGGER`. С этого момента переименование `Transaction.Value` или `UserBalance.Balance` приведёт к ошибке компиляции в определении триггера.
+
+---
+
+## Какие триггеры поддерживает каждая база
+
+Не во всех базах есть все виды триггеров, и библиотека их не выдумывает. Вот таблица из репозитория:
+
+| Триггер           | PostgreSQL | SQL Server | SQLite | MySQL | Oracle |
+|-------------------|------------|------------|--------|-------|--------|
+| Before Insert     | +          | -          | +      | +     | +      |
+| After Insert      | +          | +          | +      | +     | +      |
+| Instead Of Insert | +          | +          | +      | -     | +      |
+| Before Update     | +          | -          | +      | +     | +      |
+| After Update      | +          | +          | +      | +     | +      |
+| Instead Of Update | +          | +          | +      | -     | +      |
+| Before Delete     | +          | -          | +      | +     | +      |
+| After Delete      | +          | +          | +      | +     | +      |
+| Instead Of Delete | +          | +          | +      | -     | +      |
+
+После срабатывания триггер может выполнить такие действия: `Insert`, `InsertIfNotExists`, `Update`, `Upsert`, `Delete` и `ExecuteRawSql`.
+
+Старший номер версии пакета совпадает со старшим номером версии EF Core: 10.x требует .NET 10, 9.x и 8.x — .NET 8, 7.x и 6.x — .NET 6, а 5.x нацелен на .NET Standard 2.1.
 
 ---
 
@@ -291,8 +315,14 @@ public sealed class TriggerDeleteActionVisitor : ITriggerActionVisitor<TriggerDe
 | PostgreSQL | `Laraue.EfCoreTriggers.PostgreSql` |
 | SQL Server | `Laraue.EfCoreTriggers.SqlServer` |
 | MySQL | `Laraue.EfCoreTriggers.MySql` |
-| SQLite | `Laraue.EfCoreTriggers.Sqlite` |
+| SQLite | `Laraue.EfCoreTriggers.SqlLite` (на NuGet имя пишется именно так) |
 | Oracle | `Laraue.EfCoreTriggers.Oracle` |
+
+---
+
+## Бесплатно, с платной поддержкой
+
+Библиотека бесплатна и останется открытой, в том числе для коммерческого использования (MIT). Если компании нужна конкретная возможность, исправление в её сроки или помощь с внедрением, работу можно заказать: результат попадёт в публичный репозиторий, и им воспользуются все. Пишите на sales@laraue.com и укажите «EfCoreTriggers».
 
 ---
 
@@ -303,9 +333,4 @@ public sealed class TriggerDeleteActionVisitor : ITriggerActionVisitor<TriggerDe
 - **Декабрь 2022** Стабильный релиз с полной поддержкой математических и строковых функций
 - **Декабрь 2025** Ядро логики триггеров вынесено в провайдер-агностичные пакеты (`Laraue.Linq2Triggers.Core`), что позволяет использовать библиотеку без EF Core
 - **Февраль 2026** Добавлен провайдер Oracle (v10.4.0); поддержка shadow properties; интеграционные тесты на CI
-
----
-
-## Планируемые улучшения
-
-Текущая система трансляции методов требует явной регистрации конвертеров для каждого провайдера. Планируемое улучшение — принять подход Linq2DB: помечать C# методы атрибутами, объявляющими их SQL-трансляцию, чтобы фреймворк мог обнаруживать конвертеры автоматически, не требуя ручной регистрации в коллекции сервисов каждого провайдера.
+- **Август 2026** Исправление: создание и удаление триггеров в SQL Server внутри идемпотентных скриптов миграций
