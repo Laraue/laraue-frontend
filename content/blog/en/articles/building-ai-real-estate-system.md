@@ -7,25 +7,29 @@ description: A technical deep-dive into an open-source real estate aggregator fo
 seoTitle: AI Real Estate Ranking with C#, Ollama and a Custom Crawler
 seoDescription: How an open-source apartment aggregator ranks listings by renovation quality: .NET 10 architecture, Ollama vision models, a custom crawler and scoring.
 createdAt: 2026-04-16
-updatedAt: 2026-10-03 17:29
+updatedAt: 2026-10-03 18:15
 ---
-**Scraping JavaScript-rendered real estate listings in C#, scoring every photo with a local vision model, and ranking results by renovation quality** sounds like a weekend project until you hit the real problems: anti-bot redirects, GPU-bound inference blocking your crawler, and TensorFlow models that plateau at useless accuracy. This article walks through how [Laraue.Apps.RealEstate](https://github.com/Laraue/Laraue.Apps.RealEstate) solves each of these — with real code from the repo.
+**Scraping JavaScript-rendered real estate listings in C#, rating every flat from its photos with a local vision model, and ranking results by renovation quality** sounds like a weekend project until you hit the real problems: anti-bot redirects, GPU-bound inference blocking your crawler, and TensorFlow models that plateau at useless accuracy. This article walks through how [Laraue.Apps.RealEstate](https://github.com/Laraue/Laraue.Apps.RealEstate) solves each of these — with real code from the repo.
 
 The application is online at [apartments.laraue.com](https://apartments.laraue.com) with the listings collected so far. We launched the crawler on a local machine from time to time and do not launch it now, so no new listings appear. If you want to understand what it does from a user perspective rather than how it was built, see the [product overview](../projects/real-estate).
 
 ---
 
-## Architecture: Three Hosts, One Purpose
+## Architecture: Five Hosts, One Pipeline
 
 ```
-WorkerHost       → crawls listings + computes ranking scores
-GpuWorkerHost    → runs Ollama image inference jobs  
-ApiHost          → serves frontend and Telegram bot requests
+CrawlingHost     → crawls the listing sites and stores new listings
+GpuWorkerHost    → runs the Ollama image inference jobs
+WorkerHost       → computes the ranking fields, marks listings ready, sends Telegram messages, cleans up
+ApiHost          → serves the frontend and the API requests
+TelegramHost     → the Telegram bot: personal selections and inline navigation
 ```
 
-The split between `WorkerHost` and `GpuWorkerHost` is the most important architectural decision. Image inference is GPU-bound and slow — on consumer hardware, scoring a single listing's photos can take several seconds. Running inference in the same process as the crawler would mean the crawler stalls waiting for predictions. Separating them means each can run at its own pace: the crawler collects listings every 4 hours, the predictor continuously drains the unscored queue at one listing per minute.
+All of them share one PostgreSQL database, and a listing moves through it in stages. The crawler stores a listing with the addresses of its photos. `GpuWorkerHost` picks a listing that has no prediction yet and rates it. `WorkerHost` picks the listings that have a prediction but are not ready yet, computes their price and ideality fields, and marks them ready. Only then does `ApiHost` serve them.
 
-The `ApiHost` is standard ASP.NET Core with no interesting architecture — the complexity lives in the other two hosts.
+The split between `CrawlingHost`, `GpuWorkerHost` and `WorkerHost` is the most important architectural decision. Image inference is GPU-bound and slow: rating the photos of one flat can take several seconds. Running it in the same process as the crawler would mean the crawler stalls waiting for predictions. Separated, each part can run, restart and scale on its own, and the GPU machine does not have to be the one that crawls.
+
+`ApiHost` is standard ASP.NET Core with no interesting architecture, and `TelegramHost` is a bot on top of the same data. The complexity lives in the other three hosts.
 
 ---
 
@@ -51,7 +55,7 @@ public Task<CrawlingResult> ParseLinkAsync(string link, CancellationToken cancel
 
 Three things worth noting:
 
-**Polly retry with exponential backoff.** If a page fails to open — network error, bot detection, rate limit — the parser waits `i * 100` seconds and tries again, up to 10 times. This handles transient failures without human intervention.
+**Polly retry with a growing delay.** If a page fails to open — network error, bot detection, rate limit — the parser waits `i * 100` seconds (100 s, then 200 s, and so on) and tries again, up to 10 times. This handles transient failures without human intervention.
 
 **Randomized delay between pages.** Before extracting each page, the parser sleeps for a random interval between `MinTimeoutBeforeSwitchToNextPage` and `MaxTimeoutBeforeSwitchToNextPage` (configured per source). This mimics human browsing patterns and reduces the fingerprint that bot-detection systems target.
 
@@ -145,7 +149,7 @@ The crawler requests listings sorted by newest first. On each run, `BaseRealEsta
 
 ---
 
-## Image Inference: Ollama + qwen2.5 Vision
+## Image Inference: Ollama and a Vision Model
 
 ### EstimateImagesRenovationJob
 
@@ -204,26 +208,46 @@ while (!stoppingToken.IsCancellationRequested)
 }
 ```
 
-### OllamaRealEstatePredictor
+### RemoteImagesPredictor: one collage, one rating
 
-`OllamaRealEstatePredictor` sends image bytes directly to a locally-hosted **qwen2.5** vision model via Ollama's HTTP API. The prompt specifies the evaluation criteria — renovation quality, cleanliness, natural light, signs of damage — and asks for a structured JSON response.
+A flat is rated in one request, not photo by photo. `RemoteImagesPredictor` ([source](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Prediction.AppServices/RemoteImagesPredictor.cs)) downloads all the photos of a listing, skips the ones that fail to load, and merges the rest into **one wide PNG collage** with 2-pixel black lines between the photos (SkiaSharp). The code logs the size of the merged image in MB, because a flat with many photos makes a big file. If no photo could be loaded, the rating is 0.
 
-Each photo produces a `PredictionResult`:
+The collage goes to `OllamaRealEstatePredictor`, which asks a locally hosted vision model (`qwen2.5vl:7b` by default; the repository says it uses about 8 GB of memory, preferably on a GPU) to rate **the whole flat**. The prompt is written as a realtor's task and contains a scale:
+
+| Rating | Meaning in the prompt |
+|---|---|
+| 10 | Luxury |
+| 8–9 | Very good flat, ready to live in |
+| 6–7 | Needs non-capital renovation |
+| 5 | Above normal: abrasions, cheap or very old materials, but clean enough to live in |
+| 3–4 | Needs strong renovation, not ready to live in |
+| 1–2 | Damaged, almost without renovation |
+| 0 | The interior cannot be determined, or the photos have too few details |
+
+The prompt also asks the model to return `HasNoRenovation = true` when the interior looks like it is being renovated or built, to look at the photos of the house (a panel house is worse than a brick one), and to list 1–10 short features of up to 100 characters, each marked as positive or negative. The answer is JSON:
 
 ```csharp
-public record PredictionResult
+public record OllamaPredictionResult
 {
-    public double RenovationRating { get; init; } // 0.0 to 1.0
-    public string[] Advantages { get; init; } = [];  // ["new_windows", "clean", "bright"]
-    public string[] Problems { get; init; } = [];    // ["dark", "old_wallpaper", "damage"]
+    public bool HasNoRenovation { get; init; }
+    public double RenovationRating { get; init; }
+    public Feature[] Features { get; init; } = [];
 }
 ```
 
-`Advantages` and `Problems` don't feed into the ranking formula — they're stored for prompt tuning and debugging. When a listing gets a surprisingly low or high score, the stored arrays let you see exactly what the model reacted to without re-running inference.
+The service turns it into an integer from 0 to 10: the rating is rounded up, and a listing marked `HasNoRenovation` gets 0:
+
+```csharp
+RenovationRating = predictionResult.HasNoRenovation
+    ? 0
+    : (int)Math.Ceiling(predictionResult.RenovationRating)
+```
+
+The positive and negative features become the `Advantages` and `Problems` arrays of the result. They don't feed into the ranking formula; they are stored for prompt tuning and debugging. When a listing gets a surprisingly low or high score, the stored arrays show what the model reacted to without running inference again.
 
 ### Why Not a Cloud API
 
-All inference runs on the local machine. No images leave the server, no per-call API costs, and the model can be swapped by changing one configuration value. The `qwen2.5` vision model runs at acceptable throughput on consumer GPU hardware for this use case.
+All inference runs on the local machine. No images leave the server, no per-call API costs, and the model can be swapped by changing one configuration value. The `qwen2.5vl:7b` vision model runs at acceptable throughput on consumer GPU hardware for this use case.
 
 ### Why Not a Custom-Trained TensorFlow Model
 
@@ -237,20 +261,26 @@ The models plateaued early and never reached accuracy useful for ranking. Switch
 
 ---
 
-## Ranking: Penalty-Based Ideality Score
+## Ranking: A Price Fine Model
 
-Once all photos for a listing are scored, `AdvertisementComputedFieldsCalculator` computes the final **ideality score** using a penalty model. The score starts at a maximum and accumulates fines for negative signals:
+Once a flat has a rating, `UpdateAdvertisementsPredictionJob` in `WorkerHost` takes the listings that have a prediction but are not ready yet, computes their fields with `AdvertisementComputedFieldsCalculator` ([source](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Prediction.AppServices/AdvertisementComputedFieldsCalculator.cs)), and marks them ready for the API.
 
-| Signal | Effect |
+The idea is to ask what the price per square meter would be if the flat's problems were added to it as fines. The **ideality** is the real price divided by that fined price: close to 1 means there was nothing to fine, and lower means more fines.
+
+```csharp
+var squareMeterPredictedPrice = squareMeterPrice + fine * squareMeterPrice;
+var ideality = squareMeterPrice / squareMeterPredictedPrice; // that is 1 / (1 + fine)
+```
+
+The fine is the sum of three parts:
+
+| Part | Fine |
 |---|---|
-| No nearby metro station | Penalty applied |
-| Metro station too far to walk | Penalty applied |
-| Distance from city centre too large | Penalty applied |
-| Low average renovation rating | Penalty applied |
+| Renovation | `1 - rating / 10`: rating 10 gives 0, rating 5 gives 0.5. A rating of 0 (no renovation, or not enough details) gets a flat 0.3 instead of the worst fine |
+| Floor | 0.2 for the first and the last floor, otherwise 0 |
+| Transport | The best of the nearby stops: 0.01 per minute over a 5-minute walk (a ride counts double), plus 0.1 for each priority level below the best station. 1.0 when there is no stop nearby |
 
-A penalty model is easier to reason about and tune than a weighted sum. Each penalty has an isolated, interpretable effect: if you want metro distance to matter less, reduce that penalty. You don't have to rebalance all other weights simultaneously.
-
-The **renovation rating** for a listing is the average `RenovationRating` across all its photos. Listings with fewer than a minimum photo count are excluded from renovation ranking — a single unrepresentative image can skew a small average significantly.
+A fine model is easier to reason about and tune than a weighted sum. Each part has an isolated, readable effect: if you want the metro to matter less, change that part, and you don't have to rebalance the others at the same time.
 
 ---
 

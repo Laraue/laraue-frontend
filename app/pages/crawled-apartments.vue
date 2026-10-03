@@ -71,7 +71,7 @@ useSchemaOrg([
   "en": {
     "bc_home": "Home",
     "bc_current": "AI Apartments Aggregator",
-    "seoTitle": "AI-Ranked SPB Apartments",
+    "seoTitle": "AI-Ranked Saint Petersburg Apartments",
     "seoDescription": "A snapshot of Cian and Avito apartment listings in Saint Petersburg, ranked by AI photo quality.",
     "sec_overview": "Overview",
     "sec_how": "How it works",
@@ -93,16 +93,16 @@ useSchemaOrg([
     "lm2": "Vasileostrovsk, 1 room",
     "lm3": "Primorsky, 1 room",
     "lm4": "Kolpino, 2 rooms",
-    "lm_ai_note": "Ranked by Ollama vision model — photo quality score 0–10",
+    "lm_ai_note": "Ranked by an Ollama vision model — renovation rating 0–10 from the flat's photos",
     "how_label": "Under the hood",
     "how_title": "How the pipeline works",
     "how_sub": "Four automated stages from crawl to ranked results, running locally with no external API dependencies.",
     "step1t": "Crawl listings",
     "step1d": "The Laraue.Crawling library scrapes real estate sites, handles JS rendering, and stores raw listing data into PostgreSQL.",
     "step2t": "Download photos",
-    "step2d": "For each listing, all available photos are fetched and stored locally, ready for AI analysis.",
-    "step3t": "AI photo scoring",
-    "step3d": "A local Ollama vision model analyzes each photo and rates it 0–10. The listing score is averaged across all its photos.",
+    "step2d": "For each listing, the available photos are fetched, ready for AI analysis.",
+    "step3t": "AI renovation rating",
+    "step3d": "A local Ollama vision model looks at all the photos of a flat together, as one collage, and rates its renovation from 0 to 10.",
     "step4t": "Browse & filter",
     "step4d": "Results surface in the web UI — sort by AI score, filter by rooms and price. Skip past badly photographed listings instantly.",
     "tech_label": "Tech stack",
@@ -115,11 +115,12 @@ useSchemaOrg([
     "tc_project": "View project →",
     "tc_article": "Read the article →",
     "art_label": "The full story",
-    "art_title": "36 minutes of reading,\nmonths of building",
-    "art_sub": "The blog article covers every mistake, dead end, and breakthrough — from the initial idea to a working AI photo-ranking pipeline.",
+    "art_title": "A detailed technical read,\nmonths of building",
+    "art_sub": "The article covers the crawler, the vision model integration and the ranking formula in detail.",
     "art_cta": "Read the article",
-    "art_card_title": "How I tried to rank apartments based on their photos",
-    "art_card_excerpt": "A story about how a system for finding the perfect apartment was created — from a simple idea through crawling, photo storage, and local AI scoring with Ollama.",
+    "art_card_title": "Building an AI-Powered Real Estate Ranking System with C#, Ollama, and a Custom Crawler",
+    "art_meta": "Technical deep dive · C#, Ollama, PuppeteerSharp",
+    "art_card_excerpt": "The five hosts, the PuppeteerSharp crawler, rating a flat from one photo collage with a local Ollama vision model, and the ideality formula.",
     "art_read": "Read full article →",
     "type_article": "Article",
     "oss_label": "Open source",
@@ -133,8 +134,8 @@ useSchemaOrg([
     "faq1a": "It's an experiment — a personal project built to explore AI-powered apartment search. It works and you can browse the collected listings, but expect rough edges rather than a polished product.",
     "faq2q": "What cities and listing sources does it cover?",
     "faq2a": "Saint Petersburg, Russia, with listings from Cian and Avito. No new listings are collected now, so the app shows a snapshot.",
-    "faq3q": "How is the AI photo score calculated?",
-    "faq3a": "A local Ollama vision model rates each photo in a listing from 0 to 10 based on quality, and the listing's overall score is the average across all its photos.",
+    "faq3q": "How is the AI rating calculated?",
+    "faq3a": "All the photos of a listing are merged into one collage, and a local Ollama vision model rates the renovation of the whole flat from 0 to 10. Separately, an ideality score combines that rating with the floor and the distance to the metro.",
     "faq4q": "Is any listing data sent to the cloud?",
     "faq4a": "No. Crawling, storage, and AI scoring all run locally — there are no paid APIs or cloud dependencies involved.",
     "cta_label": "An experiment",
@@ -144,7 +145,7 @@ useSchemaOrg([
   "ru": {
     "bc_home": "Главная",
     "bc_current": "AI-агрегатор квартир",
-    "seoTitle": "AI-ранжированные квартиры в СПБ",
+    "seoTitle": "AI-ранжированные квартиры в Санкт-Петербурге",
     "seoDescription": "Снимок объявлений Cian и Avito по Санкт-Петербургу, ранжированных по качеству фото с помощью AI.",
     "sec_overview": "Обзор",
     "sec_how": "Как это работает",
@@ -166,16 +167,16 @@ useSchemaOrg([
     "lm2": "Василеостров, 1-к",
     "lm3": "Приморский, 1-к",
     "lm4": "Колпино, 2-к",
-    "lm_ai_note": "AI-ранжирование через Ollama — оценка фото 0–10",
+    "lm_ai_note": "AI-ранжирование через Ollama — оценка ремонта 0–10 по фото квартиры",
     "how_label": "Открытый эксперимент",
     "how_title": "Как работает система",
     "how_sub": "Четыре автоматизированных этапа — без использования внешних API.",
     "step1t": "Сбор объявлений",
     "step1d": "Библиотека Laraue.Crawling скрейпит сайты недвижимости и сохраняет данные в PostgreSQL.",
     "step2t": "Загрузка фото",
-    "step2d": "Для каждого объявления загружаются все доступные фотографии для дальнейшего анализа.",
-    "step3t": "AI-оценка фото",
-    "step3d": "Локальная vision-модель Ollama анализирует каждое фото и выставляет оценку 0–10.",
+    "step2d": "Для каждого объявления загружаются доступные фотографии для дальнейшего анализа.",
+    "step3t": "AI-оценка ремонта",
+    "step3d": "Локальная vision-модель Ollama смотрит на все фото квартиры вместе, как на один коллаж, и оценивает ремонт от 0 до 10.",
     "step4t": "Просмотр и фильтр",
     "step4d": "Результаты в UI — сортировка по AI-лценке ремонта, фильтры по комнатности и цене.",
     "tech_label": "Технологии",
@@ -188,11 +189,12 @@ useSchemaOrg([
     "tc_project": "Смотреть проект →",
     "tc_article": "Читать статью →",
     "art_label": "Полная история",
-    "art_title": "36 минут чтения,\nмесяцы разработки",
-    "art_sub": "Статья охватывает каждую ошибку и открытие — от идеи до работающего AI-ранжирования.",
+    "art_title": "Подробный технический разбор,\nмесяцы разработки",
+    "art_sub": "Статья подробно разбирает краулер, интеграцию vision-модели и формулу ранжирования.",
     "art_cta": "Читать статью",
-    "art_card_title": "Как я пытался ранжировать квартиры по фотографиям",
-    "art_card_excerpt": "История создания системы поиска идеальной квартиры — от идеи до локального AI-скоринга через Ollama.",
+    "art_card_title": "Парсинг JavaScript-сайтов недвижимости и оценка фото с Ollama на C#",
+    "art_meta": "Технический разбор · C#, Ollama, PuppeteerSharp",
+    "art_card_excerpt": "Пять хостов, краулер на PuppeteerSharp, оценка квартиры по одному коллажу из фото локальной vision-моделью Ollama и формула идеальности.",
     "art_read": "Читать статью целиком →",
     "type_article": "Статья",
     "oss_label": "Open source",
@@ -206,8 +208,8 @@ useSchemaOrg([
     "faq1a": "Это эксперимент — пет-проект для изучения AI-поиска квартир. Он работает, и можно посмотреть собранные объявления, но это не отполированный продукт, а рабочий прототип.",
     "faq2q": "Какие города и источники объявлений охвачены?",
     "faq2a": "Санкт-Петербург, с объявлениями от Cian и Avito. Новые объявления сейчас не собираются, поэтому приложение показывает снимок данных.",
-    "faq3q": "Как рассчитывается AI-оценка фото?",
-    "faq3a": "Локальная vision-модель Ollama оценивает каждое фото объявления от 0 до 10, а итоговый балл объявления — это среднее по всем его фото.",
+    "faq3q": "Как рассчитывается AI-оценка?",
+    "faq3a": "Все фото объявления склеиваются в один коллаж, и локальная vision-модель Ollama оценивает ремонт квартиры целиком от 0 до 10. Отдельно считается идеальность: она сочетает эту оценку с этажом и расстоянием до метро.",
     "faq4q": "Отправляются ли данные объявлений в облако?",
     "faq4a": "Нет. Сбор данных, хранение и AI-оценка полностью локальны — никаких платных API или облачных зависимостей.",
     "cta_label": "Эксперимент",
@@ -297,7 +299,7 @@ useSchemaOrg([
             </div>
             <div class="lm-ai-note">
               <LNavIcon name="bot" />
-              <span data-i18n="lm_ai_note">Ranked by Ollama vision model &#8212; photo quality score 0&#8211;10</span>
+              <span data-i18n="lm_ai_note">Ranked by an Ollama vision model &#8212; renovation rating 0&#8211;10 from the flat's photos</span>
             </div>
           </div>
         </div>
@@ -354,7 +356,7 @@ useSchemaOrg([
           <div class="tech-card-icon"><LNavIcon name="code" /></div>
           <h3 class="tech-card-name">ASP.NET Core + PostgreSQL</h3>
           <p class="tech-card-desc">{{ t('tc3') }}</p>
-          <nuxt-link :to="localePath('/blog/projects/real-estate')" class="tech-card-link">{{ t('tc_article') }}</nuxt-link>
+          <nuxt-link :to="localePath('/blog/articles/building-ai-real-estate-system')" class="tech-card-link">{{ t('tc_article') }}</nuxt-link>
         </div>
       </div>
     </LSection>
@@ -362,16 +364,14 @@ useSchemaOrg([
     <!-- ARTICLE CALLOUT -->
     <LSection type="light" :pre-title="t('art_label')" :title="t('art_title')" :post-title="t('art_sub')" horizontal>
       <div>
-        <nuxt-link :to="localePath('/blog/projects/real-estate')" class="article-card">
+        <nuxt-link :to="localePath('/blog/articles/building-ai-real-estate-system')" class="article-card">
           <div class="article-card-strip"></div>
           <div class="article-card-body">
             <div class="article-card-type">{{ t('type_article') }}</div>
             <h3 class="article-card-title">{{ t('art_card_title') }}</h3>
             <p class="article-card-excerpt">{{ t('art_card_excerpt') }}</p>
             <div class="article-card-meta">
-              <span>&#128336; 36 min read</span>
-              <span>&#183;</span>
-              <span>Oct 2025</span>
+              <span>{{ t('art_meta') }}</span>
             </div>
             <div class="article-card-read">{{ t('art_read') }}</div>
           </div>

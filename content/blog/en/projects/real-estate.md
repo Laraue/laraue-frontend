@@ -1,5 +1,5 @@
 ﻿---
-title: AI Apartment Ranking: How It Worked, Limits and Status
+title: Laraue.Apps.RealEstate: Status, Limits and What Remains
 type: project
 name: AI Apartment Search
 projectType: application
@@ -8,13 +8,13 @@ tags: [ai, crawling, real-estate]
 repository: https://github.com/Laraue/Laraue.Apps.RealEstate
 language: C#
 license: AGPL-3.0
-description: An application that crawled two big listing sites, scored every apartment photo with a local vision model and ranked flats by renovation quality. 100,000+ listings, open source. No new listings now.
-seoTitle: AI Apartment Ranking: How It Worked, Limits and Status
-seoDescription: How ranking apartments by photo quality with a local AI model worked: the hosts, the limits, and why it no longer collects new listings.
+description: The status of Laraue.Apps.RealEstate: an application that crawled two big listing sites and rated flats from their photos with a local vision model. 100,000+ listings, open source; the crawler is not launched now.
+seoTitle: Laraue.Apps.RealEstate: Status, Limits and What Remains
+seoDescription: Status of Laraue.Apps.RealEstate, an open source AI apartment ranker: the hosts, the limits, and why it no longer collects new listings.
 createdAt: 2025-11-01
-updatedAt: 2026-10-03 17:25
+updatedAt: 2026-10-03 18:24
 ---
-**This application collected apartment listings from two large listing sites, looked at every photo with a local AI vision model and put the flats in the best condition first.** It gathered more than 100,000 listings. This page is about how it worked and what its status is; to browse the collected listings, see the [app page](https://laraue.com/crawled-apartments). We did not run the crawler around the clock: we launched it on a local machine from time to time. Now we do not launch it at all, because we have not found a legal way to make the project a product and we have no time to keep it going for free. The application is online and keeps the listings collected so far, but no new ones appear. The code is open source, and the article about how it was built is linked below.
+**This application collected apartment listings from two large listing sites, looked at the photos of every flat with a local AI vision model and put the flats in the best condition first.** It gathered more than 100,000 listings. This page is about how it worked and what its status is; to browse the collected listings, see the [app page](https://laraue.com/crawled-apartments). We did not run the crawler around the clock: we launched it on a local machine from time to time. Now we do not launch it at all, because we have not found a legal way to make the project a product and we have no time to keep it going for free. The application is online and keeps the listings collected so far, but no new ones appear. The code is open source, and the article about how it was built is linked below.
 
 |              |                                                                                  |
 |--------------|----------------------------------------------------------------------------------|
@@ -33,12 +33,14 @@ Listing sites sort by recency or price, which helps sellers. A flat posted yeste
 The system is several small hosts around one PostgreSQL database:
 
 - **CrawlingHost** reads the search pages of the listing sites with the [Laraue.Crawling](crawler) library. A session takes only the listings that are new since the last one; the repository settings start a session every four hours, though we launched it by hand.
-- **GpuWorkerHost** takes listings one by one and asks a local vision model, served by Ollama (`qwen2.5vl:7b` by default), to rate the renovation quality of each photo. The model uses about 8 GB of memory, preferably on a GPU. The renovation rating of a listing is the average of its photos, and a listing with too few photos is left out of the ranking, so one unrepresentative picture does not decide.
-- **WorkerHost** marks listings as ready for the API once they have a rating.
+- **GpuWorkerHost** takes listings one by one and sends all the photos of a listing, merged into one collage, to a local vision model served by Ollama (`qwen2.5vl:7b` by default). The model rates the **whole flat** from 0 to 10 and lists its features. It uses about 8 GB of memory, preferably on a GPU. A listing without a loadable photo gets 0.
+- **WorkerHost** runs the background jobs. It takes the rated listings, computes their predicted price and ideality, and marks them ready for the API. It also sends Telegram messages, archives listings that have no photos, and cleans unavailable links.
 - **ApiHost** serves the listings with filters: price, price per square meter, area, rooms, floor, renovation rating, metro station, source, text search and dates.
 - **TelegramHost** sends the results to people.
 
-A second number, the **ideality score**, combines the renovation rating with the location: how close the metro station is and how far the flat is from the center. Everything runs locally, with no cloud AI service and no data sent to third parties.
+A second number, the **ideality**, compares the real price per square meter with the price plus fines. The fines come from the renovation rating (`1 - rating / 10`), the first or last floor (0.2) and the nearest metro stop (the walking time over 5 minutes and the station's priority). Everything runs locally, with no cloud AI service and no data sent to third parties.
+
+The code-level details (the crawler, the collage, the prompt and the ranking formula) are in the [technical article](../articles/building-ai-real-estate-system).
 
 ## Telegram: personal selections and a public channel
 
@@ -46,7 +48,7 @@ A user can set a filter (price, rooms, minimum rating), and the bot sends the ma
 
 ## What did not work well
 
-- **Predictions are wrong sometimes.** Photos shot from odd angles, very dark photos and heavily staged interiors can produce a wrong score. Averaging over all the photos of a listing reduces that, but does not remove it.
+- **Predictions are wrong sometimes.** Photos shot from odd angles, very dark photos and heavily staged interiors can produce a wrong score. The model sees all the photos of a flat at once, so one bad photo has less effect, but it does not remove the errors.
 - **A photo score is not a visit.** It filters out clearly bad flats efficiently. It does not tell you about noise, neighbors or the house.
 - **We built it for one city first.** The crawler schemas are written for specific listing sites, and the code is organized per city. The README mentions Moscow and Volgograd as further cities you can switch on, but Saint Petersburg is the one we ran.
 - **No way to turn it into a product.** This is the real reason we stopped launching the crawler, and no technical fix helps with it.
