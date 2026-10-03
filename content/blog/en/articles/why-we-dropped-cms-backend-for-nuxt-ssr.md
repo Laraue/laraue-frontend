@@ -6,7 +6,7 @@ seoDescription: Why we deleted our markdown-to-API .NET backend and moved the bl
 type: article
 featured: true
 createdAt: 2026-10-02 19:50
-updatedAt: 2026-10-02 20:02
+updatedAt: 2026-10-03 09:19
 projects: [cms-backend]
 tags: [dotnet, nuxt, architecture, open-source]
 ---
@@ -43,6 +43,8 @@ SSR made the split worse. Server-side rendering is exactly the case where the pa
 We moved the markdown files into the Nuxt repository, in `content/blog/en/…` and `content/blog/ru/…`, and wrote a small catalog in TypeScript: it parses frontmatter, renders markdown, and answers the questions the old API answered — lists, tags, neighbors, categories. The server reads the files once at start. Pages get their data through the same Nuxt server, with no network call during rendering. RSS, the sitemap and the preview images are routes of the same app.
 
 The catalog and its routes are around 700 lines of TypeScript. The host that it replaced was around 870 lines of C#, not counting the library behind it. We kept every public URL, compared a crawl of the old and the new site (status, canonical, hreflang, og:image), and did not lose a single page.
+
+If you keep content in markdown too, two small tools from this site may help: the [Markdown translator](https://laraue.com/markdown-translator) for translating `.md` files and the [Markdown to HTML converter](https://laraue.com/markdown-converter) for checking how a text renders.
 
 ## Results
 

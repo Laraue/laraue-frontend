@@ -29,7 +29,7 @@ defineProps<{
 .section-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .section-label::after{content:'';flex:1;max-width:40px;height:1px;opacity:.5}
 .section-title{font-family:var(--serif);font-size:clamp(26px,3vw,40px);font-weight:800;line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
-.section-sub{font-size:17px;color:var(--muted);line-height:1.7;max-width:560px}
+.section-sub{font-size:17px;color:var(--muted);line-height:1.7;max-width:820px}
 
 .light .section-label, .cream .section-label, .dark .section-label{color:var(--accent);}
 .light .section-label::after, .cream .section-label::after, .dark .section-label::after{background:var(--accent);}
