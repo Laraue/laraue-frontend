@@ -2,6 +2,22 @@ import { Marked, type Token, type Tokens } from 'marked'
 
 import type { InnerLink } from '../types/blog'
 
+// Status badges (version, downloads, license) come from shields.io: they get the colors of the site
+// and the flat square style, unless the badge sets its own.
+const shieldsBadgePrefix = 'https://img.shields.io/'
+const brandBadgeStyle: Record<string, string> = { style: 'flat-square', labelColor: '242429', color: '3568d4' }
+
+const brandBadgeUrl = (href: string): string => {
+    const url = new URL(href)
+    for (const [name, value] of Object.entries(brandBadgeStyle)) {
+        if (!url.searchParams.has(name)) {
+            url.searchParams.set(name, value)
+        }
+    }
+
+    return url.toString()
+}
+
 export interface RenderedMarkdown {
     html: string;
     innerLinks: InnerLink[];
@@ -94,8 +110,9 @@ export const renderMarkdown = (body: string): RenderedMarkdown => {
             },
             image({ href, text, title }) {
                 const titleAttribute = title ? ` title="${escapeHtml(title)}"` : ''
+                const badge = href.startsWith(shieldsBadgePrefix)
 
-                return `<img src="${escapeHtml(href)}"${titleAttribute} alt="${escapeHtml(text)}" />`
+                return `<img${badge ? ' class="badge"' : ''} src="${escapeHtml(badge ? brandBadgeUrl(href) : href)}"${titleAttribute} alt="${escapeHtml(text)}" />`
             },
             link({ href, tokens }) {
                 return `<a href="${escapeHtml(href)}">${this.parser.parseInline(tokens)}</a>`

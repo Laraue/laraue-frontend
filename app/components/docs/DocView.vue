@@ -426,7 +426,8 @@ a.series-name:hover{color:var(--accent);text-decoration:underline;text-underline
 .more-links{margin-bottom:32px}
 .more-links h2{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
 .more-links ul{list-style:none;margin:0;padding:0}
-.more-links li{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:14px;line-height:1.4}
+/* the title takes the room, the label of the type stays in its own column */
+.more-links li{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px 16px;padding:5px 0;font-size:14px;line-height:1.4}
 .more-links a{color:var(--ink);font-weight:600;text-decoration:none}
 .more-links a:hover{color:var(--accent)}
 .article-body{
@@ -507,6 +508,11 @@ a.series-name:hover{color:var(--accent);text-decoration:underline;text-underline
   border-radius:10px;
   border:1px solid var(--border);
   display:block;
+}
+/* status badges (version, downloads, license) in a row */
+.article-body :deep(img.badge){
+  display:inline-block;height:20px;border:0;border-radius:4px;
+  margin:0 6px 6px 0;vertical-align:middle;
 }
 .article-body :deep(figure){margin:32px 0}
 .article-body :deep(figcaption){
