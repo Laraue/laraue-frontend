@@ -6,46 +6,33 @@ tags: [dotnet, crawling, open-source]
 repository: https://github.com/win7user10/Laraue.Crawling
 language: C#
 license: MIT
-description: Laraue.Crawling is a strongly typed C# web scraping library for .NET that supports static HTML, JavaScript-rendered pages, and XML. Define maintainable crawling schemas in code — no spaghetti selectors.
-seoDescription: Laraue.Crawling: a typed C# web scraping library for HTML, JS-rendered pages and XML. Define crawling schemas in code — no spaghetti selectors.
+description: Laraue.Crawling is a C# web scraping library for .NET with typed schemas for static HTML, JavaScript-rendered pages and XML, plus a base class for scheduled crawler jobs. It crawled 100,000+ listings for us.
+seoDescription: Laraue.Crawling: a typed C# web scraping library for HTML, JS-rendered pages and XML, with scheduled jobs. It collected 100,000+ real estate listings.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 19:21
+updatedAt: 2026-10-03 10:13
 ---
-Most C# web scraping code works until it doesn't. A site changes its layout, a selector breaks, and you're
-staring at a tangle of string selectors with no types, no tests, and no clear place to make the fix.
-**Laraue.Crawling** is a strongly typed .NET web scraping library that lets you define crawling schemas
-as clean, testable C# code — for static HTML, JavaScript-rendered pages, and XML alike.
+Most C# scraping code works until a site changes its layout. Then a selector breaks, and you are looking at a tangle of strings with no types, no tests and no obvious place to fix it. **Laraue.Crawling** puts a typed schema between your code and the parser: you describe the page as C# models and selectors once, and the library fills the models.
+
+It is not a toy. It is the crawler behind our [real estate service](real-estate), which collected more than 100,000 listings from two large listing sites. That service no longer collects new listings, because we have not found a legal way to make it a product, but the library is separate from it and we keep maintaining it.
 
 [![NuGet](https://img.shields.io/nuget/v/Laraue.Crawling.Common)](https://www.nuget.org/packages/Laraue.Crawling.Common)
 [![Downloads](https://img.shields.io/nuget/dt/Laraue.Crawling.Common)](https://www.nuget.org/packages/Laraue.Crawling.Common)
 [![MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/win7user10/Laraue.Crawling)
 
----
+## Why a schema instead of selectors in code
 
-## Why a Schema-Based Approach?
+The usual way is to pick a parser (AngleSharp or HtmlAgilityPack for static pages, PuppeteerSharp or Playwright for pages that need JavaScript) and write the extraction inline. That is fine for a one-off script. It hurts when you maintain it for months. A schema gives you:
 
-The typical C# web scraping workflow looks like this: pick a parser (AngleSharp or HtmlAgilityPack for
-static pages, PuppeteerSharp or Playwright for JavaScript-heavy ones), write selector logic inline,
-and move on. It works for one-off scripts. It falls apart the moment you need to maintain it.
-
-Laraue.Crawling wraps those same battle-tested parsers in a schema layer that gives you:
-
-- **Strong typing** — models are plain C# records; type errors surface at compile time, not runtime
-- **Maintainability** — when a site changes, you update one schema definition, not scattered selector strings
-- **Testability** — schemas are regular C# objects; test them with xUnit or NUnit like any other class
-- **Unified API** — swap between static and dynamic parsers without rewriting your extraction logic
-
----
+- **Types.** Models are plain C# records, so a wrong type fails at compile time.
+- **One place to fix.** When a site changes, you change one schema, not selectors scattered through the code.
+- **Tests.** A schema is an ordinary object: parse a saved HTML file and assert on the model.
+- **The same shape for different parsers.** Static and dynamic schemas build models the same way.
 
 ## Quickstart
-
-Install the core package and a parser backend:
 
 ```bash
 dotnet add package Laraue.Crawling.Static.AngleSharp
 ```
-
-Define a model and build a schema:
 
 ```csharp
 public record ProductPage(string Title, string Price) : ICrawlingModel;
@@ -58,112 +45,72 @@ var schema = new AngleSharpSchemaBuilder<ProductPage>()
 var parser = new AngleSharpParser(new NullLoggerFactory());
 var model = await parser.RunAsync(schema, html);
 
-Console.WriteLine(model.Title);  // strongly typed, no casting
+Console.WriteLine(model.Title);
 ```
 
-That's the full loop: define a model, map CSS selectors, run the parser, get a typed result.
+Nested objects and lists use `HasObjectProperty` and `HasArrayProperty` with a sub-builder, so a page with a user and a list of dogs maps to nested records in one expression.
 
----
+## Static, dynamic and XML
 
-## Static vs Dynamic Pages
+- **Static HTML** (`Laraue.Crawling.Static.AngleSharp`): fast, no browser, for pages that do not need JavaScript.
+- **JavaScript-rendered pages** (`Laraue.Crawling.Dynamic.PuppeterSharp`): a real headless browser through PuppeteerSharp. The builder is `PuppeterSharpSchemaBuilder`. Both the package and the class are spelled "Puppeter", without the second "e"; that is how they are named on NuGet, so copy the name exactly. Handlers work with the PuppeteerSharp element handle instead of an HTML string.
+- **XML** (`Laraue.Crawling.Static.Xml`): `XmlSchemaBuilder` for feeds, sitemaps and XML responses.
 
-### Static HTML — AngleSharp
+When one HTML element must be split into several properties (for example "Bob Martin 37" into a name, a surname and an age), `BindManually` gives you the element and lets you bind properties yourself.
 
-Best for pages that don't require JavaScript execution. Fast, lightweight, no browser overhead.
+## A schema from production
 
-```bash
-dotnet add package Laraue.Crawling.Static.AngleSharp
-```
+This is a part of the schema that reads one search result page of a listing site in our real estate service. It uses `HasArrayProperty` for the cards, `BindManually` for the link and `Map` to turn the price text into a number ([full file](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Crawling.AppServices/Cian/CianCrawlingSchema.cs)):
 
 ```csharp
-var schema = new AngleSharpSchemaBuilder<MyModel>()
-    .HasProperty(x => x.Title, "h1")
-    .HasProperty(x => x.Price, ".price-box span")
+return new PuppeterSharpSchemaBuilder<CrawlingResult>()
+    .HasArrayProperty(x => x.Advertisements, "article", pageBuilder =>
+    {
+        pageBuilder.HasProperty(x => x.ShortDescription, "div[data-name=Description]");
+        pageBuilder.BindManually(async (e, b) =>
+        {
+            var linkElement = await e.QuerySelectorAsync("div[data-name=LinkArea] a");
+            var href = await linkElement.GetAttributeValueAsync("href");
+            // ... build the id and the link from the address
+        });
+        pageBuilder.HasProperty(
+            x => x.TotalPrice,
+            builder => builder
+                .UseSelector("span[data-mark=MainPrice]")
+                .Map(s => long.Parse(s.GetOnlyDigits())));
+        pageBuilder.HasArrayProperty(
+            x => x.ImageLinks,
+            "div[data-name=Gallery] img",
+            el => el!.GetAttributeValueAsync("src"));
+    })
     .Build();
 ```
 
-Use this when HtmlAgilityPack or raw AngleSharp feels like too much boilerplate for structured extraction.
+The selectors are the part that breaks when a site changes, and they all live in one file.
 
-### JavaScript-Rendered Pages — PuppeteerSharp
+## Scheduled crawling jobs
 
-For sites that load content dynamically. Uses a real headless browser under the hood — the same
-approach as PuppeteerSharp directly, but with the schema layer on top.
+The package `Laraue.Crawling.Crawler` has `BaseCrawlerJob<TModel, TLink, TState>`, a base class for a crawler that runs as a hosted service. It runs the loop for you: get the next link, parse it, handle the result, wait, repeat. You implement the steps: `GetNextLinkAsync`, `ParseLinkAsync`, `AfterLinkParsedAsync`, `OnSessionStartAsync`, `OnSessionFinishAsync` and `GetTimeToWait`.
 
-```bash
-dotnet add package Laraue.Crawling.Dynamic.PuppeteerSharp
-```
+Two things in it came from real crawling:
 
-```csharp
-var schema = new PuppeteerSharpSchemaBuilder<MyModel>()
-    .HasProperty(x => x.Title, "h1")
-    .HasProperty(x => x.Price, ".price")
-    .Build();
-```
+- Any step can throw `SessionInterruptedException`, which finishes the current session cleanly. The job then waits for the time you return from `GetTimeToWait`.
+- If the site detects the crawler, throw `CrawlerHasBeenDetectedException`. The job logs it and runs the state switch you attached to the exception (for example a new browser session) instead of stopping.
 
-Switch from `AngleSharpSchemaBuilder` to `PuppeteerSharpSchemaBuilder` — your model and property
-mappings stay exactly the same.
+In our service one job per listing site read search pages from the newest listing backwards. In the repository settings a session starts every four hours and the pause between pages is random: 2 to 10 seconds for one site and 35 to 45 seconds for the other.
 
-### XML
+## Is it for you
 
-```bash
-dotnet add package Laraue.Crawling.Static.Xml
-```
-
-Same API, works on XML tree structures. Useful for RSS feeds, sitemaps, or API responses in XML format.
-
----
-
-## How It Compares to Using Parsers Directly
-
-| | Raw AngleSharp / HAP | PuppeteerSharp directly | Laraue.Crawling |
-|---|---|---|---|
-| Strongly typed models | ❌ | ❌ | ✅ |
-| Unified API across parsers | ❌ | ❌ | ✅ |
-| Schema testable as C# class | ❌ | ❌ | ✅ |
-| JS-rendered page support | ❌ | ✅ | ✅ |
-| Static page support | ✅ | ❌ | ✅ |
-| Scheduled job support | ❌ | ❌ | ✅ |
-
-Laraue.Crawling is not a replacement for AngleSharp or PuppeteerSharp — it builds on top of them.
-If you need a quick one-file script, use the parsers directly. If you're building something you'll
-maintain for months, a schema layer pays off quickly.
-
----
-
-## Scheduled Crawling Jobs
-
-The library includes a base class for running crawlers as scheduled ASP.NET hosted services.
-Define your schema, extend the base job class, and the host handles scheduling, logging, and lifecycle:
-
-```csharp
-public class ProductCrawlerJob : BaseCrawlerJob<ProductPage>
-{
-    protected override CrawlingSchema<ProductPage> BuildSchema() => /* your schema */;
-}
-```
-
-Register it in your DI container and it runs on your schedule automatically.
-
----
-
-## Real-World Usage
-
-Laraue.Crawling runs in production as part of [SPB Real Estate](https://github.com/Laraue/Laraue.Apps.RealEstate),
-a property monitoring service that continuously crawls two of Russia's largest listing platforms —
-[Avito](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Crawling.AppServices/Avito/AvitoCrawlingSchema.cs)
-and
-[Cian](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Crawling.AppServices/Cian/CianCrawlingSchema.cs)
-— extracting listings as scheduled jobs.
-
----
+Use it if you want typed schemas and testable selectors: it is MIT-licensed, maintained, and small enough to read in an evening. If you need a quick single-file script, use AngleSharp or PuppeteerSharp directly, as the library only wraps them.
 
 ## Packages
 
 | Package | Purpose |
 |---|---|
 | `Laraue.Crawling.Common` | Core abstractions and interfaces |
-| `Laraue.Crawling.Static.AngleSharp` | Static HTML parsing via AngleSharp |
-| `Laraue.Crawling.Dynamic.PuppeteerSharp` | JS-rendered pages via PuppeteerSharp |
-| `Laraue.Crawling.Static.Xml` | XML tree parsing |
+| `Laraue.Crawling.Static.AngleSharp` | Static HTML through AngleSharp |
+| `Laraue.Crawling.Dynamic.PuppeterSharp` | JavaScript-rendered pages through PuppeteerSharp |
+| `Laraue.Crawling.Static.Xml` | XML trees |
+| `Laraue.Crawling.Crawler` | `BaseCrawlerJob` for scheduled crawling |
 
-**Source:** [github.com/win7user10/Laraue.Crawling](https://github.com/win7user10/Laraue.Crawling)
+Source: [github.com/win7user10/Laraue.Crawling](https://github.com/win7user10/Laraue.Crawling). The listing sites it was built for are not documented here, because the service that used it no longer collects new listings; the [real estate project page](real-estate) tells that story.

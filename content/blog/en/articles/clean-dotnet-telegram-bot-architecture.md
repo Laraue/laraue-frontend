@@ -7,8 +7,8 @@ type: article
 series: architecture-first
 part: 5
 createdAt: 2026-06-21
-updatedAt: 2026-10-02 18:44
-projects: [boards]
+updatedAt: 2026-10-03 10:24
+projects: [boards, telegram-net]
 tags: [devlog, dotnet, telegram, architecture]
 ---
 
@@ -121,7 +121,7 @@ The database is where a message ends up. The more interesting part is how it get
 
 The bot is designed to handle two kinds of messages. The first is commands: the user asks for something to be done, the bot does it. The `/start` command, for example. The second is all the other messages: if the user typed something and it is not a command, the message is simply saved to the database, to show up on the board later.
 
-Commands are routed to controllers, ASP.NET-style, with our [Laraue.Telegram.NET](https://github.com/Laraue/Laraue.Telegram.NET) library. The `/start` command, for example, looks like this:
+Commands are routed to controllers, ASP.NET-style, with our [Laraue.Telegram.NET](../projects/telegram-net) library ([source on GitHub](https://github.com/Laraue/Laraue.Telegram.NET)). The `/start` command, for example, looks like this:
 
 ```csharp
 public class CommandsController(ITelegramCommandsService commandsService)

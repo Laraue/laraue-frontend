@@ -1,25 +1,25 @@
 ﻿---
-title: Laraue.CmsBackend (Archived): Markdown as an API in .NET
+title: Laraue.CmsBackend: Markdown API in .NET (Not Developed)
 type: project
 name: Laraue.CmsBackend
 tags: [dotnet, open-source]
 repository: https://github.com/win7user10/Laraue.CmsBackend
 language: C#
 license: MIT
-description: Laraue.CmsBackend served Markdown files with frontmatter as a typed REST API in .NET. This blog ran on it for about a year. Now it is archived: what it did, how the code looked, and what we learned.
-seoDescription: Archived .NET library that served Markdown files with frontmatter as a typed REST API. How it worked, the SSR mistake we made, and why we dropped it.
+description: Laraue.CmsBackend served Markdown files with frontmatter as a typed REST API in .NET. This blog ran on it for about a year. Now it has no new commits: what it did, how the code looked, and what we learned.
+seoDescription: A .NET library that served Markdown files with frontmatter as a typed REST API. How it worked, the SSR mistake we made, and why we dropped it.
 createdAt: 2025-11-01
-updatedAt: 2026-10-03 09:35
+updatedAt: 2026-10-03 10:29
 ---
-**Laraue.CmsBackend is archived.** It was a .NET library that turned Markdown files with frontmatter into a typed REST API, and this blog ran on it for about a year. We stopped using it in October 2026 and moved the content into the Nuxt app, because keeping an API and a frontend in sync cost more than the API gave us. [The full story is in this article](../articles/why-we-dropped-cms-backend-for-nuxt-ssr).
+**Laraue.CmsBackend is no longer developed.** It was a .NET library that turned Markdown files with frontmatter into a typed REST API, and this blog ran on it for about a year. We stopped using it in October 2026 and moved the content into the Nuxt app, because keeping an API and a frontend in sync cost more than the API gave us. [The full story is in this article](../articles/why-we-dropped-cms-backend-for-nuxt-ssr).
 
-The repository is public and read-only. This page is what is left of the project: what the library did, how the code looked, and the one mistake that is not written down anywhere else.
+The repository stays public, but we no longer develop or use the library. This page is what is left of the project: what the library did, how the code looked, and the one mistake that is not written down anywhere else.
 
 |              |                                                                       |
 |--------------|-----------------------------------------------------------------------|
 | Language     | C#, .NET 10                                                           |
 | Project type | Library                                                               |
-| Status       | Archived, read-only                                                   |
+| Status       | Public, not archived, no new commits                                  |
 | License      | MIT                                                                   |
 | NuGet        | ![latest version](https://img.shields.io/nuget/v/Laraue.CmsBackend)  |
 | Downloads    | ![downloads](https://img.shields.io/nuget/dt/Laraue.CmsBackend)      |

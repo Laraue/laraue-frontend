@@ -7,7 +7,7 @@ description: The journey of building a C# web scraping tool — from a no-code S
 seoTitle: From SaaS to Open Source: 5 Years Building a C# Web Scraper
 seoDescription: Building a C# web scraping tool: from a no-code SaaS with a schema builder to a typed open-source .NET library. Decisions, dead ends and lessons.
 createdAt: 2025-10-07
-updatedAt: 2026-10-02 20:05
+updatedAt: 2026-10-03 10:24
 ---
 Building a **C# web scraping tool** is a project I've come back to across five years and two fundamentally different approaches. What started as a no-code SaaS application — with a visual schema builder, user accounts, a wallet, and webhook delivery — eventually became [Laraue.Crawling](../projects/crawler): a strongly typed open-source .NET library. This article covers the full arc: the original idea, the first implementation's architecture and tests, where it broke down, and why abandoning the interface to build a library was the right call.
 
@@ -205,7 +205,7 @@ public class DocumentSchemaBuilder<TElement, TModel>
 }
 ```
 
-with concrete implementations `AngleSharpSchemaBuilder<TModel>` and `PuppeteerSharpSchemaBuilder<TModel>`. The adapter interface they both implement:
+with concrete implementations `AngleSharpSchemaBuilder<TModel>` and `PuppeterSharpSchemaBuilder<TModel>`. The adapter interface they both implement:
 
 ```csharp
 interface ICrawlingAdapter<in TNode>
@@ -217,7 +217,7 @@ interface ICrawlingAdapter<in TNode>
 }
 ```
 
-With this structure, swapping from `AngleSharpSchemaBuilder` to `PuppeteerSharpSchemaBuilder` required only changing the builder class name — the property bindings, object hierarchies, and transform functions stayed identical.
+With this structure, swapping from `AngleSharpSchemaBuilder` to `PuppeterSharpSchemaBuilder` required only changing the builder class name — the property bindings, object hierarchies, and transform functions stayed identical.
 
 ### XML Support
 
@@ -236,13 +236,13 @@ This separated HTML CSS selector semantics from XPath semantics without duplicat
 
 ## The Library Today
 
-[Laraue.Crawling](https://laraue.com/blog/projects/crawler) runs in production as part of the [real estate aggregator](https://apartments.laraue.com), crawling Avito and Cian listings on a schedule. The crawler article covers how the schema and early-termination pattern are used in that project.
+[Laraue.Crawling](../projects/crawler) is open source and we keep maintaining it. It was the crawler behind the [real estate application](../projects/real-estate), which collected more than 100,000 listings from Avito and Cian; we launched it on a local machine from time to time, and we do not launch it now. The [article about that system](building-ai-real-estate-system) covers how the schema and the early-termination pattern are used there.
 
 The library is open source (MIT), targets modern .NET versions, and is available on NuGet:
 
 ```
 dotnet add package Laraue.Crawling.Static.AngleSharp   # static HTML
-dotnet add package Laraue.Crawling.Dynamic.PuppeteerSharp  # JavaScript pages
+dotnet add package Laraue.Crawling.Dynamic.PuppeterSharp  # JavaScript pages
 dotnet add package Laraue.Crawling.Static.Xml          # XML
 ```
 

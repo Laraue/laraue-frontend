@@ -2,12 +2,12 @@
 title: Парсинг JavaScript-сайтов недвижимости и оценка фото с Ollama на C#
 type: article
 tags: [dotnet, ai, crawling, real-estate]
-projects: [real-estate]
+projects: [real-estate, crawler]
 description: Как построить агрегатор недвижимости на .NET — парсинг через PuppeteerSharp с ранним завершением, интеграция Ollama vision model для оценки фото, штрафная формула ранжирования и уведомления в Telegram. Исходный код на GitHub.
 seoTitle: Парсинг сайтов недвижимости и оценка фото с Ollama на C#
 seoDescription: Агрегатор недвижимости на .NET: парсинг через PuppeteerSharp, Ollama vision для оценки фото, штрафная формула ранжирования и уведомления в Telegram.
 createdAt: 2026-04-16
-updatedAt: 2026-10-02 20:05
+updatedAt: 2026-10-03 10:24
 ---
 **Парсинг JavaScript-сайтов с объявлениями о недвижимости на C#, оценка каждого фото локальной vision-моделью и ранжирование результатов по качеству ремонта** — звучит как задача на выходные, пока не наткнёшься на реальные проблемы: редиректы для защиты от ботов, GPU-зависимый инференс, блокирующий краулер, и TensorFlow-модели, которые застревают на бесполезной точности. Эта статья разбирает, как [Laraue.Apps.RealEstate](https://github.com/Laraue/Laraue.Apps.RealEstate) решает каждую из этих проблем — с реальным кодом из репозитория.
 
@@ -273,5 +273,5 @@ messageBuilder.AppendRow($"<i>Индивидуальная настройка п
 ## Исходный код
 
 - **Основной репозиторий:** [github.com/Laraue/Laraue.Apps.RealEstate](https://github.com/Laraue/Laraue.Apps.RealEstate)
-- **Библиотека краулера:** [github.com/win7user10/Laraue.Crawling](https://github.com/win7user10/Laraue.Crawling)
+- **Библиотека краулера:** [Laraue.Crawling](../projects/crawler) ([GitHub](https://github.com/win7user10/Laraue.Crawling))
 - **Живое приложение:** [apartments.laraue.com](https://apartments.laraue.com)
