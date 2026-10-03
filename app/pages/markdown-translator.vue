@@ -8,6 +8,8 @@ import LSection from "~/components/landins/LSection.vue";
 import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
 import LFaqSection from "~/components/landins/LFaqSection.vue";
 import LSelect from "~/components/landins/LSelect.vue";
+import LSteps from "~/components/landins/LSteps.vue";
+import LToolExample from "~/components/landins/LToolExample.vue";
 import {defineOffer, defineSoftwareApp, defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 import {ApiError} from "~/composables/apiError";
 
@@ -35,12 +37,18 @@ useSeoMeta({
   twitterImageAlt: computed(() => t('seoTitle')),
 })
 
+const faqItems = computed(() => [1, 2, 3, 4, 5, 6, 7].map((n) => ({
+  question: t(`faq${n}q`),
+  answer: t(`faq${n}a`),
+})))
+
 useSchemaOrg([
   defineSoftwareApp({
     name: t('seoTitle'),
     description: t('seoDescription'),
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Browser",
+    featureList: [t('featurePreserveHeadings'), t('featureKeepCode'), t('featureRetainTables'), t('featureLanguages')],
     offers: [
       defineOffer({
         price: 0,
@@ -72,13 +80,9 @@ useSchemaOrg([
   }),
   {
     '@type': 'FAQPage',
-    mainEntity: [
-      { '@type': 'Question', name: t('faq1q'), acceptedAnswer: { '@type': 'Answer', text: t('faq1a') } },
-      { '@type': 'Question', name: t('faq2q'), acceptedAnswer: { '@type': 'Answer', text: t('faq2a') } },
-      { '@type': 'Question', name: t('faq3q'), acceptedAnswer: { '@type': 'Answer', text: t('faq3a') } },
-      { '@type': 'Question', name: t('faq4q'), acceptedAnswer: { '@type': 'Answer', text: t('faq4a') } },
-      { '@type': 'Question', name: t('faq5q'), acceptedAnswer: { '@type': 'Answer', text: t('faq5a') } },
-    ]
+    mainEntity: faqItems.value.map(({ question, answer }) => ({
+      '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
   },
 ])
 
@@ -269,9 +273,9 @@ const updateSourceStats = () => {
   "en": {
     "bc_home": "Home",
     "bc_current": "Markdown Translator",
-    "seoTitle": "Markdown Translator – Structure-Preserving .md Translation",
-    "seoDescription": "Free online Markdown translator. Translate .md files between 10+ languages while preserving headings, code blocks, tables, and all Markdown structure. No formatting lost.",
-    "heroTitle": "Translate Markdown Files Without Breaking the Format",
+    "seoTitle": "Markdown Translator: Translate .md and README Files Online",
+    "seoDescription": "Free MD translator: translate Markdown and README.md files between 10+ languages online. Headings, code blocks, tables and links stay intact. No signup.",
+    "heroTitle": "Markdown Translator: Translate .md and README Files Without Breaking the Format",
     "heroSub": "The only Markdown translator that preserves your headings, code blocks, tables, and lists — exactly as they are — across 10+ languages.",
     "featurePreserveHeadings": "Preserves # headings",
     "featureKeepCode": "Keeps ``` code blocks",
@@ -357,14 +361,38 @@ const updateSourceStats = () => {
     "kwI18n": "i18n markdown",
     "whyMatter": "Why it matters",
     "whyMatterDesc": "Most translation tools destroy Markdown syntax. This one doesn't — it parses the document structure first, translates only human-readable text, then reconstructs the file.",
-    "whoFor": "Who it's for"
+    "whoFor": "Who it's for",
+    "howLabel": "How it works",
+    "howTitle": "How to translate a Markdown file",
+    "howSub": "Three steps, no signup.",
+    "step1t": "Paste your Markdown",
+    "step1d": "Paste the contents of your .md or README.md file into the left pane, or load one of the samples.",
+    "step2t": "Choose the languages",
+    "step2d": "Pick the source and the target language: English, Spanish, French, German, Japanese, Chinese, Portuguese, Arabic, Russian or Hindi.",
+    "step3t": "Translate and copy",
+    "step3d": "Press Translate. Headings, code blocks, tables and links keep their syntax, only the text is translated. Copy the result or download it as a .md file.",
+    "exLabel": "Example",
+    "exTitle": "Example: a README from English to Spanish",
+    "exSub": "The structure stays the same, only the readable text changes. The wording of a real translation may differ.",
+    "exSourceLabel": "Source Markdown (English)",
+    "exResultLabel": "Translated Markdown (Spanish)",
+    "exSource": "# My Awesome Project\n\nInstall the tool and run it:\n\n```bash\nnpm install -g mytool\n```\n\nSee the [docs](https://example.com).",
+    "exResult": "# Mi increíble proyecto\n\nInstala la herramienta y ejecútala:\n\n```bash\nnpm install -g mytool\n```\n\nConsulta la [documentación](https://example.com).",
+    "limitsTitle": "Limits",
+    "limit1": "The translation is made by an AI model. Check technical terms and product names before you publish the result.",
+    "limit2": "Code blocks and link addresses are never translated, only the readable text is.",
+    "limit3": "You paste text, one document at a time. A very long document is easier to translate section by section.",
+    "faq6q": "How do I translate a README.md from Japanese to English?",
+    "faq6a": "Paste the README.md, set From to Japanese and To to English, and press Translate. Any pair of the supported languages works the same way, and the result renders correctly on GitHub.",
+    "faq7q": "What are the limits of the Markdown translator?",
+    "faq7a": "The translation is made by an AI model, so check technical terms before you publish. Code blocks and link addresses are never translated. A very long document is easier to translate section by section."
   },
   "ru": {
     "bc_home": "Главная",
     "bc_current": "Переводчик Markdown",
-    "seoTitle": "Markdown Переводчик – Сохранение структуры .md файлов",
-    "seoDescription": "Бесплатный онлайн переводчик Markdown. Переводите .md файлы между 10+ языками с сохранением заголовков, блоков кода, таблиц и всей структуры Markdown. Без потери форматирования.",
-    "heroTitle": "Переводите Markdown файлы без потери форматирования",
+    "seoTitle": "Переводчик Markdown: перевод .md и README онлайн",
+    "seoDescription": "Бесплатный переводчик Markdown: переводите .md и README файлы на 10+ языков онлайн. Заголовки, блоки кода, таблицы и ссылки остаются на месте. Без регистрации.",
+    "heroTitle": "Переводчик Markdown: переводите .md и README без потери форматирования",
     "heroSub": "Единственный переводчик Markdown, который сохраняет ваши заголовки, блоки кода, таблицы и списки не меняя структуру файла — на 10+ языках.",
     "featurePreserveHeadings": "Сохраняет # заголовки",
     "featureKeepCode": "Оставляет ``` блоки кода",
@@ -450,7 +478,31 @@ const updateSourceStats = () => {
     "kwI18n": "i18n markdown",
     "whyMatter": "Почему это важно",
     "whyMatterDesc": "Большинство утилит для перевода ломают синтаксис Markdown. Эта — нет. Она сначала строит дерево документа, затем переводит только читаемый текст, заменяя его в оригинальной структуре.",
-    "whoFor": "Для кого это"
+    "whoFor": "Для кого это",
+    "howLabel": "Как это работает",
+    "howTitle": "Как перевести Markdown файл",
+    "howSub": "Три шага, без регистрации.",
+    "step1t": "Вставьте Markdown",
+    "step1d": "Вставьте содержимое .md или README.md файла в левое поле или загрузите один из примеров.",
+    "step2t": "Выберите языки",
+    "step2d": "Выберите исходный и целевой язык: английский, испанский, французский, немецкий, японский, китайский, португальский, арабский, русский или хинди.",
+    "step3t": "Переведите и скопируйте",
+    "step3d": "Нажмите «Перевести». Заголовки, блоки кода, таблицы и ссылки сохраняют синтаксис, переводится только текст. Скопируйте результат или скачайте его как .md файл.",
+    "exLabel": "Пример",
+    "exTitle": "Пример: README с английского на испанский",
+    "exSub": "Структура остаётся прежней, меняется только читаемый текст. Формулировки настоящего перевода могут отличаться.",
+    "exSourceLabel": "Исходный Markdown (английский)",
+    "exResultLabel": "Переведённый Markdown (испанский)",
+    "exSource": "# My Awesome Project\n\nInstall the tool and run it:\n\n```bash\nnpm install -g mytool\n```\n\nSee the [docs](https://example.com).",
+    "exResult": "# Mi increíble proyecto\n\nInstala la herramienta y ejecútala:\n\n```bash\nnpm install -g mytool\n```\n\nConsulta la [documentación](https://example.com).",
+    "limitsTitle": "Ограничения",
+    "limit1": "Перевод делает ИИ-модель. Проверьте технические термины и названия продуктов перед публикацией результата.",
+    "limit2": "Блоки кода и адреса ссылок никогда не переводятся, переводится только читаемый текст.",
+    "limit3": "Вы вставляете текст, по одному документу за раз. Очень длинный документ проще переводить по разделам.",
+    "faq6q": "Как перевести README.md с японского на английский?",
+    "faq6a": "Вставьте README.md, выберите «С» — японский, «На» — английский и нажмите «Перевести». Любая пара поддерживаемых языков работает так же, а результат корректно отображается на GitHub.",
+    "faq7q": "Какие у переводчика Markdown ограничения?",
+    "faq7a": "Перевод делает ИИ-модель, поэтому проверьте технические термины перед публикацией. Блоки кода и адреса ссылок никогда не переводятся. Очень длинный документ проще переводить по разделам."
   }
 }
 </i18n>
@@ -617,6 +669,31 @@ const updateSourceStats = () => {
       </div>
     </div>
 
+    <!-- HOW IT WORKS -->
+    <LSteps
+        :pre-title="t('howLabel')"
+        :title="t('howTitle')"
+        :post-title="t('howSub')"
+        :steps="[
+        { title: t('step1t'), description: t('step1d') },
+        { title: t('step2t'), description: t('step2d') },
+        { title: t('step3t'), description: t('step3d') }
+      ]"
+    />
+
+    <!-- EXAMPLE AND LIMITS -->
+    <LToolExample
+        :pre-title="t('exLabel')"
+        :title="t('exTitle')"
+        :post-title="t('exSub')"
+        :source-label="t('exSourceLabel')"
+        :source="t('exSource')"
+        :result-label="t('exResultLabel')"
+        :result="t('exResult')"
+        :limits-title="t('limitsTitle')"
+        :limits="[t('limit1'), t('limit2'), t('limit3')]"
+    />
+
     <!-- FEATURES (structure‑preserving) -->
     <LSection
         type="light"
@@ -666,13 +743,7 @@ const updateSourceStats = () => {
     <LFaqSection
         :pre-title="t('faqLabel')"
         :title="t('faqHeading')"
-        :items="[
-        { question: t('faq1q'), answer: t('faq1a') },
-        { question: t('faq2q'), answer: t('faq2a') },
-        { question: t('faq3q'), answer: t('faq3a') },
-        { question: t('faq4q'), answer: t('faq4a') },
-        { question: t('faq5q'), answer: t('faq5a') }
-      ]"
+        :items="faqItems"
     />
 
     <!-- RELATED TOOL -->

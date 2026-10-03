@@ -5,6 +5,8 @@ import LHero from "~/components/ui/LHero.vue";
 import LNavIcon from "~/components/ui/LNavIcon.vue";
 import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
 import LFaqSection from "~/components/landins/LFaqSection.vue";
+import LSteps from "~/components/landins/LSteps.vue";
+import LToolExample from "~/components/landins/LToolExample.vue";
 import {defineOffer, defineSoftwareApp, defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
 
 const localePath = useLocalePath();
@@ -127,12 +129,22 @@ useSeoMeta({
   twitterImageAlt: computed(() => t('seoTitle')),
 })
 
+// The example is the same in every language.
+const exampleMarkdown = '# Release notes\n\n- **Fast** and *simple*\n- See the [docs](https://example.com)'
+const exampleHtml = '<h1>Release notes</h1>\n<ul>\n  <li><strong>Fast</strong> and <em>simple</em></li>\n  <li>See the <a href="https://example.com">docs</a></li>\n</ul>'
+
+const faqItems = computed(() => [1, 2, 3, 4, 5, 6].map((n) => ({
+  question: t(`faq${n}q`),
+  answer: t(`faq${n}a`),
+})))
+
 useSchemaOrg([
   defineSoftwareApp({
     name: t('seoTitle'),
     description: t('seoDescription'),
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Browser",
+    featureList: [t('heroFeature1'), t('heroFeature2'), t('heroFeature3'), t('heroFeature4')],
     offers: [
       defineOffer({
         price: 0,
@@ -149,13 +161,9 @@ useSchemaOrg([
   }),
   {
     '@type': 'FAQPage',
-    mainEntity: [
-      { '@type': 'Question', name: t('faq1q'), acceptedAnswer: { '@type': 'Answer', text: t('faq1a') } },
-      { '@type': 'Question', name: t('faq2q'), acceptedAnswer: { '@type': 'Answer', text: t('faq2a') } },
-      { '@type': 'Question', name: t('faq3q'), acceptedAnswer: { '@type': 'Answer', text: t('faq3a') } },
-      { '@type': 'Question', name: t('faq4q'), acceptedAnswer: { '@type': 'Answer', text: t('faq4a') } },
-      { '@type': 'Question', name: t('faq5q'), acceptedAnswer: { '@type': 'Answer', text: t('faq5a') } },
-    ]
+    mainEntity: faqItems.value.map(({ question, answer }) => ({
+      '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer },
+    })),
   },
 ])
 
@@ -276,14 +284,14 @@ const copyMarkdown = () => {
   "en": {
     "bc_home": "Home",
     "bc_current": "Markdown to HTML Converter",
-    "seoTitle": "Markdown to HTML Converter",
-    "seoDescription": "The utility for online Markdown to HTML Converting",
+    "seoTitle": "Markdown to HTML Converter: Live Preview, Free Online",
+    "seoDescription": "Free online Markdown to HTML converter with live preview. Tables and code blocks supported, sanitized HTML output, one-click download. No signup.",
     "sidebar_label": "Tool",
     "sidebar_other": "Other tools",
     "sidebar_footer": "Laraue Software\nSmall team, serious craft.",
     "sec_editor": "Editor",
     "sec_about": "About",
-    "page_title": "Markdown to HTML Converter",
+    "page_title": "Markdown to HTML Converter with Live Preview",
     "page_desc": "Write or paste Markdown on the left — see formatted HTML on the right, live. Toggle between rendered preview and raw HTML source.",
     "heroFeature1": "Live preview",
     "heroFeature2": "Tables & code blocks",
@@ -310,6 +318,25 @@ const copyMarkdown = () => {
     "oss_text2": "library — a C# Markdown parser built by Laraue Software. All generated HTML is sanitized for safe embedding.",
     "placeholder": "Start typing Markdown here…\n\nType or paste your Markdown and see it render live on the right.",
     "whoFor": "Who it's for",
+    "howLabel": "How it works",
+    "howTitle": "How to convert Markdown to HTML",
+    "howSub": "Three steps, no signup.",
+    "step1t": "Paste your Markdown",
+    "step1d": "Write or paste Markdown into the left pane, or insert a sample: headings, lists, tables and code blocks.",
+    "step2t": "Check the preview",
+    "step2d": "The formatted result appears on the right as you type. Switch between the rendered preview and the raw HTML source.",
+    "step3t": "Copy or download",
+    "step3d": "Press Copy HTML to take the markup, or Download .html to get a complete styled HTML document.",
+    "exLabel": "Example",
+    "exTitle": "Example: Markdown to HTML",
+    "exSub": "The same text in Markdown and as HTML. The exact markup of the converter may differ in details.",
+    "exSourceLabel": "Markdown",
+    "exResultLabel": "HTML",
+    "limitsTitle": "Limits",
+    "limit1": "The output is sanitized: scripts and unsafe attributes are removed from the HTML.",
+    "limit2": "Copy HTML gives only the markup, Download .html gives a complete document with styles.",
+    "faq6q": "How do I convert a Markdown file to HTML?",
+    "faq6a": "Paste the Markdown into the left pane, check the live preview on the right and press Copy HTML or Download .html. No installation or account is needed.",
     "useCasesHeading": "Preview Markdown before you publish it as HTML",
     "useCasesSub": "From a quick README check to drafting a blog post — see the exact HTML before it goes live.",
     "useCaseReadmeTitle": "README.md files",
@@ -352,11 +379,11 @@ const copyMarkdown = () => {
   "ru": {
     "bc_home": "Главная",
     "bc_current": "Конвертер Markdown в HTML",
-    "seoTitle": "Конвертер Markdown в HTML",
-    "seoDescription": "Простая онлайн утилита для конвертации Markdown в HTML",
+    "seoTitle": "Конвертер Markdown в HTML: онлайн с предпросмотром",
+    "seoDescription": "Бесплатный онлайн конвертер Markdown в HTML с живым предпросмотром. Таблицы и блоки кода, безопасный HTML, скачивание в один клик. Без регистрации.",
     "sec_editor": "Редактор",
     "sec_about": "Об инструменте",
-    "page_title": "Markdown → HTML конвертер",
+    "page_title": "Конвертер Markdown в HTML с живым предпросмотром",
     "page_desc": "Напишите или вставьте Markdown слева — получите HTML справа. Переключайтесь между превью и исходным HTML.",
     "heroFeature1": "Живой превью",
     "heroFeature2": "Таблицы и блоки кода",
@@ -383,6 +410,25 @@ const copyMarkdown = () => {
     "oss_text2": ". Это C# Markdown парсер, сделанный Laraue Software. Весь HTML экранируется перед отрисовкой в браузере.",
     "placeholder": "Начните ввод здесь…\n\nНапишите или вставьте сюда Markdown и наблюдайте за результатом справа.",
     "whoFor": "Для кого это",
+    "howLabel": "Как это работает",
+    "howTitle": "Как конвертировать Markdown в HTML",
+    "howSub": "Три шага, без регистрации.",
+    "step1t": "Вставьте Markdown",
+    "step1d": "Напишите или вставьте Markdown в левое поле или добавьте пример: заголовки, списки, таблицы и блоки кода.",
+    "step2t": "Проверьте предпросмотр",
+    "step2d": "Отформатированный результат появляется справа по мере ввода. Переключайтесь между предпросмотром и исходным HTML.",
+    "step3t": "Скопируйте или скачайте",
+    "step3d": "Нажмите «Копировать HTML», чтобы взять разметку, или «Скачать .html», чтобы получить готовый HTML-документ со стилями.",
+    "exLabel": "Пример",
+    "exTitle": "Пример: Markdown в HTML",
+    "exSub": "Один и тот же текст в Markdown и в виде HTML. Точная разметка конвертера может отличаться в деталях.",
+    "exSourceLabel": "Markdown",
+    "exResultLabel": "HTML",
+    "limitsTitle": "Ограничения",
+    "limit1": "Результат очищается: скрипты и небезопасные атрибуты удаляются из HTML.",
+    "limit2": "«Копировать HTML» даёт только разметку, «Скачать .html» — готовый документ со стилями.",
+    "faq6q": "Как конвертировать Markdown файл в HTML?",
+    "faq6a": "Вставьте Markdown в левое поле, проверьте предпросмотр справа и нажмите «Копировать HTML» или «Скачать .html». Установка и регистрация не нужны.",
     "useCasesHeading": "Просматривайте HTML перед публикацией",
     "useCasesSub": "От быстрой проверки README до черновика статьи — увидьте точный HTML до того, как он опубликован.",
     "useCaseReadmeTitle": "Файлы README.md",
@@ -526,6 +572,31 @@ const copyMarkdown = () => {
 
     </div><!-- /editor-area -->
 
+    <!-- HOW IT WORKS -->
+    <LSteps
+        :pre-title="t('howLabel')"
+        :title="t('howTitle')"
+        :post-title="t('howSub')"
+        :steps="[
+        { title: t('step1t'), description: t('step1d') },
+        { title: t('step2t'), description: t('step2d') },
+        { title: t('step3t'), description: t('step3d') }
+      ]"
+    />
+
+    <!-- EXAMPLE AND LIMITS -->
+    <LToolExample
+        :pre-title="t('exLabel')"
+        :title="t('exTitle')"
+        :post-title="t('exSub')"
+        :source-label="t('exSourceLabel')"
+        :source="exampleMarkdown"
+        :result-label="t('exResultLabel')"
+        :result="exampleHtml"
+        :limits-title="t('limitsTitle')"
+        :limits="[t('limit1'), t('limit2')]"
+    />
+
     <!-- ABOUT SECTION -->
     <div class="about-section" id="about">
       <div class="about-section-inner">
@@ -579,13 +650,7 @@ const copyMarkdown = () => {
     <LFaqSection
         :pre-title="t('faqLabel')"
         :title="t('faqHeading')"
-        :items="[
-        { question: t('faq1q'), answer: t('faq1a') },
-        { question: t('faq2q'), answer: t('faq2a') },
-        { question: t('faq3q'), answer: t('faq3a') },
-        { question: t('faq4q'), answer: t('faq4a') },
-        { question: t('faq5q'), answer: t('faq5a') }
-      ]"
+        :items="faqItems"
     />
 
     <!-- RELATED TOOL -->

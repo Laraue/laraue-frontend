@@ -9,7 +9,7 @@ license: MIT
 description: A lightweight .NET 10 library that turns Markdown files with frontmatter into a filterable, sortable REST API. Strongly typed content schemas, no database, no CMS overhead. Open source, MIT license.
 seoDescription: A lightweight .NET 10 library that serves Markdown files with frontmatter as a filterable REST API. Typed schemas, no database. Open source, MIT.
 createdAt: 2025-11-01
-updatedAt: 2026-10-02 20:05
+updatedAt: 2026-10-03 09:19
 ---
 > **Update:** this blog no longer uses Laraue.CmsBackend. Keeping a separate API and a frontend in sync cost us more than it gave, so we moved the content into the Nuxt app — [the full story](../articles/why-we-dropped-cms-backend-for-nuxt-ssr). We archived the library but did not delete it: it stays available as history, and for future ideas if they appear.
 
@@ -91,6 +91,8 @@ The library provides a backend API layer for Markdown-based content. The core ca
 - **Filtering and sorting API** — query content by any frontmatter attribute; get a list of all unique tags sorted alphabetically; paginate results
 - **Markdown-to-HTML rendering** — built-in transformer converts Markdown body to HTML, with support for internal link generation
 - **Git-friendly storage** — content lives as `.md` files in your repository; no database, no migrations, no backups to manage
+
+Want to see Markdown turned into HTML without installing anything? The [Markdown to HTML converter](https://laraue.com/markdown-converter) shows a live preview, and the [Markdown translator](https://laraue.com/markdown-translator) translates the text of your `.md` files while keeping the headings, code blocks and tables.
 
 ---
 
