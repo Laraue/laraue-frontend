@@ -133,16 +133,16 @@ useSchemaOrg([
     "stat_free": "Free",
     "stat_free_label": "forever",
     "view_github": "View on GitHub",
-    "view_blog": "Read in Blog",
+    "view_blog": "How it works",
     "feat_label": "What you get",
     "feat_title": "Powerful learning features",
     "feat_sub": "Proven language learning methods, delivered inside the app you already use every day.",
     "f1t": "Quiz Mode",
-    "f1d": "Interactive multiple-choice quizzes that make vocabulary stick. Immediate feedback and streak tracking to keep you motivated.",
+    "f1d": "Interactive multiple-choice quizzes that make vocabulary stick. Immediate feedback after every answer.",
     "f2t": "CEFR Levels",
-    "f2d": "Words organized by A1 through C2 proficiency levels. Start where you are, progress at your own pace — no guesswork about difficulty.",
+    "f2d": "Words organized by A1 through C1 proficiency levels. Start where you are, progress at your own pace — no guesswork about difficulty.",
     "f3t": "Progress Tracking",
-    "f3d": "Monitor your learning streak, quiz scores and word mastery over time. Visual stats keep you accountable and show real improvement.",
+    "f3d": "Monitor your quiz results and word mastery over time. Visual stats keep you accountable and show real improvement.",
     "f4t": "View Mode",
     "f4d": "Browse and study words organized by CEFR level, topic, or alphabetically. Great for refreshing vocabulary before an exam or meeting.",
     "f5t": "Personalized Learning",
@@ -157,7 +157,7 @@ useSchemaOrg([
     "step2t": "Pick your language",
     "step2d": "Choose from 7 language pairs and set your CEFR level. Change anytime from settings.",
     "step3t": "Start the quiz",
-    "step3d": "Answer questions and build your streak. Come back daily to keep improving.",
+    "step3d": "Answer the questions. A word is learned after three correct answers in a row.",
     "lang_label": "Supported pairs",
     "lang_title": "7 language pairs",
     "lang_sub": "All the most popular languages, all English-based. More pairs coming soon.",
@@ -171,16 +171,16 @@ useSchemaOrg([
     "more_coming": "More coming",
     "quiz_label": "Core feature",
     "quiz_title": "Quiz Mode",
-    "quiz_desc": "The fastest way to build vocabulary. You see a word, pick the right translation from four options, and get immediate feedback. Wrong answers are revisited automatically.",
+    "quiz_desc": "The fastest way to build vocabulary. You see a word, pick the right translation from eight options of the same part of speech, and get immediate feedback. Wrong answers are revisited automatically.",
     "qf1": "Multiple-choice format proven to improve retention",
-    "qf2": "Immediate correct/wrong feedback with explanation",
-    "qf3": "Streak counter to build the daily habit",
+    "qf2": "Immediate feedback after every answer: correct or wrong",
+    "qf3": "All eight options share the part of speech, so grammar does not give the answer away",
     "qf4": "Adaptive — revisits words you get wrong more often",
     "qf5": "Stats updated after every session",
     "oss_label": "Transparent by design",
-    "oss_title": "Fully open source",
-    "oss_sub": "The bot's source code is public on GitHub. Explore the architecture, contribute features, or fork it for your own language learning project.",
-    "oss_card_desc": "Built with C# and the Telegram.NET library. Clean architecture, reusable components, and documented code. Pull requests welcome.",
+    "oss_title": "Source code is public",
+    "oss_sub": "The bot's source code is public on GitHub, so you can read how it works.",
+    "oss_card_desc": "Built with C# on .NET. The word list and the languages are plain JSON files in the repository.",
     "cta_eyebrow": "Free. No account. No install.",
     "cta_title": "Start building your vocabulary today",
     "cta_sub": "Open the bot, pick your language, and start your first quiz in under 60 seconds."
@@ -212,16 +212,16 @@ useSchemaOrg([
     "stat_free": "Бесплатно",
     "stat_free_label": "навсегда",
     "view_github": "Открыть на GitHub",
-    "view_blog": "Подробнее в блоге",
+    "view_blog": "Как это устроено",
     "feat_label": "Что включено",
     "feat_title": "Мощные функции",
     "feat_sub": "Проверенные методы изучения языков — в приложении, которым вы пользуетесь каждый день.",
     "f1t": "Режим квиза",
-    "f1d": "Интерактивные квизы, которые помогают запоминать слова. Моментальная обратная связь и система серий правильных ответов.",
+    "f1d": "Интерактивные квизы, которые помогают запоминать слова. Моментальная обратная связь после каждого ответа.",
     "f2t": "Уровни CEFR",
     "f2d": "Слова по уровням от A1 до C1. Легкий старт в новых языках. Учите только то, что необходимо.",
     "f3t": "Отслеживание прогресса",
-    "f3d": "Серии правильных ответов, результаты квизов и уровень знания слов. Статистика показывает реальный прогресс.",
+    "f3d": "Результаты квизов и уровень знания слов. Статистика показывает реальный прогресс.",
     "f4t": "Режим просмотра",
     "f4d": "Просматривайте слова по уровню CEFR, тематике или алфавиту. Подходит для повторения перед экзаменом.",
     "f5t": "Персонализация",
@@ -236,7 +236,7 @@ useSchemaOrg([
     "step2t": "Выберите язык",
     "step2d": "Выберите языковую пару, уровень CEFR.",
     "step3t": "Начните квиз",
-    "step3d": "Отвечайте на вопросы и набирайте серии правильных ответов.",
+    "step3d": "Отвечайте на вопросы. Слово считается выученным после трёх правильных ответов подряд.",
     "lang_label": "Поддерживаемые пары",
     "lang_title": "7 языковых пар",
     "lang_sub": "Самые популярные языковые пары. Постоянно добавляются новые.",
@@ -250,16 +250,16 @@ useSchemaOrg([
     "more_coming": "Скоро новые пары",
     "quiz_label": "Основной режим",
     "quiz_title": "Режим квиза",
-    "quiz_desc": "Самый быстрый способ пополнить словарный запас. Выбираете перевод из восьми вариантов для предложенного слова. Неправильные ответы повторяются автоматически.",
+    "quiz_desc": "Самый быстрый способ пополнить словарный запас. Выбираете перевод из восьми вариантов той же части речи для предложенного слова. Неправильные ответы повторяются автоматически.",
     "qf1": "Формат с выбором ответа, проверенный практикой",
-    "qf2": "Моментальная обратная связь с объяснением",
-    "qf3": "Счётчик серий правильных ответов для формирования привычки",
+    "qf2": "Моментальный ответ после каждого выбора: верно или неверно",
+    "qf3": "Все восемь вариантов одной части речи, поэтому грамматика не подсказывает ответ",
     "qf4": "Адаптивность — слова с ошибками повторяются чаще",
     "qf5": "Статистика обновляется после каждой сессии",
     "oss_label": "Абсолютная прозрачность",
-    "oss_title": "Полностью open source",
-    "oss_sub": "Исходный код бота открыт на GitHub. Изучите архитектуру, внесите вклад или сделайте fork.",
-    "oss_card_desc": "Написан на C# с использованием Telegram.NET. Чистая архитектура, переиспользуемые компоненты, документированный код.",
+    "oss_title": "Исходный код открыт",
+    "oss_sub": "Исходный код бота открыт на GitHub, так что можно прочитать, как он устроен.",
+    "oss_card_desc": "Написан на C# на .NET. Список слов и языки — обычные JSON-файлы в репозитории.",
     "cta_eyebrow": "Бесплатно. Без аккаунта. Без установки приложений.",
     "cta_title": "Начните пополнять словарный запас сегодня",
     "cta_sub": "Откройте бота, выберите язык и пройдите первый квиз за 60 секунд."
@@ -320,6 +320,10 @@ useSchemaOrg([
                 <div class="quiz-option">Fragile</div>
                 <div class="quiz-option wrong">&#10007; Rigid</div>
                 <div class="quiz-option">Slow</div>
+                <div class="quiz-option">Cheerful</div>
+                <div class="quiz-option">Narrow</div>
+                <div class="quiz-option">Distant</div>
+                <div class="quiz-option">Hungry</div>
               </div>
             </div>
             <div class="bubble user">
@@ -327,7 +331,7 @@ useSchemaOrg([
               <div class="bubble-time">12:04</div>
             </div>
             <div class="bubble bot">
-              &#127881; Correct! Streak: <strong style="color:var(--color-success)">5</strong><br>
+              &#127881; <strong style="color:var(--color-success)">Correct!</strong><br>
               <span style="opacity:.6;font-size:11px">Next word in 3s</span>
               <div class="bubble-time">12:04</div>
             </div>
