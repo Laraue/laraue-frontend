@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 5
 createdAt: 2026-06-21
-updatedAt: 2026-10-03 10:24
+updatedAt: 2026-10-04 16:00
 projects: [boards, telegram-net]
 tags: [devlog, dotnet, telegram, architecture]
 ---
@@ -16,6 +16,13 @@ tags: [devlog, dotnet, telegram, architecture]
 > The first four articles were theory: why and what we are building, the user journey, the project stack. In this article we write the backend of a real Telegram bot.
 
 The goal of the first development iteration is minimal: build a backend that can handle messages from Telegram users and save them. No web API and no frontend yet — just accepting messages from the user and putting them into the database.
+
+What came out of it:
+
+- one runnable project, `TelegramHost`, with layers around it: `DataAccess`, `Services`, `TelegramServices`;
+- the bot's commands are handled by controllers, as in ASP.NET, and every other message goes to a middleware that saves it;
+- a PostgreSQL database with migrations applied at host startup, and EF Core with linq2db plugged in for part of the queries;
+- a `/_health` health check from the first commit.
 
 ## Telegram Host
 
@@ -46,7 +53,7 @@ A host is named after the function it performs: `TelegramHost` handles the Teleg
 
 This is a deliberate decision that simplifies managing the hosts. Each can get its own resource limits (a bot and a heavy background worker may consume memory and CPU very differently), its own network rules (the web API is exposed to the outside, a worker does not need that access), and its own restart behaviour. One host for all the functions would not allow any of this.
 
-The Telegram host, for example, uses long polling — it reaches out to Telegram for updates itself, rather than working with webhooks. So it needs no public access at all. Its main jobs are moving new messages into a processing queue and working through that queue sequentially, one record at a time. Which means its memory limits can be kept low.
+The Telegram host, for example, uses long polling — it reaches out to Telegram for updates itself, rather than working with webhooks. So it needs no public access at all. It puts the received updates into a queue in the database and works through it. Updates of one chat are handled strictly one at a time, while updates of different chats may run in parallel (more on this in the [article about media groups](telegram-media-group-album-bot)). The load on memory is small, so the host's limits can be kept low.
 
 ### Core and Host services
 
@@ -60,7 +67,7 @@ This split undeniably costs developer effort and is not always worth it. If the 
 
 The database schema follows from the user journey defined earlier: the user writes a message to the bot and it is saved, to be shown on a board later. The first tables of this iteration are the user, the message (a card on the board), and the Telegram message.
 
-The main table is `Message`. It is one of the messages on the board:
+The main table is `Message`. It is one of the messages on the board. It is shown here in a simplified form: in the first commits the fields were a little different — the category was called `MessageCategory`, and the Telegram message identifier was stored right in `Message`.
 
 ```csharp
 public class Message
@@ -93,7 +100,17 @@ public class Message
 
 The link to the Telegram message identifier is optional: the `TelegramMessageId` field is nullable. From the very first iteration the model allows a card on the board to be created without using the messenger at all.
 
-The [`User`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Models/User.cs) model implements `ITelegramUser<Guid>` — an interface from our [Laraue.Telegram.NET](https://github.com/Laraue/Laraue.Telegram.NET) library. The user is saved by the library automatically on the first interaction, which is why the model has to implement this interface.
+The [`User`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Models/User.cs) model holds identifiers, `TelegramId` among them. The user is created by our [Laraue.Telegram.NET](https://github.com/Laraue/Laraue.Telegram.NET) library on the first contact with the bot. For that the host plugs in its own service that answers two questions: find a user by Telegram id, and create a new one.
+
+```csharp
+public interface ITelegramUserQueryService<TUserKey>
+{
+    Task<TelegramUserId<TUserKey>?> FindUserIdAsync(long telegramId, CancellationToken cancellationToken = default);
+    Task<TUserKey> CreateAsync(TelegramData telegramData, CancellationToken cancellationToken = default);
+}
+```
+
+In the host it is registered with `AddTelegramAuthentication<Guid, TelegramUserQueryService, RequestContext>()`. When we wrote this part, the library still required the `User` model itself to implement the `ITelegramUser<Guid>` interface. We later removed that requirement: the database model should not depend on a library, and the library gets the data it needs through a service.
 
 The [`TelegramMessage`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Models/TelegramMessage.cs) model holds references to a message's various Telegram identifiers. With it we try to keep Telegram-specific identifiers out of the app's main business logic.
 
@@ -109,7 +126,7 @@ Initially we named the model for a card on the board `Message`. At later stages,
 
 Each such rename is not just a find-and-replace operation: the name is woven into the models and the names of services, their methods, and DTOs. The names also show up in the user interfaces.
 
-We never did come up with an idea of how this could have been avoided. The right name was not known in the first iteration, and `Message` looked like a correct choice. The only conclusion: renaming models can take a lot of time, so think twice before picking the final name. And our mistake is not unique: Atlassian renamed Jira's "projects" to ["spaces"](https://community.atlassian.com/forums/Jira-articles/Jira-Spaces-have-landed/ba-p/3117620), and "issues" to "work", as the product evolved.
+We never did come up with an idea of how this could have been avoided. The right name was not known in the first iteration, and `Message` looked like a correct choice. The only conclusion: renaming models can take a lot of time, so think twice before picking the final name. And our mistake is not unique: Atlassian renamed Jira's "projects" to ["spaces"](https://community.atlassian.com/forums/Jira-articles/Jira-Spaces-have-landed/ba-p/3117620), and "issues" to "work items", as the product evolved.
 
 #### The project naming changed too
 
@@ -223,17 +240,21 @@ The reason is convenient history navigation. A project that lives for years accu
 
 The project uses EF Core as the default ORM for queries. But some cases are not supported by that framework, and that is where linq2db helps. Both ORMs work with the same models — the registration is the `app.Services.UseLinq2Db()` line. `UseLinq2Db()` is just our [wrapper](https://github.com/Laraue/Laraue.Core/blob/master/src/Laraue.Core.DataAccess.Linq2DB/Extensions/ServiceCollectionExtensions.cs) for working with the official [`LinqToDB.EntityFrameworkCore`](https://github.com/linq2db/linq2db/tree/master/Source/LinqToDB.EntityFrameworkCore) adapter.
 
+In practice the choice is visible right in the query code. The adapter provides methods with suffixes, so it is always clear which ORM will run a query: `ToListAsyncEF` runs it through EF Core, and `ToListAsyncLinqToDB` through linq2db. For example, the paged list of issues in Boards is read through linq2db, while most other queries go through EF Core.
+
 Why not use linq2db all the time? Two reasons. First: there are cases EF Core handles that linq2db does not. Second: EF Core has very convenient change tracking and migrations tooling, which linq2db lacks.
 
 ## Health checks from day one
 
-In `Program.cs` you can see the lines `AddHealthChecks()` and `MapHealthChecks("/_health")`. They go into every host from the first commit. A request to `/_health` returns whether the host is alive and able to serve requests. The health checks will come in handy later, when the infrastructure is being set up.
+In `Program.cs` you can see the lines `AddHealthChecks()` and `MapHealthChecks("/_health")`. They go into every host from the first commit. A request to `/_health` returns whether the host is alive and able to serve requests. The health checks will come in handy when the infrastructure is being set up, and we will see this in the next article.
 
 ## Conclusions
 
 The result of the iteration is a .NET backend with an architecture split into layers and a single Telegram host. It accepts Telegram messages and routes commands through controllers. Ordinary messages are mapped through the fallback middleware and passed to the Host-level service, go from there to the Core service, and finally end up in the PostgreSQL database. The host runs migrations at startup and has a health check endpoint.
 
 None of this is deployed yet: the code builds and runs locally, but has not reached a server.
+
+> **What changed since then.** The code in the article is shown as of this part. Later the single middleware was split in two: for private chats and for group chats. Metrics were added to the host (OpenTelemetry and a `/_metrics` endpoint for Prometheus), some commands got a restriction on the chat type, and `User` stopped implementing the library's interface. The structure of the solution and the principles stayed the same.
 
 ## What comes next
 
