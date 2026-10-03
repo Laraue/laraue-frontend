@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 3
 createdAt: 2026-06-20 16:20
-updatedAt: 2026-07-09 11:00
+updatedAt: 2026-10-04 12:00
 projects: [boards]
 tags: [devlog, telegram, product, task-tracker]
 ---
@@ -16,6 +16,12 @@ tags: [devlog, telegram, product, task-tracker]
 > The [previous article](prototyping-ui-with-ai-before-code) was about prototyping the interface. Now we have to think through how the user will create issues on the boards directly from Telegram.
 
 The prototype shows clearly how the product will look. But it does not answer how the user's interaction in Telegram with that interface will work. We will try to fix the key points in this article, before the database design stage. We have written about why we always [start development with the user path](how-we-build-engineering-principles) as a general principle; this article is about a concrete example — Laraue Boards.
+
+In short, what we decided:
+
+- the first version is single-user: no organizations, teams, sharing or permissions;
+- the user path is two actions: save a message through the bot, then sort the tasks in the web app;
+- the bot is needed because Saved Messages is good for writing things down, but not for sorting what was written.
 
 ## The minimal set of features for the first version
 
@@ -50,8 +56,14 @@ So a bot can combine the user's familiar way of working with notes with a full s
 
 The path, written out before any code, lets us understand what the data model has to support: the user, the card, the backlog, the board with columns, a status on each card. It says what the bot has to do (accept a message, create a card) and what the web app has to do (read cards, move them, change status).
 
-The database schema in the next article will be designed not from an abstract set of entities; we understand clearly what has to be added to implement the user scenario.
+We will design the database schema not from an abstract set of entities but from the concrete scenario: it will contain only what the scenario cannot work without.
+
+## What of this path survived the first users
+
+Later, on real users, part of the scenario changed, and it is worth saying so right away.
+
+The two-step scheme "save in the bot, sort in the app" stayed. The bot itself we simplified. At first we added picking an epic and a status in the chat at the moment of saving, so the person would not have to open the app. Users found it in the way: instead of a quick note the bot started asking questions. We removed the feature. Now a message sent to the bot is saved and the bot answers with a 👍 reaction, nothing more. More in the [article about why users kept choosing Saved Messages](telegram-saved-messages-bot-lesson).
 
 ## What comes next
 
-The next step is designing the data model: it will be a minimal database schema, designed for this specific scenario.
+The user path is described, so we can choose technologies. The next article is about [choosing the stack](choosing-stack-for-solo-project): .NET, PostgreSQL, Nuxt, and why we prefer boring technologies. The database schema and the first version of the backend come after it.
