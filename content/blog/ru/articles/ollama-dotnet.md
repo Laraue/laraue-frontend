@@ -4,15 +4,24 @@ type: article
 featured: true
 tags: [dotnet, ai, open-source]
 projects: [real-estate, learn-language]
-description: Как использовать Ollama в C# и .NET — нативный HTTP API, структурированный JSON-вывод через C# классы, анализ изображений vision-моделями и типизированный NuGet-адаптер. Без облачных API, без утечки данных.
+description: Как вызвать Ollama из C# и .NET: HttpClient с текстом и изображением, структурированный JSON-вывод, типизированный NuGet-адаптер со схемой из C# класса и сравнение с OllamaSharp и Microsoft.Extensions.AI. Без облачного API.
 seoTitle: Ollama в C# и .NET: локальные LLM и структурированный вывод
-seoDescription: Как использовать Ollama в C# и .NET: HTTP API, структурированный JSON-вывод, vision-модели и типизированный NuGet-адаптер. Без облачных API.
+seoDescription: Ollama из C# и .NET: HttpClient с изображением, структурированный JSON-вывод, адаптер Laraue.Ollama.NET, OllamaSharp и Microsoft.Extensions.AI.
 createdAt: 2025-12-26
-updatedAt: 2026-10-03 17:25
+updatedAt: 2026-10-03 18:29
 ---
 **Интеграция Ollama с C# и .NET** позволяет запускать open-source языковые и vision-модели локально — без облачных API-ключей, без оплаты за каждый вызов, без передачи данных на внешние серверы. В этой статье разбирается нативный HTTP API Ollama, структурированный вывод через JSON Schema, анализ изображений vision-моделями и типизированный .NET-адаптер, который генерирует схемы запросов из C# классов автоматически.
 
 Два наших проекта используют этот подход: [агрегатор недвижимости](https://apartments.laraue.com) применял Ollama для оценки фотографий квартир по качеству ремонта (новые объявления он больше не собирает); [бот для изучения языков](../projects/learn-language) — для генерации словарного запаса. Оба работают локально без зависимости от сторонних API. [Описание проекта агрегатора квартир](../projects/real-estate).
+
+## Краткое содержание
+
+Как вызвать локальную модель Ollama из C#:
+
+1. Запустите Ollama. По умолчанию он слушает `http://localhost:11434`.
+2. Отправьте `POST` на `/api/generate` через `HttpClient`: `model`, `prompt` и `stream: false`. Для vision-модели добавьте `images` — массив строк base64. Для структурированного вывода добавьте `format` — JSON Schema.
+3. Ответ лежит в поле `response`. При структурированном выводе это JSON-строка, которую вы десериализуете сами.
+4. Либо отдайте эту рутину библиотеке: в статье показан наш типизированный адаптер `Laraue.Ollama.NET`, который строит схему из C# класса, и его сравнение с OllamaSharp и Microsoft.Extensions.AI.
 
 ---
 
@@ -77,6 +86,34 @@ updatedAt: 2026-10-03 17:25
 }
 ```
 
+### Вызов API из C# через HttpClient
+
+Официального .NET-клиента у Ollama нет (официальные библиотеки — для Python и JavaScript), но API — это обычный JSON поверх HTTP, так что `HttpClient` достаточно. Вот вызов vision-модели с изображением:
+
+```csharp
+using System.Net.Http.Json;
+
+var client = new HttpClient { BaseAddress = new Uri("http://localhost:11434/") };
+
+var imageBase64 = Convert.ToBase64String(await File.ReadAllBytesAsync("photo.jpg"));
+
+var response = await client.PostAsJsonAsync("api/generate", new
+{
+    model = "qwen2.5vl:7b",
+    prompt = "Describe what you see in this photo.",
+    images = new[] { imageBase64 },
+    stream = false,
+});
+response.EnsureSuccessStatusCode();
+
+var result = await response.Content.ReadFromJsonAsync<GenerateResponse>();
+Console.WriteLine(result!.Response);
+
+record GenerateResponse(string Response);
+```
+
+Для текстового запроса уберите `images`. `stream = false` заставляет Ollama вернуть один JSON-объект вместо потока частей, так читать проще.
+
 ### Структурированный вывод через JSON Schema
 
 Поле `format` включает **структурированный вывод** — модель возвращает JSON-объект по вашей схеме вместо произвольного текста. Это необходимо в любом сценарии, где ответ нужно парсить программно:
@@ -100,23 +137,24 @@ updatedAt: 2026-10-03 17:25
       "Description": {
         "type": ["string"]
       }
-    }
+    },
+    "required": ["RenovationRating", "Tags", "Description"]
   }
 }
 ```
 
-Ответ соответствует схеме:
+Список `required` важен. Когда мы запускали схему с одним свойством и без `required` на `gemma3:4b`, модель оба раза отвечала пустым объектом (`{ }`); с `"required": ["RenovationRating"]` оба раза возвращалось `{ "RenovationRating": 7 }`. Схема ограничивает форму ответа, но без `required` пустой объект тоже считается допустимым.
+
+Структурированный ответ приходит в поле `response` как **JSON-строка**, которую ваш код должен разобрать:
 
 ```json
 {
   "model": "qwen2.5vl:3b",
-  "data": {
-    "RenovationRating": 0.82,
-    "Tags": ["clean", "bright", "new_windows", "modern_kitchen"],
-    "Description": "Ухоженная квартира с недавним ремонтом, хорошим естественным светом и обновлёнными элементами."
-  }
+  "response": "{ \"RenovationRating\": 0.82, \"Tags\": [\"clean\", \"bright\", \"new_windows\", \"modern_kitchen\"], \"Description\": \"Ухоженная квартира с недавним ремонтом, хорошим естественным светом и обновлёнными элементами.\" }"
 }
 ```
+
+В C# десериализуйте `response` через `JsonSerializer.Deserialize<T>(...)`.
 
 ---
 
@@ -173,7 +211,7 @@ public interface IOllamaPredictor
 }
 ```
 
-Используйте generic-перегрузки, когда нужен структурированный вывод, разобранный в C# тип. Используйте сырую перегрузку, когда нужен текстовый ответ напрямую — для свободной генерации или когда парсинг реализован самостоятельно. `additionalParameters` — новое дополнение: передавайте параметры вроде `temperature` или `top_p` напрямую в запрос к Ollama, не обращаясь к нативному HTTP API.
+Используйте generic-перегрузки, когда нужен структурированный вывод, разобранный в C# тип. Используйте сырую перегрузку, когда нужен текстовый ответ напрямую — для свободной генерации или когда парсинг реализован самостоятельно. `additionalParameters` добавляет поля на верхний уровень запроса к Ollama, поэтому можно передать то, чего адаптер не моделирует, например `options` или `keep_alive`, не переходя на нативный HTTP API. Параметры модели вроде `temperature` или `top_p` нужно класть внутрь `options`: `new Dictionary<string, object> { ["options"] = new Dictionary<string, object> { ["temperature"] = 0.2 } }`. Сам ключ `temperature` передавать не нужно: адаптер уже записывает этот ключ, и повторное добавление выбросит исключение.
 
 ### Установка
 
@@ -208,11 +246,25 @@ public record PredictionResult
 
 Адаптер рефлектирует `PredictionResult` в момент вызова, строит `format` JSON Schema, отправляет запрос и десериализует ответ обратно в `PredictionResult`. Добавление нового свойства в record сразу влияет на следующий запрос — правки схемы вручную не требуется.
 
+### Что содержит сгенерированная схема
+
+Адаптер читает публичные свойства вашего класса и сопоставляет их типы:
+
+| Тип C# | Тип JSON Schema |
+|---|---|
+| `string`, `DateTime` | `string` |
+| `int`, `long`, `float`, `double`, `decimal` | `number` |
+| `bool` | `boolean` |
+| массивы и списки | `array` (с сопоставленным типом элемента, вложенные классы тоже) |
+| остальные классы, словари | `object` с их свойствами |
+
+Есть два ограничения, о которых нужно знать. В сгенерированной схеме нет списка `required`, поэтому модель вправе пропустить свойства, а отсутствующее свойство десериализуется в значение по умолчанию (например, оценка `0`). Прогон на `gemma3:4b` выше показывает, что так бывает на самом деле, поэтому проверяйте результат или вызывайте нативный API со своим `required`. Enum не превращаются в строки; используйте свойство типа `string`.
+
 ### Анализ текста
 
 ```csharp
 var result = await ollamaPredictor.PredictAsync<PredictionResult>(
-    model: "gemma3:12b",
+    modelName: "gemma3:12b",
     prompt: "Классифицируй следующий текст и верни структурированный результат.",
     ct: ct);
 
@@ -227,11 +279,23 @@ var imageBytes = File.ReadAllBytes("apartment.jpg");
 var base64Image = Convert.ToBase64String(imageBytes);
 
 var result = await ollamaPredictor.PredictAsync<PredictionResult>(
-    model: "qwen2.5vl:3b",
+    modelName: "qwen2.5vl:3b",
     prompt: "Оцени качество ремонта, видимое на фотографии квартиры.",
     base64EncodedImage: base64Image,
     ct: ct);
 ```
+
+---
+
+## Другие варианты для .NET
+
+`Laraue.Ollama.NET` намеренно небольшая. Вот другие распространённые способы вызвать Ollama из .NET:
+
+- **OllamaSharp.** Сообщественный .NET SDK, который указан для .NET в README самого Ollama. Он умеет chat и generate, потоковый вывод, изображения и структурированный вывод и реализует `IChatClient` и `IEmbeddingGenerator` от Microsoft.
+- **Microsoft.Extensions.AI.** Абстракция от Microsoft (`IChatClient`), позволяющая менять провайдера. Отдельный пакет `Microsoft.Extensions.AI.Ollama` устарел, и NuGet указывает на OllamaSharp как замену: используйте OllamaSharp как реализацию Ollama за `IChatClient`.
+- **Обычный `HttpClient`**, как показано выше, когда нужно один-два вызова и не нужна лишняя зависимость.
+
+Свой адаптер мы написали под одну узкую задачу: структурированный вывод со схемой, сгенерированной из C# класса. Если вам нужны потоковый вывод, история чата или не привязанный к провайдеру интерфейс, берите OllamaSharp.
 
 ---
 
@@ -246,4 +310,4 @@ var result = await ollamaPredictor.PredictAsync<PredictionResult>(
 
 ## Применение в реальных проектах
 
-[Агрегатор недвижимости](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Prediction.AppServices/OllamaRealEstatePredictor.cs) использует `IOllamaPredictor` с `qwen2.5vl` для оценки фотографий квартир по качеству ремонта. Каждое фото получает `RenovationRating` от 0 до 1, а также массивы `Advantages` и `Problems`, которые хранятся для отладки промптов. Среднее по всем фото объявления входит в итоговый рейтинг идеальности. [Как работает формула ранжирования](../projects/real-estate).
+[Агрегатор недвижимости](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Prediction.AppServices/OllamaRealEstatePredictor.cs) использует `IOllamaPredictor` с `qwen2.5vl:7b`. Все фото квартиры склеиваются в один коллаж и уходят одним запросом, а модель возвращает оценку ремонта от 0 до 10, флаг `HasNoRenovation` и список положительных и отрицательных особенностей. Особенности хранятся для отладки промптов. [Как работают конвейер и формула ранжирования](building-ai-real-estate-system).
