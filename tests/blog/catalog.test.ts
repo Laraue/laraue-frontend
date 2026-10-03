@@ -71,14 +71,15 @@ test('describes a card of the list', () => {
     assert.isAbove(item?.length ?? 0, 0)
 })
 
-test('describes a page with its neighbors, the pages created before and after it', () => {
+test('describes a page with its neighbors, the pages that follow it in the list (the newest first)', () => {
     const first = catalog.detail('en', 'articles', 'first')
     const second = catalog.detail('en', 'articles', 'second')
 
-    assert.deepEqual(first?.nextLink, { path: ['blog', 'articles', 'second'], title: 'Second' })
-    assert.isUndefined(first?.previousLink)
-    assert.deepEqual(second?.previousLink, { path: ['blog', 'articles', 'first'], title: 'First' })
-    assert.isUndefined(second?.nextLink)
+    // `second` is newer: the next page of the list is the older one.
+    assert.deepEqual(first?.previousLink, { path: ['blog', 'articles', 'second'], title: 'Second' })
+    assert.isUndefined(first?.nextLink)
+    assert.deepEqual(second?.nextLink, { path: ['blog', 'articles', 'first'], title: 'First' })
+    assert.isUndefined(second?.previousLink)
     assert.deepEqual(first?.projects, ['tool'])
     assert.deepEqual(first?.relatedProjects, [{ path: ['blog', 'projects', 'tool'], title: 'Tool' }])
     assert.deepEqual(
@@ -99,10 +100,10 @@ test('takes the page created just before or after in the same section as a neigh
         'en/articles/third.md': page('article', '', 'Third').replace('2026-01-02', '2026-04-01'),
     })
     // `second` is not the newest any more.
-    assert.deepEqual(more.detail('en', 'articles', 'second')?.nextLink, { path: ['blog', 'articles', 'third'], title: 'Third' })
-    // The older one is before `third`.
-    assert.deepEqual(more.detail('en', 'articles', 'third')?.previousLink, { path: ['blog', 'articles', 'second'], title: 'Second' })
-    assert.isUndefined(more.detail('en', 'articles', 'third')?.nextLink)
+    assert.deepEqual(more.detail('en', 'articles', 'second')?.previousLink, { path: ['blog', 'articles', 'third'], title: 'Third' })
+    // The older one follows `third` in the list.
+    assert.deepEqual(more.detail('en', 'articles', 'third')?.nextLink, { path: ['blog', 'articles', 'second'], title: 'Second' })
+    assert.isUndefined(more.detail('en', 'articles', 'third')?.previousLink)
 })
 
 test('lists the parts of a series and marks the current one', () => {
@@ -133,8 +134,8 @@ test('lists the parts of a series and marks the current one', () => {
     assert.deepEqual(middle.detail('en', 'articles', 'third')?.nextLink?.title, 'Second')
     assert.isUndefined(middle.detail('en', 'articles', 'first')?.previousLink)
     assert.isUndefined(middle.detail('en', 'articles', 'second')?.nextLink)
-    // A page that is not in the series has the other such pages as neighbors, and the newest of them
-    // leads on to the first part of the series.
+    // A page that is not in the series has the other such pages as neighbors (the next one is the older
+    // one), and the oldest of them leads on to the first part of the series.
     const mixed = createBlogCatalog({
         ...files,
         'en/series/the-series.md': series,
@@ -143,10 +144,10 @@ test('lists the parts of a series and marks the current one', () => {
         'en/articles/alone.md': page('article', '', 'Alone').replace('2026-01-02', '2026-03-01'),
         'en/articles/alone-too.md': page('article', '', 'Alone too').replace('2026-01-02', '2026-05-01'),
     })
-    assert.equal(mixed.detail('en', 'articles', 'alone-too')?.previousLink?.title, 'Alone')
-    assert.equal(mixed.detail('en', 'articles', 'alone-too')?.nextLink?.title, 'First')
-    assert.isUndefined(mixed.detail('en', 'articles', 'alone')?.previousLink)
-    assert.equal(mixed.detail('en', 'articles', 'alone')?.nextLink?.title, 'Alone too')
+    assert.equal(mixed.detail('en', 'articles', 'alone-too')?.nextLink?.title, 'Alone')
+    assert.isUndefined(mixed.detail('en', 'articles', 'alone-too')?.previousLink)
+    assert.equal(mixed.detail('en', 'articles', 'alone')?.nextLink?.title, 'First')
+    assert.equal(mixed.detail('en', 'articles', 'alone')?.previousLink?.title, 'Alone too')
     assert.isUndefined(catalog.detail('en', 'articles', 'first')?.series)
     assert.throws(() => createBlogCatalog({ 'en/articles/x.md': page('article', 'series: S\n') }), /must be set together/)
     assert.throws(() => createBlogCatalog({ 'en/series/s.md': series, 'en/articles/x.md': page('article', 'series: s\npart: one\n') }), /"part" is not a number/)

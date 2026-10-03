@@ -264,18 +264,19 @@ export const createBlogCatalog = (files: Record<string, string>) => {
     const localeEntries = (locale: BlogLocale): BlogEntry[] =>
         [...entries.values()].filter((entry) => entry.locale === locale).toSorted(byCreatedAtDesc)
 
-    // The neighbor of a page: the previous or the next part of its series. The pages that are not in a
-    // series have each other as neighbors (the page created just before / after, without the parts
-    // of the series), and the newest of them leads on to the first part of the series.
+    // The neighbor of a page: the previous or the next part of its series, in the order of reading.
+    // The pages that are not in a series follow the order of the list, the newest first: the next
+    // page is the older one (without the parts of the series), the previous one is the newer one,
+    // and the oldest of them leads on to the first part of the series.
     const neighbor = (entry: BlogEntry, direction: 'previous' | 'next'): NeighborCard | undefined => {
-        // The newest first, so the previous page is the next one of the list.
+        // The parts of a series are read from the first one, the other pages are listed the newest first.
         const pages = entry.series
             ? localeEntries(entry.locale)
                   .filter((other) => other.series === entry.series)
-                  .toSorted((left, right) => (right.part ?? 0) - (left.part ?? 0))
+                  .toSorted((left, right) => (left.part ?? 0) - (right.part ?? 0))
             : localeEntries(entry.locale).filter((other) => other.section === entry.section && !other.series)
         const index = pages.findIndex((other) => other === entry)
-        let target = pages[direction === 'previous' ? index + 1 : index - 1]
+        let target = pages[direction === 'previous' ? index - 1 : index + 1]
 
         if (!target && direction === 'next' && !entry.series) {
             target = localeEntries(entry.locale)
