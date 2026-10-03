@@ -1,17 +1,17 @@
 ﻿---
-title: Laraue.CmsBackend (в архиве): Markdown как API на .NET
+title: Laraue.CmsBackend: Markdown как API на .NET (не развивается)
 type: project
 name: Laraue.CmsBackend
 tags: [dotnet, open-source]
 repository: https://github.com/win7user10/Laraue.CmsBackend
 language: C#
 license: MIT
-description: Laraue.CmsBackend отдавала Markdown файлы с frontmatter как типизированный REST API на .NET. Этот блог работал на ней около года. Теперь она в архиве: что умела, как выглядел код и чему мы научились.
-seoDescription: Архивная .NET библиотека: Markdown файлы с frontmatter как типизированный REST API. Как работала, какую ошибку с SSR мы допустили и почему отказались.
+description: Laraue.CmsBackend отдавала Markdown файлы с frontmatter как типизированный REST API на .NET. Этот блог работал на ней около года. Теперь в ней нет новых коммитов: что умела, как выглядел код и чему мы научились.
+seoDescription: .NET библиотека: Markdown файлы с frontmatter как типизированный REST API. Как работала, какую ошибку с SSR мы допустили и почему отказались.
 createdAt: 2025-11-01
-updatedAt: 2026-10-03 09:35
+updatedAt: 2026-10-03 10:29
 ---
-**Laraue.CmsBackend в архиве.** Это была .NET библиотека, которая превращала Markdown файлы с frontmatter в типизированный REST API, и около года на ней работал этот блог. В октябре 2026 мы отказались от неё и перенесли контент в приложение на Nuxt: поддерживать в согласованном состоянии API и фронтенд оказалось дороже, чем пользы от API. [Подробно об этом в статье](../articles/why-we-dropped-cms-backend-for-nuxt-ssr).
+**Laraue.CmsBackend больше не развивается.** Это была .NET библиотека, которая превращала Markdown файлы с frontmatter в типизированный REST API, и около года на ней работал этот блог. В октябре 2026 мы отказались от неё и перенесли контент в приложение на Nuxt: поддерживать в согласованном состоянии API и фронтенд оказалось дороже, чем пользы от API. [Подробно об этом в статье](../articles/why-we-dropped-cms-backend-for-nuxt-ssr).
 
 Репозиторий остаётся открытым, но мы больше не развиваем и не используем библиотеку. Эта страница — всё, что осталось от проекта: что умела библиотека, как выглядел код и одна ошибка, о которой больше нигде не написано.
 
@@ -19,7 +19,7 @@ updatedAt: 2026-10-03 09:35
 |--------------|-----------------------------------------------------------------------|
 | Язык         | C#, .NET 10                                                           |
 | Тип проекта  | Библиотека                                                            |
-| Статус       | В архиве, не развивается                                              |
+| Статус       | Открыта, не в архиве, новых коммитов нет                              |
 | Лицензия     | MIT                                                                   |
 | NuGet        | ![latest version](https://img.shields.io/nuget/v/Laraue.CmsBackend)  |
 | Загрузки     | ![downloads](https://img.shields.io/nuget/dt/Laraue.CmsBackend)      |

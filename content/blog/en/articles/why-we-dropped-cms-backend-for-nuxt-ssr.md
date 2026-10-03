@@ -6,7 +6,7 @@ seoDescription: Why we deleted our markdown-to-API .NET backend and moved the bl
 type: article
 featured: true
 createdAt: 2026-10-02 19:50
-updatedAt: 2026-10-03 09:19
+updatedAt: 2026-10-03 10:29
 projects: [cms-backend]
 tags: [dotnet, nuxt, architecture, open-source]
 ---
@@ -76,6 +76,6 @@ None of this applied to us: a small team, one website, content in Git. If this s
 - A separate API is a cost you pay on every change, not once. Count it by how many changes touch both sides.
 - If the page and its data are one product, keep them in one deployable unit.
 - With SSR the argument for a separate content service gets weaker, because the server that renders the page can read the files itself.
-- Honestly, we do not like the library any more. We archived it, but did not delete it: it stays on GitHub as a piece of history, and in case a new idea for it appears.
+- Honestly, we do not like the library any more. We stopped developing it, but did not delete it: it stays public on GitHub as a piece of history, and in case a new idea for it appears.
 
 If you want the earlier part of the story — why we chose this stack at all — see [Choosing a pet project stack for solo development](choosing-stack-for-solo-project).
