@@ -1,19 +1,33 @@
 ---
 title: Deploying a Nuxt Telegram Mini App. Setting up HTTPS on nginx with Let's Encrypt. A new mini app via BotFather
-description: Part 7 of building a Telegram task tracker solo. How to deploy a Nuxt Mini App with the nginx + HTTPS + Let's Encrypt combo, set up automatic certificate renewal with certbot, register the mini app in BotFather, and test it locally through ngrok.
+description: Part 7 of building a Telegram task tracker solo. How to deploy a Nuxt Telegram Mini App behind nginx with HTTPS: a subdomain, the nginx configuration, the first Let's Encrypt certificate and automatic renewal with certbot, registering the app in BotFather, local testing through ngrok, and what to do when the Mini App shows "Welcome to nginx!".
 seoTitle: Deploy a Nuxt Telegram Mini App: nginx, HTTPS, Let's Encrypt
-seoDescription: Part 7: deploy a Nuxt Mini App behind nginx with HTTPS, renew certificates with certbot, register the app in BotFather and test locally with ngrok.
+seoDescription: Deploy a Nuxt Mini App behind nginx with HTTPS and certbot, register it in BotFather, test with ngrok, and fix the "Welcome to nginx" page.
 type: article
 series: architecture-first
 part: 7
 createdAt: 2026-06-23 12:00
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-03 17:56
 projects: [boards]
 tags: [devlog, nuxt, telegram, deployment]
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 7.
 > In the [previous article](deploying-dotnet-postgres-vps-docker-compose) the Telegram bot was deployed to the server. The bot only saves the user's messages. In this article we deploy and configure an empty Telegram mini app, which will turn into a full application over the next iterations.
+
+## The short version
+
+To deploy a Nuxt app as a Telegram Mini App:
+
+1. Build the Nuxt app as static files and upload them to the server; a CI pipeline does it on every change.
+2. Create a subdomain with an `A` record that points at the server. Telegram opens only HTTPS addresses with a valid certificate.
+3. Serve the files with nginx in a Docker container: port 80 for the ACME challenge and a redirect, port 443 with TLS, and `try_files ... /index.html` for the single-page app.
+4. Get the first Let's Encrypt certificate with a one-time script, because nginx does not start without a certificate and certbot cannot issue one without nginx. After that certbot renews it.
+5. Register the HTTPS address in `@BotFather` as the Main App or as the menu button.
+6. For local development, tunnel the local ports with ngrok.
+7. If the Mini App shows "Welcome to nginx!", the request reached nginx's default site and not your server block; see the troubleshooting section below.
+
+The rest of the article goes through these steps in a real project.
 
 The goal: get a Nuxt app to open inside Telegram as a Mini App. The plan: create an app with almost no logic in it, deploy it to the server. After that — make it reachable over HTTPS, register the address as a mini app in `@BotFather`. Make sure the app opens and the user's data is displayed.
 
@@ -268,6 +282,42 @@ After this setting, a launch button appears next to the bot's chat:
 ![The Mini App launch button next to the bot's chat](https://laraue.com/static/images/blog/articles/laraue-boards/message-board-bot-launch-mini-app-button.jpg)
 
 On tapping the button, the Nuxt app opens right inside Telegram, the `auth.init.ts` plugin reads the init data and prints the user object to the screen — or the initialization error, if something went wrong.
+
+## If the Mini App shows "Welcome to nginx!"
+
+The page "Welcome to nginx!" means that the request was answered by nginx's default site and not by the server block of your app. Telegram only shows what your address returns, so the cause is on the server or in the address you registered. These are the usual causes:
+
+1. **The request reached a different server block.** Nginx picks the block by the port and the `Host` of the request. If the name matches no `server_name`, nginx uses the default server for that port: the first one in the configuration, unless one is marked `default_server`. In the official nginx Docker image this default is `/etc/nginx/conf.d/default.conf`, a site on port 80 that serves `/usr/share/nginx/html/index.html`, which is the "Welcome to nginx!" page. Typical triggers: a typo or another subdomain in the address registered in BotFather, the IP address used instead of the name, or DNS that points the name at another server.
+2. **`root` points at the wrong folder.** In this setup the app is mounted at `/usr/share/nginx/html/note-to-board-frontend`, while the stock page lives in the parent folder `/usr/share/nginx/html`. With `root /usr/share/nginx/html;` nginx finds the stock `index.html` and shows the welcome page.
+3. **Your configuration was not loaded.** The container still runs the stock config: the Dockerfile did not copy your `nginx.conf`, or the container was not rebuilt or reloaded after the change.
+
+To see which one it is, look at what nginx actually loaded and what it returns for your name:
+
+```bash
+# the active configuration, with the real server_name, listen and root values
+docker compose exec nginx nginx -T | grep -E "server_name|listen|root"
+
+# what the server answers for your name, without involving DNS
+curl -I --resolve app.example.com:443:<server-ip> https://app.example.com/
+```
+
+If your `server_name` is missing from the output, the configuration was not loaded (cause 3). If it is there and the answer is still the welcome page, check that the address in BotFather is exactly the address of your app, for example `https://app.example.com`, and that `root` ends with the app's folder.
+
+To make a mistake like this visible instead of silently showing the stock page, add a catch-all server that refuses everything that is not your name:
+
+```nginx
+server {
+    listen 80 default_server;
+    return 444;
+}
+
+server {
+    listen 443 ssl default_server;
+    ssl_reject_handshake on;
+}
+```
+
+`return 444` closes the connection without an answer, and `ssl_reject_handshake` (nginx 1.19.4 and later) rejects the TLS handshake for unknown names, so this block does not need a certificate. If your image has the stock `conf.d/default.conf`, remove it too, so that there is only one default server.
 
 ## Local Mini App development through ngrok
 
