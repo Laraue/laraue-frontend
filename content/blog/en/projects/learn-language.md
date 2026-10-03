@@ -5,10 +5,11 @@ name: Vocabulary Bot
 tags: [telegram, language-learning]
 repository: https://github.com/Laraue/Laraue.Apps.LearnLanguage
 language: C#
+license: PolyForm-Noncommercial-1.0.0
 description: How Vocabulary Bot decides what to ask next: new, almost learned and fading words, the three-in-a-row rule, the word list and the source code.
 seoDescription: How Vocabulary Bot decides what to ask next: new, almost learned and fading words, the three-in-a-row rule, the word list and the source code.
 createdAt: 2025-11-01
-updatedAt: 2026-10-03 15:37
+updatedAt: 2026-10-03 15:50
 ---
 **Vocabulary Bot** (`@learn_lang_bot`) is a Telegram quiz bot for learning the most used English words. This page is about how it works inside: the rule for a learned word, the algorithm that picks the next question, the word list and the source code. To use the bot, go to the [product page](https://laraue.com/learn-language-bot). About 350 people have registered in it so far, and about 150 of them started at least one quiz.
 
@@ -48,7 +49,7 @@ The languages in the database are English, Russian, French, Japanese, Spanish, G
 
 ## Source code
 
-The source code is available on GitHub: [Laraue.Apps.LearnLanguage](https://github.com/Laraue/Laraue.Apps.LearnLanguage). It is the .NET backend of the bot.
+The source code is available on GitHub: [Laraue.Apps.LearnLanguage](https://github.com/Laraue/Laraue.Apps.LearnLanguage). It is the .NET backend of the bot. The code is free for personal and other noncommercial use under the [PolyForm Noncommercial License 1.0.0](https://github.com/Laraue/Laraue.Apps.LearnLanguage/blob/master/LICENSE). If you want to earn money with it, you need a separate commercial agreement: see [COMMERCIAL.md](https://github.com/Laraue/Laraue.Apps.LearnLanguage/blob/master/COMMERCIAL.md).
 
 To see how the data is organized: words and translations live in `translations.json`, languages in `languages.json`, and new entries are added to the database by a migration at the next start.
 
