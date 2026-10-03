@@ -13,13 +13,13 @@ updatedAt: 2026-10-03 09:35
 ---
 **Laraue.CmsBackend is archived.** It was a .NET library that turned Markdown files with frontmatter into a typed REST API, and this blog ran on it for about a year. We stopped using it in October 2026 and moved the content into the Nuxt app, because keeping an API and a frontend in sync cost more than the API gave us. [The full story is in this article](../articles/why-we-dropped-cms-backend-for-nuxt-ssr).
 
-The repository is public and read-only. This page is what is left of the project: what the library did, how the code looked, and the one mistake that is not written down anywhere else.
+The repository stays public, but we no longer develop or use the library. This page is what is left of the project: what the library did, how the code looked, and the one mistake that is not written down anywhere else.
 
 |              |                                                                       |
 |--------------|-----------------------------------------------------------------------|
 | Language     | C#, .NET 10                                                           |
 | Project type | Library                                                               |
-| Status       | Archived, read-only                                                   |
+| Status       | Archived, no longer developed                                         |
 | License      | MIT                                                                   |
 | NuGet        | ![latest version](https://img.shields.io/nuget/v/Laraue.CmsBackend)  |
 | Downloads    | ![downloads](https://img.shields.io/nuget/dt/Laraue.CmsBackend)      |

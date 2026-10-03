@@ -7,7 +7,7 @@ description: История создания инструмента для па�
 seoTitle: От SaaS к open source: 5 лет разработки парсера сайтов на C#
 seoDescription: История парсера сайтов на C#: от no-code SaaS с конструктором схем до типизированной open-source .NET библиотеки. Решения, тупики и выводы.
 createdAt: 2025-03-03
-updatedAt: 2026-10-02 20:05
+updatedAt: 2026-10-03 10:24
 ---
 **Написать инструмент для парсинга сайтов на C#** — идея, к которой я возвращался на протяжении пяти лет с двумя принципиально разными подходами. Что начиналось как no-code SaaS-приложение — с визуальным конструктором схем, аккаунтами пользователей, кошельком и доставкой по webhook — в итоге стало [Laraue.Crawling](../projects/crawler): строго типизированной open-source .NET-библиотекой. Статья охватывает весь путь: идея, архитектура первой реализации с тестами, где всё сломалось и почему отказ от интерфейса в пользу библиотеки оказался правильным решением.
 
@@ -205,7 +205,7 @@ public class DocumentSchemaBuilder<TElement, TModel>
 }
 ```
 
-с конкретными реализациями `AngleSharpSchemaBuilder<TModel>` и `PuppeteerSharpSchemaBuilder<TModel>`. Адаптерный интерфейс, который оба реализуют:
+с конкретными реализациями `AngleSharpSchemaBuilder<TModel>` и `PuppeterSharpSchemaBuilder<TModel>`. Адаптерный интерфейс, который оба реализуют:
 
 ```csharp
 interface ICrawlingAdapter<in TNode>
@@ -217,7 +217,7 @@ interface ICrawlingAdapter<in TNode>
 }
 ```
 
-С такой структурой замена `AngleSharpSchemaBuilder` на `PuppeteerSharpSchemaBuilder` требовала только смены имени класса билдера — привязки свойств, иерархии объектов и функции трансформации оставались идентичными.
+С такой структурой замена `AngleSharpSchemaBuilder` на `PuppeterSharpSchemaBuilder` требовала только смены имени класса билдера — привязки свойств, иерархии объектов и функции трансформации оставались идентичными.
 
 ### Поддержка XML
 
@@ -236,13 +236,13 @@ public class DocumentSchemaBuilder<TElement, TSelector, TModel>
 
 ## Библиотека сегодня
 
-[Laraue.Crawling](https://laraue.com/ru/blog/projects/crawler) работает в продакшне как часть [агрегатора недвижимости](https://apartments.laraue.com), обходя объявления Авито и Циана по расписанию. В статье про краулер недвижимости разобрано, как там используются схема и паттерн раннего завершения.
+[Laraue.Crawling](../projects/crawler) — открытая библиотека, и мы продолжаем её поддерживать. Это был краулер [приложения по недвижимости](../projects/real-estate), которое собрало больше 100 000 объявлений с Авито и Циана; мы запускали его на локальной машине время от времени, сейчас не запускаем. В [статье об этой системе](building-ai-real-estate-system) разобрано, как там используются схема и паттерн раннего завершения.
 
 Библиотека открыта (MIT), поддерживает современные версии .NET, доступна на NuGet:
 
 ```
 dotnet add package Laraue.Crawling.Static.AngleSharp      # статический HTML
-dotnet add package Laraue.Crawling.Dynamic.PuppeteerSharp  # JavaScript-страницы
+dotnet add package Laraue.Crawling.Dynamic.PuppeterSharp  # JavaScript-страницы
 dotnet add package Laraue.Crawling.Static.Xml              # XML
 ```
 

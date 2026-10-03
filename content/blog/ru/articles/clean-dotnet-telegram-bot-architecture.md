@@ -7,8 +7,8 @@ type: article
 series: architecture-first
 part: 5
 createdAt: 2026-06-21
-updatedAt: 2026-10-02 18:44
-projects: [boards]
+updatedAt: 2026-10-03 10:24
+projects: [boards, telegram-net]
 tags: [devlog, dotnet, telegram, architecture]
 ---
 
@@ -121,7 +121,7 @@ public class Message
 
 В бот закладывается обработка двух видов сообщений. Первый — команды: пользователь просит выполнить что-то, бот выполняет. Например, команда `/start`. Второй — все остальные сообщения: если пользователь ввел что-то и это не является командой, то сообщение просто сохраняется в базу, чтобы потом отобразиться на доске.
 
-Команды маршрутизируются на контроллеры, в стиле ASP.NET, с помощью нашей библиотеки [Laraue.Telegram.NET](https://github.com/Laraue/Laraue.Telegram.NET). Команда `/start`, например, выглядит так:
+Команды маршрутизируются на контроллеры, в стиле ASP.NET, с помощью нашей библиотеки [Laraue.Telegram.NET](../projects/telegram-net) ([исходный код на GitHub](https://github.com/Laraue/Laraue.Telegram.NET)). Команда `/start`, например, выглядит так:
 
 ```csharp
 public class CommandsController(ITelegramCommandsService commandsService)
