@@ -7,11 +7,11 @@ description: A technical deep-dive into an open-source real estate aggregator fo
 seoTitle: AI Real Estate Ranking with C#, Ollama and a Custom Crawler
 seoDescription: How an open-source apartment aggregator ranks listings by renovation quality: .NET 10 architecture, Ollama vision models, a custom crawler and scoring.
 createdAt: 2026-04-16
-updatedAt: 2026-10-03 10:24
+updatedAt: 2026-10-03 17:29
 ---
 **Scraping JavaScript-rendered real estate listings in C#, scoring every photo with a local vision model, and ranking results by renovation quality** sounds like a weekend project until you hit the real problems: anti-bot redirects, GPU-bound inference blocking your crawler, and TensorFlow models that plateau at useless accuracy. This article walks through how [Laraue.Apps.RealEstate](https://github.com/Laraue/Laraue.Apps.RealEstate) solves each of these — with real code from the repo.
 
-The live app is at [apartments.laraue.com](https://apartments.laraue.com). If you want to understand what it does from a user perspective rather than how it was built, see the [product overview](../projects/real-estate).
+The application is online at [apartments.laraue.com](https://apartments.laraue.com) with the listings collected so far. We launched the crawler on a local machine from time to time and do not launch it now, so no new listings appear. If you want to understand what it does from a user perspective rather than how it was built, see the [product overview](../projects/real-estate).
 
 ---
 
@@ -258,7 +258,7 @@ The **renovation rating** for a listing is the average `RenovationRating` across
 
 The system sends ranked apartment listings to Telegram via `AdvertisementsTelegramSender` ([source](https://github.com/Laraue/Laraue.Apps.RealEstate/blob/main/src/Laraue.Apps.RealEstate.Telegram.AppServices/AdvertisementsTelegramSender.cs)). There are two delivery modes:
 
-**Personal selections.** Users configure a `Selection` with custom criteria — price range, number of rooms, district, minimum AI score, notification interval. The sender queries the database using those criteria and pushes results on the configured schedule. Pagination is handled via inline keyboard buttons with stateful callback routes, so users can navigate through results inside the same Telegram message thread.
+**Personal selections.** Users configure a `Selection` with custom criteria — price range, number of rooms, metro stations, minimum AI score, notification interval. The sender queries the database using those criteria and pushes results on the configured schedule. Pagination is handled via inline keyboard buttons with stateful callback routes, so users can navigate through results inside the same Telegram message thread.
 
 **Public channel.** A scheduled job posts to a public channel with hardcoded filters: listings scored ≥ 7 renovation rating, price 5–9M rubles, updated in the last delivery interval. The message includes a prompt to use the personal bot for custom filtering:
 
@@ -274,4 +274,4 @@ The sender uses edit-vs-send logic: if a `messageId` is provided, it edits the e
 
 - **Main repo:** [github.com/Laraue/Laraue.Apps.RealEstate](https://github.com/Laraue/Laraue.Apps.RealEstate)
 - **Crawler library:** [Laraue.Crawling](../projects/crawler) ([GitHub](https://github.com/win7user10/Laraue.Crawling))
-- **Live app:** [apartments.laraue.com](https://apartments.laraue.com)
+- **The app with the collected data:** [apartments.laraue.com](https://apartments.laraue.com)

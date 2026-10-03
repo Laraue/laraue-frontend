@@ -72,15 +72,15 @@ useSchemaOrg([
     "bc_home": "Home",
     "bc_current": "AI Apartments Aggregator",
     "seoTitle": "AI-Ranked SPB Apartments",
-    "seoDescription": "The Cian and Avito advertisements aggregator that automatically rank renovations",
+    "seoDescription": "A snapshot of Cian and Avito apartment listings in Saint Petersburg, ranked by AI photo quality.",
     "sec_overview": "Overview",
     "sec_how": "How it works",
     "sec_tech": "Tech stack",
     "sec_article": "Article",
-    "proto_banner": "This is a prototype / experiment — a personal project built to explore AI-powered apartment search. Data is for Saint Petersburg, Russia.",
+    "proto_banner": "This is a prototype / experiment — a personal project built to explore AI-powered apartment search. Data is for Saint Petersburg, Russia. The data is a snapshot: no new listings are collected now.",
     "hero_eyebrow": "AI Apartments Aggregator",
     "hero_title": "Find apartments\nranked by AI photo quality",
-    "hero_sub": "An experimental tool that crawls real estate listings, aggregates them in one place, and uses a local AI model to rank apartments by how good their photos look — saving hours of manual browsing.",
+    "hero_sub": "An experimental tool that collected real estate listings in one place and used a local AI model to rank apartments by how good their photos look — saving hours of manual browsing. The app shows the listings collected so far.",
     "hero_cta_open": "Open App →",
     "hero_cta_read": "Read the story",
     "mockup_title": "AI Apartments — St. Petersburg",
@@ -98,19 +98,19 @@ useSchemaOrg([
     "how_title": "How the pipeline works",
     "how_sub": "Four automated stages from crawl to ranked results, running locally with no external API dependencies.",
     "step1t": "Crawl listings",
-    "step1d": "The Laraue.Crawler library scrapes real estate sites, handles JS rendering, and stores raw listing data into PostgreSQL.",
+    "step1d": "The Laraue.Crawling library scrapes real estate sites, handles JS rendering, and stores raw listing data into PostgreSQL.",
     "step2t": "Download photos",
     "step2d": "For each listing, all available photos are fetched and stored locally, ready for AI analysis.",
     "step3t": "AI photo scoring",
     "step3d": "A local Ollama vision model analyzes each photo and rates it 0–10. The listing score is averaged across all its photos.",
     "step4t": "Browse & filter",
-    "step4d": "Results surface in the web UI — sort by AI score, filter by rooms, price, district. Skip past badly photographed listings instantly.",
+    "step4d": "Results surface in the web UI — sort by AI score, filter by rooms and price. Skip past badly photographed listings instantly.",
     "tech_label": "Tech stack",
     "tech_title": "Built with open-source tools",
     "tech_sub": "Everything runs locally — no paid APIs, no cloud dependencies.",
     "tc1": "Locally-hosted LLM runner. The project uses a vision model to evaluate apartment photo quality and return a numeric score without sending data to the cloud.",
     "tc2": "The in-house C# crawler library powering the data collection. Supports static HTML and JavaScript-rendered pages via PuppeteerSharp.",
-    "tc3": "Backend API written in C# with ASP.NET Core. Listing data and AI scores are persisted in PostgreSQL, served to the React frontend.",
+    "tc3": "Backend API written in C# with ASP.NET Core. Listing data and AI scores are persisted in PostgreSQL, served to the web frontend.",
     "tc_learn": "Learn more →",
     "tc_project": "View project →",
     "tc_article": "Read the article →",
@@ -124,36 +124,36 @@ useSchemaOrg([
     "type_article": "Article",
     "oss_label": "Open source",
     "oss_title": "The crawler library is public",
-    "oss_sub": "The Laraue.Crawler library used to build this project is open-source on GitHub — reusable for any web scraping project in .NET.",
-    "oss_card_desc": "A highly customizable C# crawler library with support for static HTML (AngleSharp) and JavaScript-rendered pages (PuppeteerSharp). Schema-based extraction, async pipelines, and proxy support.",
+    "oss_sub": "The Laraue.Crawling library used to build this project is open-source on GitHub — reusable for any web scraping project in .NET.",
+    "oss_card_desc": "A highly customizable C# crawler library with support for static HTML (AngleSharp) and JavaScript-rendered pages (PuppeteerSharp). Schema-based extraction and a base class for scheduled crawler jobs.",
     "view_github": "View on GitHub",
     "faqLabel": "Questions",
     "faqHeading": "Frequently Asked Questions",
     "faq1q": "Is this a finished product or a prototype?",
-    "faq1a": "It's an experiment — a personal project built to explore AI-powered apartment search. It works and is browsable live, but expect rough edges rather than a polished product.",
+    "faq1a": "It's an experiment — a personal project built to explore AI-powered apartment search. It works and you can browse the collected listings, but expect rough edges rather than a polished product.",
     "faq2q": "What cities and listing sources does it cover?",
-    "faq2a": "Currently only Saint Petersburg, Russia, aggregating listings from Cian and Avito.",
+    "faq2a": "Saint Petersburg, Russia, with listings from Cian and Avito. No new listings are collected now, so the app shows a snapshot.",
     "faq3q": "How is the AI photo score calculated?",
     "faq3a": "A local Ollama vision model rates each photo in a listing from 0 to 10 based on quality, and the listing's overall score is the average across all its photos.",
     "faq4q": "Is any listing data sent to the cloud?",
     "faq4a": "No. Crawling, storage, and AI scoring all run locally — there are no paid APIs or cloud dependencies involved.",
-    "cta_label": "Experiment in progress",
-    "cta_title": "See AI-ranked\napartments live",
-    "cta_sub": "Browse the current snapshot of Saint Petersburg listings, sorted by AI photo quality. A prototype — but a working one."
+    "cta_label": "An experiment",
+    "cta_title": "Browse AI-ranked\napartments",
+    "cta_sub": "Browse the snapshot of Saint Petersburg listings collected so far, sorted by AI photo quality. A prototype — but a working one."
   },
   "ru": {
     "bc_home": "Главная",
     "bc_current": "AI-агрегатор квартир",
     "seoTitle": "AI-ранжированные квартиры в СПБ",
-    "seoDescription": "Агрегатор объявлений с Cian и Avito с автоматической оценкой ремонта",
+    "seoDescription": "Снимок объявлений Cian и Avito по Санкт-Петербургу, ранжированных по качеству фото с помощью AI.",
     "sec_overview": "Обзор",
     "sec_how": "Как это работает",
     "sec_tech": "Технологии",
     "sec_article": "Статья",
-    "proto_banner": "Это прототип / эксперимент — пет проект для изучения АИ-поиска квартир. Данные по Санкт-Петербургу.",
+    "proto_banner": "Это прототип / эксперимент — пет проект для изучения АИ-поиска квартир. Данные по Санкт-Петербургу. Данные — снимок: новые объявления сейчас не собираются.",
     "hero_eyebrow": "AI-агрегатор квартир",
     "hero_title": "Находите квартиры,\nоценённые AI по фото",
-    "hero_sub": "Экспериментальный инструмент: автоматически собирает объявления с сайтов недвижимости, оценивает фото локальной AI-моделью и ранжирует результаты.",
+    "hero_sub": "Экспериментальный инструмент: собирал объявления с сайтов недвижимости, оценивал фото локальной AI-моделью и ранжировал результаты. Приложение показывает собранные на данный момент объявления.",
     "hero_cta_open": "Открыть приложение →",
     "hero_cta_read": "Читать статью",
     "mockup_title": "AI квартиры — Санкт-Петербург",
@@ -167,17 +167,17 @@ useSchemaOrg([
     "lm3": "Приморский, 1-к",
     "lm4": "Колпино, 2-к",
     "lm_ai_note": "AI-ранжирование через Ollama — оценка фото 0–10",
-    "how_label": "Открытый экспиремент",
+    "how_label": "Открытый эксперимент",
     "how_title": "Как работает система",
     "how_sub": "Четыре автоматизированных этапа — без использования внешних API.",
     "step1t": "Сбор объявлений",
-    "step1d": "Библиотека Laraue.Crawler скрейпит сайты недвижимости и сохраняет данные в PostgreSQL.",
+    "step1d": "Библиотека Laraue.Crawling скрейпит сайты недвижимости и сохраняет данные в PostgreSQL.",
     "step2t": "Загрузка фото",
     "step2d": "Для каждого объявления загружаются все доступные фотографии для дальнейшего анализа.",
     "step3t": "AI-оценка фото",
     "step3d": "Локальная vision-модель Ollama анализирует каждое фото и выставляет оценку 0–10.",
     "step4t": "Просмотр и фильтр",
-    "step4d": "Результаты в UI — сортировка по AI-лценке ремонта, фильтры по комнатности, цене, району.",
+    "step4d": "Результаты в UI — сортировка по AI-лценке ремонта, фильтры по комнатности и цене.",
     "tech_label": "Технологии",
     "tech_title": "Собрано на open-source библиотеках",
     "tech_sub": "Запускается локально — без платных API.",
@@ -197,22 +197,22 @@ useSchemaOrg([
     "type_article": "Статья",
     "oss_label": "Open source",
     "oss_title": "Библиотека краулера открыта",
-    "oss_sub": "Библиотека Laraue.Crawler, использованная в этом проекте, опубликована на GitHub.",
-    "oss_card_desc": "Высоконастраиваемая C#-библиотека с поддержкой AngleSharp и PuppeteerSharp. Схемное извлечение, async-пайплайны, поддержка прокси.",
+    "oss_sub": "Библиотека Laraue.Crawling, использованная в этом проекте, опубликована на GitHub.",
+    "oss_card_desc": "Высоконастраиваемая C#-библиотека с поддержкой AngleSharp и PuppeteerSharp. Схемное извлечение и базовый класс для задач краулера по расписанию.",
     "view_github": "Открыть на GitHub",
     "faqLabel": "Вопросы",
     "faqHeading": "Часто задаваемые вопросы",
     "faq1q": "Это готовый продукт или прототип?",
-    "faq1a": "Это эксперимент — пет-проект для изучения AI-поиска квартир. Он работает и доступен вживую, но это не отполированный продукт, а рабочий прототип.",
+    "faq1a": "Это эксперимент — пет-проект для изучения AI-поиска квартир. Он работает, и можно посмотреть собранные объявления, но это не отполированный продукт, а рабочий прототип.",
     "faq2q": "Какие города и источники объявлений охвачены?",
-    "faq2a": "Пока только Санкт-Петербург, с объявлениями от Cian и Avito.",
+    "faq2a": "Санкт-Петербург, с объявлениями от Cian и Avito. Новые объявления сейчас не собираются, поэтому приложение показывает снимок данных.",
     "faq3q": "Как рассчитывается AI-оценка фото?",
     "faq3a": "Локальная vision-модель Ollama оценивает каждое фото объявления от 0 до 10, а итоговый балл объявления — это среднее по всем его фото.",
     "faq4q": "Отправляются ли данные объявлений в облако?",
     "faq4a": "Нет. Сбор данных, хранение и AI-оценка полностью локальны — никаких платных API или облачных зависимостей.",
-    "cta_label": "Эксперимент в процессе",
-    "cta_title": "Смотрите AI-ранжированные\nквартиры в живую",
-    "cta_sub": "Браузите объявления Санкт-Петербурга, отсортированные по AI-баллу. Прототип — но рабочий."
+    "cta_label": "Эксперимент",
+    "cta_title": "Смотрите AI-ранжированные\nквартиры",
+    "cta_sub": "Браузите собранные объявления Санкт-Петербурга, отсортированные по AI-баллу. Прототип — но рабочий."
   }
 }
 </i18n>
@@ -346,7 +346,7 @@ useSchemaOrg([
         </div>
         <div class="tech-card">
           <div class="tech-card-icon"><LNavIcon name="globe" /></div>
-          <h3 class="tech-card-name">Laraue.Crawler</h3>
+          <h3 class="tech-card-name">Laraue.Crawling</h3>
           <p class="tech-card-desc">{{ t('tc2') }}</p>
           <nuxt-link :to="localePath('/blog/projects/crawler')" class="tech-card-link">{{ t('tc_project') }}</nuxt-link>
         </div>
@@ -383,7 +383,7 @@ useSchemaOrg([
     <LSection type="cream" :pre-title="t('oss_label')" :title="t('oss_title')" :post-title="t('oss_sub')" horizontal>
       <div class="oss-card">
         <div class="oss-icon"><LNavIcon name="code" /></div>
-        <h3 class="oss-title">Laraue.Crawler</h3>
+        <h3 class="oss-title">Laraue.Crawling</h3>
         <p class="oss-desc">{{ t('oss_card_desc') }}</p>
         <LActionButton :title="t('view_github')" link="https://github.com/win7user10/Laraue.Crawling" type="github"/>
       </div>

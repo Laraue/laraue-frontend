@@ -1,5 +1,5 @@
 ﻿---
-title: AI Apartment Search: Ranking 100,000 Listings by Photo Quality
+title: AI Apartment Ranking: How It Worked, Limits and Status
 type: project
 name: AI Apartment Search
 projectType: application
@@ -9,12 +9,12 @@ repository: https://github.com/Laraue/Laraue.Apps.RealEstate
 language: C#
 license: AGPL-3.0
 description: An application that crawled two big listing sites, scored every apartment photo with a local vision model and ranked flats by renovation quality. 100,000+ listings, open source. No new listings now.
-seoTitle: AI Apartment Search: Ranking Listings by Photo Quality
-seoDescription: How we ranked 100,000+ apartment listings by photo quality with a local AI vision model, why the crawler is no longer launched, and what remains.
+seoTitle: AI Apartment Ranking: How It Worked, Limits and Status
+seoDescription: How ranking apartments by photo quality with a local AI model worked: the hosts, the limits, and why it no longer collects new listings.
 createdAt: 2025-11-01
-updatedAt: 2026-10-03 10:14
+updatedAt: 2026-10-03 17:25
 ---
-**This application collected apartment listings from two large listing sites, looked at every photo with a local AI vision model and put the flats in the best condition first.** It gathered more than 100,000 listings. We did not run the crawler around the clock: we launched it on a local machine from time to time. Now we do not launch it at all, because we have not found a legal way to make the project a product and we have no time to keep it going for free. The application is online and keeps the listings collected so far, but no new ones appear. The code is open source, and the article about how it was built is linked below.
+**This application collected apartment listings from two large listing sites, looked at every photo with a local AI vision model and put the flats in the best condition first.** It gathered more than 100,000 listings. This page is about how it worked and what its status is; to browse the collected listings, see the [app page](https://laraue.com/crawled-apartments). We did not run the crawler around the clock: we launched it on a local machine from time to time. Now we do not launch it at all, because we have not found a legal way to make the project a product and we have no time to keep it going for free. The application is online and keeps the listings collected so far, but no new ones appear. The code is open source, and the article about how it was built is linked below.
 
 |              |                                                                                  |
 |--------------|----------------------------------------------------------------------------------|
