@@ -30,6 +30,8 @@ export default defineNuxtPlugin(async () => {
 
   if (analyticsConsent.value === 'granted') {
     gtag('consent', 'update', { analytics_storage: 'granted' })
-    initialize()
+    // The Google tag is 170+ KB of script: it is added after the page has loaded (or on the first
+    // interaction), not while the first screen is being drawn. The commands above wait in the data layer.
+    runAfterLoad(initialize)
   }
 })

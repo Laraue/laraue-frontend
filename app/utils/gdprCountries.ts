@@ -40,9 +40,13 @@ export function isAnalyticsBlockedCountry(countryCode?: string | null): boolean 
   return ANALYTICS_BLOCKED_COUNTRIES.has(countryCode.toUpperCase())
 }
 
+// The app waits for the answer before it mounts, so a slow edge must not hold every page: after this
+// time the country stays unresolved, which is the safe consent-required path.
+const COUNTRY_DETECTION_TIMEOUT_MS = 1500
+
 export async function detectCountryCode(): Promise<string | null> {
   try {
-    const res = await fetch('/cdn-cgi/trace', { cache: 'no-store' })
+    const res = await fetch('/cdn-cgi/trace', { cache: 'no-store', signal: AbortSignal.timeout(COUNTRY_DETECTION_TIMEOUT_MS) })
     if (!res.ok) return null
     const text = await res.text()
     return text.match(/^loc=([A-Z]{2})$/m)?.[1] ?? null
