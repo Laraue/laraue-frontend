@@ -60,7 +60,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: 'Laraue Blog and Apps',
-      viewport: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no',
+      viewport: 'width=device-width, initial-scale=1.0',
       link: [
         // Browser tab icon follows the OS/browser theme: the transparent mark on dark tabs, the
         // standard dark-square one on light tabs. The light links come last on purpose - browsers

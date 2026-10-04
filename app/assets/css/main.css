@@ -49,3 +49,11 @@ body{
     :root{--sidebar-w:0px}
 }
 
+
+/* Touch screens: iOS zooms into a field whose text is smaller than 16px when it gets the focus. The page can be
+   zoomed by the visitor (no maximum-scale in the viewport), so the fields themselves must not trigger it. */
+@media (pointer: coarse) {
+  input, textarea, select {
+    font-size: max(16px, 1em) !important;
+  }
+}
