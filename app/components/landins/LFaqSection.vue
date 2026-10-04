@@ -41,7 +41,7 @@ const toggleFaq = (index: number) => {
 
 <style scoped>
 /* ══ FAQ ══ */
-.faq-list{max-width:820px;display:flex;flex-direction:column;gap:0}
+.faq-list{display:flex;flex-direction:column;gap:0}
 .faq-item{border-bottom:1px solid var(--border)}
 .faq-item:first-child{border-top:1px solid var(--border)}
 .faq-btn{width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0;background:none;border:none;cursor:pointer;text-align:left;font-family:var(--sans);font-size:15px;font-weight:700;color:var(--ink);transition:color .15s}
@@ -51,6 +51,6 @@ const toggleFaq = (index: number) => {
 .faq-item.open .faq-btn{color:var(--accent)}
 .faq-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
 .faq-item.open .faq-body{max-height:400px}
-.faq-content{padding:0 0 18px;font-size:14px;color:var(--muted);line-height:1.7;font-weight:300}
+.faq-content{max-width:720px;padding:0 0 18px;font-size:14px;color:var(--muted);line-height:1.7;font-weight:300}
 .faq-content strong{color:var(--ink);font-weight:600}
 </style>
