@@ -5,7 +5,7 @@ import type { InnerLink } from '../types/blog'
 // Status badges (version, downloads, license) come from shields.io: they get the colors of the site
 // and the flat square style, unless the badge sets its own.
 const shieldsBadgePrefix = 'https://img.shields.io/'
-const brandBadgeStyle: Record<string, string> = { style: 'flat-square', labelColor: '242429', color: '3568d4' }
+const brandBadgeStyle: Record<string, string> = { style: 'flat-square', labelColor: '242429', color: '3366d1' }
 
 const brandBadgeUrl = (href: string): string => {
     const url = new URL(href)

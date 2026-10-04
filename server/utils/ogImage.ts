@@ -13,8 +13,8 @@ const height = 630
 const workspace = '#f8f8fa'
 const background = '#f2f2f4'
 const ink = '#242429'
-const accent = '#3568d4'
-const muted = '#71717b'
+const accent = '#3366d1'
+const muted = '#6c6c76'
 const border = '#dddde2'
 
 const paddingX = 80

@@ -36,8 +36,8 @@ function decline() {
 </script>
 
 <template>
-  <div v-if="visible" class="cookie-consent" role="dialog" aria-live="polite">
-    <p class="cookie-consent__text">{{ t('cookieConsentText') }}</p>
+  <div v-if="visible" class="cookie-consent" role="dialog" aria-live="polite" aria-labelledby="cookie-consent-text">
+    <p id="cookie-consent-text" class="cookie-consent__text">{{ t('cookieConsentText') }}</p>
     <div class="cookie-consent__actions">
       <button class="cookie-consent__btn cookie-consent__btn--decline" @click="decline">
         {{ t('cookieConsentDecline') }}
