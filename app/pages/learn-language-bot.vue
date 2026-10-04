@@ -433,9 +433,9 @@ useSchemaOrg([
             <div class="lang-code">EN -> {{ language.value }}</div>
           </div>
         </div>
-        <div class="lang-card" style="border-style:dashed;background:transparent;cursor:default;justify-content:center;opacity:.6">
+        <div class="lang-card" style="border-style:dashed;background:transparent;cursor:default;justify-content:center">
           <div style="text-align:center">
-            <div class="lang-pair" style="font-size:13px"> + {{ t('more_coming') }}</div>
+            <div class="lang-pair" style="font-size:13px;color:var(--muted)"> + {{ t('more_coming') }}</div>
           </div>
         </div>
       </div>

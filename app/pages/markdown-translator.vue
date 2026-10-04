@@ -818,7 +818,7 @@ const updateSourceStats = () => {
 .md-output{flex:1;padding:18px 20px;font-family:var(--mono);font-size:13px;line-height:1.7;color:var(--color-text);background:var(--color-surface);overflow-y:auto;white-space:pre-wrap;word-break:break-word;min-height:320px}
 .md-output-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;color:var(--muted);text-align:center;padding:32px}
 .md-output-placeholder svg{width:36px;height:36px;stroke:currentColor;opacity:.25}
-.md-output-placeholder p{font-size:13px;opacity:.6;line-height:1.5}
+.md-output-placeholder p{font-size:13px;line-height:1.5}
 
 /* char / line stats bar */
 .stats-bar{padding:7px 16px;background:var(--cream);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}

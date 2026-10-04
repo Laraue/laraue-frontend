@@ -70,7 +70,7 @@ const isTagActive = (tag: string) => {
 .filter-panel-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 .tag-list{display:flex;flex-wrap:wrap;gap:5px}
 .tag-filter-btn{font-size:11px;font-weight:600;background:var(--cream);color:var(--muted);border:1px solid var(--border);border-radius:6px;padding:4px 9px;cursor:pointer;transition:background .15s,color .15s,border-color .15s;font-family:var(--sans);text-decoration:none;}
-.tag-count{margin-left:5px;font-size:10px;font-weight:700;opacity:.65}
+.tag-count{margin-left:5px;font-size:10px;font-weight:700}
 .tag-filter-btn:hover{background:var(--border);color:var(--ink)}
 .tag-filter-btn.active{background:var(--color-accent);color:#fff;border-color:var(--color-accent)}
 </style>
