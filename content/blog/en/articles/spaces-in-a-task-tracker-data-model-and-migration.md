@@ -2,7 +2,7 @@
 title: Spaces in a task tracker — grouping boards by project, the data model and migrating existing users
 description: Part 14 of building a Telegram task tracker solo. How spaces group boards by project, why the space lives on the board and not on the issue, and the SQL migration that gave every existing user a default space.
 seoTitle: Spaces in a Task Tracker: Data Model and Migration
-seoDescription: Part 14: how I added spaces to a task tracker — a required space on the board, default rows instead of nullable keys, and a SQL migration for existing users.
+seoDescription: Part 14: how we added spaces to a task tracker — a required space on the board, default rows instead of nullable keys, and a SQL migration for existing users.
 type: article
 series: architecture-first
 part: 14
@@ -17,28 +17,28 @@ tags: [devlog, dotnet, database, architecture, task-tracker]
 
 ## The short version
 
-How I grouped boards by project in a task tracker without turning the data model into a tangle of nullable columns:
+How we grouped boards by project in a task tracker without turning the data model into a tangle of nullable columns:
 
-1. I added a grouping level above the board. A **space** contains boards, a board contains issues. The space carries a name and a color (a short key came later), and it is what the navigation switches between.
-2. I first put a nullable `SpaceId` on both the board and the issue, but after several iterations kept the space on the **board** only, as a required foreign key. An issue now finds its space through `Issue → Status → Epic → Space`, and that link is stored in exactly one place.
-3. I removed the "board without a space" state: every user has a default space with a default Backlog board, and every new space is created together with its own Backlog.
-4. I migrated the existing users' data inside the migration with plain SQL: one `insert … select` per level and one `update` for the issues.
-5. I marked the defaults with an `IsDefault` flag and forbade deleting them.
-6. I moved all the code that moves things between spaces into one place.
+1. We added a grouping level above the board. A **space** contains boards, a board contains issues. The space carries a name and a color (a short key came later), and it is what the navigation switches between.
+2. We first put a nullable `SpaceId` on both the board and the issue, but after several iterations kept the space on the **board** only, as a required foreign key. An issue now finds its space through `Issue → Status → Epic → Space`, and that link is stored in exactly one place.
+3. We removed the "board without a space" state: every user has a default space with a default Backlog board, and every new space is created together with its own Backlog.
+4. We migrated the existing users' data inside the migration with plain SQL: one `insert … select` per level and one `update` for the issues.
+5. We marked the defaults with an `IsDefault` flag and forbade deleting them.
+6. We moved all the code that moves things between spaces into one place.
 
-All of this fit into twelve days, and the schema changed three times along the way. The permissions system on top of it took me several rewrites before it covered every case I could think of, and that is a story for one of the next articles.
+All of this fit into twelve days, and the schema changed three times along the way. The permissions system on top of it took us several rewrites before it covered every case we could think of, and that is a story for one of the next articles.
 
 ## Why boards were not enough
 
-At first I developed Boards alone and was also its main user. The problem was that my epics held both my personal affairs and everything related to Laraue. A board (an epic in the code) is a kanban board with its own columns, and there was no level above it to group them.
+At first Boards was built by one person, who was also its main user. The problem was that the epics held both personal affairs and everything related to Laraue. A board (an epic in the code) is a kanban board with its own columns, and there was no level above it to group them.
 
-The idea is not new: Confluence has spaces, and Jira groups work by projects. I looked at how Jira solves it and adapted that. I called the new entity a **space**: a named, colored group of boards that you switch to as a whole. The product vocabulary became **Space → Board → Issue**, and in the code a board is an `Epic`. The [documentation](https://boards.laraue.com/en/documentation) uses "board" and "epic" interchangeably.
+The idea is not new: Confluence has spaces, and Jira groups work by projects. We looked at how Jira solves it and adapted that. We called the new entity a **space**: a named, colored group of boards that you switch to as a whole. The product vocabulary became **Space → Board → Issue**, and in the code a board is an `Epic`. The [documentation](https://boards.laraue.com/en/documentation) uses "board" and "epic" interchangeably.
 
 ## Groundwork: the rename and user preferences
 
-Before I started on spaces, I renamed the main entities: `Card` became `Issue`, `CardCategory` became `Epic`, `CardStatus` became `Status`. These are the names you saw in [part 9](issue-board-telegram-mini-app). It took two migrations, `RenameMainEntities` and `RenameEntitiesFks`, and it was better to do it before anything new was built on top of the old names.
+Before we started on spaces, we renamed the main entities: `Card` became `Issue`, `CardCategory` became `Epic`, `CardStatus` became `Status`. These are the names you saw in [part 9](issue-board-telegram-mini-app). It took two migrations, `RenameMainEntities` and `RenameEntitiesFks`, and it was better to do it before anything new was built on top of the old names.
 
-While at it, I added a couple of small features:
+While at it, we added a couple of small features:
 
 - `TouchedAt` on the epic, so that boards are sorted by the last activity in them.
 - A `UserPreferences` table: one row per user with their settings. First it stored the chosen sort order of the boards (by last activity or alphabetical), and later the last selected space was added.
@@ -86,7 +86,7 @@ The first variant consisted of five migrations:
 | [`AddSpaceIdToIssue`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Migrations/20260414123244_AddSpaceIdToIssue.cs) | the same on `issues` |
 | [`MakeSpaceIdInPreferencesNullable`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Migrations/20260414123835_MakeSpaceIdInPreferencesNullable.cs) | a user may have no space selected yet |
 
-To get all the issues of a space with one query, I added `SpaceId` not only to the epic but to the issue itself. I made the columns nullable: the existing epics and issues had no space yet, and with nullable columns the migration passes without touching the data.
+To get all the issues of a space with one query, we added `SpaceId` not only to the epic but to the issue itself. We made the columns nullable: the existing epics and issues had no space yet, and with nullable columns the migration passes without touching the data.
 
 ## Can a foreign key be nullable?
 
@@ -95,13 +95,13 @@ Yes. SQL lets a foreign key column be `NULL` in PostgreSQL, SQL Server, MySQL an
 - **Nullable is right when absence is a real state.** In the Boards model an issue created in the web app has no Telegram message behind it, so `Issue.TelegramMessageId` is `long?`, and the code that reads it expects `null`.
 - **Nullable is wrong when absence is only a gap in the data.** A board with no space is not a state the product has. It is a board the migration has not reached yet, and every reader of that column has to invent a meaning for `null`.
 
-In the second case it is better to make the key required and create a real record for the "nothing yet" case, for example a default space. This approach is covered in detail in [part 9](issue-board-telegram-mini-app). The rest of this article is how I got there, including the wrong turn.
+In the second case it is better to make the key required and create a real record for the "nothing yet" case, for example a default space. This approach is covered in detail in [part 9](issue-board-telegram-mini-app). The rest of this article is how we got there, including the wrong turn.
 
 ## What the nullable keys got in the way of
 
 Every `space_id` was `bigint null`, so everywhere it was read, the code had to handle the case "an issue has no space" separately, although the product should never have such a state.
 
-To remove that state, I wrote a migration. Trimmed to the part about spaces, it looked like this:
+To remove that state, we wrote a migration. Trimmed to the part about spaces, it looked like this:
 
 ```sql
 insert into spaces (name, color, creator_id, created_at, updated_at, organization_id, is_default)
@@ -191,7 +191,7 @@ var entity = new Space
 context.Spaces.Add(entity);
 ```
 
-The Backlog is created with `IsDefault = true` (see [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.Services/CoreSpacesService.cs)). A default space and a default Backlog cannot be deleted: otherwise "there is always a place for an issue" becomes false the moment someone deletes it. Later I fixed the places where the API still reported such items as deletable and forbade granting the delete permission on them, each time with a test.
+The Backlog is created with `IsDefault = true` (see [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.Services/CoreSpacesService.cs)). A default space and a default Backlog cannot be deleted: otherwise "there is always a place for an issue" becomes false the moment someone deletes it. Later we fixed the places where the API still reported such items as deletable and forbade granting the delete permission on them, each time with a test.
 
 ## Moving issues and boards between spaces
 
@@ -233,4 +233,4 @@ If you are curious how integration tests are named, [`SpacesControllerTests.cs`]
 
 ## What comes next
 
-Spaces answered one question: "mine or the project's". The migration above already hints at the next one: it had to create a *Personal* organization for every user, because a space is going to belong to someone other than a single person. The next article is about organizations: how the app went from one user to many, what a join code is, and why one of the first tests I wrote for them was "create organization".
+Spaces answered one question: "mine or the project's". The migration above already hints at the next one: it had to create a *Personal* organization for every user, because a space is going to belong to someone other than a single person. The next article is about organizations: how the app went from one user to many, what a join code is, and why one of the first tests we wrote for them was "create organization".
