@@ -2,7 +2,7 @@
 title: Spaces in a task tracker — grouping boards by project, the data model and migrating existing users
 description: Part 14 of building a Telegram task tracker solo. How spaces group boards by project, why the space lives on the board and not on the issue, and the SQL migration that gave every existing user a default space.
 seoTitle: Spaces in a Task Tracker: Data Model and Migration
-seoDescription: Part 14: how we added spaces to a task tracker — a required space on the board, default rows instead of nullable keys, and a SQL migration for existing users.
+seoDescription: Part 14: how I added spaces to a task tracker — a required space on the board, default rows instead of nullable keys, and a SQL migration for existing users.
 type: article
 series: architecture-first
 part: 14
@@ -17,14 +17,14 @@ tags: [devlog, dotnet, database, architecture, task-tracker]
 
 ## The short version
 
-How we grouped boards by project in a task tracker without turning the data model into a tangle of nullable columns:
+How I grouped boards by project in a task tracker without turning the data model into a tangle of nullable columns:
 
-1. We added a grouping level above the board. A **space** contains boards, a board contains issues. The space carries a name and a color (a short key came later), and it is what the navigation switches between.
-2. We first put a nullable `SpaceId` on both the board and the issue, but after several iterations kept the space on the **board** only, as a required foreign key. An issue now finds its space through `Issue → Status → Epic → Space`, and that link is stored in exactly one place.
-3. We removed the "board without a space" state: every user has a default space with a default Backlog board, and every new space is created together with its own Backlog.
-4. We migrated the existing users' data inside the migration with plain SQL: one `insert … select` per level and one `update` for the issues.
-5. We marked the defaults with an `IsDefault` flag and forbade deleting them.
-6. We moved all the code that moves things between spaces into one place.
+1. I added a grouping level above the board. A **space** contains boards, a board contains issues. The space carries a name and a color (a short key came later), and it is what the navigation switches between.
+2. I first put a nullable `SpaceId` on both the board and the issue, but after several iterations kept the space on the **board** only, as a required foreign key. An issue now finds its space through `Issue → Status → Epic → Space`, and that link is stored in exactly one place.
+3. I removed the "board without a space" state: every user has a default space with a default Backlog board, and every new space is created together with its own Backlog.
+4. I migrated the existing users' data inside the migration with plain SQL: one `insert … select` per level and one `update` for the issues.
+5. I marked the defaults with an `IsDefault` flag and forbade deleting them.
+6. I moved all the code that moves things between spaces into one place.
 
 All of this fit into twelve days, and the schema changed three times along the way. The permissions system on top of it took me several rewrites before it covered every case I could think of, and that is a story for one of the next articles.
 
@@ -92,7 +92,7 @@ To get all the issues of a space with one query, I added `SpaceId` not only to t
 
 Yes. SQL lets a foreign key column be `NULL` in PostgreSQL, SQL Server, MySQL and SQLite alike: a row with `NULL` is simply not checked against the parent table, and it means "no parent". So the real question is not "can it?" but "is *no parent* a state that exists in your domain?"
 
-- **Nullable is right when absence is a real state.** In our own model an issue created in the web app has no Telegram message behind it, so `Issue.TelegramMessageId` is `long?`, and the code that reads it expects `null`.
+- **Nullable is right when absence is a real state.** In the Boards model an issue created in the web app has no Telegram message behind it, so `Issue.TelegramMessageId` is `long?`, and the code that reads it expects `null`.
 - **Nullable is wrong when absence is only a gap in the data.** A board with no space is not a state the product has. It is a board the migration has not reached yet, and every reader of that column has to invent a meaning for `null`.
 
 In the second case it is better to make the key required and create a real record for the "nothing yet" case, for example a default space. This approach is covered in detail in [part 9](issue-board-telegram-mini-app). The rest of this article is how I got there, including the wrong turn.
