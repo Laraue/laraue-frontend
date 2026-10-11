@@ -17,14 +17,14 @@ tags: [devlog, dotnet, database, architecture, task-tracker]
 
 ## The short version
 
-To group boards by project in a task tracker without turning the data model into a tangle of nullable columns:
+How we grouped boards by project in a task tracker without turning the data model into a tangle of nullable columns:
 
-1. Add the grouping level above the board. A **space** has many boards, a board has many issues. The space carries a name and a color (a short key came later), and it is what the navigation switches between.
-2. Store the space on the **board** only, as a required foreign key. An issue does not know its space: it finds it through `Issue → Status → Epic → Space`. Moving a board then updates one row, not every issue in it.
-3. Never leave a board outside a space. Every user gets a default space with a default Backlog board, and every new space is created together with its own Backlog.
-4. Seed the existing data inside the migration with plain SQL: one `insert … select` per level and one `update` for the issues.
-5. Mark the defaults with an `IsDefault` flag and forbid deleting them.
-6. Keep all the code that moves things between spaces in one place.
+1. We added a grouping level above the board. A **space** has many boards, a board has many issues. The space carries a name and a color (a short key came later), and it is what the navigation switches between.
+2. We first put a nullable `SpaceId` on both the board and the issue, and twelve days later kept the space on the **board** only, as a required foreign key. An issue now finds its space through `Issue → Status → Epic → Space`, and moving a board updates one row, not every issue in it.
+3. We removed the "board without a space" state: every user has a default space with a default Backlog board, and every new space is created together with its own Backlog.
+4. We migrated the existing users' data inside the migration with plain SQL: one `insert … select` per level and one `update` for the issues.
+5. We marked the defaults with an `IsDefault` flag and forbade deleting them.
+6. We moved all the code that moves things between spaces into one place.
 
 We got to this shape in three steps in twelve days. The first version, which we rewrote almost at once, is the interesting part.
 
