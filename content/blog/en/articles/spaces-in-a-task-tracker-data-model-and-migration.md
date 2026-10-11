@@ -26,24 +26,24 @@ How we grouped boards by project in a task tracker without turning the data mode
 5. We marked the defaults with an `IsDefault` flag and forbade deleting them.
 6. We moved all the code that moves things between spaces into one place.
 
-We got to this shape in three steps in twelve days. The permissions system on top of it took several rewrites before it covered every case we could think of, and that is a story for one of the next articles.
+All of this fit into twelve days, and the schema changed three times along the way. The permissions system on top of it took me several rewrites before it covered every case I could think of, and that is a story for one of the next articles.
 
 ## Why boards were not enough
 
 At first I developed Boards alone and was also its main user. The problem was that my epics held both my personal affairs and everything related to Laraue. A board (an epic in the code) is a kanban board with its own columns, and there was no level above it to group them.
 
-The idea is not new: Confluence has spaces, and Jira groups work by projects. I looked at how Jira solves it and adapted that. The new entity is a **space**: a named, colored group of boards that you switch to as a whole. The product vocabulary became **Space → Board → Issue**, and in the code a board is an `Epic`. The [documentation](https://boards.laraue.com/en/documentation) uses "board" and "epic" interchangeably.
+The idea is not new: Confluence has spaces, and Jira groups work by projects. I looked at how Jira solves it and adapted that. I called the new entity a **space**: a named, colored group of boards that you switch to as a whole. The product vocabulary became **Space → Board → Issue**, and in the code a board is an `Epic`. The [documentation](https://boards.laraue.com/en/documentation) uses "board" and "epic" interchangeably.
 
-## Groundwork: the rename and user preferences (April 11–12)
+## Groundwork: the rename and user preferences
 
-Before spaces, on April 11, we renamed the main entities: `Card` became `Issue`, `CardCategory` became `Epic`, `CardStatus` became `Status`. These are the names you saw in [part 9](issue-board-telegram-mini-app). It took two migrations, `RenameMainEntities` and `RenameEntitiesFks`, and it was better to do it before anything new was built on top of the old names.
+Before I started on spaces, I renamed the main entities: `Card` became `Issue`, `CardCategory` became `Epic`, `CardStatus` became `Status`. These are the names you saw in [part 9](issue-board-telegram-mini-app). It took two migrations, `RenameMainEntities` and `RenameEntitiesFks`, and it was better to do it before anything new was built on top of the old names.
 
-At the same time we added two more things that spaces would later use:
+While at it, I added a couple of small features:
 
 - `TouchedAt` on the epic, so that boards are sorted by the last activity in them.
-- A `UserPreferences` table: one row per user with their settings. First it stored the chosen sort order of the boards (by last activity or alphabetical), and on April 14 the last selected space was added.
+- A `UserPreferences` table: one row per user with their settings. First it stored the chosen sort order of the boards (by last activity or alphabetical), and later the last selected space was added.
 
-## The first version: a nullable SpaceId on the board and on the issue (April 14)
+## The first version: a nullable SpaceId on the board and on the issue
 
 The first commits ([`dbe944d`](https://github.com/Laraue/Laraue.Apps.Boards/commit/dbe944d) and [`526bfbc`](https://github.com/Laraue/Laraue.Apps.Boards/commit/526bfbc)) added a `Space` entity and CRUD for it:
 
@@ -76,7 +76,7 @@ public long? SpaceId { get; set; }
 public Space? Space { get; set; }
 ```
 
-Five migrations, written on April 13–14:
+The first variant consisted of five migrations:
 
 | Migration | What it did |
 |---|---|
@@ -86,7 +86,7 @@ Five migrations, written on April 13–14:
 | [`AddSpaceIdToIssue`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Migrations/20260414123244_AddSpaceIdToIssue.cs) | the same on `issues` |
 | [`MakeSpaceIdInPreferencesNullable`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Migrations/20260414123835_MakeSpaceIdInPreferencesNullable.cs) | a user may have no space selected yet |
 
-It was the first variant. The board of a space is a query over issues, so each issue carried its own `SpaceId` next to the epic's. Everything was nullable because the existing boards and issues had no space yet, and a nullable column lets the migration pass without touching the data.
+To get all the issues of a space with one query, I added `SpaceId` not only to the epic but to the issue itself. I made the columns nullable: the existing epics and issues had no space yet, and with nullable columns the migration passes without touching the data.
 
 ## Can a foreign key be nullable?
 
@@ -95,13 +95,13 @@ Yes. SQL lets a foreign key column be `NULL` in PostgreSQL, SQL Server, MySQL an
 - **Nullable is right when absence is a real state.** In our own model an issue created in the web app has no Telegram message behind it, so `Issue.TelegramMessageId` is `long?`, and the code that reads it expects `null`.
 - **Nullable is wrong when absence is only a gap in the data.** A board with no space is not a state the product has. It is a board the migration has not reached yet, and every reader of that column has to invent a meaning for `null`.
 
-In the second case it is better to make the key required and create a real record for the "nothing yet" case, for example a default space. We covered this approach in detail in [part 9](issue-board-telegram-mini-app). The rest of this article is how we got there, including the wrong turn.
+In the second case it is better to make the key required and create a real record for the "nothing yet" case, for example a default space. This approach is covered in detail in [part 9](issue-board-telegram-mini-app). The rest of this article is how I got there, including the wrong turn.
 
-## A nullable key again, and what part 9 already said
+## What the nullable keys got in the way of
 
-[Part 9](issue-board-telegram-mini-app) has a whole section about exactly this choice: a nullable foreign key or a default row. We knew the argument and took the shortest path anyway, because it got a working version out fastest. Every `space_id` was `bigint null`, which meant that every piece of code reading one had to answer "what does an issue without a space mean?", and the honest answer was that it meant nothing.
+Every `space_id` was `bigint null`, so everywhere it was read, the code had to handle the case "an issue has no space" separately, although the product should never have such a state.
 
-On April 23 we wrote the migration that removed the "no space" state. Trimmed to the part about spaces, it looked like this:
+To remove that state, I wrote a migration. Trimmed to the part about spaces, it looked like this:
 
 ```sql
 insert into spaces (name, color, creator_id, created_at, updated_at, organization_id, is_default)
@@ -120,9 +120,15 @@ from spaces s
 where i.space_id is null and s.is_default = true and s.creator_id = i.user_id;
 ```
 
-That is the core of the data migration: one default space for every user, one Backlog board in every space, and every existing issue moved under it. The full script had a few more statements. The first of them created a *Personal* organization for each user, and that is the `organizations` table in the first `from` clause above. We come back to it in the next article.
+Here is what happens:
 
-## The final shape: the space lives on the board only (April 26)
+- A **default space** is created for every user. Every space belongs to an organization, so the same migration also created a "personal organization" for every user: one, consisting of that user alone (in the query above that is the `organizations` table). What organizations are is the subject of the next article.
+- A **Backlog** board is created for every space. An issue cannot live outside a board: it finds its space through its status and epic. Before, an issue without a board (`epic_id = null`) was considered to be in the backlog; now there is an ordinary Backlog board for that. Boards belong to spaces, so every space has its own Backlog.
+- All the existing issues move to the Backlog of their owner's space.
+
+The full script had other statements too (membership in the organization, access rights), but for spaces only this matters.
+
+## The final shape: the space lives on the board only
 
 The commit [`a095e69`](https://github.com/Laraue/Laraue.Apps.Boards/commit/a095e69) has a modest message — "app is now closer to target org DB schema" — and a large diff: 23 files, 1457 insertions, 341 deletions. Two of its migrations did the main work. In model terms:
 
@@ -160,7 +166,7 @@ query = query.Where(i => i.Status!.Epic!.Space!.Key == spaceKey);
 
 The price is a few joins. The gain is that there is exactly one place that says where an issue lives. Moving a board to another space means updating one `epics` row, not rewriting the `space_id` of every issue in it, and the two can never disagree, because the second copy does not exist.
 
-A day earlier, on April 25, an `IsDefault` flag had appeared on spaces and boards. Together with the required foreign key it gave the final rule: **there is always a space and always a board to put an issue in.**
+Shortly before that, an `IsDefault` flag had appeared on spaces and boards. Together with the required foreign key it gave the final rule: **there is always a space and always a board to put an issue in.**
 
 ## Default rows in code
 
@@ -185,17 +191,17 @@ var entity = new Space
 context.Spaces.Add(entity);
 ```
 
-The Backlog is created with `IsDefault = true` (see [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.Services/CoreSpacesService.cs)). A default space and a default Backlog cannot be deleted: otherwise "there is always a place for an issue" becomes false the moment someone deletes it. In May we fixed the places where the API still reported such items as deletable (a commit on May 11) and forbade granting the delete permission on them (May 12), each with a test.
+The Backlog is created with `IsDefault = true` (see [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.Services/CoreSpacesService.cs)). A default space and a default Backlog cannot be deleted: otherwise "there is always a place for an issue" becomes false the moment someone deletes it. Later I fixed the places where the API still reported such items as deletable and forbade granting the delete permission on them, each time with a test.
 
 ## Moving issues and boards between spaces
 
-The first move UI was written on April 16, two days after the spaces themselves: a modal to move an issue, with two pickers inside it, one for the board and one for the space. On May 19 and 20 the movement logic was rewritten into one place, together with a test class for mass moves. By then there were three kinds of move (an issue to another board, a board to another space, and a whole space), and the three copies of the same logic would have drifted apart.
+The first move UI appeared almost right after the spaces themselves: a modal to move an issue, with two pickers inside it, one for the board and one for the space. Later the movement logic was rewritten into one place, together with a test class for mass moves. By then there were three kinds of move (an issue to another board, a board to another space, and a whole space), and the three copies of the same logic would have drifted apart.
 
 The product rule that came out of it is simple, and the [documentation](https://boards.laraue.com/en/documentation) states it: a board's space is set when the board is created and stays fixed. Moving a space or a board along with everything inside it is a separate, deliberate action, which moves it between organizations.
 
 ## Deleting a space
 
-Delete went through three versions: the modal on April 17, a rewrite of the logic on June 4, and in September a soft delete. Today a space is marked as deleted together with everything below it, in one transaction, so that nothing stays attached to a space that no longer exists. The method walks the same chain as the queries above, from the bottom up:
+Delete went through three versions: first a confirmation dialog, then a rewrite of the logic, and later a soft delete. Today a space is marked as deleted together with everything below it, in one transaction, so that nothing stays attached to a space that no longer exists. The method walks the same chain as the queries above, from the bottom up:
 
 ```csharp
 await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
@@ -223,8 +229,8 @@ Four `ExecuteUpdateAsync` calls instead of loading anything into memory, and the
 - **A data migration is part of the feature.** A few dozen lines of SQL decided whether the existing users would open the app and see their boards, and they were worth writing and reading as carefully as the model.
 - **Change the shape of the schema early.** The model changed three times in twelve days. That was cheap while the app had a handful of users and expensive to even imagine a few months later.
 
-If you are curious how we name integration tests, [`SpacesControllerTests.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/tests/Laraue.Apps.Boards.IntegrationTests/SpacesControllerTests.cs) is a good place to look: every test says who does what and under which condition.
+If you are curious how integration tests are named, [`SpacesControllerTests.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/tests/Laraue.Apps.Boards.IntegrationTests/SpacesControllerTests.cs) is a good place to look: every test says who does what and under which condition.
 
 ## What comes next
 
-Spaces answered one question: "mine or the project's". The migration above already hints at the next one: it had to create a *Personal* organization for every user, because a space is going to belong to someone other than a single person. The next article is about organizations: how the app went from one user to many, what a join code is, and why one of the first tests we wrote for them was "create organization".
+Spaces answered one question: "mine or the project's". The migration above already hints at the next one: it had to create a *Personal* organization for every user, because a space is going to belong to someone other than a single person. The next article is about organizations: how the app went from one user to many, what a join code is, and why one of the first tests I wrote for them was "create organization".
