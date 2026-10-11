@@ -26,28 +26,22 @@ How we grouped boards by project in a task tracker without turning the data mode
 5. We marked the defaults with an `IsDefault` flag and forbade deleting them.
 6. We moved all the code that moves things between spaces into one place.
 
-We got to this shape in three steps in twelve days. The first version, which we rewrote almost at once, is the interesting part.
+We got to this shape in three steps in twelve days. The permissions system on top of it took several rewrites before it covered every case we could think of, and that is a story for one of the next articles.
 
 ## Why boards were not enough
 
-We are the developers of Laraue Boards and also some of its most active users, and after a few weeks of daily use one thing started to hurt. A board (an epic in the code) is a kanban board with its own columns, and all of them were in one flat list. Boards tied to personal life ended up next to project boards, and we wanted to keep them apart.
+At first I developed Boards alone and was also its main user. The problem was that my epics held both my personal affairs and everything related to Laraue. A board (an epic in the code) is a kanban board with its own columns, and there was no level above it to group them.
 
-There were cheaper options than a new entity:
+The idea is not new: Confluence has spaces, and Jira groups work by projects. I looked at how Jira solves it and adapted that. The new entity is a **space**: a named, colored group of boards that you switch to as a whole. The product vocabulary became **Space → Board → Issue**, and in the code a board is an `Epic`. The [documentation](https://boards.laraue.com/en/documentation) uses "board" and "epic" interchangeably.
 
-- **Tags on a board.** Flat, no hierarchy, and nothing to attach permissions to later.
-- **A separate account for work.** Switching accounts is exactly the friction we wanted to remove.
-- **Folders.** This is a space under another name, so we gave it a proper one.
+## Groundwork: the rename and user preferences (April 11–12)
 
-The idea is not new. Confluence has spaces, Trello and Notion have workspaces, Jira has projects, Linear has teams. We went with **space**: a named, colored group of boards that you switch to as a whole. The product vocabulary became **Space → Board → Issue**, and in the code a board is an `Epic`. The [documentation](https://boards.laraue.com/en/documentation) uses "board" and "epic" interchangeably.
+Before spaces, on April 11, we renamed the main entities: `Card` became `Issue`, `CardCategory` became `Epic`, `CardStatus` became `Status`. These are the names you saw in [part 9](issue-board-telegram-mini-app). It took two migrations, `RenameMainEntities` and `RenameEntitiesFks`, and it was better to do it before anything new was built on top of the old names.
 
-## Groundwork: the rename and two small tables (April 11–12)
-
-Before spaces, the code had been renamed to the vocabulary you saw in [part 9](issue-board-telegram-mini-app): `Card` became `Issue`, `CardCategory` became `Epic`, `CardStatus` became `Status`. It took two migrations on April 11 (`RenameMainEntities` and `RenameEntitiesFks`), and they were worth doing before adding anything new on top of the old names.
-
-The same weekend added two small things that spaces would use:
+At the same time we added two more things that spaces would later use:
 
 - `TouchedAt` on the epic, so that boards are sorted by the last activity in them.
-- A `UserPreferences` table, one row per user, to remember what the user used last. The current space would live there.
+- A `UserPreferences` table: one row per user with their settings. First it stored the chosen sort order of the boards (by last activity or alphabetical), and on April 14 the last selected space was added.
 
 ## The first version: a nullable SpaceId on the board and on the issue (April 14)
 
@@ -82,19 +76,17 @@ public long? SpaceId { get; set; }
 public Space? Space { get; set; }
 ```
 
-Five migrations, all written on April 13–14, show how the day went:
+Five migrations, written on April 13–14:
 
 | Migration | What it did |
 |---|---|
-| `CreateSpaces` | the `spaces` table |
-| `CreateSpacePreference` | `space_id` in the user preferences: the space the user was last in |
-| `AddSpaceIdToEpic` | nullable `space_id` with an index and a foreign key on `epics` |
-| `AddSpaceIdToIssue` | the same on `issues` |
-| `MakeSpaceIdInPreferencesNullable` | a user may have no space selected yet |
+| [`CreateSpaces`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Migrations/20260413113436_CreateSpaces.cs) | the `spaces` table |
+| [`CreateSpacePreference`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Migrations/20260414073038_CreateSpacePreference.cs) | `space_id` in the user preferences: the space the user was last in |
+| [`AddSpaceIdToEpic`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Migrations/20260414120632_AddSpaceIdToEpic.cs) | nullable `space_id` with an index and a foreign key on `epics` |
+| [`AddSpaceIdToIssue`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Migrations/20260414123244_AddSpaceIdToIssue.cs) | the same on `issues` |
+| [`MakeSpaceIdInPreferencesNullable`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Migrations/20260414123835_MakeSpaceIdInPreferencesNullable.cs) | a user may have no space selected yet |
 
-It was the obvious first version. The board of a space is a query over issues, so each issue carried its own `SpaceId` next to the epic's. Everything was nullable because the existing boards and issues had no space yet, and a nullable column lets the migration pass without touching the data.
-
-The frontend followed the same day. A space switcher popup (`LnbSpacePopup`) appeared on April 14, and the edit-space and delete-space modals on April 17. The texts came in English and Russian together (the commits of April 17 touch both locale files).
+It was the first variant. The board of a space is a query over issues, so each issue carried its own `SpaceId` next to the epic's. Everything was nullable because the existing boards and issues had no space yet, and a nullable column lets the migration pass without touching the data.
 
 ## Can a foreign key be nullable?
 
@@ -103,7 +95,7 @@ Yes. SQL lets a foreign key column be `NULL` in PostgreSQL, SQL Server, MySQL an
 - **Nullable is right when absence is a real state.** In our own model an issue created in the web app has no Telegram message behind it, so `Issue.TelegramMessageId` is `long?`, and the code that reads it expects `null`.
 - **Nullable is wrong when absence is only a gap in the data.** A board with no space is not a state the product has. It is a board the migration has not reached yet, and every reader of that column has to invent a meaning for `null`.
 
-In the second case, make the key required and give the "nothing yet" case a row: a default space, the "default row" approach from part 9. The rest of this article is how we got to that conclusion, including the wrong turn.
+In the second case it is better to make the key required and create a real record for the "nothing yet" case, for example a default space. We covered this approach in detail in [part 9](issue-board-telegram-mini-app). The rest of this article is how we got there, including the wrong turn.
 
 ## A nullable key again, and what part 9 already said
 
@@ -129,8 +121,6 @@ where i.space_id is null and s.is_default = true and s.creator_id = i.user_id;
 ```
 
 That is the core of the data migration: one default space for every user, one Backlog board in every space, and every existing issue moved under it. The full script had a few more statements. The first of them created a *Personal* organization for each user, and that is the `organizations` table in the first `from` clause above. We come back to it in the next article.
-
-The file itself did not survive. It was deleted three days later in the commit that reshaped the schema, but the rule it encoded stayed in the code.
 
 ## The final shape: the space lives on the board only (April 26)
 
