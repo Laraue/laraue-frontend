@@ -19,8 +19,8 @@ tags: [devlog, dotnet, database, architecture, task-tracker]
 
 How we grouped boards by project in a task tracker without turning the data model into a tangle of nullable columns:
 
-1. We added a grouping level above the board. A **space** has many boards, a board has many issues. The space carries a name and a color (a short key came later), and it is what the navigation switches between.
-2. We first put a nullable `SpaceId` on both the board and the issue, and twelve days later kept the space on the **board** only, as a required foreign key. An issue now finds its space through `Issue → Status → Epic → Space`, and moving a board updates one row, not every issue in it.
+1. We added a grouping level above the board. A **space** contains boards, a board contains issues. The space carries a name and a color (a short key came later), and it is what the navigation switches between.
+2. We first put a nullable `SpaceId` on both the board and the issue, but after several iterations kept the space on the **board** only, as a required foreign key. An issue now finds its space through `Issue → Status → Epic → Space`, and that link is stored in exactly one place.
 3. We removed the "board without a space" state: every user has a default space with a default Backlog board, and every new space is created together with its own Backlog.
 4. We migrated the existing users' data inside the migration with plain SQL: one `insert … select` per level and one `update` for the issues.
 5. We marked the defaults with an `IsDefault` flag and forbade deleting them.
