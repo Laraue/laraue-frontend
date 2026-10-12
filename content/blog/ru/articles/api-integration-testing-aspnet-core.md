@@ -1,8 +1,8 @@
 ---
-title: Интеграционные тесты ASP.NET Core — WebApplicationFactory, настоящий PostgreSQL и типизированный прокси к контроллерам
+title: Интеграционное тестирование API в ASP.NET Core — WebApplicationFactory, настоящий PostgreSQL и типизированный прокси к контроллерам
 description: Часть 15 цикла о разработке Telegram-таск-трекера в одиночку. Почему мы написали первые интеграционные тесты, когда приложение уже работало в продакшене, как устроен тестовый хост на WebApplicationFactory с настоящей базой и собственный прокси, который превращает вызов метода контроллера в HTTP-запрос.
-seoTitle: Интеграционные тесты ASP.NET Core: типизированный прокси
-seoDescription: Часть 15: интеграционные тесты ASP.NET Core на WebApplicationFactory и PostgreSQL и прокси, который делает HTTP-запрос из вызова метода контроллера.
+seoTitle: Интеграционное тестирование API в ASP.NET Core
+seoDescription: Часть 15: тестирование API в ASP.NET Core на WebApplicationFactory и PostgreSQL без Testcontainers и прокси, который строит HTTP-запрос из вызова метода.
 type: article
 series: architecture-first
 part: 15
@@ -19,7 +19,7 @@ tags: [devlog, dotnet, architecture, task-tracker, open-source]
 
 Как мы начали покрывать бэкенд интеграционными тестами:
 
-1. Тесты поднимают настоящий Web API через `WebApplicationFactory` и работают с настоящей базой PostgreSQL: локально и в CI.
+1. Тесты поднимают настоящий Web API через `WebApplicationFactory` и работают с настоящей базой PostgreSQL, локально и в CI, без Testcontainers.
 2. Тест вызывает метод контроллера как обычный C#-метод, а наш класс `Proxy<TController>` превращает этот вызов в HTTP-запрос: адрес, метод и параметры он берёт из атрибутов контроллера.
 3. Тесты называли по схеме «кто, что делает, при каком условии»: `User_ShouldNotDeleteOrganization_WhenHasNoAccess`.
 4. Первые тесты были про организации, и сами организации писались вместе с ними.
@@ -49,6 +49,8 @@ services:
 ```
 
 Так тесты проверяют и SQL, который генерирует EF Core, и ограничения в базе, и миграции. Провайдер EF Core, работающий в памяти, ничего из этого не проверил бы.
+
+Testcontainers мы не использовали: локально тесты работают с обычным PostgreSQL, а в CI базу поднимает сам GitHub Actions.
 
 Каждый тест начинается с тестового скоупа. В первой версии он очищал таблицу пользователей и умел создавать пользователя:
 

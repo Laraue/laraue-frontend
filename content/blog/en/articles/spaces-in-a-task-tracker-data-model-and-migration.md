@@ -216,4 +216,4 @@ We first made deleting a space a hard delete, because it was quicker. Later we r
 
 ## What comes next
 
-Spaces helped separate personal boards from work ones. But the migration above already created a personal organization for every user: we were preparing for several people working in one space. Organizations touched almost every API request, and the app already had users, so before them we wrote the first integration tests. They are the subject of the [next article](aspnet-core-integration-tests-typed-controller-proxy).
+Spaces helped separate personal boards from work ones. But the migration above already created a personal organization for every user: we were preparing for several people working in one space. Organizations touched almost every API request, and the app already had users, so before them we wrote the first integration tests. They are the subject of the [next article](api-integration-testing-aspnet-core).

@@ -1,8 +1,8 @@
 ---
-title: Integration tests in ASP.NET Core — WebApplicationFactory, a real PostgreSQL and a typed controller proxy
+title: API integration testing in ASP.NET Core — WebApplicationFactory, a real PostgreSQL and a typed controller proxy
 description: Part 15 of the series about building a Telegram task tracker solo. Why we wrote our first integration tests when the app was already in production, how the test host on WebApplicationFactory with a real database works, and our own proxy that turns a controller method call into an HTTP request.
-seoTitle: ASP.NET Core Integration Tests with a Typed Controller Proxy
-seoDescription: Part 15: ASP.NET Core integration tests on WebApplicationFactory and PostgreSQL, and a proxy that builds an HTTP request from a controller method call.
+seoTitle: API Integration Testing in ASP.NET Core with a Typed Proxy
+seoDescription: Part 15: API integration testing in ASP.NET Core with WebApplicationFactory and PostgreSQL, no Testcontainers, and a typed proxy to controllers.
 type: article
 series: architecture-first
 part: 15
@@ -19,7 +19,7 @@ tags: [devlog, dotnet, architecture, task-tracker, open-source]
 
 How we started covering the backend with integration tests:
 
-1. The tests start the real Web API through `WebApplicationFactory` and work against a real PostgreSQL database, both locally and in CI.
+1. The tests start the real Web API through `WebApplicationFactory` and work against a real PostgreSQL database, both locally and in CI, without Testcontainers.
 2. A test calls a controller method as an ordinary C# method, and our `Proxy<TController>` class turns that call into an HTTP request: it takes the route, the HTTP method and the parameters from the controller's attributes.
 3. Tests are named "who, does what, under which condition": `User_ShouldNotDeleteOrganization_WhenHasNoAccess`.
 4. The first tests were about organizations, and the organizations themselves were written together with them.
@@ -49,6 +49,8 @@ services:
 ```
 
 This way the tests check the SQL that EF Core generates, the database constraints and the migrations. The in-memory EF Core provider would check none of that.
+
+We did not use Testcontainers: locally the tests work with an ordinary PostgreSQL, and in CI GitHub Actions starts the database itself.
 
 Every test starts with a test scope. In the first version it cleaned the users table and could create a user:
 
