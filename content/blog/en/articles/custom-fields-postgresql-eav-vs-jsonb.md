@@ -174,4 +174,4 @@ We added indexes for the filters. For text, a trigram GIN index (`gin_trgm_ops`)
 
 ## What comes next
 
-After attributes, tasks got comments, attachments and a change history, and a second developer joined the project. That is the subject of the next articles.
+After attributes, tasks got comments, attachments and a change history, and a second developer joined the project. That is the subject of the [next articles](audit-log-change-history-one-transaction).
