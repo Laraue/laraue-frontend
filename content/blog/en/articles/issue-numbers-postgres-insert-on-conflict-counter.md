@@ -1,8 +1,8 @@
 ---
 title: Gapless issue numbers — a counter on PostgreSQL INSERT ON CONFLICT, space keys and organization URLs
-description: Part 18 of the series about building a Telegram task tracker solo. How issues got gapless numbers like BRD-42, why a counter on INSERT ... ON CONFLICT DO UPDATE suited them better than a PostgreSQL sequence, and how space keys and organization URLs work.
+description: Part 18 of the series about building a Telegram task tracker solo. How issues got sequential numbers like BRD-42, why a counter on INSERT ... ON CONFLICT DO UPDATE suited them better than a PostgreSQL sequence, and how space keys and organization URLs work.
 seoTitle: Gapless Issue Numbers with PostgreSQL INSERT ON CONFLICT
-seoDescription: Part 18: gapless issue numbers like BRD-42 — a counter on PostgreSQL INSERT ON CONFLICT DO UPDATE instead of a sequence, space keys and organization slugs.
+seoDescription: Part 18: sequential issue numbers like BRD-42 — a counter on PostgreSQL INSERT ON CONFLICT DO UPDATE instead of a sequence, space keys and organization slugs.
 type: article
 series: architecture-first
 part: 18
@@ -13,13 +13,13 @@ tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 18.
-> In the [previous article](access-control-without-roles-task-tracker-permissions) we went through access control. When several people work in an organization, they need a way to refer to each other's tasks, and an internal `id` does not work for that.
+> In the [previous article](access-control-without-roles-task-tracker-permissions) we went through access control. When several people work in an organization, they need a way to refer to each other's tasks, and an internal `id` is hard to say and remember.
 
 ## The short version
 
 How tasks in Boards got short keys:
 
-1. First we decided what links would look like, so we would not have to break them later: `/organizations/laraue-HFP0/issues/BRD-277`.
+1. First we decided what links would look like, so we would not have to break them later: `/organizations/{organization}-{suffix}/issues/{space key}-{number}`.
 2. An organization's address is a slug the user chooses plus a random four-character suffix. The address cannot be used to take someone else's name or to check whether an organization exists.
 3. Every space has a three-character key, unique among the live spaces of the organization. The key of a deleted space can be taken again.
 4. An issue number is unique within its space and has no gaps. The last issued number is stored in a counter table and incremented with a single `INSERT ... ON CONFLICT DO UPDATE ... RETURNING` query.
@@ -27,7 +27,7 @@ How tasks in Boards got short keys:
 
 ## First, what links look like
 
-While a task has no readable name, the only way to link to it is to copy the URL from the address bar. We wanted tasks to be named the way Jira names them: `BRD-42`, where `BRD` is the space key and `42` is the task number in it.
+While a task has no readable name, the only way to link to it is to copy the URL from the address bar. We needed task numbers, and instead of inventing something new we took Jira's approach: `BRD-42`, where `BRD` is the space key and `42` is the task number in it.
 
 But before building the numbers, we had to decide what a full link to a task would look like. Links take on a life of their own: they are sent to chats and pasted into other tasks and documents. If the format changes after links have spread, all of them stop working. That is why organization addresses appeared before issue numbers.
 
@@ -51,7 +51,7 @@ public string Slug { get; set; } = string.Empty;
 public string SlugPostfix { get; set; } = string.Empty;
 ```
 
-The slug does not have to be unique: two organizations can both be called `laraue`, but their addresses differ, for example `laraue-HFP0` and `laraue-x7Kq`. Someone else's address cannot be guessed from the name, and taking names is pointless.
+The slug does not have to be unique: two organizations can both be called `laraue`, but their addresses differ, for example `laraue-a1B2` and `laraue-x7Kq`. Someone else's address cannot be guessed from the name, and taking names is pointless.
 
 ## The space key
 
@@ -115,7 +115,7 @@ private async Task<int> GetLastNumber(long spaceId, int count, CancellationToken
 
 This is exactly what removes the gaps. The `UPDATE` locks the counter row until the end of the transaction, so a second request for a number in the same space waits until the first one finishes. If the transaction rolls back, the counter increment rolls back with it, and the next issue gets the same number. The price is that issues of one space are created one at a time, which is not noticeable in a task tracker.
 
-The second parameter, `count`, reserves several numbers at once. It is needed when a board is moved, described below. In the first version, the method that returns the first number of the reserved range was off by one (`last - count + 2` instead of `last - count + 1`). It was fixed together with the mass-move tests.
+The second parameter, `count`, reserves several numbers at once. It is needed when a board is moved, described below. In the first version, the method that returns the first number of the reserved range was off by one (`last - count + 2` instead of `last - count + 1`). It was found and fixed together with the mass-move tests.
 
 ## Numbers for existing issues
 
@@ -133,7 +133,7 @@ select ic.id, ic.space_id, ic.number
 from issue_counters ic;
 ```
 
-In the first version of the migration, `row_number()` had no `order by i.id`. Without it PostgreSQL numbers rows in an arbitrary order, and old tasks could have got their numbers mixed up. Both bugs were fixed in one commit.
+In the first version of the migration, `row_number()` had no `order by i.id`. Without it PostgreSQL numbers rows in an arbitrary order, and old tasks could have got their numbers mixed up. We found both bugs by asking AI what would happen in different cases, and fixed them in one commit.
 
 ## Moving a board to another space
 
