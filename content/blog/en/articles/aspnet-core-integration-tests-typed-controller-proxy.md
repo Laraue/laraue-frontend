@@ -176,7 +176,7 @@ From then on tests were written together with the features, and the infrastructu
 - **Test data.** For the access-rights tests we added an organization builder: the test describes the owner, the members and their rights, and the builder creates the organization with a default space and a Backlog board, the same way the app does.
 - **External services.** Services the tests cannot reach (Billing over gRPC, Google token validation, AI) are replaced with Moq mocks right in the test host.
 
-Today the test project has more than forty classes and about six hundred tests. The proxy grew to about six hundred lines, and we moved it into our NuGet package `Laraue.Core.Testing`. Only the authorization extensions stayed in Boards, because they depend on the app's own token service.
+Today the test project has more than forty classes and about six hundred tests. The proxy grew to about six hundred lines, and we moved it into our NuGet package [`Laraue.Core.Testing`](https://www.nuget.org/packages/Laraue.Core.Testing) ([the proxy's source code](https://github.com/Laraue/Laraue.Core/blob/HEAD/src/Laraue.Core.Testing/Http/Proxy.cs)). Only the authorization extensions stayed in Boards, because they depend on the app's own token service.
 
 ## Results
 
