@@ -161,7 +161,7 @@ The commit [`a095e69`](https://github.com/Laraue/Laraue.Apps.Boards/commit/a095e
  }
 ```
 
-The space became **required on the board**, and the issue lost both `EpicId` and `SpaceId`. An issue now knows one thing: its status. A status belongs to an epic, an epic belongs to a space:
+The space became **required on the board**, and the issue lost both `EpicId` and `SpaceId`. Of the whole hierarchy, the issue now references only its status. A status belongs to an epic, an epic belongs to a space:
 
 ```
 Issue → Status → Epic → Space
@@ -207,12 +207,12 @@ At first only a single issue could be moved: the move dialog let you pick a spac
 
 We first made deleting a space a hard delete, because it was quicker. Later we rewrote it as a soft delete, because deleting data for good is too dangerous.
 
-## Conclusions
+## Results
 
-- **Put the relation at the narrowest level that can carry it.** The space is stored on the board. The issue gets it through the board, and moving a board changes one row.
-- **Prefer a default row to a null.** Every nullable key is a question that every reader of the data has to answer again. "Every user has a space and every space has a Backlog" is an invariant you can test.
-- **A data migration is part of the feature.** A few dozen lines of SQL decided whether the existing users would open the app and see their boards, and they were worth writing and reading as carefully as the model.
-- **Change the shape of the schema early.** The model changed three times in twelve days. That was cheap while the app had a handful of users and expensive to even imagine a few months later.
+- **The space is stored on the board only.** An issue gets it through its status and epic, and moving a board changes one row.
+- **Default rows instead of null.** Every user has a default space, every space has a Backlog, and neither can be deleted.
+- **The existing users' data was moved by an SQL migration.** A few dozen lines decided whether users would see their boards after the update.
+- **We changed the schema while it was cheap.** The model changed three times while the app had a handful of users. A few months later such changes would have cost much more.
 
 Examples of the integration tests are in [`SpacesControllerTests.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/tests/Laraue.Apps.Boards.IntegrationTests/SpacesControllerTests.cs): the name of every test tells who does what and under which condition.
 
