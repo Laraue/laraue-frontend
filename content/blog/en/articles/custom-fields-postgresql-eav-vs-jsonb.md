@@ -71,7 +71,7 @@ There are two common ways to store custom fields.
 We chose EAV. JSONB had three drawbacks for us.
 
 - **A feature of a particular provider.** JSONB is a PostgreSQL feature, and we try not to tie the data model to the features of one database. Tables with foreign keys work in any relational database.
-- **Indexes.** JSONB is indexed with a GIN index, and we do not use GIN where GiST will do. Besides, a JSONB value is stored as one document: changing one field updates the index for the whole document, and task fields change all the time.
+- **Indexes.** JSONB can only be indexed with a GIN index, and when there is a choice we prefer GiST. Besides, a JSONB value is stored as one document: changing one field updates the index for the whole document.
 - **No foreign keys.** Inside JSONB you cannot reference another table, so integrity rules would have to live in code. We wanted them to work at the database level: in EAV a value is an ordinary row with foreign keys to the task, the attribute and the list option, and the behavior on their deletion is defined in the database itself.
 
 ## A separate table per type
@@ -161,7 +161,7 @@ if (filterType == AttributeType.List)
 
 Several filters mean several `JOIN`s, and a task is in the result only if it matches all of them. Text is matched by substring, and for a list several options can be selected.
 
-We added indexes for the filters. For text, a trigram GIN index (`gin_trgm_ops`), so that a substring search with `ILIKE` does not scan the whole table. It is a specialized index for full-text search, and if you need good speed there is no alternative to it. Where we can choose between GIN and GiST, we pick GiST. For lists, a regular index on the selected option. The primary key starts with `IssueId`, so the values of one task are also read by index.
+We added indexes for the filters. For text, a trigram GIN index (`gin_trgm_ops`), so that a substring search with `ILIKE` does not scan the whole table. Trigrams also have a GiST variant: it is faster to update, while GIN is faster to search. Attribute values are read much more often than they are changed, so here we chose GIN. For lists, a regular index on the selected option. The primary key starts with `IssueId`, so the values of one task are also read by index.
 
 ## Results
 
