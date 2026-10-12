@@ -24,7 +24,6 @@ How we grouped boards by project in a task tracker without turning the data mode
 3. We removed the "board without a space" state: every user has a default space with a default Backlog board, and every new space is created together with its own Backlog.
 4. We migrated the existing users' data inside the migration with plain SQL: one `insert … select` per level and one `update` for the issues.
 5. We marked the defaults with an `IsDefault` flag and forbade deleting them.
-6. We moved all the code that moves things between spaces into one place.
 
 All of this fit into twelve days, and the schema changed three times along the way. The permissions system on top of it took us several rewrites before it covered every case we could think of, and that is a story for one of the next articles.
 
@@ -178,13 +177,13 @@ query = query.Where(i => i.Status!.Epic!.Space!.Key == spaceKey);
 .Where(x => x.Status!.Epic!.Space!.OrganizationId == issueData.OrganizationId)
 ```
 
-Queries got a few more joins, but an issue's space is now stored in one place only. To move a board to another space, it is enough to change `space_id` in one `epics` row, not on every issue on the board. The values have nothing to disagree about: there is no second copy.
+Queries got a few more joins, but an issue's space is now stored in one place only. To move a board to another space, it is enough to change `space_id` on the board itself, and the issues on it stay untouched. If the space were also stored on the issue, it would have to be changed on every issue of the board, and missing one would leave an issue and its board in different spaces.
 
-Shortly before that, an `IsDefault` flag had appeared on spaces and boards. Together with the required foreign key it gave the final rule: **there is always a space and always a board to put an issue in.**
+Shortly before that, spaces and boards got an `IsDefault` flag that marks the default space and board. Together with the required foreign key it guarantees that **a user always has at least one space, and in it a board where an issue can be added.**
 
 ## Default rows in code
 
-The same rule is in the code that creates a space. Every new space is created together with its Backlog board, in one `SaveChanges`:
+When a user creates a new space, a Backlog board is created with it, and both are saved to the database in one operation:
 
 ```csharp
 var entity = new Space
@@ -205,36 +204,13 @@ var entity = new Space
 context.Spaces.Add(entity);
 ```
 
-The Backlog is created with `IsDefault = true` (see [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.Services/CoreSpacesService.cs)). A default space and a default Backlog cannot be deleted: without them the rule "there is always a place for an issue" would stop holding. Later we fixed the places where the API still reported such items as deletable and forbade granting the delete permission on them, each time with a test.
+The Backlog is created with `IsDefault = true` (see [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.Services/CoreSpacesService.cs)). A default space and a default Backlog cannot be deleted: otherwise a user could be left without a space or without a board to add an issue to. Later we fixed the places where the API still reported such items as deletable and forbade granting the delete permission on them, each time with a test.
 
-## Moving issues and boards between spaces
+## Moving and deleting
 
-The first move UI appeared almost right after the spaces themselves: a modal to move an issue, with two pickers inside it, one for the board and one for the space. Later all the movement logic was gathered in one service and covered with mass-move tests. By then there were three kinds of move (an issue to another board, a board to another space, and a whole space), and the three copies of the same logic would have drifted apart.
+At first only a single issue could be moved: the move dialog let you pick a space and a board. Later we added moving a board to another space and moving a whole space, and gathered all the movement logic in one service.
 
-The rule for users turned out simple, and it is described in the [documentation](https://boards.laraue.com/en/documentation): a board's space is chosen when the board is created and cannot be changed in the board settings. Moving a board or a space along with everything inside it is a separate action, and it works across organizations too.
-
-## Deleting a space
-
-Delete was rewritten three times: first a confirmation dialog, then a rewrite of the logic, and later a soft delete. Today a space is marked as deleted together with everything below it, in one transaction, so that nothing stays attached to a space that no longer exists. The method walks the same chain as the queries above, from the bottom up:
-
-```csharp
-await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
-
-var epicIds = context.Epics.Where(x => x.SpaceId == id).Select(x => (long?)x.Id);
-var statusIds = context.Statuses.Where(x => epicIds.Contains(x.EpicId)).Select(x => (long?)x.Id);
-
-await context.Issues
-    .Where(x => statusIds.Contains(x.StatusId))
-    .ExecuteUpdateAsync(u => u
-        .SetProperty(p => p.DeletedAt, deletedAt)
-        .SetProperty(p => p.DeletedByUserId, deleterId), cancellationToken);
-
-// the same update follows for the statuses, the epics and finally the space itself
-
-await transaction.CommitAsync(cancellationToken);
-```
-
-Four `ExecuteUpdateAsync` calls instead of loading anything into memory, and the transaction makes them all or nothing. The name of the test that checks it speaks for itself: `User_ShouldSoftDeleteSpaceAndAllDescendants_WhenSpaceIsDeleted`.
+We first made deleting a space a hard delete, because it was quicker. Later we rewrote it as a soft delete, because deleting data for good is too dangerous.
 
 ## Conclusions
 
