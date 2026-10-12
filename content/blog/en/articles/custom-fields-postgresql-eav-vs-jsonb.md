@@ -131,7 +131,7 @@ public class IntegerAttributeUpdater
 }
 ```
 
-A new attribute type is now a new value table, a model class and a small class like this one. The list works differently, since its value points to a predefined option, so it is handled separately.
+To add a new attribute type, it is now enough to create a table for its values, a model and a short class like this one. The exception is the list: a task stores not the value itself but a reference to one of the options defined in advance, so it has its own logic.
 
 ## Filtering by attributes
 
