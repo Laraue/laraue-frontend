@@ -161,7 +161,7 @@ if (filterType == AttributeType.List)
 
 Several filters mean several `JOIN`s, and a task is in the result only if it matches all of them. Text is matched by substring, and for a list several options can be selected.
 
-We added indexes for the filters. For text, a trigram GIN index (`gin_trgm_ops`), so that a substring search with `ILIKE` does not scan the whole table. That index is specific to PostgreSQL, but it only speeds up search: the data model does not depend on it. For lists, a regular index on the selected option. The primary key starts with `IssueId`, so the values of one task are also read by index.
+We added indexes for the filters. For text, a trigram GIN index (`gin_trgm_ops`), so that a substring search with `ILIKE` does not scan the whole table. It is a specialized index for full-text search, and if you need good speed there is no alternative to it. Where we can choose between GIN and GiST, we pick GiST. For lists, a regular index on the selected option. The primary key starts with `IssueId`, so the values of one task are also read by index.
 
 ## Results
 
