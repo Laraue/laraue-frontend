@@ -110,7 +110,7 @@ private async Task<int> GetLastNumber(long spaceId, int count, CancellationToken
 
 This is exactly what removes the gaps. The `UPDATE` locks the counter row until the end of the transaction, so a second request for a number in the same space waits until the first one finishes. If the transaction rolls back, the counter increment rolls back with it, and the next issue gets the same number. The price is that issues of one space are created one at a time, which is not noticeable in a task tracker.
 
-The second parameter, `count`, reserves several numbers at once. It is needed when a board is moved, described below. In the first version, the method that returns the first number of the reserved range was off by one (`last - count + 2` instead of `last - count + 1`). It was found and fixed together with the mass-move tests.
+The second parameter, `count`, reserves several numbers at once. It is needed when a board is moved, described below.
 
 ## Numbers for existing issues
 
@@ -128,7 +128,7 @@ select ic.id, ic.space_id, ic.number
 from issue_counters ic;
 ```
 
-In the first version of the migration, `row_number()` had no `order by i.id`. Without it PostgreSQL numbers rows in an arbitrary order, and old tasks could have got their numbers mixed up. We found both bugs by asking AI what would happen in different cases, and fixed them in one commit.
+It is important to set the order explicitly here: without `order by i.id` inside `row_number()`, PostgreSQL numbers rows in an arbitrary order, and old tasks can get their numbers mixed up. We had exactly that during development, but the tests caught it.
 
 ## Moving a board to another space
 
