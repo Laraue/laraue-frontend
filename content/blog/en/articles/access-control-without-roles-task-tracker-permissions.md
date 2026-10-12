@@ -52,7 +52,7 @@ public enum AccessLevel : byte
 
 The same flags could be granted on a specific space or a specific board. If the reference to the space or board was empty, the permissions applied to all of them.
 
-After every version we asked ourselves the same question: how do we express different cases in this model? The first version was broken by the simplest one: a person should be able to rename the organization but not manage its members. `Manage` sat in the same row as the object permissions, and they could not be separated.
+After every version we checked which cases it could express and which it could not. In the first version you could not let a person rename the organization without also letting them manage members: `Manage` was in the same set of flags as the object permissions.
 
 ## The second version: administrative permissions apart
 
@@ -71,9 +71,9 @@ public enum AdminAccessLevel : byte
 }
 ```
 
-## The third version: permissions on an entity and on its children
+But the second version also had cases it could not express. For example, a member should see a space and create issues in it, but not rename the space itself. One set of flags per space is not enough for that: "create" is about what is inside the space, while "update" and "delete" are about the space itself.
 
-The next case: a member should see a space and create issues in it, but should not rename the space itself. One set of flags per space is not enough for that. The "create" permission is not about the space but about what is inside it, while "update" and "delete" are about the space itself.
+## The third version: permissions on an entity and on its children
 
 In the third version permissions split into two groups. A member got levels for a whole type of entity: all spaces, all boards and all issues of the organization. Direct permissions on a space or a board now consisted of permissions on the entity itself and permissions on its children:
 
