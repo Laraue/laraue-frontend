@@ -191,4 +191,4 @@ The test code is open: [Boards tests on GitHub](https://github.com/Laraue/Laraue
 
 ## What comes next
 
-Once the tests were in place, we could take on organizations. The next article is about how the app went from one user to many: organizations, a personal organization for every user, and join codes.
+Once the tests were in place, we could take on organizations. The [next article](multi-tenancy-saas-task-tracker-organizations) is about how the app went from one user to many: organizations, a personal organization for every user, and join codes.
