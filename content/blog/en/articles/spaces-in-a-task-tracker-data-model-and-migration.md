@@ -218,4 +218,4 @@ Examples of the integration tests are in [`SpacesControllerTests.cs`](https://gi
 
 ## What comes next
 
-Spaces answered one question: "mine or the project's". The migration above already hints at the next one: it had to create a *Personal* organization for every user, because a space is going to belong to someone other than a single person. But before taking on organizations, we wrote the first integration tests: the app was already in production, and we did not want to break it for active users. The next article is about how these tests work, and organizations come after it.
+Spaces answered one question: "mine or the project's". The migration above already hints at the next one: it had to create a *Personal* organization for every user, because a space is going to belong to someone other than a single person. But before taking on organizations, we wrote the first integration tests: the app was already in production, and we did not want to break it for active users. The [next article](aspnet-core-integration-tests-typed-controller-proxy) is about how these tests work, and organizations come after it.
