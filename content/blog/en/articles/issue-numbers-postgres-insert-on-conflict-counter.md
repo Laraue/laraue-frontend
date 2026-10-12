@@ -146,4 +146,4 @@ The old key stops working after the move. There is no redirect from the old key 
 
 ## What comes next
 
-From here Boards started to grow wider: issues got attributes, comments, attachments and a change history, and a second developer joined the project. The next article is about attributes.
+From here Boards started to get new features: issues got attributes, comments, attachments and a change history, and a second developer joined the project. The [next article](custom-fields-postgresql-eav-vs-jsonb) is about attributes.
