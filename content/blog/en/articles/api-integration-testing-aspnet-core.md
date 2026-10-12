@@ -50,7 +50,7 @@ services:
 
 This way the tests check the SQL that EF Core generates, the database constraints and the migrations. The in-memory EF Core provider would check none of that.
 
-We did not use Testcontainers: locally the tests work with an ordinary PostgreSQL, and in CI GitHub Actions starts the database itself.
+We did not add Testcontainers, because everything already worked without it: locally the tests use an ordinary PostgreSQL, and in CI GitHub Actions starts the database itself. There was no point in adding a dependency that solves nothing for us.
 
 Every test starts with a test scope. In the first version it cleaned the users table and could create a user:
 
