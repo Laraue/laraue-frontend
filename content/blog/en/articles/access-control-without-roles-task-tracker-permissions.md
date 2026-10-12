@@ -195,4 +195,4 @@ Administrative permissions have only grown since then: mass moving of boards, ma
 
 ## What comes next
 
-When several people work in one organization, they need a way to refer to issues in conversation. An internal `id` does not work for that. The next article is about how spaces got short keys and issues got numbers like `BRD-42`.
+When several people work in one organization, they need a way to refer to issues in conversation. An internal `id` does not work for that. The [next article](issue-numbers-postgres-insert-on-conflict-counter) is about how spaces got short keys and issues got numbers like `BRD-42`.
