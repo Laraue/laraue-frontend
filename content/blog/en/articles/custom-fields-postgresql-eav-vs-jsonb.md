@@ -13,7 +13,7 @@ tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 19.
-> In the [previous article](issue-numbers-postgres-insert-on-conflict-counter) tasks got numbers like `BRD-42`. From there Boards started to grow wider, and the first step was attributes: fields that users define themselves.
+> In the [previous article](issue-numbers-postgres-insert-on-conflict-counter) tasks got numbers like `BRD-42`. From there Boards started to get new features, and the first of them was attributes: fields that users define themselves.
 
 ## The short version
 
@@ -22,8 +22,8 @@ How we added custom fields to Boards:
 1. An attribute is a field an organization creates itself: "Priority", "Client", "Estimate". An attribute has a name, a color and a type.
 2. Values are stored with the EAV (entity–attribute–value) model: a "task — attribute — value" row in a separate table.
 3. Every value type has its own table: text, a list option, an integer, a decimal, a date, a date and time.
-4. We decided against a JSONB column: its indexes suit frequent updates worse, it has no foreign keys, and it is specific to PostgreSQL.
-5. We started with two types, text and list, checked that everything worked, and only then added numbers and dates.
+4. We decided against a JSONB column: it is a feature of a particular database provider, it can only be indexed with GIN indexes, and we needed foreign keys so that integrity rules work at the database level.
+5. We started with two types, text and list, checked that everything worked, and only then extended the set of attribute types.
 6. A filter by an attribute is a `JOIN` with the value table of the right type.
 
 ## Why a task needs custom fields
@@ -70,9 +70,9 @@ There are two common ways to store custom fields.
 
 We chose EAV. JSONB had three drawbacks for us.
 
-- **Indexes.** A JSONB value is stored as one document. Changing one field makes PostgreSQL rewrite the whole document, and the index is updated for the whole row, not just for the changed value. Task fields change all the time.
-- **No foreign keys.** Inside JSONB you cannot reference another table. If an attribute or a list option is deleted, the database does not know its values sit in task documents, and they have to be cleaned up in code. In EAV a value is an ordinary row with foreign keys to the task, the attribute and the list option, and the delete behavior is defined in the database itself.
-- **Tied to PostgreSQL.** JSONB is a PostgreSQL feature, and we try not to tie the data model to the features of a particular database. Tables with foreign keys work in any relational database.
+- **A feature of a particular provider.** JSONB is a PostgreSQL feature, and we try not to tie the data model to the features of one database. Tables with foreign keys work in any relational database.
+- **Indexes.** JSONB is indexed with a GIN index, and we do not use GIN where GiST will do. Besides, a JSONB value is stored as one document: changing one field updates the index for the whole document, and task fields change all the time.
+- **No foreign keys.** Inside JSONB you cannot reference another table, so integrity rules would have to live in code. We wanted them to work at the database level: in EAV a value is an ordinary row with foreign keys to the task, the attribute and the list option, and the behavior on their deletion is defined in the database itself.
 
 ## A separate table per type
 
