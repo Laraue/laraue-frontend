@@ -149,4 +149,4 @@ The web version now has authentication and can be opened in a browser — exactl
 
 ## What comes next
 
-As the developers and at the same time some of the most active users of Laraue Boards, we ran into an inconvenience — epics alone were not enough to separate issues. Epics tied to personal life ended up next to project activities, and we wanted to keep them apart. The solution was to add spaces — groups of epics belonging to one project. That way you could have a separate space for personal activities and a separate one for project work.
+As the developers and at the same time some of the most active users of Laraue Boards, we ran into an inconvenience — epics alone were not enough to separate issues. Epics tied to personal life ended up next to project activities, and we wanted to keep them apart. The solution was to add spaces — groups of epics belonging to one project. That way you could have a separate space for personal activities and a separate one for project work. How that grew from a nullable column into a data model is the subject of the next article: [Spaces in a task tracker](spaces-in-a-task-tracker-data-model-and-migration).
