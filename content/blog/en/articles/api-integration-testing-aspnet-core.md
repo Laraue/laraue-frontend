@@ -27,7 +27,7 @@ How we started covering the backend with integration tests:
 
 ## Why the tests appeared exactly then
 
-The solution already had a test project, but it held only a list of test cases for saving Telegram messages, written as comments. The code was written and checked by hand.
+The solution already had a test project, but it held only a list of test cases for saving Telegram messages, written as comments. Everything else was checked by hand.
 
 By the time we finished spaces, the app was already in production and had active users. Next in the plan were organizations and access rights, changes that touch almost every API request. We did not want to break anything for people who were already using the boards, so before organizations we built the test infrastructure.
 
@@ -35,7 +35,7 @@ By the time we finished spaces, the app was already in production and had active
 
 The base is the standard `WebApplicationFactory<Program>` from `Microsoft.AspNetCore.Mvc.Testing`. It runs the Web API inside the test process with the same DI setup, middleware and authorization as in production, and gives an `HttpClient` that calls this API without a network.
 
-We did not replace the database. The tests use the same PostgreSQL as production, only with a separate database: the connection string is in the test project's `appsettings.json`. In CI the database is started as a GitHub Actions service container:
+We did not replace the database in the tests with anything: like production, they work with PostgreSQL, but with a separate test database. Its connection string is in the test project's `appsettings.json`, and in CI PostgreSQL runs as a GitHub Actions service container:
 
 ```yaml
 services:
@@ -151,9 +151,9 @@ What the proxy does:
 - Takes the route from the `[Route]` attribute on the controller, and the HTTP method from `[HttpGet]` or `[HttpPost]` on the called method.
 - Looks at the attributes of the method's parameters: values of `[FromQuery]` parameters go to the query string, values of `[FromBody]` parameters go to the body.
 - Sends a real HTTP request through the `WebApplicationFactory` client, so routing, validation, authorization and serialization all run, everything a request from the frontend goes through.
-- If the response is not successful, throws an exception with the method, URL, status, request body and response body, so a failed test shows right away what went wrong.
+- If the request fails, throws an exception with the method, URL, status, request body and response body, so a failed test shows right away what went wrong.
 
-The test gets compile-time type checking: if the controller method's signature changes or a DTO is renamed, the test stops compiling, and "go to definition" from the test leads straight to the controller.
+Types are checked at compile time: if the controller method's signature changes or a DTO is renamed, the test stops compiling. And "go to definition" from the test leads straight to the controller method.
 
 Why didn't we take a ready-made library such as Refit, or write the requests with `HttpClient` by hand? We try not to add a dependency when our own implementation can be made in a few hours and reused in other projects. The first version of the proxy was a little over a hundred lines.
 
@@ -167,11 +167,11 @@ User_ShouldNotViewOrganizations_WhenHasNotPermissions
 User_ShouldNotDeleteOrganization_WhenHasNoAccess
 ```
 
-In a system with access rights, "who" is the main part of a test: the same action has to succeed for the owner and fail for a member without rights. So tests often come in pairs, `…_WhenHasAccess` and `…_WhenHasNotAccess`, and the list of names shows which cases are already covered.
+When a system has access rights, the main thing in a test is who performs the action: it has to succeed for the owner and fail for a member without rights. So tests often come in pairs, `…_WhenHasAccess` and `…_WhenHasNotAccess`, and the list of names shows which cases are already covered.
 
 ## How it grew
 
-From then on tests were written together with the features, and the infrastructure grew with them:
+From then on we wrote tests together with new features, and the test infrastructure gradually grew:
 
 - **The proxy.** It got `PUT` and `DELETE`, path parameters, forms with files and error parsing: on a `400`, `403` or `404` response the proxy puts a `BadRequestException`, `ForbiddenException` or `NotFoundException` into the inner exception, and the test can check why the request failed.
 - **Authorization.** The single `WithAuthorization` became `WithUserAuthorization` and `WithOrganizationAuthorization`: a user token and a token of a user inside an organization.
@@ -182,7 +182,7 @@ Today the test project has more than forty classes and about six hundred tests. 
 
 ## Results
 
-- **Tests appeared when there was something to lose.** The app already had active users, and big changes were ahead, so we wrote the tests first.
+- **Tests appeared when there was something to lose.** The app was already in use, and big changes were ahead, so we wrote the tests first.
 - **The API is tested as a whole.** Every test goes through routing, authorization, validation and a real PostgreSQL database.
 - **A test looks like a method call.** The proxy builds the HTTP request from the controller's attributes, and the compiler makes sure the tests keep up with the API.
 - **Our own code instead of a dependency.** The proxy took a few hours to write, and later we moved it into a package to use it in other projects too.
@@ -191,4 +191,4 @@ The test code is open: [Boards tests on GitHub](https://github.com/Laraue/Laraue
 
 ## What comes next
 
-With the tests in place, we could take on organizations. The next article is about how the app went from one user to many: organizations, a personal organization for every user, and join codes.
+Once the tests were in place, we could take on organizations. The next article is about how the app went from one user to many: organizations, a personal organization for every user, and join codes.
