@@ -199,7 +199,7 @@ var entity = new Space
 context.Spaces.Add(entity);
 ```
 
-The Backlog is created with `IsDefault = true` (see [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/a095e69/src/Laraue.Apps.StructuredMessages.Services/CoreSpacesService.cs)). A default space and a default Backlog cannot be deleted: otherwise a user could be left without a space or without a board to add an issue to. Later we fixed the places where the API still reported such items as deletable and forbade granting the delete permission on them, each time with a test.
+The Backlog is created with `IsDefault = true` (see [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/a095e69/src/Laraue.Apps.StructuredMessages.Services/CoreSpacesService.cs)). A default space and a default Backlog cannot be deleted: otherwise a user could be left without a space or without a board to add an issue to.
 
 ## Moving and deleting
 
@@ -213,8 +213,6 @@ We first made deleting a space a hard delete, because it was quicker. Later we r
 - **Default rows instead of null.** Every user has a default space, every space has a Backlog, and neither can be deleted.
 - **The existing users' data was moved by an SQL migration.** A few dozen lines decided whether users would see their boards after the update.
 - **We changed the schema while it was cheap.** The model changed three times while the app had a handful of users. A few months later such changes would have cost much more.
-
-Examples of the integration tests are in [`SpacesControllerTests.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/tests/Laraue.Apps.Boards.IntegrationTests/SpacesControllerTests.cs): the name of every test tells who does what and under which condition.
 
 ## What comes next
 

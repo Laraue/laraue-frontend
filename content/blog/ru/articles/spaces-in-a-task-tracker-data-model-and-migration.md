@@ -199,7 +199,7 @@ var entity = new Space
 context.Spaces.Add(entity);
 ```
 
-Backlog создаётся с `IsDefault = true` (см. [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/a095e69/src/Laraue.Apps.StructuredMessages.Services/CoreSpacesService.cs)). Спейс по умолчанию и Backlog по умолчанию нельзя удалять: иначе пользователь мог бы остаться без спейса или без доски, на которую можно добавить issue. Позже мы поправили места, где API всё ещё сообщал, что такие сущности можно удалить, и запретили выдавать право на удаление для них — каждый раз с тестом.
+Backlog создаётся с `IsDefault = true` (см. [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/a095e69/src/Laraue.Apps.StructuredMessages.Services/CoreSpacesService.cs)). Спейс по умолчанию и Backlog по умолчанию нельзя удалять: иначе пользователь мог бы остаться без спейса или без доски, на которую можно добавить issue.
 
 ## Перенос и удаление
 
@@ -213,8 +213,6 @@ Backlog создаётся с `IsDefault = true` (см. [`CoreSpacesService.cs`]
 - **Вместо null — строки по умолчанию.** У каждого пользователя есть спейс по умолчанию, у каждого спейса — Backlog, и удалить их нельзя.
 - **Данные существующих пользователей перенесли миграцией на SQL.** От нескольких десятков строк зависело, увидят ли пользователи свои доски после обновления.
 - **Схему меняли, пока это было дёшево.** Модель менялась три раза, пока в приложении были единицы пользователей. Через несколько месяцев такие изменения обошлись бы гораздо дороже.
-
-Примеры интеграционных тестов можно посмотреть в [`SpacesControllerTests.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/tests/Laraue.Apps.Boards.IntegrationTests/SpacesControllerTests.cs): по названию каждого теста понятно, кто что делает и при каком условии.
 
 ## Что дальше
 
