@@ -165,4 +165,4 @@ We have a rule of "one pull request, one migration" (it is described in the [art
 
 ## What comes next
 
-An organization answers the question "whose is this". The next question is "who can do what": create spaces, see other people's boards, delete issues. We rewrote the rights system several times, looking for a balance between flexibility and simplicity, and that is the subject of the next article.
+An organization answers the question "whose is this". The next question is "who can do what": create spaces, see other people's boards, delete issues. We rewrote the rights system several times, looking for a balance between flexibility and simplicity, and that is the subject of the [next article](access-control-without-roles-task-tracker-permissions).
