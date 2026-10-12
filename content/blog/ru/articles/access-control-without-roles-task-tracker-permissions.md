@@ -141,16 +141,16 @@ public class OrganizationUser
 У участника два уровня прав: на всю организацию и на конкретные спейсы. Итоговые права на спейс — их объединение: если право есть хотя бы на одном уровне, оно есть.
 
 ```csharp
-public AccessLevels Merge(AccessLevels? other)
+public AccessLevels Merge(AccessLevels? space)
 {
-    if (other is null)
+    if (space is null)
         return this;
 
     return new AccessLevels
     {
-        CanRead = CanRead | other.CanRead,
-        CanCreateEpic = CanCreateEpic | other.CanCreateEpic,
-        CanUpdateIssue = CanUpdateIssue | other.CanUpdateIssue,
+        CanRead = CanRead | space.CanRead,
+        CanCreateEpic = CanCreateEpic | space.CanCreateEpic,
+        CanUpdateIssue = CanUpdateIssue | space.CanUpdateIssue,
         // ... и так для каждого права
     };
 }

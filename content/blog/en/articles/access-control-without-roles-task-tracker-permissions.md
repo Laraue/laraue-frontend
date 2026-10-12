@@ -141,16 +141,16 @@ Along the way, four permission-checking services (for spaces, boards, statuses a
 A member has two levels of permissions: on the whole organization and on specific spaces. The effective permissions on a space are their union: if a permission exists on at least one level, the member has it.
 
 ```csharp
-public AccessLevels Merge(AccessLevels? other)
+public AccessLevels Merge(AccessLevels? space)
 {
-    if (other is null)
+    if (space is null)
         return this;
 
     return new AccessLevels
     {
-        CanRead = CanRead | other.CanRead,
-        CanCreateEpic = CanCreateEpic | other.CanCreateEpic,
-        CanUpdateIssue = CanUpdateIssue | other.CanUpdateIssue,
+        CanRead = CanRead | space.CanRead,
+        CanCreateEpic = CanCreateEpic | space.CanCreateEpic,
+        CanUpdateIssue = CanUpdateIssue | space.CanUpdateIssue,
         // ... and so on for every permission
     };
 }
