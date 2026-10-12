@@ -21,21 +21,21 @@ How tasks in Boards got short keys:
 
 1. First we decided what links would look like, so we would not have to break them later: `/organizations/{organization}-{suffix}/issues/{space key}-{number}`.
 2. An organization's URL is a slug the user chooses plus a random four-character suffix. The URL cannot be used to take someone else's name or to check whether an organization exists.
-3. Every space has a three-character key, unique among the live spaces of the organization. The key of a deleted space can be taken again.
+3. Every space has a three-character key, unique within the organization.
 4. Issue numbers in a space go in sequence: 1, 2, 3 and so on. The last issued number is stored in a counter table and incremented with a single `INSERT ... ON CONFLICT DO UPDATE ... RETURNING` query.
 5. When a board moves to another space, its issues get new numbers in that space.
 
 ## First, what links look like
 
-While a task has no readable name, the only way to link to it is to copy the URL from the address bar. We needed task numbers, and instead of inventing something new we took Jira's approach: `BRD-42`, where `BRD` is the space key and `42` is the task number in it.
+While a task has no readable name, the only way to link to it is to copy the URL from the address bar. We needed task numbers, and we looked at how Jira does it: `BRD-42`, where `BRD` is the space key and `42` is the task number in it.
 
-But before building the numbers, we had to decide what a full link to a task would look like. Links take on a life of their own: they are sent to chats and pasted into other tasks and documents. If the format changes after links have spread, all of them stop working. That is why organization URLs appeared before issue numbers.
+Before the numbers, we had to settle the format of a link to a task. Links get sent to chats and pasted into other tasks and documents, and if the format changes later, old links stop opening. So we built organization URLs first, and issue numbers after them.
 
 ## The organization URL: a slug and a random suffix
 
-The first idea is to build the organization's URL from its name: `/organizations/laraue`. That has two problems. Anyone can create an organization with someone else's name and take a URL they have nothing to do with. And the URL can be used to check whether an organization exists, for example whether Boards has a `laraue` organization.
+The first idea was to build the organization's URL from its name: `/organizations/laraue`. This approach had two problems. Anyone can create an organization with someone else's name and take a URL they have nothing to do with. And in theory the URL could be used to find out whether an organization exists, for example from the server's response time: whether Boards has a `laraue` organization.
 
-So the URL has two parts: a slug the user chooses and a random four-character suffix the app generates.
+So we decided to build the URL from two parts: a slug the user chooses and a random four-character suffix the app generates.
 
 ```csharp
 /// <summary>
@@ -51,25 +51,20 @@ public string Slug { get; set; } = string.Empty;
 public string SlugPostfix { get; set; } = string.Empty;
 ```
 
-The slug does not have to be unique: two organizations can both be called `laraue`, but their URLs differ, for example `laraue-a1B2` and `laraue-x7Kq`. Someone else's URL cannot be guessed from the name, and taking names is pointless.
+The slug does not have to be unique: two organizations can both be called `laraue`, but their URLs differ, for example `laraue-a1B2` and `laraue-x7Kq`. Someone else's URL is hard to guess from the name, and taking names is pointless.
 
 ## The space key
 
-A space key is three characters the user sets when creating a space, for example `BRD`. The app converts it to upper case. The key must be unique within the organization, but only among spaces that are not deleted: spaces are soft-deleted, and the key of a deleted space can be taken again. For that the database has a partial unique index:
+A space key is three characters the user sets when creating a space, for example `BRD`. The app converts it to upper case. The key must be unique within the organization, and a unique index in the database enforces it:
 
 ```csharp
-modelBuilder.Entity<Space>()
-    .HasIndex(x => new { x.OrganizationId, x.Key })
-    .IsUnique()
-    .HasDatabaseName(Constraints.SpaceKeyIndexName)
-    .HasFilter("deleted_at IS NULL");
+modelBuilder.Entity<Space>(entity =>
+{
+    entity
+        .HasIndex(x => new { x.OrganizationId, x.Key })
+        .IsUnique();
+});
 ```
-
-This index had a story in production. In the logs we found a `500` error when creating a space: `duplicate key value violates unique constraint "ix_spaces_organization_id_key"`. The service did not check whether the key was free and relied only on the index, so the user got a server error instead of a clear message.
-
-The fix has two parts. Before saving, the service checks that no live space of the organization has this key. And if two requests with the same key arrive at once, both pass the check and the second fails on the index. So a uniqueness violation (PostgreSQL error code `23505`) with this index's name is turned into the same validation error.
-
-A second bug turned up at the same time. Issue search built a dictionary of spaces by key and did not exclude deleted spaces. When a deleted space and a live one in the same organization ended up with the same key, the dictionary failed on the duplicate, and the whole search failed with it.
 
 ## The issue number: why not a sequence
 
@@ -145,7 +140,7 @@ The old key stops working after the move. There is no redirect from the old key 
 
 - **The link format was decided up front.** Organization URLs appeared before issue numbers, so links would not have to be broken later.
 - **An organization URL cannot be taken.** The user chooses the slug, and a random suffix makes the URL unique and impossible to guess.
-- **A space key is unique among live spaces.** A partial unique index guarantees it, and handling error `23505` covers the race on creation.
+- **A space key is unique within the organization.** A unique index in the database guarantees it.
 - **Sequential numbers.** Instead of a PostgreSQL sequence, a counter table and `INSERT ... ON CONFLICT DO UPDATE ... RETURNING` inside the issue's transaction.
 - **A move changes numbers.** There is no redirect from old keys yet.
 
