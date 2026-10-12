@@ -1,7 +1,7 @@
 ---
-title: Gapless issue numbers — a counter on PostgreSQL INSERT ON CONFLICT, space keys and organization URLs
+title: Sequential issue numbers — a counter on PostgreSQL INSERT ON CONFLICT, space keys and organization URLs
 description: Part 18 of the series about building a Telegram task tracker solo. How issues got sequential numbers like BRD-42, why a counter on INSERT ... ON CONFLICT DO UPDATE suited them better than a PostgreSQL sequence, and how space keys and organization URLs work.
-seoTitle: Gapless Issue Numbers with PostgreSQL INSERT ON CONFLICT
+seoTitle: Sequential Issue Numbers with PostgreSQL INSERT ON CONFLICT
 seoDescription: Part 18: sequential issue numbers like BRD-42 — a counter on PostgreSQL INSERT ON CONFLICT DO UPDATE instead of a sequence, space keys and organization slugs.
 type: article
 series: architecture-first
@@ -22,7 +22,7 @@ How tasks in Boards got short keys:
 1. First we decided what links would look like, so we would not have to break them later: `/organizations/{organization}-{suffix}/issues/{space key}-{number}`.
 2. An organization's address is a slug the user chooses plus a random four-character suffix. The address cannot be used to take someone else's name or to check whether an organization exists.
 3. Every space has a three-character key, unique among the live spaces of the organization. The key of a deleted space can be taken again.
-4. An issue number is unique within its space and has no gaps. The last issued number is stored in a counter table and incremented with a single `INSERT ... ON CONFLICT DO UPDATE ... RETURNING` query.
+4. Issue numbers in a space go in sequence: 1, 2, 3 and so on. The last issued number is stored in a counter table and incremented with a single `INSERT ... ON CONFLICT DO UPDATE ... RETURNING` query.
 5. When a board moves to another space, its issues get new numbers in that space.
 
 ## First, what links look like
@@ -146,7 +146,7 @@ The old key stops working after the move. There is no redirect from the old key 
 - **The link format was decided up front.** Organization addresses appeared before issue numbers, so links would not have to be broken later.
 - **An organization address cannot be taken.** The user chooses the slug, and a random suffix makes the address unique and impossible to guess.
 - **A space key is unique among live spaces.** A partial unique index guarantees it, and handling error `23505` covers the race on creation.
-- **Gapless numbers.** Instead of a PostgreSQL sequence, a counter table and `INSERT ... ON CONFLICT DO UPDATE ... RETURNING` inside the issue's transaction.
+- **Sequential numbers.** Instead of a PostgreSQL sequence, a counter table and `INSERT ... ON CONFLICT DO UPDATE ... RETURNING` inside the issue's transaction.
 - **A move changes numbers.** There is no redirect from old keys yet.
 
 ## What comes next
