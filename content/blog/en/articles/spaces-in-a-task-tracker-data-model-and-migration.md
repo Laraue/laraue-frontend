@@ -30,13 +30,13 @@ All of this fit into twelve days, and the schema changed three times along the w
 
 ## Why boards were not enough
 
-At first Boards was built by one person, who was also its main user. The problem was that the epics held both personal affairs and everything related to Laraue. A board (an epic in the code) is a kanban board with its own columns, and there was no level above it to group them.
+At first Boards was built by one person, who was also its main user. The problem was that the epics held both personal affairs and everything related to Laraue. A board (an epic in the code) is a kanban board with its own columns, and there was no level above it that would let us split boards by project.
 
-The idea is not new: Confluence has spaces, and Jira groups work by projects. We looked at how Jira solves it and adapted that. We called the new entity a **space**: a named, colored group of boards that you switch to as a whole. The product vocabulary became **Space → Board → Issue**, and in the code a board is an `Epic`. The [documentation](https://boards.laraue.com/en/documentation) uses "board" and "epic" interchangeably.
+The idea is not new: Confluence has spaces, and Jira groups work by projects. We looked at how Jira solves it and adapted that. We called the new entity a **space**: a named, colored group of boards that you switch to as a whole. The product hierarchy became **Space → Board → Issue**, and in the code a board is an `Epic`. The [documentation](https://boards.laraue.com/en/documentation) uses "board" and "epic" interchangeably.
 
 ## Groundwork: the rename and user preferences
 
-Before we started on spaces, we renamed the main entities: `Card` became `Issue`, `CardCategory` became `Epic`, `CardStatus` became `Status`. These are the names you saw in [part 9](issue-board-telegram-mini-app). It took two migrations, `RenameMainEntities` and `RenameEntitiesFks`, and it was better to do it before anything new was built on top of the old names.
+Before we started on spaces, we renamed the main entities. We had started to confuse our own names and decided to bring everything to one form: `Card` became `Issue`, `CardCategory` became `Epic`, `CardStatus` became `Status`. These are the names you saw in [part 9](issue-board-telegram-mini-app). It took two migrations, `RenameMainEntities` and `RenameEntitiesFks`, and it was better to do it before anything new was built on top of the old names.
 
 While at it, we added a couple of small features:
 
@@ -69,7 +69,7 @@ public class Space
 }
 ```
 
-Both `Epic` and `Issue` got a reference to it:
+Both `Epic` and `Issue` got a reference to the space:
 
 ```csharp
 public long? SpaceId { get; set; }
@@ -86,9 +86,9 @@ The first variant consisted of five migrations:
 | [`AddSpaceIdToIssue`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Migrations/20260414123244_AddSpaceIdToIssue.cs) | the same on `issues` |
 | [`MakeSpaceIdInPreferencesNullable`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.DataAccess/Migrations/20260414123835_MakeSpaceIdInPreferencesNullable.cs) | a user may have no space selected yet |
 
-To get all the issues of a space with one query, we added `SpaceId` not only to the epic but to the issue itself. We made the columns nullable: the existing epics and issues had no space yet, and with nullable columns the migration passes without touching the data.
+We wanted to get all the issues of a space with one query, without a join through the epic, so we added `SpaceId` not only to the epic but to the issue itself. We made the columns nullable because the tables already had rows with no space yet: the migration adds an empty column, and the existing data does not have to be touched.
 
-## Can a foreign key be nullable?
+## When a foreign key can be null
 
 Yes. SQL lets a foreign key column be `NULL` in PostgreSQL, SQL Server, MySQL and SQLite alike: a row with `NULL` is simply not checked against the parent table, and it means "no parent". So the real question is not "can it?" but "is *no parent* a state that exists in your domain?"
 
@@ -99,7 +99,7 @@ In the second case it is better to make the key required and create a real recor
 
 ## What the nullable keys got in the way of
 
-Every `space_id` was `bigint null`, so everywhere it was read, the code had to handle the case "an issue has no space" separately, although the product should never have such a state.
+Every `space_id` column allowed `null` (`bigint null`), so everywhere it was read, the code had to handle the case "an issue has no space" separately, although the product should never have such a state.
 
 To remove that state, we wrote a migration. Trimmed to the part about spaces, it looked like this:
 
