@@ -178,7 +178,7 @@ query = query.Where(i => i.Status!.Epic!.Space!.Key == spaceKey);
 .Where(x => x.Status!.Epic!.Space!.OrganizationId == issueData.OrganizationId)
 ```
 
-The price is a few joins. The gain is that there is exactly one place that says where an issue lives. To move a board to another space, it is enough to change `space_id` in one `epics` row, not on every issue on the board. The values have nothing to disagree about: there is no second copy.
+Queries got a few more joins, but an issue's space is now stored in one place only. To move a board to another space, it is enough to change `space_id` in one `epics` row, not on every issue on the board. The values have nothing to disagree about: there is no second copy.
 
 Shortly before that, an `IsDefault` flag had appeared on spaces and boards. Together with the required foreign key it gave the final rule: **there is always a space and always a board to put an issue in.**
 
