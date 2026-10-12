@@ -20,7 +20,7 @@ tags: [devlog, dotnet, database, architecture, task-tracker]
 How tasks in Boards got short keys:
 
 1. First we decided what links would look like, so we would not have to break them later: `/organizations/{organization}-{suffix}/issues/{space key}-{number}`.
-2. An organization's address is a slug the user chooses plus a random four-character suffix. The address cannot be used to take someone else's name or to check whether an organization exists.
+2. An organization's URL is a slug the user chooses plus a random four-character suffix. The URL cannot be used to take someone else's name or to check whether an organization exists.
 3. Every space has a three-character key, unique among the live spaces of the organization. The key of a deleted space can be taken again.
 4. Issue numbers in a space go in sequence: 1, 2, 3 and so on. The last issued number is stored in a counter table and incremented with a single `INSERT ... ON CONFLICT DO UPDATE ... RETURNING` query.
 5. When a board moves to another space, its issues get new numbers in that space.
@@ -29,13 +29,13 @@ How tasks in Boards got short keys:
 
 While a task has no readable name, the only way to link to it is to copy the URL from the address bar. We needed task numbers, and instead of inventing something new we took Jira's approach: `BRD-42`, where `BRD` is the space key and `42` is the task number in it.
 
-But before building the numbers, we had to decide what a full link to a task would look like. Links take on a life of their own: they are sent to chats and pasted into other tasks and documents. If the format changes after links have spread, all of them stop working. That is why organization addresses appeared before issue numbers.
+But before building the numbers, we had to decide what a full link to a task would look like. Links take on a life of their own: they are sent to chats and pasted into other tasks and documents. If the format changes after links have spread, all of them stop working. That is why organization URLs appeared before issue numbers.
 
-## The organization address: a slug and a random suffix
+## The organization URL: a slug and a random suffix
 
-The first idea is to use the organization's name as its address: `/organizations/laraue`. That has two problems. Anyone can create an organization with someone else's name and take an address they have nothing to do with. And the address can be used to check whether an organization exists, for example whether Boards has a `laraue` organization.
+The first idea is to build the organization's URL from its name: `/organizations/laraue`. That has two problems. Anyone can create an organization with someone else's name and take a URL they have nothing to do with. And the URL can be used to check whether an organization exists, for example whether Boards has a `laraue` organization.
 
-So the address has two parts: a slug the user chooses and a random four-character suffix the app generates.
+So the URL has two parts: a slug the user chooses and a random four-character suffix the app generates.
 
 ```csharp
 /// <summary>
@@ -51,7 +51,7 @@ public string Slug { get; set; } = string.Empty;
 public string SlugPostfix { get; set; } = string.Empty;
 ```
 
-The slug does not have to be unique: two organizations can both be called `laraue`, but their addresses differ, for example `laraue-a1B2` and `laraue-x7Kq`. Someone else's address cannot be guessed from the name, and taking names is pointless.
+The slug does not have to be unique: two organizations can both be called `laraue`, but their URLs differ, for example `laraue-a1B2` and `laraue-x7Kq`. Someone else's URL cannot be guessed from the name, and taking names is pointless.
 
 ## The space key
 
@@ -143,8 +143,8 @@ The old key stops working after the move. There is no redirect from the old key 
 
 ## Results
 
-- **The link format was decided up front.** Organization addresses appeared before issue numbers, so links would not have to be broken later.
-- **An organization address cannot be taken.** The user chooses the slug, and a random suffix makes the address unique and impossible to guess.
+- **The link format was decided up front.** Organization URLs appeared before issue numbers, so links would not have to be broken later.
+- **An organization URL cannot be taken.** The user chooses the slug, and a random suffix makes the URL unique and impossible to guess.
 - **A space key is unique among live spaces.** A partial unique index guarantees it, and handling error `23505` covers the race on creation.
 - **Sequential numbers.** Instead of a PostgreSQL sequence, a counter table and `INSERT ... ON CONFLICT DO UPDATE ... RETURNING` inside the issue's transaction.
 - **A move changes numbers.** There is no redirect from old keys yet.
