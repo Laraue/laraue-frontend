@@ -167,14 +167,10 @@ where i.status_id is null;
 Issue → Status → Epic → Space
 ```
 
-В EF Core фильтр по спейсу — это проход по этой цепочке. Две строки из кода бэкенда:
+Чтобы выбрать issues спейса, в EF Core достаточно пройти по навигационным свойствам от статуса к эпику. Так выглядел фильтр по спейсу в коде того времени:
 
 ```csharp
-query = query.Where(i => i.Status!.Epic!.Space!.Key == spaceKey);
-```
-
-```csharp
-.Where(x => x.Status!.Epic!.Space!.OrganizationId == issueData.OrganizationId)
+query = query.Where(x => x.Status!.Epic!.SpaceId == request.SpaceId);
 ```
 
 Запросы стали сложнее на несколько join'ов, зато спейс issue теперь хранится только в одном месте. Чтобы перенести доску в другой спейс, достаточно поменять `space_id` у самой доски, а issues на ней трогать не нужно. Если бы спейс хранился и у issue, его пришлось бы менять у каждой issue на доске, а если где-то забыть, issue и её доска оказались бы в разных спейсах.
@@ -193,7 +189,6 @@ var entity = new Space
     Color = color,
     CreatedAt = dateTime,
     UpdatedAt = dateTime,
-    Key = key.ToUpper(),
     OrganizationId = organizationId,
     Epics = new List<Epic>
     {
@@ -204,7 +199,7 @@ var entity = new Space
 context.Spaces.Add(entity);
 ```
 
-Backlog создаётся с `IsDefault = true` (см. [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.Services/CoreSpacesService.cs)). Спейс по умолчанию и Backlog по умолчанию нельзя удалять: иначе пользователь мог бы остаться без спейса или без доски, на которую можно добавить issue. Позже мы поправили места, где API всё ещё сообщал, что такие сущности можно удалить, и запретили выдавать право на удаление для них — каждый раз с тестом.
+Backlog создаётся с `IsDefault = true` (см. [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/a095e69/src/Laraue.Apps.StructuredMessages.Services/CoreSpacesService.cs)). Спейс по умолчанию и Backlog по умолчанию нельзя удалять: иначе пользователь мог бы остаться без спейса или без доски, на которую можно добавить issue. Позже мы поправили места, где API всё ещё сообщал, что такие сущности можно удалить, и запретили выдавать право на удаление для них — каждый раз с тестом.
 
 ## Перенос и удаление
 

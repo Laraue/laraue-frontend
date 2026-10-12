@@ -167,14 +167,10 @@ The space became **required on the board**, and the issue lost both `EpicId` and
 Issue → Status → Epic → Space
 ```
 
-In EF Core a filter by space is a walk along that chain. Two lines from the backend code:
+To select the issues of a space in EF Core, it is enough to follow the navigation properties from the status to the epic. This is what the filter by space looked like in the code at the time:
 
 ```csharp
-query = query.Where(i => i.Status!.Epic!.Space!.Key == spaceKey);
-```
-
-```csharp
-.Where(x => x.Status!.Epic!.Space!.OrganizationId == issueData.OrganizationId)
+query = query.Where(x => x.Status!.Epic!.SpaceId == request.SpaceId);
 ```
 
 Queries got a few more joins, but an issue's space is now stored in one place only. To move a board to another space, it is enough to change `space_id` on the board itself, and the issues on it stay untouched. If the space were also stored on the issue, it would have to be changed on every issue of the board, and missing one would leave an issue and its board in different spaces.
@@ -193,7 +189,6 @@ var entity = new Space
     Color = color,
     CreatedAt = dateTime,
     UpdatedAt = dateTime,
-    Key = key.ToUpper(),
     OrganizationId = organizationId,
     Epics = new List<Epic>
     {
@@ -204,7 +199,7 @@ var entity = new Space
 context.Spaces.Add(entity);
 ```
 
-The Backlog is created with `IsDefault = true` (see [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/main/src/Laraue.Apps.Boards.Services/CoreSpacesService.cs)). A default space and a default Backlog cannot be deleted: otherwise a user could be left without a space or without a board to add an issue to. Later we fixed the places where the API still reported such items as deletable and forbade granting the delete permission on them, each time with a test.
+The Backlog is created with `IsDefault = true` (see [`CoreSpacesService.cs`](https://github.com/Laraue/Laraue.Apps.Boards/blob/a095e69/src/Laraue.Apps.StructuredMessages.Services/CoreSpacesService.cs)). A default space and a default Backlog cannot be deleted: otherwise a user could be left without a space or without a board to add an issue to. Later we fixed the places where the API still reported such items as deletable and forbade granting the delete permission on them, each time with a test.
 
 ## Moving and deleting
 
