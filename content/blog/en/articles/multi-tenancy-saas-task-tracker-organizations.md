@@ -23,18 +23,18 @@ How we made Boards multi-tenant:
 2. All organizations live in one database: a space stores a reference to its organization, and all data is filtered through it.
 3. Every user has a **personal organization**. It is created at sign-up, it cannot be deleted, and its members cannot be managed.
 4. People join a regular organization with an eight-character **invite code**. The code can be reissued, a member can leave, and an administrator can revoke a member's access.
-5. A user gets **two kinds of tokens**: the regular JWT says who they are, and entering an organization issues a second JWT with its id.
-6. About twenty migrations that piled up during the work were merged into one before the release.
+5. To work inside an organization, a user gets a **separate token**: besides the user, it records the organization they entered.
+6. About twenty migrations that piled up during the work were merged into one before the release, to keep the migration history clear.
 
 ## Why we needed organizations
 
-After spaces, personal affairs and the Laraue work lived in different spaces, but under one user. We wanted to keep personal tasks in Boards and move all the Laraue work to a separate place, where other people could be invited later. That required an entity that owns spaces and in which future teammates can be granted rights.
+Once spaces were in place, personal affairs and the Laraue work ended up in different spaces, but still under one user. We wanted to invite a friend, a frontend developer, to help with the UI, without showing him the personal tasks. That required an entity that owns spaces, that another person can be invited into, and in which they can be granted rights.
 
 Such an entity is usually called a tenant, and an app in which many tenants share one system is called multi-tenant. In Boards the tenant is the organization.
 
 ## The data model: one database for everyone
 
-There are three common ways to separate tenant data: a database per tenant, a schema per tenant in a shared database, or shared tables with a column that points to the tenant. Boards uses the third: all organizations live in the same tables.
+There are three common ways to separate tenant data: a database per tenant, a schema per tenant in a shared database, or shared tables with a column that points to the tenant. Boards uses the third, because at this stage it is the simplest: all organizations live in the same tables.
 
 ```csharp
 /// <summary>
@@ -69,11 +69,13 @@ public enum OrganizationType
 }
 ```
 
-The link to the organization is stored on the space, and boards and issues find it through the space, just as an issue finds its space through its status and board ([part 14](spaces-in-a-task-tracker-data-model-and-migration)). Members are stored in a separate `OrganizationUser` table: one row per "user — organization" pair, together with the user's rights in that organization. Rights are the subject of the next article.
+Only the space stores a reference to the organization. To find out which organization a board or an issue belongs to, it is enough to get to its space, just as in [part 14](spaces-in-a-task-tracker-data-model-and-migration) an issue found its space through its status and board.
+
+The members of an organization live in a separate `OrganizationUser` table. Each row links a user to an organization and stores the user's rights in it. Rights are the subject of the next article.
 
 ## The personal organization
 
-If a user can have no organization, every request gets a "no organization" case that has to be handled somewhere. We had already run into this with spaces and solved it the same way: every user gets a personal organization right at sign-up.
+If a user can have no organization, every request gets a "no organization" case that has to be handled somewhere. We had already run into this with spaces and solved it the same way: every user has a personal organization. It is created at sign-up, so the boards can be used right after the first sign-in.
 
 ```csharp
 user.Organizations = new List<Organization>
@@ -87,40 +89,21 @@ user.Organizations = new List<Organization>
 };
 ```
 
-A default space and a Backlog board are created together with the organization. For users who had signed up earlier, personal organizations were created by a migration; we went through its SQL in [part 14](spaces-in-a-task-tracker-data-model-and-migration).
+A default space and a Backlog board are created together with the organization. For users who had signed up earlier, we wrote a migration: it created a personal organization for each of them and moved all their previously created issues into it. We went through its SQL in [part 14](spaces-in-a-task-tracker-data-model-and-migration).
 
 A personal organization differs from a regular one in its type and in the owner's rights: the owner can rename it but cannot delete it or manage its members, so nobody can be invited into it either. This way the user always has a place for their own tasks, and nobody else sees them.
 
 ## Joining with an invite code
 
-Every organization has an eight-character code. It is generated with `RandomNumberGenerator` rather than `Random`, because the code gives access to the organization and must not be guessable:
+Every organization has an eight-character code generated by our `StringGenerator`. The owner sends the code to a person, who enters it in the app and becomes a member with no rights. An administrator of the organization grants them rights later.
 
-```csharp
-public static class StringGenerator
-{
-    private const string Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    public static string GenerateJoinCode() => GenerateRandomString(8);
-
-    private static string GenerateRandomString(int length)
-    {
-        return string.Create(length, (chars: Chars, length), (span, state) =>
-        {
-            var charsArr = state.chars;
-            for (var i = 0; i < state.length; i++)
-                span[i] = charsArr[RandomNumberGenerator.GetInt32(charsArr.Length)];
-        });
-    }
-}
-```
-
-The owner sends the code to a person, who enters it in the app and becomes a member with no rights. An administrator of the organization grants them rights later. The other member operations came afterwards: reissuing the code if it got to the wrong person, leaving an organization, and revoking a member's access.
+Later we added the other member actions. If the code reached the wrong person, it can be replaced with a new one. A member can leave the organization, and an administrator can revoke a member's access.
 
 ## Two tokens: the user and the organization
 
 Before organizations a user had one JWT with their id (we described how the Telegram sign-in issues it in [part 13](telegram-login-widget-dotnet-auth)). With organizations every request got a question: which organization is the user working in right now, and are they a member of it?
 
-We could have passed the organization id with every request and checked membership every time. We did it differently: the check runs once, when the user enters an organization, and the user gets a second token that already contains the organization.
+If the organization id were passed with every request, the API would have to check every time that the user is a member. To avoid that, we check membership once, when the user enters the organization. In return the user gets a second token that already contains the organization and works with it from then on.
 
 ```csharp
 public string CreateOrganizationToken(long organizationId, Guid userId)
@@ -170,15 +153,15 @@ The token does not replace the rights check. Every action inside an organization
 
 Organizations took almost three weeks, and during that time about twenty migrations piled up in the project: new tables, renames, a rewritten rights table, dropping columns that turned out to be unnecessary. None of them had reached production yet.
 
-We have a rule of "one pull request, one migration" (it is described in the [article about the backend architecture](clean-dotnet-telegram-bot-architecture)), so that the project does not collect dozens of files with intermediate steps. Before the release we rolled the database back to its state before organizations, deleted all the intermediate migrations and generated one, `AddOrganizations`. The SQL that moved the existing users' data went into it too.
+We have a rule of "one pull request, one migration" (it is described in the [article about the backend architecture](clean-dotnet-telegram-bot-architecture)), so that the project does not collect dozens of files with intermediate steps. Before the release we deleted all the intermediate migrations, generated a single `AddOrganizations` in their place, and simply recreated the local database. The SQL that moved the existing users' data went into the same migration. This way the migration history got one clear change instead of twenty intermediate steps.
 
 ## Results
 
 - **The tenant is the organization.** All organizations are stored in shared tables, and only the space has a link to the organization.
 - **Every user has a personal organization.** It is created at sign-up, so the code has no "the user has no organization" case.
-- **Joining with an invite code.** The code is generated with a cryptographically secure generator, it can be reissued, and a member can be removed.
+- **Joining with an invite code.** The code can be replaced with a new one, a member can leave, and an administrator can revoke access.
 - **A separate token for the organization.** Membership is checked once on entering, and rights on every action.
-- **One migration per change.** Twenty intermediate migrations became one before the release.
+- **A clear migration history.** Twenty intermediate migrations became one before the release.
 
 ## What comes next
 
