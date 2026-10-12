@@ -90,7 +90,7 @@ We wanted to get all the issues of a space with one query, without a join throug
 
 ## When a foreign key can be null
 
-Yes. SQL lets a foreign key column be `NULL` in PostgreSQL, SQL Server, MySQL and SQLite alike: a row with `NULL` is simply not checked against the parent table, and it means "no parent". So the real question is not "can it?" but "is *no parent* a state that exists in your domain?"
+Technically, a foreign key column can be `NULL` in PostgreSQL, SQL Server, MySQL and SQLite alike: a row with `NULL` is not checked against the parent table, and it means "no parent". So the question is whether *no parent* is a state that exists in your domain, and the answer decides whether you need `NULL`.
 
 - **Nullable is right when absence is a real state.** In the Boards model an issue created in the web app has no Telegram message behind it, so `Issue.TelegramMessageId` is `long?`, and the code that reads it expects `null`.
 - **Nullable is wrong when absence is only a gap in the data.** A board with no space is not a state the product has. It is a board the migration has not reached yet, and every reader of that column has to invent a meaning for `null`.
