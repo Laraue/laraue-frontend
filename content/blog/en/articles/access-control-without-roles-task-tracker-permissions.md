@@ -19,9 +19,9 @@ tags: [devlog, dotnet, database, architecture, task-tracker]
 
 How we built access control in Boards:
 
-1. There are no roles: every member of an organization is granted permissions directly. That is enough for current needs, and roles can be added on top if users ask for them.
-2. Permissions come in two kinds: permissions on content (spaces, boards, issues) and administrative ones (managing members, renaming the organization and so on).
-3. Content permissions can be granted on the whole organization or on a specific space. The effective permissions are the union of the two levels.
+1. There are no roles: every member of an organization is granted permissions directly. That is enough for current needs, and roles can be added later if users ask for them.
+2. Permissions come in two kinds: permissions on objects (spaces, boards, issues) and administrative ones (managing members, renaming the organization and so on).
+3. Object permissions can be granted on the whole organization or on a specific space. The effective permissions are the union of the two levels.
 4. The model had four versions. After each one we came up with cases it could not express, and changed it.
 5. We dropped permissions on individual boards: the queries became too complex and the setup too confusing.
 6. Flags in one column were replaced with separate bool columns, because the database cannot use an index for flags.
@@ -30,7 +30,7 @@ How we built access control in Boards:
 
 The best-known approach to permissions is RBAC (role based access control). A user is assigned a role, such as "admin", "member" or "viewer", and the permissions belong to the role. This is convenient when there are many users and few sets of permissions.
 
-Boards has no roles. Every member of an organization has their own set of permissions, and an administrator configures it directly. While organizations are small, this is enough: a role would be needed to avoid configuring the same thing for dozens of people, and there are no such organizations yet. If users ask for roles, they can be added on top of the current model: a role is just a saved set of the same permissions.
+Boards has no roles. Every member of an organization has their own set of permissions, and an administrator configures it directly. While organizations are small, this is enough: a role would be needed to avoid configuring the same thing for dozens of people, and there are no such organizations yet. If users ask for roles, they can be added later: a role is just a saved set of the same permissions.
 
 The rest of the article is about how that set works and how many times we changed it.
 
@@ -52,7 +52,11 @@ public enum AccessLevel : byte
 
 The same flags could be granted on a specific space or a specific board. If the reference to the space or board was empty, the permissions applied to all of them.
 
-After every version we asked ourselves the same question: how do we express different cases in this model? The first version was broken by the simplest one: a person should be able to rename the organization but not manage its members. `Manage` sat in the same row as the content permissions, and they could not be separated. In the second version the administrative permissions moved to a separate set:
+After every version we asked ourselves the same question: how do we express different cases in this model? The first version was broken by the simplest one: a person should be able to rename the organization but not manage its members. `Manage` sat in the same row as the object permissions, and they could not be separated.
+
+## The second version: administrative permissions apart
+
+In the second version the administrative permissions moved to a separate set, and the object permissions kept only read, create, update and delete:
 
 ```csharp
 [Flags]
@@ -176,14 +180,14 @@ public async Task<T> GetAvailableSpaces<T>(
 
 The service returns a query rather than a ready list, and the calling code adds its own conditions to it. So the permission filter and the data filter run in the database as one SQL query.
 
-The model's own rules work on top of permissions. A default space and a default board cannot be deleted even if the member has the delete permission, and the delete permission cannot be granted on them. Every such case is pinned down by an integration test.
+Besides permissions, the model's own rules apply. A default space and a default board cannot be deleted even if the member has the delete permission, and the delete permission cannot be granted on them. Every such case is pinned down by an integration test.
 
 Administrative permissions have only grown since then: mass moving of boards, managing attributes, linking Telegram chats, viewing billing. Each new action needs only a new flag.
 
 ## Results
 
-- **Permissions without roles.** Every member is granted permissions directly. Roles can be added as saved sets of the same permissions if they are needed.
-- **Two kinds of permissions.** Content permissions and administrative permissions are stored and checked separately.
+- **Permissions without roles.** Every member is granted permissions directly. Roles can be added later if they are needed.
+- **Two kinds of permissions.** Object permissions and administrative permissions are stored and checked separately.
 - **Two levels.** Permissions are granted on the organization or on a space and combined with "or".
 - **The access boundary is the space.** We dropped permissions on individual boards for the sake of simple queries and a clear setup.
 - **Columns instead of flags.** Permissions used to filter lists are stored as separate bool columns.
