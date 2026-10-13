@@ -1,8 +1,8 @@
 ---
-title: JWT in an HttpOnly cookie in ASP.NET Core — instead of localStorage, with SameSite, CORS and local runs in Docker
-description: Part 24 of the series about building a Telegram task tracker in a tiny team. How the web app token moved from localStorage to an HttpOnly cookie, how ASP.NET Core reads a JWT from a cookie, why the frontend needs credentials include and cookie forwarding during SSR, and how we made the project easier to run locally.
+title: JWT in an HttpOnly cookie instead of localStorage — how we moved the token in ASP.NET Core and Nuxt
+description: Part 24 of the series about building a Telegram task tracker in a tiny team. How the web app token moved from localStorage to an HttpOnly cookie: how ASP.NET Core reads a JWT from a cookie, what the Nuxt frontend needed for it, how to set up CORS, and how we made the project easier to run locally.
 seoTitle: JWT in an HttpOnly Cookie in ASP.NET Core: SameSite and CORS
-seoDescription: Part 24: a JWT in an HttpOnly cookie instead of localStorage in ASP.NET Core — cookie options, SameSite, CORS with credentials, Nuxt SSR and Docker.
+seoDescription: Part 24: a JWT in an HttpOnly cookie instead of localStorage in ASP.NET Core and Nuxt — cookie options, SameSite, CORS with credentials and cookies in SSR.
 type: article
 series: architecture-first
 part: 24

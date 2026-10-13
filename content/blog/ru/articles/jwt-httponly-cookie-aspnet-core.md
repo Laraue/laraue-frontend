@@ -1,8 +1,8 @@
 ---
-title: JWT в HttpOnly-cookie в ASP.NET Core — вместо localStorage, с SameSite, CORS и локальным запуском в Docker
-description: Часть 24 цикла о разработке Telegram-таск-трекера небольшой командой. Как токен веб-приложения переехал из localStorage в HttpOnly-cookie, как ASP.NET Core читает JWT из cookie, зачем фронтенду credentials include и пересылка cookie при SSR и как мы упростили локальный запуск проекта.
+title: JWT в HttpOnly-cookie вместо localStorage — как мы перенесли токен в ASP.NET Core и Nuxt
+description: Часть 24 цикла о разработке Telegram-таск-трекера небольшой командой. Как токен веб-приложения переехал из localStorage в HttpOnly-cookie: как ASP.NET Core читает JWT из cookie, что для этого понадобилось фронтенду на Nuxt, как настроить CORS и как мы упростили локальный запуск проекта.
 seoTitle: JWT в HttpOnly-cookie в ASP.NET Core: SameSite и CORS
-seoDescription: Часть 24: JWT в HttpOnly-cookie вместо localStorage в ASP.NET Core — параметры cookie, SameSite, CORS с credentials, SSR в Nuxt и локальный запуск в Docker.
+seoDescription: Часть 24: JWT в HttpOnly-cookie вместо localStorage в ASP.NET Core и Nuxt — параметры cookie, SameSite, CORS с credentials и пересылка cookie при SSR.
 type: article
 series: architecture-first
 part: 24
