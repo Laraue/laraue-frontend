@@ -150,50 +150,20 @@ Core-сервис сравнивает старые и новые значени
 ```csharp
 var change = new OrganizationLog
 {
-    CreatedAt = date,
     EntityId = issueId,
     EntityType = LogEntityType.Issue,
-    Items = [],
-    OrganizationId = issueData.OrganizationId,
-    OwnerId = updaterId,
     Action = LogAction.Update,
+    OwnerId = updaterId,
+    CreatedAt = date,
+    Items = [],
 };
 
-var oldContent = issueData.Content;
 if (oldContent != content)
 {
     settersBuilder += builder => builder.SetProperty(x => x.Content, content);
     change.Items.Add(GetContentLogItem(oldContent, content));
 }
 
-var oldAssigneeId = issueData.AssigneeId;
-if (oldAssigneeId != assigneeId)
-{
-    var usersData = await context.Users
-        .Where(x => x.Id == assigneeId || x.Id == oldAssigneeId)
-        .ToDictionaryAsyncEF(
-            x => x.Id,
-            x => new UserInitials(x.TelegramFirstName, x.TelegramLastName, x.TelegramUserName),
-            cancellationToken);
-
-    settersBuilder += builder => builder.SetProperty(x => x.AssigneeId, assigneeId);
-
-    change.Items.Add(new OrganizationLogItem
-    {
-        NewDisplayValue = usersData[assigneeId].DisplayName,
-        OldDisplayValue = usersData[oldAssigneeId].DisplayName,
-        NewValueId = assigneeId.ToString(),
-        OldValueId = oldAssigneeId.ToString(),
-        PropertyType = PropertyType.Assignee,
-    });
-}
-
-await context.Issues
-    .Where(x => x.Id == issueId)
-    .ExecuteUpdateAsync(settersBuilder, cancellationToken);
-
-change.Items.AddRange(await AttachIssueFiles(issueId, updaterId, newFiles, cancellationToken));
-change.Items.AddRange(await DetachIssueAttachments(issueId, deleteAttachmentIds, cancellationToken));
 change.Items.AddRange(await UpdateAttributes(issueId, issueData.OrganizationId, attributes, cancellationToken));
 
 if (change.Items.Count != 0)
