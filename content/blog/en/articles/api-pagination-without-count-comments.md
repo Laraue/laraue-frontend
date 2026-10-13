@@ -110,7 +110,9 @@ if (hasNextPage)
 return new ShortPaginatedResult<TEntity>(request.Page, request.PerPage, hasNextPage, data);
 ```
 
-This way a page loads with one query instead of two. Today the web app requests the first page of 100 comments. If the response has `HasNextPage = true`, the next page can be loaded with the same request and the next page number. These methods live in our `Laraue.Core` package ([source code](https://github.com/Laraue/Laraue.Core)), next to full pagination that also counts the total number of records. We use it where the user sees that number, for example the number of tasks in a board column.
+This way a page loads with one query instead of two. Today the web app requests the first page of 100 comments, and if the response has `HasNextPage = true`, it can load the next one.
+
+Both kinds of pagination, the short one and the full one that also counts the total number of records, live in our `Laraue.Core` package ([source code](https://github.com/Laraue/Laraue.Core)). We use the full one where the user sees that number, for example for the number of tasks in a board column.
 
 Comments of a task are sorted by `Id`, that is, in the order they were created, and pages are taken with `Skip`/`Take`. This is offset pagination, not cursor pagination: for the comments of one task it is enough.
 
