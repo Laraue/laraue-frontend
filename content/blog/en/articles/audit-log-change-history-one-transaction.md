@@ -1,5 +1,5 @@
 ---
-title: Task change history — an audit log in one transaction instead of EF Core interceptors, temporal tables and event sourcing
+title: Task change history — an audit log saved in the same transaction as the changes themselves
 description: Part 20 of the series about building a Telegram task tracker solo. How Boards got a change history for tasks, why we write it explicitly in services in the same transaction as the changes themselves, and why EF Core interceptors, temporal tables and event sourcing did not fit.
 seoTitle: Audit Log in ASP.NET Core: Change History in One Transaction
 seoDescription: Part 20: an audit log in a task tracker — why change history is written in services in the same transaction, not with EF Core interceptors or event sourcing.
