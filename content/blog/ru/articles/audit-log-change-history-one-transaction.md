@@ -119,7 +119,7 @@ public class OrganizationLogItem
 
 **Темпоральные таблицы.** База сама хранит предыдущие версии строк. Это та же проблема, только ещё ниже: вместо истории изменений получаются копии значений, а логика того, что именно произошло, оказывается на уровне базы.
 
-**Event sourcing.** Изменения записываются как события, и из них строится и текущее состояние, и история. Этот подход хорош, когда в приложении уже есть шина событий и когда допустимо, что история и данные какое-то время не совпадают. Нам было важно обратное: история — это то, что действительно произошло, и она должна писаться в той же транзакции, что и изменение.
+**Event sourcing.** Изменения записываются как события, и из них строится и текущее состояние, и история. Этот подход хорош, когда в приложении уже есть шина событий и когда допустимо, что история и данные какое-то время не совпадают. Нам было важно, чтобы история всегда совпадала с данными, поэтому она должна сохраняться в той же транзакции, что и само изменение.
 
 Поэтому историю пишет сам сервис, который меняет данные.
 
@@ -166,7 +166,27 @@ if (oldContent != content)
     change.Items.Add(GetContentLogItem(oldContent, content));
 }
 
-// ... так же для исполнителя
+var oldAssigneeId = issueData.AssigneeId;
+if (oldAssigneeId != assigneeId)
+{
+    var usersData = await context.Users
+        .Where(x => x.Id == assigneeId || x.Id == oldAssigneeId)
+        .ToDictionaryAsyncEF(
+            x => x.Id,
+            x => new UserInitials(x.TelegramFirstName, x.TelegramLastName, x.TelegramUserName),
+            cancellationToken);
+
+    settersBuilder += builder => builder.SetProperty(x => x.AssigneeId, assigneeId);
+
+    change.Items.Add(new OrganizationLogItem
+    {
+        NewDisplayValue = usersData[assigneeId].DisplayName,
+        OldDisplayValue = usersData[oldAssigneeId].DisplayName,
+        NewValueId = assigneeId.ToString(),
+        OldValueId = oldAssigneeId.ToString(),
+        PropertyType = PropertyType.Assignee,
+    });
+}
 
 await context.Issues
     .Where(x => x.Id == issueId)

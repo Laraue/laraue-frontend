@@ -119,7 +119,7 @@ There are several common ways to keep a history. Here is why they did not fit us
 
 **Temporal tables.** The database itself keeps previous versions of rows. It is the same problem, only one level lower: instead of a history of changes you get copies of values, and the logic of what actually happened ends up at the database level.
 
-**Event sourcing.** Changes are written as events, and both the current state and the history are built from them. This approach works well when the app already has an event bus and when the history and the data are allowed to be out of sync for a while. We needed the opposite: the history is what really happened, and it has to be written in the same transaction as the change.
+**Event sourcing.** Changes are written as events, and both the current state and the history are built from them. This approach works well when the app already has an event bus and when the history and the data are allowed to be out of sync for a while. We needed the history to always match the data, so it has to be saved in the same transaction as the change itself.
 
 So the history is written by the service that changes the data.
 
@@ -166,7 +166,27 @@ if (oldContent != content)
     change.Items.Add(GetContentLogItem(oldContent, content));
 }
 
-// ... the same for the assignee
+var oldAssigneeId = issueData.AssigneeId;
+if (oldAssigneeId != assigneeId)
+{
+    var usersData = await context.Users
+        .Where(x => x.Id == assigneeId || x.Id == oldAssigneeId)
+        .ToDictionaryAsyncEF(
+            x => x.Id,
+            x => new UserInitials(x.TelegramFirstName, x.TelegramLastName, x.TelegramUserName),
+            cancellationToken);
+
+    settersBuilder += builder => builder.SetProperty(x => x.AssigneeId, assigneeId);
+
+    change.Items.Add(new OrganizationLogItem
+    {
+        NewDisplayValue = usersData[assigneeId].DisplayName,
+        OldDisplayValue = usersData[oldAssigneeId].DisplayName,
+        NewValueId = assigneeId.ToString(),
+        OldValueId = oldAssigneeId.ToString(),
+        PropertyType = PropertyType.Assignee,
+    });
+}
 
 await context.Issues
     .Where(x => x.Id == issueId)
