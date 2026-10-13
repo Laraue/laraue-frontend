@@ -187,4 +187,4 @@ Storing files in Telegram works, but we see it as temporary. We depend on Telegr
 
 ## What comes next
 
-Almost at the same time as attachments, tasks got comments, and they have attachments too. Comments are the subject of the next article.
+Almost at the same time as attachments, tasks got comments, and they have attachments too. Comments are the subject of the [next article](api-pagination-without-count-comments).
