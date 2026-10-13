@@ -19,18 +19,18 @@ tags: [devlog, dotnet, telegram, architecture, task-tracker]
 
 How the Boards bot learned to work in group chats:
 
-1. A group administrator links the chat to a board with the `/link` command, picking in turn an organization, a space, a board, a status and a save mode. All of it happens in one message with buttons.
-2. There are two modes: every message becomes a task, or only the ones where the bot is mentioned.
-3. The private chat with the bot is now a linked chat with its own settings too. This way any chat, the private one included, is configured the same way.
+1. A group administrator links the chat to a board with the `/link` command, choosing an organization, a space, a board, a status and a save mode one after another. The bot does not send a new message for each step but updates the same one.
+2. There are two save modes: in the first, every message in the chat becomes a task; in the second, only the message someone replied to while mentioning the bot.
+3. The private chat with the bot also became a linked chat with its own settings, so any chat, the private one included, is configured the same way.
 4. Only a group administrator can link a chat, and they also need the right to link chats in the organization.
 5. For the bot to see messages in a group, we turned off its privacy mode.
-6. When Telegram turns a group into a supergroup, the chat id changes. The bot moves the link to the new id.
+6. When Telegram turns a group into a supergroup, the chat id changes, and the bot moves the link to the new one.
 
 ## Why the bot needs groups
 
 The main reason was our own team chat. We discussed tasks in a Telegram group and wanted to turn messages from the discussion into tasks without copying them into the private chat with the bot.
 
-It turned out groups are useful not only for teams. A user can create several groups with just themselves and the bot and link each one to its own board: one group for work notes, another for shopping. Then every message in a group lands on the right board right away.
+It turned out groups are useful not only for teams. A user can create several groups with only themselves and the bot in them and link each one to its own board: one group for work notes, another for shopping. Then every message in a group lands on the right board right away.
 
 ## The linked chat
 
@@ -108,7 +108,7 @@ public static class TelegramRoutes
 }
 ```
 
-The "Backend" button in the list of spaces carries the path `/link/space/42`, and its own controller method with an `id` parameter handles it. If the chat is already linked, `/link` offers to change the link or unlink the chat, and there is a separate `/unlink` command for quick unlinking.
+Behind the "Backend" button in the list of spaces is the path `/link/space/42`, and a separate controller method with an `id` parameter handles it. If the chat is already linked, `/link` offers to change the link or unlink the chat, and there is a separate `/unlink` command for quick unlinking.
 
 ## Who can link a chat
 
