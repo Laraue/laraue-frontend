@@ -21,7 +21,7 @@ What changed in authentication and local runs:
 
 1. The web app used to keep the JWT in localStorage and send it in the `Authorization` header. Now the backend puts the token in an HttpOnly cookie, and the browser sends it with every request by itself.
 2. There are two cookies, for the user token and for the organization token. Both are `HttpOnly` and `SameSite=Lax`, and outside local development also `Secure`.
-3. ASP.NET Core takes the token from the cookie if a request comes without an `Authorization` header. The header still works; our integration tests, for example, authenticate through it.
+3. ASP.NET Core takes the token from the cookie. After this iteration the `Authorization` header is no longer used: both the web app and the tests authenticate with cookies.
 4. The frontend sends requests with `credentials: 'include'`, and during server-side rendering Nuxt forwards the incoming request's cookies to the API.
 5. In production the API lives on the same domain as the frontend, so CORS is only needed for local development and for Telegram.
 6. For local runs there is now a `docker-compose.yml` with PostgreSQL and development settings.
@@ -97,18 +97,14 @@ private static void ReadTokenFromCookie(JwtBearerOptions options, string cookie)
     {
         OnMessageReceived = context =>
         {
-            if (!context.Request.Headers.ContainsKey("Authorization"))
-            {
-                context.Token = context.Request.Cookies[cookie];
-            }
-
+            context.Token = context.Request.Cookies[cookie];
             return Task.CompletedTask;
         },
     };
 }
 ```
 
-For the user scheme the token is read from the `boards_user` cookie, for the organization scheme from `boards_organization`. If a request has an `Authorization` header, it is used as before. Our integration tests, for example, go through the header: the test proxy puts the token into `Authorization: Bearer`.
+For the user scheme the token is read from the `boards_user` cookie, for the organization scheme from `boards_organization`. The `Authorization` header is no longer needed for authentication.
 
 The new behavior is pinned down by an integration test. It enters an organization with the user cookie, checks that the response set the organization cookie with the `HttpOnly` and `SameSite=Lax` flags, and that a request for spaces succeeds with that cookie:
 
@@ -198,7 +194,7 @@ And an `appsettings.Development.json` file with everything the API needs to star
 
 - **The token lives in an HttpOnly cookie, not in localStorage.** JavaScript on the page cannot see it, and the browser sends it by itself.
 - **Two cookies for two tokens.** User and organization, both `HttpOnly`, `SameSite=Lax`, and `Secure` outside local development.
-- **The `Authorization` header still works.** The backend takes the token from the cookie only when there is no header.
+- **The `Authorization` header is no longer needed.** The token travels only in the cookie.
 - **During SSR the cookies are forwarded to the API.** Otherwise the Nuxt server would not know who opened the page.
 - **CORS only where it is needed.** In production the frontend and the API share a domain.
 - **Local runs got easier.** PostgreSQL in Docker and ready development settings.

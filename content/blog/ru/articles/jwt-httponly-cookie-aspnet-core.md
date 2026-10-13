@@ -21,7 +21,7 @@ tags: [devlog, dotnet, nuxt, authentication, architecture]
 
 1. Раньше веб-приложение хранило JWT в localStorage и отправляло его в заголовке `Authorization`. Теперь бэкенд кладёт токен в HttpOnly-cookie, и браузер сам отправляет его с каждым запросом.
 2. Cookie две — для токена пользователя и для токена организации. Обе `HttpOnly`, `SameSite=Lax`, а за пределами локальной разработки ещё и `Secure`.
-3. ASP.NET Core берёт токен из cookie, если запрос пришёл без заголовка `Authorization`. Заголовок по-прежнему работает — через него, например, авторизуются интеграционные тесты.
+3. ASP.NET Core берёт токен из cookie. Заголовок `Authorization` после этой итерации больше не используется: и веб-приложение, и тесты авторизуются через cookie.
 4. Фронтенд отправляет запросы с `credentials: 'include'`, а при серверном рендеринге Nuxt пересылает cookie входящего запроса в API.
 5. В продакшене API живёт на том же домене, что и фронтенд, поэтому CORS нужен только для локальной разработки и для Telegram.
 6. Для локального запуска появились `docker-compose.yml` с PostgreSQL и тестовые настройки разработки.
@@ -97,18 +97,14 @@ private static void ReadTokenFromCookie(JwtBearerOptions options, string cookie)
     {
         OnMessageReceived = context =>
         {
-            if (!context.Request.Headers.ContainsKey("Authorization"))
-            {
-                context.Token = context.Request.Cookies[cookie];
-            }
-
+            context.Token = context.Request.Cookies[cookie];
             return Task.CompletedTask;
         },
     };
 }
 ```
 
-Для схемы пользователя токен читается из cookie `boards_user`, для схемы организации — из `boards_organization`. Если в запросе есть заголовок `Authorization`, используется он, как и раньше. Через заголовок, например, ходят наши интеграционные тесты: тестовый прокси подставляет токен в `Authorization: Bearer`.
+Для схемы пользователя токен читается из cookie `boards_user`, для схемы организации — из `boards_organization`. Заголовок `Authorization` для авторизации больше не нужен.
 
 Новое поведение закрепили интеграционным тестом. Он входит в организацию с cookie пользователя, проверяет, что ответ выставил cookie организации с флагами `HttpOnly` и `SameSite=Lax`, и что с этой cookie запрос к спейсам проходит:
 
@@ -198,7 +194,7 @@ volumes:
 
 - **Токен — в HttpOnly-cookie, а не в localStorage.** JavaScript на странице его не видит, а браузер отправляет его сам.
 - **Две cookie для двух токенов.** Пользователь и организация, обе `HttpOnly`, `SameSite=Lax` и `Secure` вне локальной разработки.
-- **Заголовок `Authorization` по-прежнему работает.** Бэкенд берёт токен из cookie, только если заголовка нет.
+- **Заголовок `Authorization` больше не нужен.** Токен передаётся только в cookie.
 - **При SSR cookie пересылаются в API.** Иначе сервер Nuxt не знает, кто открыл страницу.
 - **CORS только там, где он нужен.** В продакшене фронтенд и API на одном домене.
 - **Локальный запуск стал проще.** PostgreSQL в Docker и готовые настройки разработки.
