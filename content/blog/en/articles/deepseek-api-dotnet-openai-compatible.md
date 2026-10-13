@@ -28,7 +28,7 @@ How we added AI to Boards:
 
 ## Why tasks need AI
 
-In Boards, tasks often come from Telegram messages. But chat messages rarely look like a finished task: it may be a stream of ideas jotted down on the go, or ordinary conversational speech from a discussion. Such a message can be saved as is, but it is inconvenient to read later.
+In Boards, tasks often come from Telegram messages. But chat messages rarely look like a finished task: it may be a stream of ideas jotted down on the go, or ordinary conversational speech from a discussion. If it is saved unchanged, such a task is inconvenient to read later.
 
 We wanted AI to turn such text into a properly formatted message: with a title, fixed mistakes and a clear structure.
 
@@ -104,9 +104,9 @@ The "thinking" mode is off by default: rephrasing text does not need it, and ans
 
 ## A client without an SDK
 
-There are ready-made clients for OpenAI-compatible APIs, and Microsoft has also released its own AI packages. But they do not look stable yet, so we use a plain `HttpClient`: we only need one request. Once Microsoft's packages settle, we can switch to them.
+There are ready-made clients for OpenAI-compatible APIs, and Microsoft has also released its own AI packages. But they do not look stable yet, so we use a plain `HttpClient`: we only need one request. Once they become more stable, we can switch to them.
 
-The client is registered as a typed `HttpClient` that gets the provider's address and key right away:
+The client is registered as a typed `HttpClient` that gets the provider's address and key:
 
 ```csharp
 builder.Services
@@ -165,8 +165,6 @@ public async Task<string> SummarizeAsync(string notes, CancellationToken cancell
 
 Any problem with the provider, whether a network error, a failed status or an empty answer, becomes one `AiContentSummarizationException`. The rest of the code does not care what exactly broke at the provider: it only knows that AI is unavailable right now.
 
-The client is covered by tests without a real provider: instead of the network, an `HttpMessageHandler` returns a predefined answer. The tests check that the text is taken from the answer, that the thinking mode is passed in the request, and that a failed status or an answer without choices becomes an `AiContentSummarizationException`.
-
 ## /aisave in Telegram and a button in the web app
 
 In Telegram the bot already had the `/save` command, which saves a message as a task. Next to it came `/aisave`: it does the same but runs the text through AI first. The command works both in the private chat and in groups.
@@ -193,7 +191,7 @@ In the web app the task editor has an "Improve with AI" button. It sends the tex
 - **DeepSeek in production, Ollama for local development.** The lowest price with sufficient quality, and the simplest cross-platform setup.
 - **One client for all providers.** The OpenAI-compatible API lets us switch providers in the settings.
 - **No SDK.** A plain `HttpClient` until Microsoft's AI packages look stable.
-- **An AI failure does not lose the text.** The user sees a clear message, and the original text stays.
+- **The original text is not lost.** If AI is unavailable, the user sees a clear message, and their text stays as it was.
 
 ## What comes next
 
