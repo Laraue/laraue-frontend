@@ -30,7 +30,7 @@ How the Boards bot learned to work in group chats:
 
 The main reason was our own team chat. We discussed tasks in a Telegram group and wanted any message from the discussion to be turned into a task with a single command right in the chat.
 
-It turned out groups are useful not only for teams. A user can create several groups with only themselves and the bot in them and link each one to its own board: one group for work notes, another for shopping. Then every message in a group lands on the right board right away.
+Groups also turned out useful for personal tasks. We ourselves wanted to forward messages to different chats so that they would land on different boards. For that you can create several groups with only yourself and the bot in them and link each one to its own board: for example, one to work notes and another to a shopping list. Then a message forwarded to a group lands on the right board right away.
 
 ## The linked chat
 
