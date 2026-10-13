@@ -72,7 +72,7 @@ The UI needs to know whether to show "Edit" and "Delete" on a comment. So the `C
 
 ## A separate request, loaded in the background
 
-Comments are not part of the response that returns a task. They have their own paginated request, and the UI sends it in the background once the task is already open. This way the task opens quickly even with a long discussion under it, and the comments load right after.
+Comments are not part of the response that returns a task. They have their own paginated request, and the UI sends it in the background once the task is already open. This way the task opens quickly even with a long discussion under it: the user already sees the task while the comments are loading.
 
 ## Pagination without COUNT
 
@@ -122,7 +122,7 @@ Creating, editing and deleting a comment are recorded in the [change history](au
 
 - **Anyone with access to a task can read, anyone who can update it can write.**
 - **Only the author edits and deletes.** Nobody can edit other people's comments yet: there has been no need for it.
-- **A separate background request.** The task opens right away, and comments load right after.
+- **A separate background request.** The task opens right away, and comments load while the user is reading it.
 - **Pagination without COUNT.** The query fetches one record more than the page size to tell whether there is a next page.
 - **The same attachments and the same history.** Comments use the shared attachment model and write to the shared audit log.
 
