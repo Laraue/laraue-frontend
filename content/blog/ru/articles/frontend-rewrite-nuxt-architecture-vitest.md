@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 23
 createdAt: 2026-10-13 11:35
-updatedAt: 2026-10-13 11:35
+updatedAt: 2026-10-13 12:17
 projects: [boards]
 tags: [devlog, nuxt, architecture, ai, task-tracker]
 ---
@@ -156,4 +156,4 @@ const deps = {
 
 ## Что дальше
 
-Прежде чем переписать фронтенд, Николай поменял несколько вещей в бэкенде: токен переехал из localStorage в HttpOnly-cookie, появились настройки CORS и `docker-compose` для локального запуска. Об этом — следующая статья.
+Прежде чем переписать фронтенд, Николай поменял несколько вещей в бэкенде: токен переехал из localStorage в HttpOnly-cookie, появились настройки CORS и `docker-compose` для локального запуска. Об этом — [следующая статья](jwt-httponly-cookie-aspnet-core).

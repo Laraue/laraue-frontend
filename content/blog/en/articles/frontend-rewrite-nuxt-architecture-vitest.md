@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 23
 createdAt: 2026-10-13 11:35
-updatedAt: 2026-10-13 11:35
+updatedAt: 2026-10-13 12:17
 projects: [boards]
 tags: [devlog, nuxt, architecture, ai, task-tracker]
 ---
@@ -158,4 +158,4 @@ Frontend tasks were taken from the same board in Boards, and changes came in as 
 
 ## What comes next
 
-Before rewriting the frontend, Nikolay changed a few things in the backend: the token moved from localStorage into an HttpOnly cookie, CORS settings appeared, and `docker-compose` for running the project locally. That is the subject of the next article.
+Before rewriting the frontend, Nikolay changed a few things in the backend: the token moved from localStorage into an HttpOnly cookie, CORS settings appeared, and `docker-compose` for running the project locally. That is the subject of the [next article](jwt-httponly-cookie-aspnet-core).
