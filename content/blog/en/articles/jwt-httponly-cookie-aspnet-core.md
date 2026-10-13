@@ -28,7 +28,7 @@ What changed in authentication and local runs:
 
 ## Why a cookie and not localStorage
 
-After a Telegram sign-in the backend issues a JWT, and every request then has to present it. In the first version the frontend saved the token in localStorage and added it to the `Authorization` header itself.
+After a Telegram sign-in the backend issues a JWT, and from then on that token has to come with every request. In the first version the frontend saved the token in localStorage and added it to the `Authorization` header itself.
 
 Nikolay suggested keeping the token in an HttpOnly cookie, which is the standard approach today. A cookie with the `HttpOnly` flag is not available to JavaScript on the page: it cannot be read through `document.cookie`, but the browser sends it with requests by itself. The frontend does not need to store the token or put it into every request.
 
@@ -106,22 +106,6 @@ private static void ReadTokenFromCookie(JwtBearerOptions options, string cookie)
 
 For the user scheme the token is read from the `boards_user` cookie, for the organization scheme from `boards_organization`. The `Authorization` header is no longer needed for authentication.
 
-The new behavior is pinned down by an integration test. It enters an organization with the user cookie, checks that the response set the organization cookie with the `HttpOnly` and `SameSite=Lax` flags, and that a request for spaces succeeds with that cookie:
-
-```csharp
-var setCookie = Assert.Single(
-    loginResponse.Headers.GetValues("Set-Cookie"),
-    value => value.StartsWith($"{AuthCookies.Organization}=", StringComparison.Ordinal));
-Assert.Contains("httponly", setCookie, StringComparison.OrdinalIgnoreCase);
-Assert.Contains("samesite=lax", setCookie, StringComparison.OrdinalIgnoreCase);
-
-using var organizationClient = host.CreateClient();
-organizationClient.DefaultRequestHeaders.Add("Cookie", setCookie.Split(';')[0]);
-var spacesResponse = await organizationClient.GetAsync("/api/spaces");
-
-Assert.Equal(HttpStatusCode.OK, spacesResponse.StatusCode);
-```
-
 ## What changed in the frontend
 
 The code that saved the token in localStorage was removed from the frontend. The API client sends requests with `credentials: 'include'` so the browser attaches the cookies:
@@ -188,7 +172,7 @@ volumes:
   pgdata:
 ```
 
-And an `appsettings.Development.json` file with everything the API needs to start locally: CORS for `localhost:3000`, a test bot token and a key for signing JWTs. The frontend README describes how to run it next to the backend and how to sign in locally with test Telegram Mini App data.
+The settings for running the API locally live in `appsettings.Development.json`: CORS is allowed for `localhost:3000`, and there is a test bot token and a key for signing JWTs. How to run the frontend together with the backend and sign in with test Telegram Mini App data is described in the frontend README.
 
 ## Results
 
@@ -201,4 +185,4 @@ And an `appsettings.Development.json` file with everything the API needs to star
 
 ## What comes next
 
-Next, Boards learned to work in Telegram group chats. That is the subject of the next article.
+The next article is about how Boards learned to work in Telegram group chats.

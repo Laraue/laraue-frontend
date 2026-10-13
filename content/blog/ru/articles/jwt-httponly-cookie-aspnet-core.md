@@ -28,7 +28,7 @@ tags: [devlog, dotnet, nuxt, authentication, architecture]
 
 ## Почему cookie, а не localStorage
 
-После входа через Telegram бэкенд выдаёт JWT, а дальше каждый запрос должен его предъявлять. В первой версии фронтенд сохранял токен в localStorage и сам добавлял его в заголовок `Authorization`.
+После входа через Telegram бэкенд выдаёт JWT, и дальше этот токен должен приходить с каждым запросом. В первой версии фронтенд сохранял токен в localStorage и сам добавлял его в заголовок `Authorization`.
 
 Николай предложил хранить токен в HttpOnly-cookie — сейчас это стандартный подход. Cookie с флагом `HttpOnly` недоступна JavaScript на странице: её нельзя прочитать через `document.cookie`, но браузер отправляет её с запросами сам. Фронтенду не нужно хранить токен и подставлять его в каждый запрос.
 
@@ -106,22 +106,6 @@ private static void ReadTokenFromCookie(JwtBearerOptions options, string cookie)
 
 Для схемы пользователя токен читается из cookie `boards_user`, для схемы организации — из `boards_organization`. Заголовок `Authorization` для авторизации больше не нужен.
 
-Новое поведение закрепили интеграционным тестом. Он входит в организацию с cookie пользователя, проверяет, что ответ выставил cookie организации с флагами `HttpOnly` и `SameSite=Lax`, и что с этой cookie запрос к спейсам проходит:
-
-```csharp
-var setCookie = Assert.Single(
-    loginResponse.Headers.GetValues("Set-Cookie"),
-    value => value.StartsWith($"{AuthCookies.Organization}=", StringComparison.Ordinal));
-Assert.Contains("httponly", setCookie, StringComparison.OrdinalIgnoreCase);
-Assert.Contains("samesite=lax", setCookie, StringComparison.OrdinalIgnoreCase);
-
-using var organizationClient = host.CreateClient();
-organizationClient.DefaultRequestHeaders.Add("Cookie", setCookie.Split(';')[0]);
-var spacesResponse = await organizationClient.GetAsync("/api/spaces");
-
-Assert.Equal(HttpStatusCode.OK, spacesResponse.StatusCode);
-```
-
 ## Что поменялось во фронтенде
 
 Код, который сохранял токен в localStorage, из фронтенда убрали. Клиент API отправляет запросы с `credentials: 'include'`, чтобы браузер прикладывал cookie:
@@ -188,7 +172,7 @@ volumes:
   pgdata:
 ```
 
-И файл `appsettings.Development.json`, в котором есть всё, чтобы API запустился локально: CORS для `localhost:3000`, тестовый токен бота и ключ для подписи JWT. В README фронтенда описано, как запустить его рядом с бэкендом и как войти локально с тестовыми данными мини-приложения Telegram.
+Настройки для локального запуска API лежат в `appsettings.Development.json`: там разрешён CORS для `localhost:3000`, указаны тестовый токен бота и ключ для подписи JWT. А как запустить фронтенд вместе с бэкендом и войти с тестовыми данными мини-приложения Telegram, описано в README фронтенда.
 
 ## Итоги
 
@@ -201,4 +185,4 @@ volumes:
 
 ## Что дальше
 
-Дальше Boards научились работать в групповых чатах Telegram. Об этом — следующая статья.
+В следующей статье — о том, как Boards научились работать в групповых чатах Telegram.
