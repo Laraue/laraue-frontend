@@ -107,9 +107,9 @@ public class OrganizationLogItem
 
 Ids alone are not enough: the history should show what the user saw at the moment of the change. If it stored only the id of a list option, then after the option was renamed old records would show the new name, and after it was deleted they would show an empty spot. So the text of the value is saved next to the id, and `PropertyName` keeps the attribute name as it was at the moment of the change.
 
-We named the table `OrganizationLog`, not `IssueHistory`, and every record states the entity type. Today the history holds only tasks and comments, but later we want to record changes of other entities too, in the same table, with no new ones.
+We named the table `OrganizationLog`, not `IssueHistory`, because it is not tied to tasks: every record stores the entity type. Today it holds changes of tasks and comments, and when other entities need a history, it will be stored there too.
 
-## How to write the history
+## How we record the history
 
 For the history to match what happened, it has to be saved together with the change itself, in one transaction. If the change rolls back, there must be no history record, and if the history record is not saved, the change must not be saved either.
 
