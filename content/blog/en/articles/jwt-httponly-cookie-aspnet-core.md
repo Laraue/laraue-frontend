@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 24
 createdAt: 2026-10-13 12:17
-updatedAt: 2026-10-13 12:23
+updatedAt: 2026-10-13 12:56
 projects: [boards]
 tags: [devlog, dotnet, nuxt, authentication, architecture]
 ---
@@ -185,4 +185,4 @@ The settings for running the API locally live in `appsettings.Development.json`:
 
 ## What comes next
 
-Next, the bot learned to work in Telegram group chats: an administrator links a chat to a space with the `/link` command, and any member can turn a message into a task by replying to it and mentioning the bot. That is the subject of the next article.
+Next, the bot learned to work in Telegram group chats: an administrator links a chat to a space with the `/link` command, and any member can turn a message into a task by replying to it and mentioning the bot. That is the subject of the [next article](telegram-group-chat-bot-dotnet).
