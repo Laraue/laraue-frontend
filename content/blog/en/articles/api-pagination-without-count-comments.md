@@ -130,4 +130,4 @@ Creating, editing and deleting a comment are recorded in the [change history](au
 
 ## What comes next
 
-By this time two people were working on the project: Nikolay, a frontend developer, had joined us. The next article is about what changed in the project when a second person came in.
+The comments UI, like the history UI, was built by Nikolay, the frontend developer who was already working on the project with us by then. The next article is about what changed in the project when a second person came in.
