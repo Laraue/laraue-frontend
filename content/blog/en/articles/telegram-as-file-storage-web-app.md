@@ -20,7 +20,7 @@ tags: [devlog, dotnet, telegram, architecture, task-tracker]
 How we built attachments in the web app:
 
 1. Files the user uploads in the web app are sent by the bot to a dedicated Telegram chat. The original stays in Telegram, and a small preview is saved to local storage.
-2. This way we do not pay for file storage and reuse the same path as for media from the bot.
+2. This let us put off setting up S3 and keep files in Telegram for free for now, reusing the same path as for media from the bot.
 3. Files from the bot and from the web are now described by one model: an attachment, a file and a reference to the file in Telegram.
 4. In the first version only JPEG and PNG up to 3 MB can be uploaded.
 5. We will soon move to S3, so as not to depend on Telegram's rules and infrastructure.
@@ -29,7 +29,7 @@ How we built attachments in the web app:
 
 In [part 11](telegram-bot-file-storage-stream) we went through how the bot saves photos and videos from messages. Files are not copied to us in full: we keep a small preview in local storage, and the original is streamed straight from Telegram on request.
 
-When it was time to upload images from the web app, we already had a working path for files that live in Telegram. All that was left was to get a file from the browser into Telegram as well. Then storage costs nothing, and such files can be shown the same way as media from the bot.
+When it was time to upload images from the web app, we already had a working path for files that live in Telegram. All that was left was to get a file from the browser into Telegram as well. Then setting up S3 can wait, files can be kept in Telegram for free for now, and they can be shown the same way as media from the bot.
 
 ## How a file from the browser gets into Telegram
 
@@ -177,7 +177,7 @@ Keeping files in someone else's messenger is a temporary solution. We depend on 
 
 ## Results
 
-- **Telegram as free storage.** The bot sends files from the web app to a dedicated chat, and Telegram makes their previews itself.
+- **Telegram as temporary free storage.** The bot sends files from the web app to a dedicated chat, and Telegram makes their previews itself.
 - **One path for all files.** Files from the bot and from the web are stored and shown the same way.
 - **The model does not depend on the storage location.** The file, where it is stored and the attachment are separate tables.
 - **First-iteration limits.** Only JPEG and PNG up to 3 MB.
