@@ -1,18 +1,18 @@
 ---
 title: Multi-tenancy in a SaaS task tracker — organizations, a personal organization for every user and a separate organization JWT
-description: Part 16 of the series about building a Telegram task tracker solo. How we added organizations to Boards: a shared-database data model, a personal organization for every user, joining by an invite code, and a separate JWT issued when a user enters an organization.
+description: Part 16 of the series about building a Telegram task tracker in a tiny team. How we added organizations to Boards: a shared-database data model, a personal organization for every user, joining by an invite code, and a separate JWT issued when a user enters an organization.
 seoTitle: Multi-Tenancy in a SaaS Task Tracker: Organizations
 seoDescription: Part 16: multi-tenancy in a task tracker — organizations in a shared database, a personal organization per user, invite codes and an organization JWT.
 type: article
 series: architecture-first
 part: 16
 createdAt: 2026-10-12 20:25
-updatedAt: 2026-10-12 20:46
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 16.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 16.
 > In the [previous article](api-integration-testing-aspnet-core) we wrote our first integration tests. With them in place we could take on organizations, a change that touched almost every API request.
 
 ## The short version

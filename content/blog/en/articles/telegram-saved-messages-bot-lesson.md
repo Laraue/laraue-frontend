@@ -1,18 +1,18 @@
 ---
 title: Why users kept choosing Telegram Saved Messages over our bot — and what we changed
-description: Part 10 of building a Telegram task tracker solo. The story of a product mistake — we added epic and status selection to the bot, but real users kept using Saved Messages — and how we fixed it.
+description: Part 10 of building a Telegram task tracker in a tiny team. The story of a product mistake — we added epic and status selection to the bot, but real users kept using Saved Messages — and how we fixed it.
 seoTitle: Why Users Chose Telegram Saved Messages Over Our Bot
 seoDescription: Part 10: a product mistake — we added epic and status selection to the bot, but users kept using Saved Messages. What we learned and how we fixed it.
 type: article
 series: architecture-first
 part: 10
 createdAt: 2026-06-25 13:00
-updatedAt: 2026-07-04 13:00
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, telegram, product]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 10.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 10.
 > In the [previous article](issue-board-telegram-mini-app) we implemented the issue domain and showed the app to its first users. This article is about the product mistake their feedback surfaced — and why we stopped trying to make the bot a full tool for managing boards.
 
 Most of this series is about building. This article is about a feature we finished and then deleted. Real users found it inconvenient. The mistake let us define the principles of which functionality we develop in the bot and which in the web interface.

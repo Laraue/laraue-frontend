@@ -1,18 +1,18 @@
 ---
 title: API integration testing in ASP.NET Core — WebApplicationFactory, a real PostgreSQL and a typed controller proxy
-description: Part 15 of the series about building a Telegram task tracker solo. Why we wrote our first integration tests when the app was already in production, how the test host on WebApplicationFactory with a real database works, and our own proxy that turns a controller method call into an HTTP request.
+description: Part 15 of the series about building a Telegram task tracker in a tiny team. Why we wrote our first integration tests when the app was already in production, how the test host on WebApplicationFactory with a real database works, and our own proxy that turns a controller method call into an HTTP request.
 seoTitle: API Integration Testing in ASP.NET Core with a Typed Proxy
 seoDescription: Part 15: API integration testing in ASP.NET Core with WebApplicationFactory and PostgreSQL, no Testcontainers, and a typed proxy to controllers.
 type: article
 series: architecture-first
 part: 15
 createdAt: 2026-10-12 10:10
-updatedAt: 2026-10-12 20:25
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, architecture, task-tracker, open-source]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 15.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 15.
 > In the [previous article](spaces-in-a-task-tracker-data-model-and-migration) we added spaces. Organizations were the next step, but before them we wrote our first integration tests.
 
 ## The short version

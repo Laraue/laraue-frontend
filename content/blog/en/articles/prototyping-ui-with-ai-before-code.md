@@ -1,17 +1,17 @@
 ﻿---
 title: Prototyping the interface with AI before writing code
-description: Part 2 of building a Telegram task tracker solo. Why we start with the interface, how AI HTML prototypes replaced Figma, and how the first Laraue Boards prototype turned out.
+description: Part 2 of building a Telegram task tracker in a tiny team. Why we start with the interface, how AI HTML prototypes replaced Figma, and how the first Laraue Boards prototype turned out.
 seoDescription: Part 2: why we start with the interface, how AI-made HTML prototypes replaced Figma, and how the first Laraue Boards prototype turned out.
 type: article
 series: architecture-first
 part: 2
 createdAt: 2026-06-19 17:00
-updatedAt: 2026-07-09 13:00
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, product, ai]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 2.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 2.
 > The [first article](building-jira-alternative-solo-why-and-repositories) was about why we are building Laraue Boards and where the code will live. This one is about what we did first. And it was not writing code.
 
 Before choosing the stack, before designing the database schema, and before writing the first line of code, you need to make a prototype of the app. Almost every later decision depends on it: it is hard to design a database structure for a screen you have never seen, and hard to define the user path through an interface that does not exist yet. The prototype turns a vague product idea into a vision you can build on.

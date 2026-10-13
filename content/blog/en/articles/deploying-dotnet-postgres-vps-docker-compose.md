@@ -1,18 +1,18 @@
 ﻿---
 title: Deploying a .NET app and PostgreSQL to a cheap VPS with Docker Compose
-description: Part 6 of building a Telegram task tracker solo. Deploying to a cheap VPS with Docker Compose — self-hosted PostgreSQL tuned for 1 GB of RAM, a GitHub CI pipeline running on push to main, and a walkthrough of the Dockerfiles.
+description: Part 6 of building a Telegram task tracker in a tiny team. Deploying to a cheap VPS with Docker Compose — self-hosted PostgreSQL tuned for 1 GB of RAM, a GitHub CI pipeline running on push to main, and a walkthrough of the Dockerfiles.
 seoTitle: Deploy .NET and PostgreSQL to a Cheap VPS with Docker
 seoDescription: Part 6: Docker Compose on a cheap VPS — self-hosted PostgreSQL tuned for 1 GB of RAM, a GitHub CI pipeline on push to main, and the Dockerfiles.
 type: article
 series: architecture-first
 part: 6
 createdAt: 2026-06-22 12:00
-updatedAt: 2026-07-07 09:00
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, database, deployment]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 6.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 6.
 > The [previous article](clean-dotnet-telegram-bot-architecture) ended with the first version of the backend, running only on a local machine. In this one we deploy it to a real server.
 
 The goal of this article is to deploy the bot on the cheapest infrastructure that can possibly handle the job: a small VPS, Docker Compose, self-hosted PostgreSQL with configured memory limits, and a GitHub CI pipeline that uploads the app's artifacts on every push to `main`.

@@ -1,18 +1,18 @@
 ---
 title: Task change history — how we built an audit log in a task tracker
-description: Part 20 of the series about building a Telegram task tracker solo. How Boards got a change history for tasks, why we write it explicitly in services in the same transaction as the changes themselves, and why EF Core interceptors, temporal tables and event sourcing did not fit.
+description: Part 20 of the series about building a Telegram task tracker in a tiny team. How Boards got a change history for tasks, why we write it explicitly in services in the same transaction as the changes themselves, and why EF Core interceptors, temporal tables and event sourcing did not fit.
 seoTitle: Audit Log in ASP.NET Core: Change History in One Transaction
 seoDescription: Part 20: an audit log in a task tracker — why change history is written in services in the same transaction, not with EF Core interceptors or event sourcing.
 type: article
 series: architecture-first
 part: 20
 createdAt: 2026-10-13 09:28
-updatedAt: 2026-10-13 10:19
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 20.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 20.
 > In the [previous article](custom-fields-postgresql-eav-vs-jsonb) tasks got attributes. When several people can change a task, sooner or later someone asks: who changed this, and when?
 
 ## The short version

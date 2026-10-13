@@ -1,18 +1,18 @@
 ---
 title: How we rewrote the frontend — a Nuxt architecture with explicit dependencies, Vitest tests and rules for AI agents
-description: Part 23 of the series about building a Telegram task tracker solo. Why the Boards UI had to be rewritten, how the new frontend architecture works with every page declaring its dependencies explicitly, how that helps Vitest tests, and why the repository has a file of rules for AI agents.
+description: Part 23 of the series about building a Telegram task tracker in a tiny team. Why the Boards UI had to be rewritten, how the new frontend architecture works with every page declaring its dependencies explicitly, how that helps Vitest tests, and why the repository has a file of rules for AI agents.
 seoTitle: Frontend Rewrite: Nuxt Architecture and Testing with Vitest
 seoDescription: Part 23: rewriting a task tracker frontend — a Nuxt architecture with explicit page dependencies, types from OpenAPI, Vitest tests and rules for AI agents.
 type: article
 series: architecture-first
 part: 23
 createdAt: 2026-10-13 11:35
-updatedAt: 2026-10-13 11:35
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, nuxt, architecture, ai, task-tracker]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 23.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 23.
 > In the [previous article](api-pagination-without-count-comments) we went through comments. Their UI, like the change history UI, was built by Nikolay. This article is about how he rewrote the whole frontend.
 
 ## The short version
@@ -158,4 +158,4 @@ Frontend tasks were taken from the same board in Boards, and changes came in as 
 
 ## What comes next
 
-Before rewriting the frontend, Nikolay changed a few things in the backend: the token moved from localStorage into an HttpOnly cookie, CORS settings appeared, and `docker-compose` for running the project locally. That is the subject of the next article.
+Before rewriting the frontend, Nikolay changed a few things in the backend: the token moved from localStorage into an HttpOnly cookie, CORS settings appeared, and `docker-compose` for running the project locally. That is the subject of the [next article](jwt-httponly-cookie-aspnet-core).

@@ -1,18 +1,18 @@
 ﻿---
-title: Building a Jira alternative solo — why we are doing it and the repository links
-description: Part 1 of building a Telegram task tracker solo with AI. What problem we are solving, why the world needs another task tracker, and which two repositories the article series is built on.
-seoTitle: Building a Jira Alternative Solo: Why and Where the Code Is
-seoDescription: Part 1 of building a Telegram task tracker solo with AI: the problem we solve, why the world needs another task tracker, and the two repositories.
+title: Building a Jira alternative in a tiny team — why we are doing it and the repository links
+description: Part 1 of building a Telegram task tracker in a tiny team with AI. What problem we are solving, why the world needs another task tracker, and which two repositories the article series is built on.
+seoTitle: A Jira Alternative in a Tiny Team: Why and Where the Code Is
+seoDescription: Part 1 of building a Telegram task tracker in a tiny team with AI: the problem we solve, why the world needs another task tracker, and the two repositories.
 type: article
 series: architecture-first
 part: 1
 createdAt: 2026-06-19 13:00
-updatedAt: 2026-09-30 07:44
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, product, task-tracker]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 1.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 1.
 > This is the introductory article of a series about how Laraue Boards is being built: the decisions, the trade-offs, and the mistakes. Development is iterative; each article solves a problem or produces a new version of the app. If you are interested in the product itself rather than how it is made, you can open the [project](https://boards.laraue.com), the page with [detailed description](../projects/boards) or [documentation](https://boards.laraue.com/en/documentation).
 
 The first article is about why we decided to write yet another task tracker, what the product is meant to be, and where to see its source. The engineering part is described in the following articles.

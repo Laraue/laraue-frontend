@@ -1,18 +1,18 @@
 ﻿---
 title: Деплой .NET-приложения и PostgreSQL на дешёвый VPS через Docker Compose
-description: Часть 6 цикла о разработке Telegram-таск-трекера в одиночку. Выкладываем бота на недорогой VPS: Docker Compose, PostgreSQL на том же сервере с настройкой под 1 ГБ памяти, GitHub Actions на каждый push в main и разбор Dockerfile.
+description: Часть 6 цикла о разработке Telegram-таск-трекера небольшой командой. Выкладываем бота на недорогой VPS: Docker Compose, PostgreSQL на том же сервере с настройкой под 1 ГБ памяти, GitHub Actions на каждый push в main и разбор Dockerfile.
 seoTitle: Деплой .NET и PostgreSQL на дешёвый VPS через Docker
 seoDescription: Часть 6: Docker Compose на дешёвом VPS — PostgreSQL под 1 ГБ RAM, GitHub Actions на push в main, Dockerfile и закрытый доступ к базе через pg_hba.conf.
 type: article
 series: architecture-first
 part: 6
 createdAt: 2026-06-22 12:00
-updatedAt: 2026-10-03 19:00
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, database, deployment]
 ---
 
-> **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 6.
+> **Architecture First: как небольшой командой с ИИ сделать альтернативу Jira** — Часть 6.
 > [Предыдущая статья](clean-dotnet-telegram-bot-architecture) закончилась первой версией бэкенда, которая работала только на локальной машине. Сейчас выкладываем её на настоящий сервер.
 
 Задача простая: запустить бота на самой дешёвой инфраструктуре, которая с ним справится. Один небольшой VPS, Docker Compose, PostgreSQL на том же сервере с ограничением по памяти и GitHub Actions, который на каждый push в `main` собирает проект и отправляет результат на сервер.

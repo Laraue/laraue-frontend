@@ -1,18 +1,18 @@
 ﻿---
 title: Чистая архитектура Telegram-бота на .NET — контроллеры вместо гигантского switch
-description: Часть 5 цикла о разработке Telegram-таск-трекера в одиночку. Telegram-бот на .NET с контроллерами и middleware в стиле ASP.NET вместо гигантского switch, слоистая структура решения и связка EF Core с linq2db на одних и тех же моделях.
+description: Часть 5 цикла о разработке Telegram-таск-трекера небольшой командой. Telegram-бот на .NET с контроллерами и middleware в стиле ASP.NET вместо гигантского switch, слоистая структура решения и связка EF Core с linq2db на одних и тех же моделях.
 seoTitle: Архитектура Telegram-бота на .NET: контроллеры вместо switch
 seoDescription: Часть 5: контроллеры и middleware в стиле ASP.NET для Telegram-бота, слоистая структура решения и связка EF Core с linq2db на одних моделях.
 type: article
 series: architecture-first
 part: 5
 createdAt: 2026-06-21
-updatedAt: 2026-10-04 16:00
+updatedAt: 2026-10-13 12:23
 projects: [boards, telegram-net]
 tags: [devlog, dotnet, telegram, architecture]
 ---
 
-> **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 5.
+> **Architecture First: как небольшой командой с ИИ сделать альтернативу Jira** — Часть 5.
 > Первые четыре статьи были о подготовке: зачем мы это делаем, как выглядит путь пользователя, какой стек выбран. Здесь мы наконец пишем бэкенд настоящего Telegram-бота.
 
 Цель первой итерации скромная: бэкенд, который принимает сообщения пользователей в Telegram и сохраняет их. Пока без web API и фронтенда: бот только принимает сообщение и кладёт его в базу.

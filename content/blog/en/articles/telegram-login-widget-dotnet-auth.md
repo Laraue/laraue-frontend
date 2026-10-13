@@ -1,18 +1,18 @@
 ---
 title: Telegram Login Widget vs Mini App auth in .NET — two validation schemes, one JWT
-description: Part 13 of building a Telegram task tracker solo. How to add Telegram Login Widget authentication to a .NET and Nuxt web app next to the Mini App's: linking the domain in BotFather, validating the widget data (a different secret from init data), rejecting outdated data by auth_date, and issuing the same JWT.
+description: Part 13 of building a Telegram task tracker in a tiny team. How to add Telegram Login Widget authentication to a .NET and Nuxt web app next to the Mini App's: linking the domain in BotFather, validating the widget data (a different secret from init data), rejecting outdated data by auth_date, and issuing the same JWT.
 seoTitle: Telegram Login Widget vs Mini App Auth in .NET, One JWT
 seoDescription: How to add Telegram Login Widget authentication to a .NET web app next to Mini App auth: /setdomain, the hash check, auth_date, one JWT.
 type: article
 series: architecture-first
 part: 13
 createdAt: 2026-07-01
-updatedAt: 2026-10-03 18:02
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, nuxt, telegram, authentication]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 13.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 13.
 > The [previous article](telegram-media-group-album-bot) finished the last piece of functionality planned for the bot's MVP. Here we move to the web version users asked for — and to ship it, the app first needs authentication that works outside Telegram Mini App.
 
 ## The short version

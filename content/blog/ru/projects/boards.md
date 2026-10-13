@@ -9,7 +9,7 @@ description: Laraue Boards — опенсорсный таск-трекер с �
 seoTitle: Laraue Boards: как мы его делаем
 seoDescription: История и исходный код Laraue Boards — опенсорсного таск-трекера с интеграцией Telegram. Сам продукт — на boards.laraue.com.
 createdAt: 2026-04-16
-updatedAt: 2026-10-02 20:45
+updatedAt: 2026-10-13 12:23
 ---
 
 Laraue Boards — опенсорсный таск-трекер с интеграцией Telegram и основной продукт, который мы делаем. Всё о самом продукте — что он умеет, как попробовать, документация — на его собственном сайте: **[boards.laraue.com](https://boards.laraue.com)**.
@@ -26,6 +26,6 @@ Laraue Boards — опенсорсный таск-трекер с интегра
 
 ## Как он устроен
 
-Мы делаем Boards в одиночку, с помощью ИИ, и записываем решения по ходу дела. Цикл статей начинается с [того, зачем мы делаем ещё один таск-трекер](../articles/building-jira-alternative-solo-why-and-repositories), и проходит через стек, Telegram-бота, аутентификацию, деплой и веб-версию. Все части — под тегом [devlog](https://laraue.com/ru/blog?tag=devlog).
+Мы делаем Boards небольшой командой, с помощью ИИ, и записываем решения по ходу дела. Цикл статей начинается с [того, зачем мы делаем ещё один таск-трекер](../articles/building-jira-alternative-solo-why-and-repositories), и проходит через стек, Telegram-бота, аутентификацию, деплой и веб-версию. Все части — под тегом [devlog](https://laraue.com/ru/blog?tag=devlog).
 
 Мы также ведём в Boards его собственный бэклог, подключив ИИ-агента по MCP — см. [как мы ведём бэклог в Boards через Claude Code](../articles/running-our-backlog-with-claude-code-mcp).

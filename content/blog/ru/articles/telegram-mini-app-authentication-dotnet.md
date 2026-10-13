@@ -1,6 +1,6 @@
 ---
 title: Аутентификация Telegram Mini App в .NET от и до — валидация initData, выпуск JWT и фронтенд на Nuxt
-description: Часть 8 цикла о разработке Telegram-таск-трекера в одиночку. Как аутентифицировать пользователя Telegram Mini App в .NET и Nuxt: проверка хеша initData через HMAC-SHA256, отклонение устаревших данных по auth_date, выпуск и использование JWT, пользователь из HttpContext и почему важен CORS.
+description: Часть 8 цикла о разработке Telegram-таск-трекера небольшой командой. Как аутентифицировать пользователя Telegram Mini App в .NET и Nuxt: проверка хеша initData через HMAC-SHA256, отклонение устаревших данных по auth_date, выпуск и использование JWT, пользователь из HttpContext и почему важен CORS.
 seoTitle: Аутентификация Telegram Mini App в .NET: initData и JWT
 seoDescription: Как провалидировать initData Telegram Mini App в .NET: хеш HMAC-SHA256, проверка auth_date, JWT и пользователь из HttpContext. Часть 8.
 type: article
@@ -8,12 +8,12 @@ featured: true
 series: architecture-first
 part: 8
 createdAt: 2026-06-24 08:00
-updatedAt: 2026-10-03 17:50
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, nuxt, telegram, authentication]
 ---
 
-> **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 8.
+> **Architecture First: как небольшой командой с ИИ сделать альтернативу Jira** — Часть 8.
 > В [Предыдущей статье](deploy-nuxt-telegram-mini-app-https-nginx) мы добились того, что Mini App открывается внутри Telegram и отображает JSON с объектом пользователя. Но этим данным пока нельзя доверять. В этой статье мы делаем настоящую аутентификацию — добавляем бэкенд для приложения и проверку на корректность данных на его стороне.
 
 ## Краткое содержание

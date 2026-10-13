@@ -1,18 +1,18 @@
 ---
 title: Sequential issue numbers — a counter on PostgreSQL INSERT ON CONFLICT, space keys and organization URLs
-description: Part 18 of the series about building a Telegram task tracker solo. How issues got sequential numbers like BRD-42, why a counter on INSERT ... ON CONFLICT DO UPDATE suited them better than a PostgreSQL sequence, and how space keys and organization URLs work.
+description: Part 18 of the series about building a Telegram task tracker in a tiny team. How issues got sequential numbers like BRD-42, why a counter on INSERT ... ON CONFLICT DO UPDATE suited them better than a PostgreSQL sequence, and how space keys and organization URLs work.
 seoTitle: Sequential Issue Numbers with PostgreSQL INSERT ON CONFLICT
 seoDescription: Part 18: sequential issue numbers like BRD-42 — a counter on PostgreSQL INSERT ON CONFLICT DO UPDATE instead of a sequence, space keys and organization slugs.
 type: article
 series: architecture-first
 part: 18
 createdAt: 2026-10-12 21:35
-updatedAt: 2026-10-12 22:45
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 18.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 18.
 > In the [previous article](access-control-without-roles-task-tracker-permissions) we went through access control. When several people work in an organization, they need a way to refer to each other's tasks, and an internal `id` is hard to say and remember.
 
 ## The short version
