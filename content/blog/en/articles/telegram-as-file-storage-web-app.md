@@ -173,7 +173,7 @@ Files arrive in a regular `multipart/form-data` request together with the task t
 
 ## What we risk
 
-Keeping files in someone else's messenger is a temporary solution. We depend on Telegram's rules and infrastructure: if something changes, the files may become unavailable. For now the load is small, only a few files are uploaded a day, and the approach is justified. The next step is to move to S3 and migrate all files there. Thanks to the shared attachment model, that needs a new storage location, not a rework of everything that deals with files.
+Storing files in Telegram works, but we see it as temporary. We depend on Telegram's rules and infrastructure: if something changes, the files may become unavailable. For now the load is small, only a few files are uploaded a day, and the approach is justified. The next step is to move to S3 and migrate all files there. Thanks to the shared attachment model, that needs a new storage location, not a rework of everything that deals with files.
 
 ## Results
 
