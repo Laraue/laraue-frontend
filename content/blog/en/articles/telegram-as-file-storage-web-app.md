@@ -50,6 +50,8 @@ public class TelegramOptions
 }
 ```
 
+We created the chat by hand: added the bot to it, made it an administrator, and then left the chat ourselves. Now only the bot is in the chat, and only it has access to the uploaded files; people, including us, do not.
+
 When a user attaches an image to a task, the backend sends it to that chat as a regular photo. Telegram stores the original itself and makes several smaller copies. From the response we take the smallest copy as the preview and the largest as the original:
 
 ```csharp
