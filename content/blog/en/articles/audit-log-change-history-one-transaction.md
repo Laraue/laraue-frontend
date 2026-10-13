@@ -111,7 +111,7 @@ We named the table `OrganizationLog`, not `IssueHistory`, because it is not tied
 
 ## How we record the history
 
-For the history to match what happened, it has to be saved together with the change itself, in one transaction. If the change rolls back, there must be no history record, and if the history record is not saved, the change must not be saved either.
+For the history to match what happened, it has to be saved together with the change itself, in one transaction. If the change rolls back, there must be no history record.
 
 There are several common ways to keep a history. Here is why they did not fit us.
 
