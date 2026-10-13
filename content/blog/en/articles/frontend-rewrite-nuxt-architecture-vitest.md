@@ -145,7 +145,7 @@ Rules like these are especially useful when AI writes the code: an agent tends t
 
 ## How we split the work
 
-Frontend tasks were taken from the same board in Boards, and changes came in as pull requests. The backend part of the changes was reviewed. The frontend we left entirely to Nikolay: the backend developer did not have the experience to assess frontend code and relied on him.
+Frontend tasks were taken from the same board in Boards, and changes came in as pull requests. The backend part of the changes was reviewed. The frontend we left entirely to Nikolay.
 
 ## Results
 
