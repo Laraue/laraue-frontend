@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 25
 createdAt: 2026-10-13 12:56
-updatedAt: 2026-10-13 12:56
+updatedAt: 2026-10-13 13:39
 projects: [boards]
 tags: [devlog, dotnet, telegram, architecture, task-tracker]
 ---
@@ -191,4 +191,4 @@ public Task HandleChatMigrated(long oldChatId, long newChatId, CancellationToken
 
 ## Что дальше
 
-Следующая статья — о том, как в Boards появился ИИ: краткое содержание задач и сообщений.
+[Следующая статья](deepseek-api-dotnet-openai-compatible) — о том, как в Boards появился ИИ, который приводит в порядок текст задач.
