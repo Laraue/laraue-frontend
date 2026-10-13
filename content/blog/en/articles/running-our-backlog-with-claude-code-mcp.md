@@ -1,14 +1,20 @@
 ---
 title: How we run our backlog in Boards with Claude Code over MCP
-description: We built an MCP server for Laraue Boards to understand how MCP works, then started using it with Claude Code every day. How the first version came together in two hours, what was wrong with it, and the daily loop it made possible.
+description: Part 27 of the series about building a Telegram task tracker in a tiny team. We built an MCP server for Laraue Boards to understand how MCP works, then started using it with Claude Code every day. How the first version came together in two hours, what was wrong with it, and the daily loop it made possible.
 seoDescription: We built an MCP server for Laraue Boards, then used it with Claude Code daily: how v1 came together in two hours, what was wrong, and the loop it enabled.
+seoTitle: MCP Server for a Task Tracker: Our Backlog in Claude Code
 type: article
+series: architecture-first
+part: 27
 featured: true
 createdAt: 2026-10-02 10:31
-updatedAt: 2026-10-02 10:31
+updatedAt: 2026-10-13 14:04
 projects: [boards]
 tags: [devlog, ai, task-tracker, dotnet]
 ---
+
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 27.
+> In the [previous article](deepseek-api-dotnet-openai-compatible) AI started tidying up task text. As the next step, we gave AI agents access to the tasks themselves through an MCP server.
 
 Our backlog lives in [Laraue Boards](https://boards.laraue.com), the task tracker we are building. Boards has a remote MCP server, so an AI agent can read and update it. We use it every day now: we ask Claude Code what to work on, it looks at the board and the code, we pick a task and it gets started. This is how we got there.
 
@@ -99,3 +105,7 @@ There are smaller limits too. Attachments are limited to images (JPEG and PNG, u
 ## Try it
 
 Create an API key, add the server to Claude Code or Cursor, and ask: *"List the spaces in my Boards organization."* If it answers with your spaces, you are connected. The [backlog guide](https://boards.laraue.com/en/documentation/use-cases/ai-agent-backlog) lists what to ask next, and Boards itself is at [boards.laraue.com](https://boards.laraue.com).
+
+## What comes next
+
+The next article is about signing in with Google and how we merge the accounts of one person who signed in in different ways.
