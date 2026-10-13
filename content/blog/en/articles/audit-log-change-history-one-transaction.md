@@ -105,11 +105,11 @@ public class OrganizationLogItem
 
 `PropertyType` says what exactly changed: the text, the status, the assignee, an attribute, an attachment, the board or the space. For references to other entities their id is stored (`OldValueId`, `NewValueId`), and next to it the value to show the user (`OldDisplayValue`, `NewDisplayValue`).
 
-The display values are there for a reason. If the history stored only the id of an attribute or a list option, then after the attribute is renamed the history would show the new name, and after it is deleted it would show nothing at all. The history should show what the user saw at the moment of the change. The attribute name is also saved in the history item (`PropertyName`) for the same reason.
+The display values are there for a reason. If the history stored only the id of an attribute or a list option, then after the attribute is renamed the history would show the new name, and after it is deleted it would show nothing at all. The history should show what the user saw at the moment of the change. For the same reason the history item also stores the attribute name (`PropertyName`): if the attribute is renamed, old records keep the name it had at the moment of the change.
 
-The table is called `OrganizationLog`, not `IssueHistory`, and a record has an entity type: today these are tasks and comments, but later we want to log other entities too, and that will not need a new table.
+We named the table `OrganizationLog`, not `IssueHistory`, and every record states the entity type. Today the history holds only tasks and comments, but later we want to record changes of other entities too, in the same table, with no new ones.
 
-## Where to write the history
+## How to write the history
 
 For the history to match what happened, it has to be saved together with the change itself, in one transaction. If the change rolls back, there must be no history record, and if the history record is not saved, the change must not be saved either.
 
