@@ -103,9 +103,9 @@ public class OrganizationLogItem
 }
 ```
 
-`PropertyType` says what exactly changed: the text, the status, the assignee, an attribute, an attachment, the board or the space. For references to other entities their id is stored (`OldValueId`, `NewValueId`), and next to it the value to show the user (`OldDisplayValue`, `NewDisplayValue`).
+`PropertyType` defines what exactly changed: the text, the status, the assignee, an attribute, an attachment, the board or the space. For references to other entities their id is stored (`OldValueId`, `NewValueId`), and next to it the value as the user saw it (`OldDisplayValue`, `NewDisplayValue`).
 
-If the history stored only the id of an attribute or a list option, then after the attribute is renamed the history would show the new name, and after it is deleted it would show nothing at all. The history should show what the user saw at the moment of the change. For the same reason the history item also stores the attribute name (`PropertyName`): if the attribute is renamed, old records keep the name it had at the moment of the change.
+Ids alone are not enough: the history should show what the user saw at the moment of the change. If it stored only the id of a list option, then after the option was renamed old records would show the new name, and after it was deleted they would show an empty spot. So the text of the value is saved next to the id, and `PropertyName` keeps the attribute name as it was at the moment of the change.
 
 We named the table `OrganizationLog`, not `IssueHistory`, and every record states the entity type. Today the history holds only tasks and comments, but later we want to record changes of other entities too, in the same table, with no new ones.
 
