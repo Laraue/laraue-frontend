@@ -22,7 +22,7 @@ How we added AI to Boards:
 1. AI takes the text of a task, a batch of ideas or ordinary speech from a chat, and turns it into a neat message: a title and formatted text without repetition. It adds no new facts.
 2. In production we use DeepSeek: it has the lowest price with quality that is enough for this task. For local development we use Ollama, the simplest cross-platform option.
 3. Both DeepSeek and Ollama support the OpenAI-compatible API, so there is one client, and the provider is switched in the settings.
-4. We wrote the client ourselves on `HttpClient`, without an SDK: that is simpler for now, and Microsoft's AI packages still change often.
+4. The client is a plain `HttpClient` without an SDK: Microsoft has its own AI packages, but they do not look stable yet.
 5. In Telegram there is the `/aisave` command for it, and in the web app an "Improve with AI" button in the task editor.
 6. If AI is unavailable, the user gets a clear message, and the original text does not go anywhere.
 
@@ -104,7 +104,7 @@ The "thinking" mode is off by default: rephrasing text does not need it, and ans
 
 ## A client without an SDK
 
-There are ready-made clients for OpenAI-compatible APIs, including Microsoft's AI packages. But for now it is simpler to write the request ourselves: we need one method, and Microsoft's AI packages are still unstable and change often. When they settle, we may switch to them; for now it makes no difference.
+There are ready-made clients for OpenAI-compatible APIs, and Microsoft has also released its own AI packages. But they do not look stable yet, so we use a plain `HttpClient`: we only need one request. Once Microsoft's packages settle, we can switch to them.
 
 The client is registered as a typed `HttpClient` that gets the provider's address and key right away:
 
@@ -192,7 +192,7 @@ In the web app the task editor has an "Improve with AI" button. It sends the tex
 - **The model adds no facts.** That is the main constraint in the prompt.
 - **DeepSeek in production, Ollama for local development.** The lowest price with sufficient quality, and the simplest cross-platform setup.
 - **One client for all providers.** The OpenAI-compatible API lets us switch providers in the settings.
-- **No SDK.** Our own client on `HttpClient` is simpler for now than unstable packages.
+- **No SDK.** A plain `HttpClient` until Microsoft's AI packages look stable.
 - **An AI failure does not lose the text.** The user sees a clear message, and the original text stays.
 
 ## What comes next
