@@ -21,7 +21,7 @@ How task comments work:
 
 1. A comment is text up to 4096 characters, an author, creation and update dates, and a list of attachments.
 2. Anyone with access to a task sees its comments. Anyone who can update the task can write them.
-3. Only the author can edit or delete a comment. There is no moderation yet, because nobody needs it.
+3. Only the author can edit or delete a comment. Nobody can edit other people's comments yet: users have not needed that so far.
 4. Comments load in a separate background request, so a task opens right away even if the discussion is long.
 5. Pagination does not count all comments: the query fetches one row more than needed and uses it to tell whether there is a next page.
 6. Creating, editing and deleting comments end up in the task's change history.
@@ -66,7 +66,7 @@ if (comment?.OwnerId != request.AuthData.UserId)
     throw new ForbiddenException($"Comment: {request.CommentId} is not exists or not available to edit");
 ```
 
-We have not built moderation of other people's comments yet, since nobody needs it right now.
+We have not added a way to edit other people's comments yet: users have not needed it so far.
 
 The UI needs to know whether to show "Edit" and "Delete" on a comment. So the `CanModify` flag is computed right in the query that loads the comments, and there is no need to check permissions for each comment separately.
 
@@ -121,7 +121,7 @@ Creating, editing and deleting a comment are recorded in the [change history](au
 ## Results
 
 - **Anyone with access to a task can read, anyone who can update it can write.**
-- **Only the author edits and deletes.** There is no moderation yet, because nobody needs it.
+- **Only the author edits and deletes.** Nobody can edit other people's comments yet: there has been no need for it.
 - **A separate background request.** The task opens right away, and comments load right after.
 - **Pagination without COUNT.** The query fetches one record more than the page size to tell whether there is a next page.
 - **The same attachments and the same history.** Comments use the shared attachment model and write to the shared audit log.
