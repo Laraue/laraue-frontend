@@ -28,7 +28,7 @@ How the Boards bot learned to work in group chats:
 
 ## Why the bot needs groups
 
-The main reason was our own team chat. We discussed tasks in a Telegram group and wanted to turn messages from the discussion into tasks without copying them into the private chat with the bot.
+The main reason was our own team chat. We discussed tasks in a Telegram group and wanted any message from the discussion to be turned into a task with a single command right in the chat.
 
 It turned out groups are useful not only for teams. A user can create several groups with only themselves and the bot in them and link each one to its own board: one group for work notes, another for shopping. Then every message in a group lands on the right board right away.
 
