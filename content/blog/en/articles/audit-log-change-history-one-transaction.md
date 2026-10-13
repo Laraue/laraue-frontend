@@ -6,8 +6,8 @@ seoDescription: Part 20: an audit log in a task tracker — why change history i
 type: article
 series: architecture-first
 part: 20
-createdAt: 2026-10-14 14:00
-updatedAt: 2026-10-14 14:00
+createdAt: 2026-10-13 09:28
+updatedAt: 2026-10-13 10:19
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---

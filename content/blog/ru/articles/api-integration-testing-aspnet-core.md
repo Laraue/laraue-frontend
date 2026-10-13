@@ -6,8 +6,8 @@ seoDescription: Часть 15: тестирование API в ASP.NET Core на
 type: article
 series: architecture-first
 part: 15
-createdAt: 2026-10-12 14:00
-updatedAt: 2026-10-12 14:00
+createdAt: 2026-10-12 10:10
+updatedAt: 2026-10-12 20:25
 projects: [boards]
 tags: [devlog, dotnet, architecture, task-tracker, open-source]
 ---

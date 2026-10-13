@@ -6,8 +6,8 @@ seoDescription: Part 16: multi-tenancy in a task tracker — organizations in a 
 type: article
 series: architecture-first
 part: 16
-createdAt: 2026-10-13 14:00
-updatedAt: 2026-10-13 14:00
+createdAt: 2026-10-12 20:25
+updatedAt: 2026-10-12 20:46
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---

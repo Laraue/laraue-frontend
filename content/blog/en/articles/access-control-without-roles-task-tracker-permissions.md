@@ -6,8 +6,8 @@ seoDescription: Part 17: access control in a task tracker without roles (RBAC) â
 type: article
 series: architecture-first
 part: 17
-createdAt: 2026-10-14 14:00
-updatedAt: 2026-10-14 14:00
+createdAt: 2026-10-12 20:46
+updatedAt: 2026-10-12 21:35
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---

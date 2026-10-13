@@ -6,8 +6,8 @@ seoDescription: Part 14: how we added spaces to a task tracker — a required sp
 type: article
 series: architecture-first
 part: 14
-createdAt: 2026-10-11 14:00
-updatedAt: 2026-10-11 14:00
+createdAt: 2026-10-12 09:51
+updatedAt: 2026-10-12 10:10
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
