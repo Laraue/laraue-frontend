@@ -175,16 +175,6 @@ if (change.Items.Count != 0)
 
 The methods that change attachments and attributes return their own history items, and the record is saved only if something actually changed. Saving a task without changes leaves no empty records in the history.
 
-The Core service does not open a transaction itself, but it requires one to be open already. If it is called without a transaction, it fails right away instead of writing the changes and the history separately:
-
-```csharp
-public static void EnsureTransactionStarted(this DatabaseFacade facade)
-{
-    if (facade.CurrentTransaction == null)
-        throw new InvalidOperationException("Database transaction is required.");
-}
-```
-
 ## What the user sees
 
 In the web app the task page got a "History" tab next to the comments. Each record shows who did what and when, and inside it the changed fields with their old and new values. Creating and deleting a task also end up in the history, as do changes to comments. The history UI was built by Nikolay, the frontend developer who had joined the project by then.
