@@ -164,6 +164,7 @@ if (oldContent != content)
     change.Items.Add(GetContentLogItem(oldContent, content));
 }
 
+// other changes (assignee, attachments) are processed the same way
 change.Items.AddRange(await UpdateAttributes(issueId, issueData.OrganizationId, attributes, cancellationToken));
 
 if (change.Items.Count != 0)

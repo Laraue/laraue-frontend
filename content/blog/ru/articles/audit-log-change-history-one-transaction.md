@@ -164,6 +164,7 @@ if (oldContent != content)
     change.Items.Add(GetContentLogItem(oldContent, content));
 }
 
+// остальные изменения (исполнитель, вложения) обрабатываются так же
 change.Items.AddRange(await UpdateAttributes(issueId, issueData.OrganizationId, attributes, cancellationToken));
 
 if (change.Items.Count != 0)
