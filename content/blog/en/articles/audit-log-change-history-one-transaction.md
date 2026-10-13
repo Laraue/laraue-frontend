@@ -22,9 +22,9 @@ How we built the change history of tasks:
 1. The history lives in two tables: a record of the action (who, when, which entity, what was done) and the list of changed fields with their old and new values.
 2. The service that changes the task writes the records itself, in the same transaction. If the change is not saved, there is no history record either, and vice versa.
 3. EF Core interceptors and temporal tables did not fit: deciding what counts as a change and how to show it is business logic, and it belongs neither in an interceptor nor in the database.
-4. Event sourcing did not fit either: the history must always match the data, while events need a bus, and values can drift from the history for a while.
+4. Event sourcing did not fit either. It needs an event bus, which we do not have, and with it the data can differ from the history for a while. We needed the history to always reflect exactly what happened.
 5. The history stores values in the form they are shown in, so it stays readable even if an attribute is renamed or deleted later.
-6. The table is called `OrganizationLog`, not "issue history": other entities will write to it later.
+6. The table is called `OrganizationLog`, not "issue history", because later we want to keep changes of other entities in it too, not only of tasks.
 
 ## Why a task needs a history
 
