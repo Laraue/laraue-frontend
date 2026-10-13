@@ -133,8 +133,6 @@ const deps = {
 "pre-commit": "pnpm fix && pnpm typecheck && pnpm test && pnpm build"
 ```
 
-Кроме ESLint, в проекте есть oxlint и stylelint для стилей.
-
 ## Правила для ИИ-агентов
 
 Николай много работает с ИИ и перенёс свой подход к разработке во фронтенд Boards. Правила архитектуры записаны в файле `AGENTS.md`, который начинается так: «This file is the source of truth for changes in this repository». Его читают и люди, и ИИ-агенты, которые пишут код.

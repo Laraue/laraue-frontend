@@ -135,8 +135,6 @@ Before a commit a single command fixes formatting, checks types, runs the tests 
 "pre-commit": "pnpm fix && pnpm typecheck && pnpm test && pnpm build"
 ```
 
-Besides ESLint, the project has oxlint and stylelint for styles.
-
 ## Rules for AI agents
 
 Nikolay works with AI a lot and brought his approach to development into the Boards frontend. The architecture rules are written down in the `AGENTS.md` file, which starts with: "This file is the source of truth for changes in this repository". It is read both by people and by the AI agents that write code.
