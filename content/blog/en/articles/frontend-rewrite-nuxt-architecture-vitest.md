@@ -139,7 +139,7 @@ Before a commit a single command fixes formatting, checks types, runs the tests 
 
 Nikolay works with AI a lot and brought his approach to development into the Boards frontend. The architecture rules are written down in the `AGENTS.md` file, which starts with: "This file is the source of truth for changes in this repository". It is read both by people and by the AI agents that write code.
 
-The file describes everything covered above: how dependencies flow, where contracts and implementations live, and that UI components must not import API types. There are also rules against unnecessary abstractions, for example not to extract a shared contract until it has a second real consumer, and not to add factories and wrappers where an implementation can perform the page operation directly.
+The file describes everything covered above: how dependencies are passed from the route to the page and its components, where contracts and implementations live, and that UI components must not import API types. There are also rules against unnecessary abstractions, for example not to extract a shared contract until it has a second real consumer, and not to add factories and wrappers where an implementation can perform the page operation directly.
 
 Rules like these are especially useful when AI writes the code: an agent tends to add layers and shared services "just in case", and an explicit ban keeps the code simple.
 
