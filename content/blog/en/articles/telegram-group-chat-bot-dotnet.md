@@ -79,7 +79,7 @@ public enum SaveMode
 }
 ```
 
-In `EachMessage` mode every message becomes a task, which is convenient in the private chat with the bot or in a group a user set up for one board. In `BotMentionedMessages` mode the bot stays quiet until it is called: a member replies to the message they need and mentions the bot, and the replied-to message becomes a task. This is the mode for a team chat, where most messages are ordinary conversation.
+In `EachMessage` mode every message becomes a task, which is convenient in the private chat with the bot or in a group a user set up for one board. In `BotMentionedMessages` mode the bot reacts only when it is mentioned: a member replies to the message they need, mentioning the bot, and the replied-to message becomes a task. This is the mode for a team chat, where most messages are ordinary conversation.
 
 The user's private chat with the bot also became a `LinkedTelegramChat` record, in `EachMessage` mode. A migration created such records for existing users. We wanted any chat to be configurable, even the private one: choose which board and status tasks land in, and how the bot reacts to messages. And in the code the private chat and a group now share one path.
 
@@ -125,7 +125,7 @@ public async Task<bool> IsAdmin(
 }
 ```
 
-But a Telegram group administrator cannot necessarily create tasks in the organization. So linking also needs a right in Boards: a flag for linking chats was added to the organization's administrative permissions that we described in [part 17](access-control-without-roles-task-tracker-permissions). And when a task is created from a group, the permissions of whoever called the bot are checked: if they cannot create tasks in that space, the task is not created.
+But a Telegram group administrator cannot necessarily create tasks in the organization. So linking also needs a right in Boards: a flag for linking chats was added to the organization's administrative permissions that we described in [part 17](access-control-without-roles-task-tracker-permissions). And when a task is created from a group, the permissions of whoever mentioned the bot are checked: if they cannot create tasks in that space, the task is not created.
 
 ## Messages in a group
 
@@ -182,7 +182,7 @@ public Task HandleChatMigrated(long oldChatId, long newChatId, CancellationToken
 ## Results
 
 - **Groups for teams and for personal boards.** A team chat turns discussion into tasks, and personal groups help sort notes into boards.
-- **Two save modes.** Every message, or only the one where the bot was called.
+- **Two save modes.** Every message, or only the one where the bot was mentioned.
 - **Any chat is configured the same way.** The private chat with the bot is also a linked chat with its own board, status and mode.
 - **Linking in one message.** The bot edits the message and swaps the buttons, and taps are handled by controllers by path, as in a web API.
 - **Two permission checks.** Group administrator in Telegram and the right to link chats in Boards.
