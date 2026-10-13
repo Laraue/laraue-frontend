@@ -190,4 +190,4 @@ In the web app the task page got a "History" tab next to the comments. Each reco
 
 ## What comes next
 
-Shortly before the history, tasks got attachments from the web app and comments. That is the subject of the [next article](telegram-as-file-storage-web-app).
+Shortly before the history, the web app got the ability to attach images to tasks. That is the subject of the [next article](telegram-as-file-storage-web-app).
