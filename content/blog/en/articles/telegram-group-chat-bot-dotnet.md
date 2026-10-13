@@ -79,7 +79,7 @@ public enum SaveMode
 }
 ```
 
-In `EachMessage` mode every message becomes a task, which is convenient in the private chat with the bot or in a group a user set up for one board. In `BotMentionedMessages` mode the bot reacts only when it is mentioned: a member replies to the message they need, mentioning the bot, and the replied-to message becomes a task. This is the mode for a team chat, where most messages are ordinary conversation.
+In `EachMessage` mode every message becomes a task, which is convenient in the private chat with the bot or in a group a user set up for one board. In `BotMentionedMessages` mode the bot reacts only when it is mentioned: a member replies to the message they need, tags the bot in the reply, and the original message becomes a task. This is the mode for a team chat, where most messages are ordinary conversation.
 
 The user's private chat with the bot also became a `LinkedTelegramChat` record, in `EachMessage` mode. A migration created such records for existing users. We wanted any chat to be configurable, even the private one: choose which board and status tasks land in, and how the bot reacts to messages. And in the code the private chat and a group now share one path.
 
