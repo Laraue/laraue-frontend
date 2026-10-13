@@ -1,6 +1,6 @@
 ---
-title: Telegram as file storage for a web app — uploads through a bot, one attachment model and comments
-description: Part 21 of the series about building a Telegram task tracker solo. How we let the web app upload images to tasks and store them in Telegram through a bot, brought files from the bot and from the web under one attachment model, and added comments with attachments.
+title: Telegram as file storage for a web app — uploads through a bot and one attachment model
+description: Part 21 of the series about building a Telegram task tracker solo. How we let the web app upload images to tasks and store them in Telegram through a bot and brought files from the bot and from the web under one attachment model.
 seoTitle: Telegram as File Storage for a Web App
 seoDescription: Part 21: files from a web app stored in Telegram — uploads through a bot to a dedicated chat, local previews, one attachment model and upload validation.
 type: article
@@ -13,7 +13,7 @@ tags: [devlog, dotnet, telegram, architecture, task-tracker]
 ---
 
 > **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 21.
-> In the [previous article](audit-log-change-history-one-transaction) we went through the change history of tasks. Shortly before it, the web app got the ability to attach images to tasks and leave comments.
+> In the [previous article](audit-log-change-history-one-transaction) we went through the change history of tasks. Shortly before it, the web app got the ability to attach images to tasks.
 
 ## The short version
 
@@ -23,8 +23,7 @@ How we built attachments in the web app:
 2. This way we do not pay for file storage and reuse the same path as for media from the bot.
 3. Files from the bot and from the web are now described by one model: an attachment, a file and a reference to the file in Telegram.
 4. In the first version only JPEG and PNG up to 3 MB can be uploaded.
-5. Comments have their own attachments, and they use the same model.
-6. We will soon move to S3, so as not to depend on Telegram's rules and infrastructure.
+5. We will soon move to S3, so as not to depend on Telegram's rules and infrastructure.
 
 ## Where the idea came from
 
@@ -172,33 +171,6 @@ private static bool FilesHasError(IEnumerable<IFormFile> files, [NotNullWhen(tru
 
 Files arrive in a regular `multipart/form-data` request together with the task text, so a task with images can be created or updated in one request.
 
-## Comments
-
-Almost at the same time as attachments, tasks got comments. A comment is text, an author, creation and update dates, and a list of attachments:
-
-```csharp
-public class IssueComment
-{
-    public long Id { get; set; }
-
-    [MaxLength(Constraints.MaxCommentLength)]
-    public required string Text { get; set; }
-
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-
-    public Guid OwnerId { get; set; }
-    public User? Owner { get; set; }
-
-    public long IssueId { get; set; }
-    public Issue? Issue { get; set; }
-
-    public List<IssueCommentAttachment> Attachments { get; set; } = [];
-}
-```
-
-Comment attachments use the same `Attachment` model; they are just linked to a comment instead of a task, through `IssueCommentAttachment`. Uploading, storage in Telegram and file validation work the same way for them.
-
 ## What we risk
 
 Keeping files in someone else's messenger is a temporary solution. We depend on Telegram's rules and infrastructure: if something changes, the files may become unavailable. For now the load is small, only a few files are uploaded a day, and the approach is justified. The next step is to move to S3 and migrate all files there. Thanks to the shared attachment model, that needs a new storage location, not a rework of everything that deals with files.
@@ -209,9 +181,8 @@ Keeping files in someone else's messenger is a temporary solution. We depend on 
 - **One path for all files.** Files from the bot and from the web are stored and shown the same way.
 - **The model does not depend on the storage location.** The file, where it is stored and the attachment are separate tables.
 - **First-iteration limits.** Only JPEG and PNG up to 3 MB.
-- **Comments use the same attachments.**
 - **The solution is temporary.** We will soon move to S3 and migrate all files there.
 
 ## What comes next
 
-By this time two people were working on the project: Nikolay, a frontend developer, had joined us. The next article is about what changed in the project when a second person came in.
+Almost at the same time as attachments, tasks got comments, and they have attachments too. Comments are the subject of the next article.
