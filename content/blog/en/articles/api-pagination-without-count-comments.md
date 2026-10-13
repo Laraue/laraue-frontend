@@ -1,5 +1,5 @@
 ---
-title: Task comments — who sees and changes them, and API pagination without COUNT
+title: Task comments — permissions, background loading and API pagination without COUNT
 description: Part 22 of the series about building a Telegram task tracker solo. How task comments work in Boards: who can read, write and edit them, why they load in a separate background request, and how pagination works without a COUNT query.
 seoTitle: API Pagination Without COUNT: Comments in a Task Tracker
 seoDescription: Part 22: task comments — read and edit permissions, a separate background request, and API pagination without COUNT by fetching one extra row.
@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 22
 createdAt: 2026-10-13 11:11
-updatedAt: 2026-10-13 11:35
+updatedAt: 2026-10-13 12:20
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---

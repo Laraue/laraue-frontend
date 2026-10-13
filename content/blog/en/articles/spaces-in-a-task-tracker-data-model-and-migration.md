@@ -1,13 +1,13 @@
 ---
 title: Spaces in a task tracker — grouping boards by project, the data model and moving existing users' data
-description: Part 14 of building a Telegram task tracker solo. How spaces group boards by project, why the space lives on the board and not on the issue, and the SQL migration that gave every existing user a default space.
+description: Part 14 of the series about building a Telegram task tracker solo. How spaces group boards by project, why the space lives on the board and not on the issue, and the SQL migration that gave every existing user a default space.
 seoTitle: Spaces in a Task Tracker: Data Model and Migration
 seoDescription: Part 14: how we added spaces to a task tracker — a required space on the board, default rows instead of nullable keys, and a SQL migration for existing users.
 type: article
 series: architecture-first
 part: 14
 createdAt: 2026-10-12 09:51
-updatedAt: 2026-10-12 10:10
+updatedAt: 2026-10-13 12:20
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---

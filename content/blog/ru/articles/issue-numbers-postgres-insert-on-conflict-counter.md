@@ -1,13 +1,13 @@
 ---
 title: Последовательные номера задач — счётчик на INSERT ON CONFLICT в PostgreSQL, ключи спейсов и URL организаций
-description: Часть 18 цикла о разработке Telegram-таск-трекера в одиночку. Как у issues появились последовательные номера вида BRD-42, почему для них подошёл счётчик на INSERT ... ON CONFLICT DO UPDATE, а не последовательность PostgreSQL, как устроены ключи спейсов и URL организаций.
+description: Часть 18 цикла о разработке Telegram-таск-трекера в одиночку. Как у issues появились последовательные номера вида BRD-42, почему для них подошёл счётчик на INSERT ... ON CONFLICT DO UPDATE, а не sequence в PostgreSQL, как устроены ключи спейсов и URL организаций.
 seoTitle: Последовательные номера: INSERT ON CONFLICT в PostgreSQL
 seoDescription: Часть 18: последовательные номера задач вида BRD-42 — счётчик на INSERT ON CONFLICT DO UPDATE в PostgreSQL вместо sequence, ключи спейсов и slug организации.
 type: article
 series: architecture-first
 part: 18
 createdAt: 2026-10-12 21:35
-updatedAt: 2026-10-12 22:45
+updatedAt: 2026-10-13 12:20
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---

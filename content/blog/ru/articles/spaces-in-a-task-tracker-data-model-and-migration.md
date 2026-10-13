@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 14
 createdAt: 2026-10-12 09:51
-updatedAt: 2026-10-12 10:10
+updatedAt: 2026-10-13 12:20
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
