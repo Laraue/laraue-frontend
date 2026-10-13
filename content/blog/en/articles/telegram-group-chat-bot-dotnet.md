@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 25
 createdAt: 2026-10-13 12:56
-updatedAt: 2026-10-13 12:56
+updatedAt: 2026-10-13 13:39
 projects: [boards]
 tags: [devlog, dotnet, telegram, architecture, task-tracker]
 ---
@@ -191,4 +191,4 @@ public Task HandleChatMigrated(long oldChatId, long newChatId, CancellationToken
 
 ## What comes next
 
-The next article is about how AI came to Boards: summaries of tasks and messages.
+The [next article](deepseek-api-dotnet-openai-compatible) is about how AI came to Boards and started tidying up task text.
