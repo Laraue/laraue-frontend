@@ -191,4 +191,4 @@ public Task HandleChatMigrated(long oldChatId, long newChatId, CancellationToken
 
 ## Что дальше
 
-Следующие статьи — про то, как в Boards появился ИИ: краткое содержание задач и сообщений и ретроспективы.
+Следующая статья — о том, как в Boards появился ИИ: краткое содержание задач и сообщений.

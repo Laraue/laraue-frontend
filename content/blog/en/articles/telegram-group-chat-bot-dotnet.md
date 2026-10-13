@@ -191,4 +191,4 @@ public Task HandleChatMigrated(long oldChatId, long newChatId, CancellationToken
 
 ## What comes next
 
-The next articles are about how AI came to Boards: summaries of tasks and messages, and retrospectives.
+The next article is about how AI came to Boards: summaries of tasks and messages.
