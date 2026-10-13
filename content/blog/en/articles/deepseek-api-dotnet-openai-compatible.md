@@ -1,8 +1,8 @@
 ---
 title: DeepSeek API in .NET — an OpenAI-compatible client without an SDK, Ollama for development and AI that tidies up notes
-description: Part 26 of the series about building a Telegram task tracker in a tiny team. How Boards got AI that turns a stream of thoughts from a chat into a neat task: DeepSeek in production, Ollama locally, our own OpenAI-compatible client on HttpClient and the /aisave command in Telegram.
+description: Part 26 of the series about building a Telegram task tracker in a tiny team. How Boards got AI that turns a stream of thoughts from a chat into a neat task: DeepSeek in production, Ollama for local development, our own OpenAI-compatible client on HttpClient and the /aisave command in Telegram.
 seoTitle: DeepSeek API in .NET: OpenAI-Compatible Client Without SDK
-seoDescription: Part 26: the DeepSeek API in .NET via the OpenAI-compatible API — our own HttpClient client, Ollama locally, a prompt for notes and the /aisave command.
+seoDescription: Part 26: the DeepSeek API in .NET via the OpenAI-compatible API — our own HttpClient client, Ollama for development, a prompt for notes and the /aisave command.
 type: article
 series: architecture-first
 part: 26
@@ -20,7 +20,7 @@ tags: [devlog, dotnet, ai, telegram, task-tracker]
 How we added AI to Boards:
 
 1. AI takes the text of a task, a batch of ideas or ordinary speech from a chat, and turns it into a neat message: a title and formatted text without repetition. It adds no new facts.
-2. In production we use DeepSeek: it has the lowest price with quality that is enough for this task. Locally we use Ollama, the simplest cross-platform option.
+2. In production we use DeepSeek: it has the lowest price with quality that is enough for this task. For local development we use Ollama, the simplest cross-platform option.
 3. Both DeepSeek and Ollama support the OpenAI-compatible API, so there is one client, and the provider is switched in the settings.
 4. We wrote the client ourselves on `HttpClient`, without an SDK: that is simpler for now, and Microsoft's AI packages still change often.
 5. In Telegram there is the `/aisave` command for it, and in the web app an "Improve with AI" button in the task editor.
@@ -190,7 +190,7 @@ In the web app the task editor has an "Improve with AI" button. It sends the tex
 
 - **AI tidies up notes.** A stream of ideas or conversational speech turns into a task with a title and clear text.
 - **The model adds no facts.** That is the main constraint in the prompt.
-- **DeepSeek in production, Ollama locally.** The lowest price with sufficient quality, and the simplest cross-platform setup.
+- **DeepSeek in production, Ollama for local development.** The lowest price with sufficient quality, and the simplest cross-platform setup.
 - **One client for all providers.** The OpenAI-compatible API lets us switch providers in the settings.
 - **No SDK.** Our own client on `HttpClient` is simpler for now than unstable packages.
 - **An AI failure does not lose the text.** The user sees a clear message, and the original text stays.
