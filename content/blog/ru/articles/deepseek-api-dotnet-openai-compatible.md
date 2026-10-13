@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 26
 createdAt: 2026-10-13 13:39
-updatedAt: 2026-10-13 13:39
+updatedAt: 2026-10-13 14:04
 projects: [boards]
 tags: [devlog, dotnet, ai, telegram, task-tracker]
 ---
@@ -195,4 +195,4 @@ catch (AiContentSummarizationException ex)
 
 ## Что дальше
 
-Дальше в Boards появились отдельные сервисы для аккаунтов и оплаты. О них — следующая статья.
+Следующим шагом мы дали ИИ-агентам доступ к самим задачам: в Boards появился MCP-сервер. Об этом — [следующая статья](running-our-backlog-with-claude-code-mcp).

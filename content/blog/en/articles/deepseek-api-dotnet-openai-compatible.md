@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 26
 createdAt: 2026-10-13 13:39
-updatedAt: 2026-10-13 13:39
+updatedAt: 2026-10-13 14:04
 projects: [boards]
 tags: [devlog, dotnet, ai, telegram, task-tracker]
 ---
@@ -195,4 +195,4 @@ In the web app the task editor has an "Improve with AI" button. It sends the tex
 
 ## What comes next
 
-Next, Boards got separate services for accounts and payments. That is the subject of the next article.
+As the next step, we gave AI agents access to the tasks themselves: Boards got an MCP server. That is the subject of the [next article](running-our-backlog-with-claude-code-mcp).
