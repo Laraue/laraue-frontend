@@ -185,4 +185,4 @@ The settings for running the API locally live in `appsettings.Development.json`:
 
 ## What comes next
 
-The next article is about how Boards learned to work in Telegram group chats.
+Next, the bot learned to work in Telegram group chats: an administrator links a chat to a space with the `/link` command, and any member can turn a message into a task by replying to it and mentioning the bot. That is the subject of the next article.
