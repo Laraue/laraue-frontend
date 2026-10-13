@@ -6,8 +6,8 @@ seoDescription: Часть 22: комментарии к задачам — пр
 type: article
 series: architecture-first
 part: 22
-createdAt: 2026-10-14 14:00
-updatedAt: 2026-10-14 14:00
+createdAt: 2026-10-13 11:11
+updatedAt: 2026-10-13 11:35
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---

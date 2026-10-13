@@ -6,8 +6,8 @@ seoDescription: Часть 19: кастомные поля задач в Postgre
 type: article
 series: architecture-first
 part: 19
-createdAt: 2026-10-14 14:00
-updatedAt: 2026-10-14 14:00
+createdAt: 2026-10-12 22:45
+updatedAt: 2026-10-13 09:28
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---

@@ -6,8 +6,8 @@ seoDescription: Part 18: sequential issue numbers like BRD-42 — a counter on P
 type: article
 series: architecture-first
 part: 18
-createdAt: 2026-10-14 14:00
-updatedAt: 2026-10-14 14:00
+createdAt: 2026-10-12 21:35
+updatedAt: 2026-10-12 22:45
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---

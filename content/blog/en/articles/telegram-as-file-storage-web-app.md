@@ -6,8 +6,8 @@ seoDescription: Part 21: files from a web app stored in Telegram — uploads thr
 type: article
 series: architecture-first
 part: 21
-createdAt: 2026-10-14 14:00
-updatedAt: 2026-10-14 14:00
+createdAt: 2026-10-13 10:19
+updatedAt: 2026-10-13 11:11
 projects: [boards]
 tags: [devlog, dotnet, telegram, architecture, task-tracker]
 ---

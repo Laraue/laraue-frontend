@@ -6,8 +6,8 @@ seoDescription: Part 23: rewriting a task tracker frontend — a Nuxt architectu
 type: article
 series: architecture-first
 part: 23
-createdAt: 2026-10-14 14:00
-updatedAt: 2026-10-14 14:00
+createdAt: 2026-10-13 11:35
+updatedAt: 2026-10-13 11:35
 projects: [boards]
 tags: [devlog, nuxt, architecture, ai, task-tracker]
 ---
