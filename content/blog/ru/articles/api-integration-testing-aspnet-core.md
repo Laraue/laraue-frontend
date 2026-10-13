@@ -1,18 +1,18 @@
 ---
 title: Интеграционное тестирование API в ASP.NET Core — WebApplicationFactory, настоящий PostgreSQL и типизированный прокси к контроллерам
-description: Часть 15 цикла о разработке Telegram-таск-трекера в одиночку. Почему мы написали первые интеграционные тесты, когда приложение уже работало в продакшене, как устроен тестовый хост на WebApplicationFactory с настоящей базой и собственный прокси, который превращает вызов метода контроллера в HTTP-запрос.
+description: Часть 15 цикла о разработке Telegram-таск-трекера небольшой командой. Почему мы написали первые интеграционные тесты, когда приложение уже работало в продакшене, как устроен тестовый хост на WebApplicationFactory с настоящей базой и собственный прокси, который превращает вызов метода контроллера в HTTP-запрос.
 seoTitle: Интеграционное тестирование API в ASP.NET Core
 seoDescription: Часть 15: тестирование API в ASP.NET Core — WebApplicationFactory, настоящий PostgreSQL без Testcontainers и прокси, строящий HTTP-запрос из вызова метода.
 type: article
 series: architecture-first
 part: 15
 createdAt: 2026-10-12 10:10
-updatedAt: 2026-10-13 12:20
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, architecture, task-tracker, open-source]
 ---
 
-> **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 15.
+> **Architecture First: как небольшой командой с ИИ сделать альтернативу Jira** — Часть 15.
 > В [предыдущей статье](spaces-in-a-task-tracker-data-model-and-migration) мы добавили спейсы. Следующим шагом были организации, но перед ними мы написали первые интеграционные тесты.
 
 ## Краткое содержание

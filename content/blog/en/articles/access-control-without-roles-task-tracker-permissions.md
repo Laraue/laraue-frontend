@@ -1,18 +1,18 @@
 ---
 title: Access control in a task tracker without roles — an alternative to RBAC, four versions of the model and space-level permissions
-description: Part 17 of the series about building a Telegram task tracker solo. Why Boards has no roles, how the permission system went through four versions looking for a balance between flexibility and simplicity, and why permissions are now granted only on the organization and the space.
+description: Part 17 of the series about building a Telegram task tracker in a tiny team. Why Boards has no roles, how the permission system went through four versions looking for a balance between flexibility and simplicity, and why permissions are now granted only on the organization and the space.
 seoTitle: Role-Based Access Control Without Roles in a Task Tracker
 seoDescription: Part 17: access control in a task tracker without roles (RBAC) — four versions of the model, flags versus bool columns, and space-level permissions.
 type: article
 series: architecture-first
 part: 17
 createdAt: 2026-10-12 20:46
-updatedAt: 2026-10-12 21:35
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 17.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 17.
 > In the [previous article](multi-tenancy-saas-task-tracker-organizations) we added organizations, which other people can be invited into. Now we had to decide what each of them is allowed to do.
 
 ## The short version

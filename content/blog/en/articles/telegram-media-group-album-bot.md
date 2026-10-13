@@ -1,18 +1,18 @@
 ﻿---
 title: One card from a Telegram album — handling media groups and edits in a bot, without timeout hacks
-description: Part 12 of building a Telegram task tracker solo. Telegram delivers an album as a burst of separate messages and an edit as a fresh update — here is how to turn a media group into a single record without the usual timeout accumulator, and how to treat an edit as an update instead of a duplicate.
+description: Part 12 of building a Telegram task tracker in a tiny team. Telegram delivers an album as a burst of separate messages and an edit as a fresh update — here is how to turn a media group into a single record without the usual timeout accumulator, and how to treat an edit as an update instead of a duplicate.
 seoTitle: Telegram Albums and Edits in a Bot: One Card, No Timeouts
 seoDescription: Part 12: turn a Telegram media group into a single record without a timeout accumulator, and treat an edited message as an update, not a duplicate.
 type: article
 series: architecture-first
 part: 12
 createdAt: 2026-06-26 15:00
-updatedAt: 2026-10-04 15:00
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, telegram]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 12.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 12.
 > The [previous article](telegram-bot-file-storage-stream) taught the bot to save single messages with media, but left a few threads open. A message can be edited — which should update the record that was already saved — or it can consist of several media at once, which should be saved into one issue. This article handles both cases.
 
 Until now the save process assumed a message in the chat never changes after the user sends it. Because of that, issues on the board stayed exactly as they were first saved, even after the user edited them in the chat. On top of that, sending a group of images in one message created a separate card for each media element in the group, instead of merging all the media into one issue — a consequence of how Telegram delivers media groups.

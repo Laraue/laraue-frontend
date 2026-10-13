@@ -1,18 +1,18 @@
 ---
 title: Telegram Login Widget vs авторизация через Mini App в .NET — две схемы валидации, один JWT
-description: Часть 13 цикла о разработке Telegram-таск-трекера в одиночку. Как добавить вход через Telegram Login Widget в веб-приложение на .NET и Nuxt рядом с Mini App: привязка домена в BotFather, валидация данных виджета (другой секрет, чем у init data), отклонение устаревших данных по auth_date и выпуск того же JWT.
+description: Часть 13 цикла о разработке Telegram-таск-трекера небольшой командой. Как добавить вход через Telegram Login Widget в веб-приложение на .NET и Nuxt рядом с Mini App: привязка домена в BotFather, валидация данных виджета (другой секрет, чем у init data), отклонение устаревших данных по auth_date и выпуск того же JWT.
 seoTitle: Telegram Login Widget и Mini App в .NET: один JWT
 seoDescription: Как добавить вход через Telegram Login Widget в .NET веб-приложение рядом с Mini App: /setdomain, проверка хеша, auth_date, один JWT.
 type: article
 series: architecture-first
 part: 13
 createdAt: 2026-07-01
-updatedAt: 2026-10-03 18:02
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, nuxt, telegram, authentication]
 ---
 
-> **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 13.
+> **Architecture First: как небольшой командой с ИИ сделать альтернативу Jira** — Часть 13.
 > В [предыдущей статье](telegram-media-group-album-bot) была доделана последняя функциональность, запланированная в MVP бота. Здесь мы переходим к веб-версии, о которой просили пользователи. Чтобы её выпустить, приложению сначала нужна авторизация, работающая вне Telegram Mini App.
 
 ## Краткое содержание

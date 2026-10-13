@@ -1,18 +1,18 @@
 ---
 title: Деплой Nuxt Telegram Mini App. Настройка HTTPS на nginx с Let's Encrypt. Новый мини-апп через BotFather
-description: Часть 7 цикла о разработке Telegram-таск-трекера в одиночку. Как задеплоить Nuxt Telegram Mini App за nginx с HTTPS: поддомен, конфигурация nginx, первый сертификат Let's Encrypt и автопродление через certbot, регистрация в BotFather, локальное тестирование через ngrok и что делать, если Mini App показывает «Welcome to nginx!».
+description: Часть 7 цикла о разработке Telegram-таск-трекера небольшой командой. Как задеплоить Nuxt Telegram Mini App за nginx с HTTPS: поддомен, конфигурация nginx, первый сертификат Let's Encrypt и автопродление через certbot, регистрация в BotFather, локальное тестирование через ngrok и что делать, если Mini App показывает «Welcome to nginx!».
 seoTitle: Деплой Nuxt Telegram Mini App: nginx, HTTPS, Let's Encrypt
 seoDescription: Деплой Nuxt Mini App за nginx с HTTPS и certbot, BotFather, ngrok и что делать, если открывается «Welcome to nginx». Часть 7.
 type: article
 series: architecture-first
 part: 7
 createdAt: 2026-06-23 12:00
-updatedAt: 2026-10-03 17:56
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, nuxt, telegram, deployment]
 ---
 
-> **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 7.
+> **Architecture First: как небольшой командой с ИИ сделать альтернативу Jira** — Часть 7.
 > В [Предыдущей статье](deploying-dotnet-postgres-vps-docker-compose) Telegram бот был развернут на сервере. Бот занимается только сохранением сообщений пользователя. В этой статье мы задеплоим и настроим пустой Telegram mini app, который превратится в полноценное приложение в следующих итерациях.
 
 ## Краткое содержание

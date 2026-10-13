@@ -1,18 +1,18 @@
 ---
 title: Custom fields for tasks — EAV vs JSONB in PostgreSQL, a separate table per type and filtering by values
-description: Part 19 of the series about building a Telegram task tracker solo. How we added attributes (custom fields) to issues, why we chose an EAV model with a separate value table per type instead of a JSONB column, and how filtering tasks by attribute values works.
+description: Part 19 of the series about building a Telegram task tracker in a tiny team. How we added attributes (custom fields) to issues, why we chose an EAV model with a separate value table per type instead of a JSONB column, and how filtering tasks by attribute values works.
 seoTitle: Custom Fields in PostgreSQL: EAV vs JSONB in a Task Tracker
 seoDescription: Part 19: custom fields in PostgreSQL — why EAV with a table per value type instead of JSONB, foreign keys, indexes and filtering tasks by values.
 type: article
 series: architecture-first
 part: 19
 createdAt: 2026-10-12 22:45
-updatedAt: 2026-10-13 12:20
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 19.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 19.
 > In the [previous article](issue-numbers-postgres-insert-on-conflict-counter) tasks got numbers like `BRD-42`. From there Boards started to get new features, and the first of them was attributes: fields that users define themselves.
 
 ## The short version

@@ -1,18 +1,18 @@
 ---
 title: Task comments — permissions, background loading and API pagination without COUNT
-description: Part 22 of the series about building a Telegram task tracker solo. How task comments work in Boards: who can read, write and edit them, why they load in a separate background request, and how pagination works without a COUNT query.
+description: Part 22 of the series about building a Telegram task tracker in a tiny team. How task comments work in Boards: who can read, write and edit them, why they load in a separate background request, and how pagination works without a COUNT query.
 seoTitle: API Pagination Without COUNT: Comments in a Task Tracker
 seoDescription: Part 22: task comments — read and edit permissions, a separate background request, and API pagination without COUNT by fetching one extra row.
 type: article
 series: architecture-first
 part: 22
 createdAt: 2026-10-13 11:11
-updatedAt: 2026-10-13 12:20
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 22.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 22.
 > In the [previous article](telegram-as-file-storage-web-app) we let the web app attach images to tasks. Almost at the same time as attachments, tasks got comments.
 
 ## The short version

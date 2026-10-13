@@ -1,18 +1,18 @@
 ---
 title: Последовательные номера задач — счётчик на INSERT ON CONFLICT в PostgreSQL, ключи спейсов и URL организаций
-description: Часть 18 цикла о разработке Telegram-таск-трекера в одиночку. Как у issues появились последовательные номера вида BRD-42, почему для них подошёл счётчик на INSERT ... ON CONFLICT DO UPDATE, а не sequence в PostgreSQL, как устроены ключи спейсов и URL организаций.
+description: Часть 18 цикла о разработке Telegram-таск-трекера небольшой командой. Как у issues появились последовательные номера вида BRD-42, почему для них подошёл счётчик на INSERT ... ON CONFLICT DO UPDATE, а не sequence в PostgreSQL, как устроены ключи спейсов и URL организаций.
 seoTitle: Последовательные номера: INSERT ON CONFLICT в PostgreSQL
 seoDescription: Часть 18: последовательные номера задач вида BRD-42 — счётчик на INSERT ON CONFLICT DO UPDATE в PostgreSQL вместо sequence, ключи спейсов и slug организации.
 type: article
 series: architecture-first
 part: 18
 createdAt: 2026-10-12 21:35
-updatedAt: 2026-10-13 12:20
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
 
-> **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 18.
+> **Architecture First: как небольшой командой с ИИ сделать альтернативу Jira** — Часть 18.
 > В [предыдущей статье](access-control-without-roles-task-tracker-permissions) мы разобрали права доступа. Когда в организации работает несколько человек, им нужно как-то ссылаться на задачи друг друга, а внутренний `id` трудно произнести и запомнить.
 
 ## Краткое содержание

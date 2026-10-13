@@ -1,18 +1,18 @@
 ---
 title: Telegram as file storage for a web app — uploads through a bot and one attachment model
-description: Part 21 of the series about building a Telegram task tracker solo. How we let the web app upload images to tasks and store them in Telegram through a bot and brought files from the bot and from the web under one attachment model.
+description: Part 21 of the series about building a Telegram task tracker in a tiny team. How we let the web app upload images to tasks and store them in Telegram through a bot and brought files from the bot and from the web under one attachment model.
 seoTitle: Telegram as File Storage for a Web App
 seoDescription: Part 21: files from a web app stored in Telegram — uploads through a bot to a dedicated chat, local previews, one attachment model and upload validation.
 type: article
 series: architecture-first
 part: 21
 createdAt: 2026-10-13 10:19
-updatedAt: 2026-10-13 11:11
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, telegram, architecture, task-tracker]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 21.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 21.
 > In the [previous article](audit-log-change-history-one-transaction) we went through the change history of tasks. Shortly before it, the web app got the ability to attach images to tasks.
 
 ## The short version

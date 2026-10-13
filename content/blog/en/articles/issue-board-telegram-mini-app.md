@@ -1,18 +1,18 @@
 ---
 title: When not to use a nullable foreign key — modelling the empty state as a default row
-description: Part 9 of building a Telegram task tracker solo. The issue layer in the web app and the database design decision at its centre — when a nullable foreign key is the wrong choice and a dedicated default row is better, using issues, epics and the backlog as the example.
+description: Part 9 of building a Telegram task tracker in a tiny team. The issue layer in the web app and the database design decision at its centre — when a nullable foreign key is the wrong choice and a dedicated default row is better, using issues, epics and the backlog as the example.
 seoTitle: When Not to Use a Nullable Foreign Key in a Database
 seoDescription: Part 9: the issue layer of a web app and a database design choice — why a dedicated default row can beat a nullable foreign key. Issues, epics, backlog.
 type: article
 series: architecture-first
 part: 9
 createdAt: 2026-06-25 09:00
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, database, architecture]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 9.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 9.
 > In the [previous article](telegram-mini-app-authentication-dotnet) the app got a backend for authorization. In this one we develop the first real feature — the issues domain — and design the database for it.
 
 The issues domain is the part of the app for working with tasks, their statuses and epics, letting the user manage all of it through the web interface. We will not walk through how to build CRUD for tasks — the source code is open, and the web is full of guides for that. Instead we will cover one practical problem of database schema design: how to represent an issue that does not belong to any epic. The obvious answer is to make the foreign key nullable, and we started with that approach. Later it significantly complicated the whole codebase, and we will look at why in detail.

@@ -1,18 +1,18 @@
 ﻿---
 title: From Telegram Saved Messages to a real task tracker — defining the user path
-description: Part 3 of building a Telegram task tracker solo. Why Saved Messages is not convenient for managing tasks, which minimal scenario Laraue Boards started from, and why the user path is defined before development begins.
+description: Part 3 of building a Telegram task tracker in a tiny team. Why Saved Messages is not convenient for managing tasks, which minimal scenario Laraue Boards started from, and why the user path is defined before development begins.
 seoTitle: From Telegram Saved Messages to a Real Task Tracker
 seoDescription: Part 3: why Saved Messages is poor for managing tasks, the minimal scenario Laraue Boards started from, and why we define the user path before coding.
 type: article
 series: architecture-first
 part: 3
 createdAt: 2026-06-20 16:20
-updatedAt: 2026-10-04 12:00
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, telegram, product, task-tracker]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 3.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 3.
 > The [previous article](prototyping-ui-with-ai-before-code) was about prototyping the interface. Now we have to think through how the user will create issues on the boards directly from Telegram.
 
 The prototype shows clearly how the product will look. But it does not answer how the user's interaction in Telegram with that interface will work. We will try to fix the key points in this article, before the database design stage. We have written about why we always [start development with the user path](how-we-build-engineering-principles) as a general principle; this article is about a concrete example — Laraue Boards.

@@ -1,18 +1,18 @@
 ﻿---
-title: Choosing a pet project stack for solo development — .NET, PostgreSQL, Nuxt, and why we prefer boring technologies
-description: Part 4 of building a Telegram task tracker solo. The reasons behind .NET 10, PostgreSQL 18, Nuxt 4 and Vue 3. A bit about the MongoDB-to-Postgres migration in a past project that taught us to prefer boring, stable technologies.
-seoTitle: Choosing a Solo Project Stack: .NET, PostgreSQL, Nuxt
+title: Choosing a pet project stack for a tiny team — .NET, PostgreSQL, Nuxt, and why we prefer boring technologies
+description: Part 4 of building a Telegram task tracker in a tiny team. The reasons behind .NET 10, PostgreSQL 18, Nuxt 4 and Vue 3. A bit about the MongoDB-to-Postgres migration in a past project that taught us to prefer boring, stable technologies.
+seoTitle: A Stack for a Tiny Team: .NET, PostgreSQL, Nuxt
 seoDescription: Part 4: why .NET 10, PostgreSQL 18, Nuxt 4 and Vue 3, and how a MongoDB-to-Postgres migration taught us to prefer boring, stable technologies.
 type: article
 series: architecture-first
 part: 4
 createdAt: 2026-06-20 22:35
-updatedAt: 2026-10-02 19:51
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, nuxt, database, architecture]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 4.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 4.
 > The [previous article](telegram-saved-messages-to-task-tracker) defined the app's first user path. Time to pick a stack for it.
 
 Stack decisions are made after prototyping the app's interface and defining the user's possible actions. Picking a database or a framework before the typical usage scenarios are clear is a road to potential problems. By this point we had AI-generated HTML prototypes, so the choices could be made deliberately.

@@ -1,18 +1,18 @@
 ---
 title: JWT в HttpOnly-cookie в ASP.NET Core — вместо localStorage, с SameSite, CORS и локальным запуском в Docker
-description: Часть 24 цикла о разработке Telegram-таск-трекера в одиночку. Как токен веб-приложения переехал из localStorage в HttpOnly-cookie, как ASP.NET Core читает JWT из cookie, зачем фронтенду credentials include и пересылка cookie при SSR и как мы упростили локальный запуск проекта.
+description: Часть 24 цикла о разработке Telegram-таск-трекера небольшой командой. Как токен веб-приложения переехал из localStorage в HttpOnly-cookie, как ASP.NET Core читает JWT из cookie, зачем фронтенду credentials include и пересылка cookie при SSR и как мы упростили локальный запуск проекта.
 seoTitle: JWT в HttpOnly-cookie в ASP.NET Core: SameSite и CORS
 seoDescription: Часть 24: JWT в HttpOnly-cookie вместо localStorage в ASP.NET Core — параметры cookie, SameSite, CORS с credentials, SSR в Nuxt и локальный запуск в Docker.
 type: article
 series: architecture-first
 part: 24
 createdAt: 2026-10-13 12:17
-updatedAt: 2026-10-13 12:17
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, nuxt, authentication, architecture]
 ---
 
-> **Architecture First: как в одиночку с ИИ сделать альтернативу Jira** — Часть 24.
+> **Architecture First: как небольшой командой с ИИ сделать альтернативу Jira** — Часть 24.
 > В [предыдущей статье](frontend-rewrite-nuxt-architecture-vitest) мы рассказали, как Николай переписал фронтенд. Ещё до этого он поменял несколько вещей в бэкенде: токен переехал в cookie, а проект стало проще запускать локально.
 
 ## Краткое содержание

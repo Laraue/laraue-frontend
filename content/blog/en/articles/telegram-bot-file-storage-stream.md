@@ -1,18 +1,18 @@
 ---
 title: Saving media from a Telegram bot — store the preview, stream the original
-description: Part 11 of building a Telegram task tracker solo. Teaching the capture bot to handle photos and video, and the storage decision behind it — keep small previews on disk, stream full files straight from Telegram on demand without buffering them in memory, using nginx range-request passthrough, instead of re-hosting everything.
+description: Part 11 of building a Telegram task tracker in a tiny team. Teaching the capture bot to handle photos and video, and the storage decision behind it — keep small previews on disk, stream full files straight from Telegram on demand without buffering them in memory, using nginx range-request passthrough, instead of re-hosting everything.
 seoTitle: Telegram Bot Media: Store the Preview, Stream the Original
 seoDescription: Part 11: photos and video in a capture bot — small previews on disk, full files streamed from Telegram on demand through nginx, no buffering.
 type: article
 series: architecture-first
 part: 11
 createdAt: 2026-06-26 09:00
-updatedAt: 2026-10-02 18:44
+updatedAt: 2026-10-13 12:23
 projects: [boards]
 tags: [devlog, dotnet, telegram]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 11.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 11.
 > The [previous article](telegram-saved-messages-bot-lesson) ended with a real user breaking the bot by sending it an image instead of a normal message. This article fixes that — we implement saving images, and decide how to store the files sent to the bot.
 
 The previous article ended on a `500` in the logs: someone tried to save an image instead of a text message, and the bot, which until then only worked with text, could not process the request. That crash gave us the idea for the app's first real feature — saving not just text but photos and videos too. Handling and saving the photo object Telegram sends turned out to be not much harder than handling a text message. The decision that took real thinking was how to store the files without filling up the whole server.

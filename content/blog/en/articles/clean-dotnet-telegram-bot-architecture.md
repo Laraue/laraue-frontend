@@ -1,18 +1,18 @@
 ﻿---
 title: Clean Telegram bot architecture in .NET — controllers instead of a giant switch
-description: Part 5 of building a Telegram task tracker solo. A clean .NET Telegram bot with ASP.NET-style controllers and middleware instead of a giant switch, a layered solution structure, and EF Core paired with linq2db on the same models for the queries EF Core handles poorly.
+description: Part 5 of building a Telegram task tracker in a tiny team. A clean .NET Telegram bot with ASP.NET-style controllers and middleware instead of a giant switch, a layered solution structure, and EF Core paired with linq2db on the same models for the queries EF Core handles poorly.
 seoTitle: Clean .NET Telegram Bot: Controllers Instead of a Switch
 seoDescription: Part 5: ASP.NET-style controllers and middleware for a Telegram bot, a layered solution structure, and EF Core with linq2db on the same models.
 type: article
 series: architecture-first
 part: 5
 createdAt: 2026-06-21
-updatedAt: 2026-10-04 16:00
+updatedAt: 2026-10-13 12:23
 projects: [boards, telegram-net]
 tags: [devlog, dotnet, telegram, architecture]
 ---
 
-> **Architecture First: Building a Jira Alternative Solo, AI-Assisted** — Part 5.
+> **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 5.
 > The first four articles were theory: why and what we are building, the user journey, the project stack. In this article we write the backend of a real Telegram bot.
 
 The goal of the first development iteration is minimal: build a backend that can handle messages from Telegram users and save them. No web API and no frontend yet — just accepting messages from the user and putting them into the database.
