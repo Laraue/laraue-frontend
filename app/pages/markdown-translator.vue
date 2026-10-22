@@ -252,6 +252,10 @@ const doTranslate = async () => {
   } catch (error) {
     if (error instanceof ApiError && error.status === 400) {
       errors.value = error.errors
+    } else if (error instanceof ApiError && error.isTooManyRequests) {
+      generalError.value = error.retryAfter
+          ? t('tooManyRequestsRetry', { seconds: error.retryAfter })
+          : t('tooManyRequests')
     } else {
       console.error('Translation failed:', error)
       generalError.value = error instanceof Error ? error.message : 'Translation failed. Please try again later.'
@@ -310,6 +314,8 @@ const updateSourceStats = () => {
     "lines": "lines",
     "btnClear": "Clear",
     "btnTranslate": "Translate →",
+    "tooManyRequests": "Too many requests, try again later.",
+    "tooManyRequestsRetry": "Too many requests, try again in {seconds} s.",
     "featuresHeading": "Why use a structure-preserving Markdown translator?",
     "featureHeadingsTitle": "Headings stay headings.",
     "featureHeadingsDesc": "Every #, ##, and ### is preserved exactly — only the text inside is translated, never the syntax.",
@@ -427,6 +433,8 @@ const updateSourceStats = () => {
     "lines": "строк",
     "btnClear": "Очистить",
     "btnTranslate": "Перевести →",
+    "tooManyRequests": "Слишком много запросов, попробуйте позже.",
+    "tooManyRequestsRetry": "Слишком много запросов, попробуйте через {seconds} с.",
     "featuresHeading": "Зачем использовать переводчик Markdown с сохранением структуры?",
     "featureHeadingsTitle": "Заголовки остаются заголовками.",
     "featureHeadingsDesc": "Каждый #, ## и ### сохраняется точно — переводится только текст внутри, никогда не синтаксис.",
