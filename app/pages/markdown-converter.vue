@@ -8,7 +8,6 @@ import LFaqSection from "~/components/landins/LFaqSection.vue";
 import LSteps from "~/components/landins/LSteps.vue";
 import LToolExample from "~/components/landins/LToolExample.vue";
 import {defineOffer, defineSoftwareApp, defineBreadcrumb, useSchemaOrg} from "@unhead/schema-org/vue";
-import {ApiError} from "~/composables/apiError";
 
 const localePath = useLocalePath();
 
@@ -17,30 +16,23 @@ const transpiled = ref('')
 
 const { transpile } = useMarkdownApi();
 
-// The preview is updated when typing pauses, not on every keystroke: the API is rate limited.
+// The preview is updated when typing pauses, not with an API call on every keystroke.
 const TRANSPILE_DEBOUNCE_MS = 400
 let transpileTimer: ReturnType<typeof setTimeout> | undefined
-
-const scheduleTranspile = (delayMs: number) => {
-  clearTimeout(transpileTimer)
-  transpileTimer = setTimeout(loadResponse, delayMs)
-}
 
 const loadResponse = async() => {
   try {
     const response = await transpile({ content: markdown.value })
     transpiled.value = response.htmlContent ?? ""
   } catch (error) {
-    if (error instanceof ApiError && error.isTooManyRequests) {
-      // The preview catches up with the text once the limit lets it.
-      scheduleTranspile((error.retryAfter ?? 1) * 1000)
-    } else {
-      console.error('Transpile failed:', error)
-    }
+    console.error('Transpile failed:', error)
   }
 }
 
-watch(() => markdown.value, () => scheduleTranspile(TRANSPILE_DEBOUNCE_MS))
+watch(() => markdown.value, () => {
+  clearTimeout(transpileTimer)
+  transpileTimer = setTimeout(loadResponse, TRANSPILE_DEBOUNCE_MS)
+})
 onBeforeUnmount(() => clearTimeout(transpileTimer))
 
 const addToMarkdown = (template: Template) => {
