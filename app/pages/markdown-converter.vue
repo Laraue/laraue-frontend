@@ -16,12 +16,24 @@ const transpiled = ref('')
 
 const { transpile } = useMarkdownApi();
 
+// The preview is updated when typing pauses, not with an API call on every keystroke.
+const TRANSPILE_DEBOUNCE_MS = 400
+let transpileTimer: ReturnType<typeof setTimeout> | undefined
+
 const loadResponse = async() => {
-  const response = await transpile({ content: markdown.value })
-  transpiled.value = response.htmlContent ?? ""
+  try {
+    const response = await transpile({ content: markdown.value })
+    transpiled.value = response.htmlContent ?? ""
+  } catch (error) {
+    console.error('Transpile failed:', error)
+  }
 }
 
-watch(() => markdown.value, () => loadResponse())
+watch(() => markdown.value, () => {
+  clearTimeout(transpileTimer)
+  transpileTimer = setTimeout(loadResponse, TRANSPILE_DEBOUNCE_MS)
+})
+onBeforeUnmount(() => clearTimeout(transpileTimer))
 
 const addToMarkdown = (template: Template) => {
   let insertValue = template.data;
