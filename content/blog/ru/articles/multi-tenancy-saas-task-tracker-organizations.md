@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 16
 createdAt: 2026-10-12 20:25
-updatedAt: 2026-10-13 12:23
+updatedAt: 2026-10-28
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
@@ -69,7 +69,7 @@ public enum OrganizationType
 }
 ```
 
-Ссылку на организацию хранит только спейс. Чтобы узнать, к какой организации относится доска или issue, достаточно дойти до их спейса — так же, как в [части 14](spaces-in-a-task-tracker-data-model-and-migration) issue находила свой спейс через статус и доску.
+Ссылку на организацию хранит только спейс. Чтобы узнать, к какой организации относится доска или issue, достаточно дойти до их спейса — так же, как в [части 14](spaces-in-a-task-tracker-data-model-and-migration) issue находил свой спейс через статус и доску.
 
 Участники организации лежат в отдельной таблице `OrganizationUser`. Каждая строка связывает пользователя с организацией и хранит его права в ней. О правах — в следующей статье.
 
