@@ -61,3 +61,19 @@ test('renders tables and ordered lists', () => {
     assert.include(html, '<th>a</th>')
     assert.include(html, '<ol start="3">')
 })
+
+test('renders an image of a YouTube link as a video poster that loads no player', () => {
+    const { html } = renderMarkdown('![Web-crawler "basic" example](https://youtu.be/xJspsptfRag)')
+
+    assert.include(
+        html,
+        '<button type="button" class="article-video" data-youtube-id="xJspsptfRag" aria-label="Web-crawler &quot;basic&quot; example">',
+    )
+    assert.include(html, 'https://i.ytimg.com/vi/xJspsptfRag/maxresdefault.jpg')
+    assert.notInclude(html, 'youtube.com/embed')
+})
+
+test('reads the video id from a youtube.com watch link too, and leaves other images as they are', () => {
+    assert.include(renderMarkdown('![Video](https://www.youtube.com/watch?v=xJspsptfRag&t=5)').html, 'data-youtube-id="xJspsptfRag"')
+    assert.notInclude(renderMarkdown('![Schema](https://laraue.com/static/a.jpg)').html, 'article-video')
+})

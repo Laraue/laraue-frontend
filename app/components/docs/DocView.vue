@@ -49,6 +49,24 @@ const backLabel = computed(() => {
   return section === 'articles' ? t('backToArticles') : section === 'projects' ? t('backToProjects') : t('backToBlog')
 })
 
+// A video poster from the markdown (see renderMarkdown) becomes YouTube's player only when pressed:
+// the privacy-enhanced youtube-nocookie.com one, started right away since the reader asked for it.
+const playVideo = (event: MouseEvent) => {
+  const poster = (event.target as HTMLElement).closest<HTMLElement>('.article-video[data-youtube-id]')
+  const id = poster?.dataset.youtubeId
+  if (!poster || !id)
+    return
+
+  const player = document.createElement('iframe')
+  player.className = 'article-video'
+  player.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`
+  player.title = poster.getAttribute('aria-label') ?? ''
+  player.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture'
+  player.allowFullscreen = true
+  poster.replaceWith(player)
+  player.focus()
+}
+
 const backAddress = computed(() => {
   const previous = breadCrumbs.value.at(1)
   if (!previous?.href)
@@ -213,7 +231,7 @@ const backAddress = computed(() => {
 
         <!-- BODY -->
         <div class="article-body">
-          <div v-html="item.content"></div>
+          <div v-html="item.content" @click="playVideo"></div>
         </div><!-- /article-body -->
         <!-- ARTICLE FOOTER -->
         <div class="article-footer">
@@ -514,6 +532,25 @@ a.series-name:hover{color:var(--accent);text-decoration:underline;text-underline
   display:inline-block;height:20px;border:0;border-radius:4px;
   margin:0 6px 6px 0;vertical-align:middle;
 }
+/* a video's poster and, once pressed, its player take the same 16:9 box */
+.article-body :deep(.article-video){
+  display:block;position:relative;width:100%;aspect-ratio:16/9;
+  margin:28px 0;padding:0;overflow:hidden;
+  border:1px solid var(--border);border-radius:10px;background:var(--cream);
+}
+.article-body :deep(button.article-video){cursor:pointer}
+.article-body :deep(button.article-video:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.article-body :deep(.article-video img){
+  width:100%;height:100%;object-fit:cover;border:0;border-radius:0;
+}
+.article-body :deep(.article-video-play){
+  position:absolute;inset:0;margin:auto;width:72px;height:50px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:10px;background:var(--accent);color:#fff;
+  transition:background .12s ease;
+}
+.article-body :deep(.article-video-play svg){width:28px;height:28px}
+.article-body :deep(button.article-video:hover .article-video-play){background:var(--accent-mid)}
 .article-body :deep(figure){margin:32px 0}
 .article-body :deep(figcaption){
   font-size:13px;color:var(--muted);text-align:center;
