@@ -18,6 +18,12 @@ const brandBadgeUrl = (href: string): string => {
     return url.toString()
 }
 
+// The id of a YouTube video link: https://youtu.be/<id> or https://www.youtube.com/watch?v=<id>.
+const youTubeVideoId = (href: string): string | undefined =>
+    /^https:\/\/(?:youtu\.be\/|(?:www\.)?youtube\.com\/watch\?v=)([\w-]{11})(?:[?&#]|$)/.exec(href)?.[1]
+
+const playIcon = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10.5-6.5z"/></svg>'
+
 export interface RenderedMarkdown {
     html: string;
     innerLinks: InnerLink[];
@@ -109,6 +115,16 @@ export const renderMarkdown = (body: string): RenderedMarkdown => {
                 return `<b>${this.parser.parseInline(tokens)}</b>`
             },
             image({ href, text, title }) {
+                // A video is written like an image of its YouTube link, ![What it shows](https://youtu.be/<id>),
+                // and becomes its poster with a play button. DocView swaps in the player on click, so the page
+                // loads nothing from YouTube's player until the reader asks for it.
+                const videoId = youTubeVideoId(href)
+                if (videoId) {
+                    return `<button type="button" class="article-video" data-youtube-id="${videoId}" aria-label="${escapeHtml(text)}">`
+                        + `<img src="https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg" alt="" loading="lazy" />`
+                        + `<span class="article-video-play">${playIcon}</span></button>`
+                }
+
                 const titleAttribute = title ? ` title="${escapeHtml(title)}"` : ''
                 const badge = href.startsWith(shieldsBadgePrefix)
 

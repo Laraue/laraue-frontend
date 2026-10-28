@@ -45,9 +45,9 @@ updatedAt: 2026-10-04 13:00
 
 ![Запуск и скачивание результатов](https://laraue.com/static/images/blog/crawling/crawler-schema-result.jpg "Шаг 3: Результат")
 
-Как это выглядело в работе, показывает архивная запись [Web-crawler basic example](https://youtu.be/xJspsptfRag):
+Как это выглядело в работе, показывает архивная запись:
 
-<div style="position:relative;aspect-ratio:16/9;max-width:100%"><iframe src="https://www.youtube-nocookie.com/embed/xJspsptfRag" title="Web-crawler basic example" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+![Web-crawler basic example](https://youtu.be/xJspsptfRag)
 
 ---
 

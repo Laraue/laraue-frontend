@@ -45,9 +45,9 @@ After many iterations, the application took shape as a three-step workflow:
 
 ![Running and downloading results](https://laraue.com/static/images/blog/crawling/crawler-schema-result.jpg "Step 3: Run and Get Result")
 
-How it looked in use is shown by an archive recording, [Web-crawler basic example](https://youtu.be/xJspsptfRag):
+How it looked in use is shown by an archive recording:
 
-<div style="position:relative;aspect-ratio:16/9;max-width:100%"><iframe src="https://www.youtube-nocookie.com/embed/xJspsptfRag" title="Web-crawler basic example" style="position:absolute;inset:0;width:100%;height:100%;border:0" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+![Web-crawler basic example](https://youtu.be/xJspsptfRag)
 
 ---
 
