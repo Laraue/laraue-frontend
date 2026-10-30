@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 28
 createdAt: 2026-10-30 19:54
-updatedAt: 2026-10-30 20:07
+updatedAt: 2026-10-30 20:44
 projects: [boards]
 tags: [devlog, dotnet, authentication, database]
 ---
@@ -67,7 +67,7 @@ public async Task<GoogleIdTokenPayload> ValidateAsync(string idToken, Cancellati
 }
 ```
 
-There are two traps here, both in the verification options:
+Two verification options have to be set explicitly:
 
 - **An empty audience list.** If `TrustedAudiences` is empty, the library does not check the `aud` claim at all and accepts a token issued for *any* Google OAuth client. So without `GoogleAuth:ClientId` the service refuses to run instead of running without the check.
 - **An empty issuer list.** Without `TrustedIssuers`, the `iss` claim is not checked either. We listed Google's issuers explicitly.
