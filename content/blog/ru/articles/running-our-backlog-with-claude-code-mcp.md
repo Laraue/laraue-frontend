@@ -8,7 +8,7 @@ series: architecture-first
 part: 27
 featured: true
 createdAt: 2026-10-02 10:31
-updatedAt: 2026-10-28
+updatedAt: 2026-10-30 19:54
 projects: [boards]
 tags: [devlog, ai, task-tracker, dotnet]
 ---
@@ -108,4 +108,4 @@ claude mcp add --transport http boards https://boards.laraue.com/boards-mcp/mcp 
 
 ## Что дальше
 
-Следующая статья — о входе через Google и о том, как мы объединяем аккаунты одного человека, вошедшего разными способами.
+[Следующая статья](account-linking-google-telegram-sign-in) — о входе через Google и о том, как мы объединяем аккаунты одного человека, вошедшего разными способами.

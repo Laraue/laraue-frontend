@@ -8,7 +8,7 @@ series: architecture-first
 part: 27
 featured: true
 createdAt: 2026-10-02 10:31
-updatedAt: 2026-10-13 14:04
+updatedAt: 2026-10-30 19:54
 projects: [boards]
 tags: [devlog, ai, task-tracker, dotnet]
 ---
@@ -108,4 +108,4 @@ Create an API key, add the server to Claude Code or Cursor, and ask: *"List the 
 
 ## What comes next
 
-The next article is about signing in with Google and how we merge the accounts of one person who signed in in different ways.
+The [next article](account-linking-google-telegram-sign-in) is about signing in with Google and how we merge the accounts of one person who signed in in different ways.
