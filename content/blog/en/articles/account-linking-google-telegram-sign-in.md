@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 28
 createdAt: 2026-10-30 19:54
-updatedAt: 2026-10-30 19:54
+updatedAt: 2026-10-30 20:07
 projects: [boards]
 tags: [devlog, dotnet, authentication, database]
 ---
@@ -25,6 +25,10 @@ How Google sign-in and account linking work:
 4. If the account being connected already belongs to another user, we take it over only when that user has no data. Otherwise the connection is refused with a clear message.
 5. Connecting takes two steps: first a call to the Identity service with no transaction, then the changes in the Boards database in a transaction that locks rows with `SELECT ... FOR UPDATE`.
 6. A user who lost their last sign-in method is marked deleted and their tokens are revoked: every JWT now carries the user's token version.
+
+## Why Boards needed Google sign-in
+
+Boards started as an app built around Telegram, and Telegram was the only way to sign in. Over time Boards stopped living only in Telegram, and that sign-in became a limit. Google sign-in lets an organization add a person who does not use Telegram at all, for example someone from an external team who needs to see what the team is doing. Signing in without Telegram should also help people who came to the landing page try Boards sooner.
 
 ## Google sign-in: verifying the ID token in the backend
 
@@ -96,7 +100,7 @@ public class User
 }
 ```
 
-The same migration removed the Telegram profile fields from the `users` table: username, first name, last name and language. The profile now lives in Laraue Identity, a separate service shared by the Laraue apps, and Boards keeps only the identifiers and how to show the user in the interface. Boards passes data to Identity only after verifying it: the Google ID token itself never gets there.
+Boards no longer stores the user's profile (name, language, email): it lives in Identity, a separate service shared by the Laraue products. How we unify users across products is a story for a separate article.
 
 Without Telegram, a user cannot save messages from chats, use the `/save` command or the inline search. We added a note to the sign-in and invite pages that these features work only with Telegram sign-in. Once linking arrived, the note was removed.
 
@@ -193,7 +197,7 @@ The change history (see [part 20](audit-log-change-history-one-transaction)) rec
 
 If there is data, Boards answers `OwnerHasData` right away and does not call Identity at all. Fully merging two users that both have data we left for a separate task, if it is ever needed.
 
-There is a second check on the Identity side. One global Laraue user can be a user of several apps. If the owner of the account is used by another app as well, Identity does not move the account, and Boards answers `OwnerUsedByAnotherService`.
+The last outcome, `OwnerUsedByAnotherService`, is for owners that other Laraue products use as well: such an account is not moved either. It belongs to the same story about shared users, which we will come back to in a separate article.
 
 ## Identity first, then a transaction in Boards
 
