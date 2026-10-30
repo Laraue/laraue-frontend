@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 14
 createdAt: 2026-10-12 09:51
-updatedAt: 2026-10-28
+updatedAt: 2026-10-30 20:42
 projects: [boards]
 tags: [devlog, dotnet, database, architecture, task-tracker]
 ---
@@ -167,7 +167,7 @@ where i.status_id is null;
 Issue → Status → Epic → Space
 ```
 
-Чтобы выбрать issues спейса, в EF Core достаточно пройти по навигационным свойствам от статуса к эпику. Так выглядел фильтр по спейсу в коде того времени:
+Чтобы выбрать issues спейса, в EF Core достаточно пройти по навигационным свойствам от статуса к эпику. Так тогда выглядел фильтр по спейсу:
 
 ```csharp
 query = query.Where(x => x.Status!.Epic!.SpaceId == request.SpaceId);
