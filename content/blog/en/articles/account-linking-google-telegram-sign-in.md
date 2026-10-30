@@ -7,13 +7,13 @@ type: article
 series: architecture-first
 part: 28
 createdAt: 2026-10-30 19:54
-updatedAt: 2026-10-30 21:05
+updatedAt: 2026-10-30 21:06
 projects: [boards]
 tags: [devlog, dotnet, authentication, database]
 ---
 
 > **Architecture First: Building a Jira Alternative in a Tiny Team, AI-Assisted** — Part 28.
-> In the [previous article](running-our-backlog-with-claude-code-mcp) AI agents got access to the tasks through an MCP server. Until then, the only way to sign in to Boards was Telegram. At the end of September Google sign-in arrived, and account linking right after it.
+> In the [previous article](running-our-backlog-with-claude-code-mcp) AI agents got access to the tasks through an MCP server. At the end of September Google sign-in arrived, and account linking right after it.
 
 ## The short version
 
@@ -70,7 +70,7 @@ public async Task<GoogleIdTokenPayload> ValidateAsync(string idToken, Cancellati
 Two verification options have to be set explicitly:
 
 - **An empty audience list.** If `TrustedAudiences` is empty, the library does not check the `aud` claim at all and accepts a token issued for *any* Google OAuth client. So without `GoogleAuth:ClientId` the service refuses to run instead of running without the check.
-- **An empty issuer list.** Without `TrustedIssuers`, the `iss` claim is not checked either. We listed Google's issuers explicitly.
+- **An empty issuer list.** Without `TrustedIssuers`, the `iss` claim is not checked either.
 
 We call `JsonWebSignature.VerifySignedTokenAsync` rather than the better-known `GoogleJsonWebSignature.ValidateAsync` because the latter has no overload with a `CancellationToken`.
 
@@ -78,7 +78,7 @@ We look the user up by `sub`, the permanent id of the Google account. Email does
 
 ## A user without Telegram
 
-Until then every Boards user came from Telegram, and `TelegramId` was required. With Google sign-in the user model became this:
+`TelegramId` used to be required. With Google sign-in the user model became this:
 
 ```csharp
 public class User
@@ -145,8 +145,8 @@ The Telegram widget data is verified the same way as on sign-in (the scheme is d
 
 We wrote the rules down in the issue before starting:
 
-- **A user has one Telegram and one Google account.** A second account of the same kind cannot be connected.
-- **Google cannot be connected inside the Telegram Mini App.** Google does not allow signing in from embedded app browsers, so Google is connected only in a regular browser.
+- **A user has one Telegram and one Google account.** If one of that kind is already connected, the API answers `UserHasOtherAccount`.
+- **Google cannot be connected inside the Telegram Mini App.** Google does not allow signing in from embedded app browsers.
 - **An account cannot be disconnected.** That was left out of scope.
 
 After Telegram is connected, the backend does what the Telegram sign-up does: it links the personal chat with the bot to the default status of the personal organization. From then on, messages sent to the bot become tasks.
@@ -215,7 +215,7 @@ if (outcome == AccountLinkOutcome.Linked)
 
 The first step checks the rules and calls Identity without changing anything in the Boards database. The second runs only if Identity answered with success, and requires an open transaction: the method starts with `EnsureTransactionStarted()`.
 
-If the service fails between the steps, Identity already knows about the link and Boards does not. So both steps are safe to repeat: Identity answers a repeated link with success, and the second step finds the previous owner again and does not create the personal chat if it already exists. The user just presses the button again.
+If the service fails between the steps, Identity already knows about the link and Boards does not. So both steps are safe to repeat: Identity answers a repeated link with success, and the second step finds the previous owner again and does not create the personal chat if it already exists.
 
 The second step starts by locking rows. Otherwise two concurrent requests, a double click on the button for example, could both pass the checks and fail on the unique index of the personal chat. We wrote the lock with linq2db because EF Core has no `FOR UPDATE`:
 
@@ -237,7 +237,7 @@ public static Task LockUsers(
 }
 ```
 
-It locks the current user and the owner of the account being connected: `LockUsers(x => x.Id == userId || x.GoogleSubject == profile.GoogleSubject)`. Rows are locked in `Id` order so that two transactions with overlapping sets of users cannot deadlock. The second request waits for the first one to finish and then sees its result.
+It locks the current user and the owner of the account being connected: `LockUsers(x => x.Id == userId || x.GoogleSubject == profile.GoogleSubject)`. The `Id` order is there so that two transactions with overlapping sets of users cannot deadlock. The second request waits for the first one to finish and then sees its result.
 
 After the lock, the account is removed from the previous owner and written to the current user.
 
@@ -306,4 +306,4 @@ The alternative was short-lived access tokens with refresh tokens. That is a big
 
 ## What comes next
 
-In this article soft delete reached users. The next article is about how we made soft delete work for every entity in Boards and what it changed in our unique indexes.
+The next article is about how we made soft delete work for every entity in Boards and what it changed in our unique indexes.
