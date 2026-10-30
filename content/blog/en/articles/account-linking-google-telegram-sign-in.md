@@ -7,7 +7,7 @@ type: article
 series: architecture-first
 part: 28
 createdAt: 2026-10-30 19:54
-updatedAt: 2026-10-30 20:44
+updatedAt: 2026-10-30 21:05
 projects: [boards]
 tags: [devlog, dotnet, authentication, database]
 ---
@@ -28,7 +28,7 @@ How Google sign-in and account linking work:
 
 ## Why Boards needed Google sign-in
 
-Boards started as an app built around Telegram, and Telegram was the only way to sign in. Over time Boards stopped living only in Telegram, and that sign-in became a limit. Google sign-in lets an organization add a person who does not use Telegram at all, for example someone from an external team who needs to see what the team is doing. Signing in without Telegram should also help people who came to the landing page try Boards sooner.
+At first Telegram was the only way to sign in to Boards, but over time Boards grew beyond a Telegram app. Google sign-in lets an organization add a person who does not use Telegram at all, for example someone from an external team who needs to see what the team is doing. Signing in without Telegram should also help people who came to the landing page try Boards sooner.
 
 ## Google sign-in: verifying the ID token in the backend
 
