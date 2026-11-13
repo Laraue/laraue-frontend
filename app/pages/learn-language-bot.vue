@@ -18,6 +18,7 @@ import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
 import LSection from "~/components/landins/LSection.vue";
 import LCallToAction from "~/components/landins/LCallToAction.vue";
 import LVideo from "~/components/landins/LVideo.vue";
+import LZoomImage from "~/components/landins/LZoomImage.vue";
 // The bot's video on the Laraue YouTube channel, recorded in laraue-videos (MIN-55).
 const videoId = "ItFpkDgZ3Kg";
 // The poster and the screenshots are on the static images server (/static/images), which
@@ -29,10 +30,14 @@ const videoPosters = {
   960: image('vocabulary-bot-video-960.webp'),
   1280: image('vocabulary-bot-video-1280.webp'),
 };
-const quiz480 = image('vocabulary-bot-quiz-480.webp');
-const quiz720 = image('vocabulary-bot-quiz-720.webp');
-const progress480 = image('vocabulary-bot-progress-480.webp');
-const progress720 = image('vocabulary-bot-progress-720.webp');
+// Telegram screenshots, 1200x1520 at their largest (recorded at 2x for zooming in).
+const screenshot = (name: string) => ({
+  src: image(`${name}-480.webp`),
+  srcset: [480, 720, 1200].map((width) => `${image(`${name}-${width}.webp`)} ${width}w`).join(', '),
+  zoomSrc: image(`${name}-1200.webp`),
+});
+const quizScreenshot = screenshot('vocabulary-bot-quiz-v2');
+const progressScreenshot = screenshot('vocabulary-bot-progress-v2');
 
 const { t } = useI18n();
 const { getStaticOgImageUrl } = usePathUtil();
@@ -243,7 +248,9 @@ useSchemaOrg([
     "video_title": "Vocabulary Bot in 52 seconds: learn English words in Telegram",
     "video_play": "Play the video: Vocabulary Bot in 52 seconds",
     "video_description": "The first quiz, daily reminders, My Progress, achievements and the weekly leaderboard of Vocabulary Bot, a free Telegram bot for learning English words.",
-    "quiz_alt": "Quiz results in Vocabulary Bot: six words, five right and one wrong"
+    "quiz_alt": "Quiz results in Vocabulary Bot: six words, five right and one wrong",
+    "zoom_open": "Open the screenshot full size",
+    "zoom_close": "Close"
   },
   "ru": {
     "bc_home": "Главная",
@@ -341,7 +348,9 @@ useSchemaOrg([
     "video_title": "Vocabulary Bot за 52 секунды: английские слова в Telegram",
     "video_play": "Смотреть видео: Vocabulary Bot за 52 секунды",
     "video_description": "Первый квиз, ежедневные напоминания, «Мой прогресс», достижения и рейтинг лучших игроков недели в Vocabulary Bot — бесплатном Telegram-боте для изучения английских слов.",
-    "quiz_alt": "Итоги квиза в Vocabulary Bot: шесть слов, пять верных ответов и одна ошибка"
+    "quiz_alt": "Итоги квиза в Vocabulary Bot: шесть слов, пять верных ответов и одна ошибка",
+    "zoom_open": "Открыть скриншот целиком",
+    "zoom_close": "Закрыть"
   }
 }
 </i18n>
@@ -462,14 +471,14 @@ useSchemaOrg([
         <div>
           <!-- Real screenshot if available, placeholder otherwise -->
           <div class="screenshot-img">
-            <img
-                :src="quiz480"
-                :srcset="`${quiz480} 480w, ${quiz720} 720w`"
+            <LZoomImage
+                v-bind="quizScreenshot"
                 sizes="(max-width: 860px) calc(100vw - 44px), 490px"
                 :alt="t('quiz_alt')"
-                width="720"
-                height="912"
-                loading="lazy" />
+                :width="1200"
+                :height="1520"
+                :zoom-label="t('zoom_open')"
+                :close-label="t('zoom_close')" />
           </div>
         </div>
       </div>
@@ -491,14 +500,14 @@ useSchemaOrg([
         </div>
         <div>
           <div class="screenshot-img">
-            <img
-                :src="progress480"
-                :srcset="`${progress480} 480w, ${progress720} 720w`"
+            <LZoomImage
+                v-bind="progressScreenshot"
                 sizes="(max-width: 860px) calc(100vw - 44px), 490px"
                 :alt="t('progress_alt')"
-                width="720"
-                height="912"
-                loading="lazy" />
+                :width="1200"
+                :height="1520"
+                :zoom-label="t('zoom_open')"
+                :close-label="t('zoom_close')" />
           </div>
         </div>
       </div>
@@ -561,7 +570,6 @@ useSchemaOrg([
 .screenshot-feats li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--color-text)}
 .screenshot-feats li::before{content:'✓';font-weight:700;color:var(--color-success);flex-shrink:0;margin-top:1px}
 .screenshot-img{border-radius:14px;overflow:hidden;border:1px solid var(--color-border);box-shadow:var(--shadow-popover)}
-.screenshot-img img{width:100%;display:block}
 .screenshot-img-placeholder svg{width:40px;height:40px;stroke:currentColor;opacity:.4}
 /* The second screenshot block: its image on the left, on the page's own background. */
 .screenshot--reverse{background:transparent;border-top:none}
