@@ -159,6 +159,15 @@ defineProps<{
       <path d="M7 3.5h7l4 4V20.5H7Z"/>
       <path d="M14 3.5V7.5h4"/>
     </template>
+    <template v-else-if="name === 'bell'">
+      <path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15Z"/>
+      <path d="M10 20.5a2 2 0 0 0 4 0"/>
+    </template>
+    <template v-else-if="name === 'trophy'">
+      <path d="M7.5 4.5h9V10a4.5 4.5 0 0 1-9 0Z"/>
+      <path d="M7.5 6.5H4.5a3 3 0 0 0 3 4M16.5 6.5h3a3 3 0 0 1-3 4"/>
+      <path d="M12 14.5v3.5M8.5 20h7"/>
+    </template>
   </svg>
 </template>
 

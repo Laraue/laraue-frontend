@@ -43,13 +43,28 @@ const supportedLanguages = ref([
   },
   {
     name: t('l6'),
-    value: "ZN"
+    value: "ZH"
   },
   {
     name: t('l7'),
     value: "ES"
+  },
+  {
+    name: t('l8'),
+    value: "UZ"
+  },
+  {
+    name: t('l9'),
+    value: "AR"
+  },
+  {
+    name: t('l10'),
+    value: "FA"
   }
 ])
+
+// /start source label: users who come from this page show up as "landing" in the bot's funnel.
+const botLink = "https://t.me/learn_lang_bot?start=source-landing";
 
 const configuration = useRuntimeConfig();
 const imageUrl = configuration.public.imagesBaseAddress + "quiz-mode.jpg";
@@ -76,7 +91,7 @@ useSchemaOrg([
   defineSoftwareApp({
     name: t('seoTitle'),
     description: t('seoDescription'),
-    applicationCategory: "UtilitiesApplication",
+    applicationCategory: "EducationalApplication",
     operatingSystem: "Telegram",
     offers: [
       defineOffer({
@@ -93,6 +108,8 @@ useSchemaOrg([
       { '@type': 'Question', name: t('faq2q'), acceptedAnswer: { '@type': 'Answer', text: t('faq2a') } },
       { '@type': 'Question', name: t('faq3q'), acceptedAnswer: { '@type': 'Answer', text: t('faq3a') } },
       { '@type': 'Question', name: t('faq4q'), acceptedAnswer: { '@type': 'Answer', text: t('faq4a') } },
+      { '@type': 'Question', name: t('faq5q'), acceptedAnswer: { '@type': 'Answer', text: t('faq5a') } },
+      { '@type': 'Question', name: t('faq6q'), acceptedAnswer: { '@type': 'Answer', text: t('faq6a') } },
     ]
   },
   defineBreadcrumb({
@@ -109,24 +126,28 @@ useSchemaOrg([
   "en": {
     "bc_home": "Home",
     "bc_current": "Vocabulary Bot",
-    "seoTitle": "Vocabulary Bot — Learn Languages in Telegram with Flashcard Quizzes",
-    "seoDescription": "A free Telegram bot that teaches vocabulary through CEFR-leveled flashcard quizzes. Learn Russian, Japanese, French, Hindi, German, Chinese or Spanish — no app to install, no account to create.",
+    "seoTitle": "Vocabulary Bot — a Free Telegram Bot to Learn English Words",
+    "seoDescription": "A free Telegram bot for building your English vocabulary: short quizzes on nearly 6,000 English words from A1 to C1, translated into 10 languages. Daily reminders, progress stats, a leaderboard and achievements — no app to install, no account to create.",
     "faq1q": "Is Vocabulary Bot free?",
     "faq1a": "Yes, the bot is free to use with no limits on quizzes or words.",
     "faq2q": "Do I need to install an app or create an account?",
     "faq2a": "No. Everything runs inside Telegram — just start a chat with the bot and begin the quiz.",
     "faq3q": "Which languages are supported?",
-    "faq3a": "Seven language pairs into English: Russian, Japanese, French, Hindi, German, Chinese and Spanish.",
+    "faq3a": "The bot teaches English words with translations into 10 languages: Russian, Japanese, French, Hindi, German, Chinese, Spanish, Uzbek, Arabic and Persian.",
     "faq4q": "How are words organized?",
-    "faq4a": "Words are grouped by CEFR level from A1 to C1, so you can start at your current level and progress at your own pace.",
+    "faq4a": "Nearly 6,000 English words are grouped by CEFR level from A1 to C1, so you can start at your current level and move on at your own pace.",
+    "faq5q": "Will the bot remind me to practice?",
+    "faq5a": "Yes, if you want it to. After your first quiz the bot offers a daily reminder at the time you choose, and you can turn it off in Settings. It writes only on days you haven't practiced yet.",
+    "faq6q": "How do I see my progress?",
+    "faq6a": "My Progress shows your days in a row, this week's quizzes and accuracy, learned words per CEFR level and the words you miss most, with a button for a review quiz built from them.",
     "sec_overview": "Overview",
     "sec_features": "Features",
     "sec_how": "How it works",
     "sec_languages": "Languages",
     "sec_quiz": "Quiz mode",
     "hero_eyebrow": "Vocabulary Bot by Laraue Software",
-    "hero_title": "Learn languages\ninside Telegram",
-    "hero_sub": "Interactive quiz mode, CEFR-structured word lists, and progress tracking — all inside Telegram. No app to install, no account to create.",
+    "hero_title": "Learn English words\ninside Telegram",
+    "hero_sub": "Short quizzes on nearly 6,000 English words from A1 to C1, a daily reminder, progress stats, a weekly leaderboard and achievements — all inside Telegram. No app to install, no account to create.",
     "hero_cta": "Start learning now",
     "stat_langs": "language pairs",
     "stat_cefr": "CEFR levels",
@@ -138,74 +159,81 @@ useSchemaOrg([
     "feat_title": "Powerful learning features",
     "feat_sub": "Proven language learning methods, delivered inside the app you already use every day.",
     "f1t": "Quiz Mode",
-    "f1d": "Interactive multiple-choice quizzes that make vocabulary stick. Immediate feedback after every answer.",
+    "f1d": "Short multiple-choice quizzes that make English words stick, with feedback after every answer. The first one takes about a minute.",
     "f2t": "CEFR Levels",
-    "f2d": "Words organized by A1 through C1 proficiency levels. Start where you are, progress at your own pace — no guesswork about difficulty.",
+    "f2d": "Words organized by CEFR level from A1 to C1, with topics. Choose the levels and topics you need in Settings — no guesswork about difficulty.",
     "f3t": "Progress Tracking",
-    "f3d": "Monitor your quiz results and word mastery over time. Visual stats keep you accountable and show real improvement.",
-    "f4t": "View Mode",
-    "f4d": "Browse and study words organized by CEFR level, topic, or alphabetically. Great for refreshing vocabulary before an exam or meeting.",
-    "f5t": "Personalized Learning",
-    "f5d": "Choose your language pair, set your level, and focus on specific topics. The bot adapts to your choices and tracks what you know.",
+    "f3d": "Days in a row, this week's quizzes and accuracy, learned words per level and the words you miss most — with a review quiz built from them.",
+    "f4t": "Daily Reminders",
+    "f4d": "Pick a time and the bot sends one reminder a day, only when you haven't practiced yet, with a button straight into a quiz.",
+    "f5t": "Leaderboard and Achievements",
+    "f5d": "Compete on the weekly and monthly leaderboard, win trophies for the top 3, and collect achievements for streaks, perfect quizzes and learned words.",
     "f6t": "No Install Needed",
-    "f6d": "Works inside Telegram on any device — phone, tablet, desktop. No separate app, no account creation, no friction. Just open and learn.",
+    "f6d": "Works inside Telegram on any device — phone, tablet, desktop. No separate app, no account creation. Just open and learn.",
     "how_label": "Getting started",
     "how_title": "Start learning in 3 steps",
     "how_sub": "No setup, no configuration, no credit card.",
     "step1t": "Open the bot",
     "step1d": "Search learn_lang_bot in Telegram and hit Start. That's it — no registration.",
-    "step2t": "Pick your language",
-    "step2d": "Choose from 7 language pairs and set your CEFR level. Change anytime from settings.",
-    "step3t": "Start the quiz",
-    "step3d": "Answer the questions. A word is learned after three correct answers in a row.",
+    "step2t": "Tap to start the first quiz",
+    "step2d": "The bot picks the translation language from your Telegram app. The first quiz is a few A1 words — change the language and levels anytime in Settings.",
+    "step3t": "Come back every day",
+    "step3d": "A word is learned after three correct answers in a row. Turn on a daily reminder to keep your streak going.",
     "lang_label": "Supported pairs",
-    "lang_title": "7 language pairs",
-    "lang_sub": "All the most popular languages, all English-based. More pairs coming soon.",
-    "l1": "Russian → English",
-    "l2": "Japanese → English",
-    "l3": "French → English",
-    "l4": "Hindi → English",
-    "l5": "German → English",
-    "l6": "Chinese → English",
-    "l7": "Spanish → English",
+    "lang_title": "10 language pairs",
+    "lang_sub": "English words with translations into your language. More pairs coming soon.",
+    "l1": "English for Russian speakers",
+    "l2": "English for Japanese speakers",
+    "l3": "English for French speakers",
+    "l4": "English for Hindi speakers",
+    "l5": "English for German speakers",
+    "l6": "English for Chinese speakers",
+    "l7": "English for Spanish speakers",
+    "l8": "English for Uzbek speakers",
+    "l9": "English for Arabic speakers",
+    "l10": "English for Persian speakers",
     "more_coming": "More coming",
     "quiz_label": "Core feature",
     "quiz_title": "Quiz Mode",
-    "quiz_desc": "The fastest way to build vocabulary. You see a word, pick the right translation from eight options of the same part of speech, and get immediate feedback. Wrong answers are revisited automatically.",
+    "quiz_desc": "The fastest way to build your English vocabulary. You see a word, pick the right translation from four options of the same part of speech, and get immediate feedback. A quiz is ten questions — short enough for a coffee break.",
     "qf1": "Multiple-choice format proven to improve retention",
     "qf2": "Immediate feedback after every answer: correct or wrong",
-    "qf3": "All eight options share the part of speech, so grammar does not give the answer away",
+    "qf3": "All four options share the part of speech, so grammar does not give the answer away",
     "qf4": "Adaptive — revisits words you get wrong more often",
-    "qf5": "Stats updated after every session",
+    "qf5": "A review quiz from the words you miss most",
     "oss_label": "Transparent by design",
     "oss_title": "Source code is public",
     "oss_sub": "The bot's source code is public on GitHub, so you can read how it works. It is free for personal and other noncommercial use; commercial use needs a separate agreement.",
     "oss_card_desc": "Built with C# on .NET. The word list and the languages are plain JSON files in the repository.",
     "cta_eyebrow": "Free. No account. No install.",
     "cta_title": "Start building your vocabulary today",
-    "cta_sub": "Open the bot, pick your language, and start your first quiz in under 60 seconds."
+    "cta_sub": "Open the bot and answer your first question in under 60 seconds."
   },
   "ru": {
     "bc_home": "Главная",
     "bc_current": "Бот для изучения языков",
-    "seoTitle": "Vocabulary Bot — изучайте языки в Telegram с квизами-карточками",
-    "seoDescription": "Бесплатный Telegram-бот учит словам через квизы-карточки по уровням CEFR. Русский, японский, французский, хинди, немецкий, китайский и испанский — без установки приложений и регистрации.",
+    "seoTitle": "Vocabulary Bot — бесплатный Telegram-бот для изучения английских слов",
+    "seoDescription": "Бесплатный бот в Telegram, чтобы учить английские слова и пополнять словарный запас: короткие квизы по почти 6 000 слов от A1 до C1, напоминания каждый день, статистика, рейтинг и достижения. Без установки и регистрации.",
     "faq1q": "Vocabulary Bot бесплатный?",
     "faq1a": "Да, бот бесплатен без ограничений на количество квизов и слов.",
     "faq2q": "Нужно ли устанавливать приложение или создавать аккаунт?",
     "faq2a": "Нет. Всё работает внутри Telegram — просто начните чат с ботом и приступайте к квизу.",
     "faq3q": "Какие языки поддерживаются?",
-    "faq3a": "Семь языковых пар с английским: русский, японский, французский, хинди, немецкий, китайский и испанский.",
+    "faq3a": "Бот учит английским словам с переводом на 10 языков: русский, японский, французский, хинди, немецкий, китайский, испанский, узбекский, арабский и персидский.",
     "faq4q": "Как организованы слова?",
-    "faq4a": "Слова сгруппированы по уровням CEFR от A1 до C1, поэтому можно начать с текущего уровня и двигаться в своём темпе.",
+    "faq4a": "Почти 6 000 английских слов сгруппированы по уровням CEFR от A1 до C1, поэтому можно начать с текущего уровня и двигаться в своём темпе.",
+    "faq5q": "Бот напомнит позаниматься?",
+    "faq5a": "Да, если захотите. После первого квиза бот предложит ежедневное напоминание в удобное время, выключить его можно в настройках. Он пишет только в те дни, когда вы ещё не занимались.",
+    "faq6q": "Где посмотреть прогресс?",
+    "faq6a": "В разделе «Мой прогресс»: дни подряд, квизы и точность за неделю, выученные слова по уровням CEFR и слова, в которых вы чаще ошибаетесь, — с кнопкой квиза на повторение из них.",
     "sec_overview": "Обзор",
     "sec_features": "Функции",
     "sec_how": "Как это работает",
     "sec_languages": "Языки",
     "sec_quiz": "Режим квиза",
     "hero_eyebrow": "Бот для запоминания слов от Laraue Software",
-    "hero_title": "Учите языки\nне выходя из Telegram",
-    "hero_sub": "Режим квиза, изучение по уровням CEFR и отслеживание прогресса — всё внутри Telegram. Без дополнительных установок и регистраций.",
+    "hero_title": "Учите английские слова\nне выходя из Telegram",
+    "hero_sub": "Короткие квизы по почти 6 000 английских слов от A1 до C1, напоминание каждый день, статистика, рейтинг недели и достижения — всё внутри Telegram. Без установки и регистрации.",
     "hero_cta": "Начать изучение",
     "stat_langs": "языковых пар",
     "stat_cefr": "уровни CEFR",
@@ -217,15 +245,15 @@ useSchemaOrg([
     "feat_title": "Мощные функции",
     "feat_sub": "Проверенные методы изучения языков — в приложении, которым вы пользуетесь каждый день.",
     "f1t": "Режим квиза",
-    "f1d": "Интерактивные квизы, которые помогают запоминать слова. Моментальная обратная связь после каждого ответа.",
+    "f1d": "Короткие квизы с выбором ответа, которые помогают запоминать английские слова. Ответ проверяется сразу. Первый квиз занимает около минуты.",
     "f2t": "Уровни CEFR",
-    "f2d": "Слова по уровням от A1 до C1. Легкий старт в новых языках. Учите только то, что необходимо.",
+    "f2d": "Слова по уровням CEFR от A1 до C1 и по темам. Выберите нужные уровни и темы в настройках и учите только то, что нужно.",
     "f3t": "Отслеживание прогресса",
-    "f3d": "Результаты квизов и уровень знания слов. Статистика показывает реальный прогресс.",
-    "f4t": "Режим просмотра",
-    "f4d": "Просматривайте слова по уровню CEFR, тематике или алфавиту. Подходит для повторения перед экзаменом.",
-    "f5t": "Персонализация",
-    "f5d": "Выберите языковую пару, уровень и тематику. Бот адаптируется под ваши запросы.",
+    "f3d": "Дни подряд, квизы и точность за неделю, выученные слова по уровням и слова, в которых вы чаще ошибаетесь, — и квиз на их повторение.",
+    "f4t": "Напоминания каждый день",
+    "f4d": "Выберите время, и бот пришлёт одно напоминание в день — только если вы ещё не занимались, с кнопкой сразу в квиз.",
+    "f5t": "Рейтинг и достижения",
+    "f5d": "Соревнуйтесь в рейтинге недели и месяца, получайте трофеи за первые три места и собирайте достижения за серии дней, квизы без ошибок и выученные слова.",
     "f6t": "Без установки",
     "f6d": "Работает в Telegram на любом устройстве. Никакой регистрации, никаких дополнительных приложений.",
     "how_label": "Начало работы",
@@ -233,36 +261,39 @@ useSchemaOrg([
     "how_sub": "Без долгих настроек и скачиваний.",
     "step1t": "Откройте бота",
     "step1d": "Найдите learn_lang_bot в Telegram и нажмите «Старт».",
-    "step2t": "Выберите язык",
-    "step2d": "Выберите языковую пару, уровень CEFR.",
-    "step3t": "Начните квиз",
-    "step3d": "Отвечайте на вопросы. Слово считается выученным после трёх правильных ответов подряд.",
+    "step2t": "Начните первый квиз одной кнопкой",
+    "step2d": "Бот сам выберет язык перевода по языку вашего Telegram. Первый квиз — несколько слов уровня A1. Язык и уровни можно поменять в настройках.",
+    "step3t": "Возвращайтесь каждый день",
+    "step3d": "Слово считается выученным после трёх правильных ответов подряд. Включите напоминание, чтобы не прерывать серию.",
     "lang_label": "Поддерживаемые пары",
-    "lang_title": "7 языковых пар",
-    "lang_sub": "Самые популярные языковые пары. Постоянно добавляются новые.",
-    "l1": "Русский → Английский",
-    "l2": "Японский → Английский",
-    "l3": "Французский → Английский",
-    "l4": "Хинди → Английский",
-    "l5": "Немецкий → Английский",
-    "l6": "Китайский → Английский",
-    "l7": "Испанский → Английский",
+    "lang_title": "10 языковых пар",
+    "lang_sub": "Английские слова с переводом на ваш язык. Постоянно добавляются новые пары.",
+    "l1": "Английский для русскоговорящих",
+    "l2": "Английский для говорящих по-японски",
+    "l3": "Английский для говорящих по-французски",
+    "l4": "Английский для говорящих на хинди",
+    "l5": "Английский для говорящих по-немецки",
+    "l6": "Английский для говорящих по-китайски",
+    "l7": "Английский для говорящих по-испански",
+    "l8": "Английский для говорящих по-узбекски",
+    "l9": "Английский для говорящих по-арабски",
+    "l10": "Английский для говорящих на фарси",
     "more_coming": "Скоро новые пары",
     "quiz_label": "Основной режим",
     "quiz_title": "Режим квиза",
-    "quiz_desc": "Самый быстрый способ пополнить словарный запас. Выбираете перевод из восьми вариантов той же части речи для предложенного слова. Неправильные ответы повторяются автоматически.",
+    "quiz_desc": "Самый быстрый способ пополнить словарный запас. Для каждого слова выбираете перевод из четырёх вариантов той же части речи и сразу видите, верно ли. Квиз — десять вопросов, хватит и короткого перерыва.",
     "qf1": "Формат с выбором ответа, проверенный практикой",
     "qf2": "Моментальный ответ после каждого выбора: верно или неверно",
-    "qf3": "Все восемь вариантов одной части речи, поэтому грамматика не подсказывает ответ",
+    "qf3": "Все четыре варианта одной части речи, поэтому грамматика не подсказывает ответ",
     "qf4": "Адаптивность — слова с ошибками повторяются чаще",
-    "qf5": "Статистика обновляется после каждой сессии",
+    "qf5": "Квиз на повторение из слов, в которых вы чаще ошибаетесь",
     "oss_label": "Абсолютная прозрачность",
     "oss_title": "Исходный код открыт",
     "oss_sub": "Исходный код бота открыт на GitHub, так что можно прочитать, как он устроен. Он бесплатен для личного и другого некоммерческого использования; для коммерческого нужно отдельное соглашение.",
     "oss_card_desc": "Написан на C# на .NET. Список слов и языки — обычные JSON-файлы в репозитории.",
     "cta_eyebrow": "Бесплатно. Без аккаунта. Без установки приложений.",
     "cta_title": "Начните пополнять словарный запас сегодня",
-    "cta_sub": "Откройте бота, выберите язык и пройдите первый квиз за 60 секунд."
+    "cta_sub": "Откройте бота и ответьте на первый вопрос меньше чем за минуту."
   }
 }
 </i18n>
@@ -275,7 +306,7 @@ useSchemaOrg([
         :post-title="t('hero_sub')"
         :statistics="[
         {
-          num: 7,
+          num: 10,
           label: t('stat_langs')
         },
         {
@@ -291,7 +322,7 @@ useSchemaOrg([
         <LPlatformBadge type="tg" title="Telegram Bot — Free" />
       </template>
       <template #actions>
-        <LActionButton :title="t('hero_cta')" link="https://t.me/learn_lang_bot" type="telegram" />
+        <LActionButton :title="t('hero_cta')" :link="botLink" type="telegram" />
         <LActionButton :title="t('view_blog')" :link="localePath('/blog/projects/learn-language')" type="site" />
       </template>
       <template #visual>
@@ -309,7 +340,7 @@ useSchemaOrg([
           <div class="phone-body">
             <div class="bubble bot">
               Let&#8217;s practice! <span class="cefr-badge">B1</span><br>
-              <strong style="color:#fff">What does &#8220;resilient&#8221; mean?</strong>
+              <strong>What does &#8220;resilient&#8221; mean?</strong>
               <div class="bubble-time">12:04</div>
             </div>
             <div class="quiz-card">
@@ -319,11 +350,7 @@ useSchemaOrg([
                 <div class="quiz-option correct">&#10003; Able to recover</div>
                 <div class="quiz-option">Fragile</div>
                 <div class="quiz-option wrong">&#10007; Rigid</div>
-                <div class="quiz-option">Slow</div>
                 <div class="quiz-option">Cheerful</div>
-                <div class="quiz-option">Narrow</div>
-                <div class="quiz-option">Distant</div>
-                <div class="quiz-option">Hungry</div>
               </div>
             </div>
             <div class="bubble user">
@@ -384,12 +411,12 @@ useSchemaOrg([
         },
         {
           title: t('f4t'),
-          icon: 'eye',
+          icon: 'bell',
           description: t('f4d')
         },
         {
           title: t('f5t'),
-          icon: 'sparkle',
+          icon: 'trophy',
           description: t('f5d')
         },
         {
@@ -413,7 +440,7 @@ useSchemaOrg([
             <li>{{ t('qf4') }}</li>
             <li>{{ t('qf5') }}</li>
           </ul>
-          <LActionButton :title="t('hero_cta')" type="telegram" link="https://t.me/learn_lang_bot" />
+          <LActionButton :title="t('hero_cta')" type="telegram" :link="botLink" />
         </div>
         <div>
           <!-- Real screenshot if available, placeholder otherwise -->
@@ -462,7 +489,7 @@ useSchemaOrg([
 
     <!-- ══ CTA ══ -->
     <LCallToAction :title="t('cta_title')" :pre-title="t('cta_eyebrow')" :post-title="t('cta_sub')">
-      <LActionButton :title="t('hero_cta')" link="https://t.me/learn_lang_bot" type="telegram" />
+      <LActionButton :title="t('hero_cta')" :link="botLink" type="telegram" />
       <LActionButton :title="t('view_github')" link="https://github.com/Laraue/Laraue.Apps.LearnLanguage" type="github" />
     </LCallToAction>
 
