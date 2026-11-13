@@ -18,15 +18,19 @@ import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
 import LSection from "~/components/landins/LSection.vue";
 import LCallToAction from "~/components/landins/LCallToAction.vue";
 import LVideo from "~/components/landins/LVideo.vue";
-import video640 from "~/assets/images/vocabulary-bot-video-640.webp";
-import video960 from "~/assets/images/vocabulary-bot-video-960.webp";
-import video1280 from "~/assets/images/vocabulary-bot-video-1280.webp";
-import quiz480 from "~/assets/images/vocabulary-bot-quiz-480.webp";
-import quiz720 from "~/assets/images/vocabulary-bot-quiz-720.webp";
-
 // The bot's video on the Laraue YouTube channel, recorded in laraue-videos (MIN-55).
 const videoId = "ItFpkDgZ3Kg";
-const videoPosters = { 640: video640, 960: video960, 1280: video1280 };
+// The poster and the quiz screenshot are on the static images server (/static/images), which
+// caches for a year: a changed image needs a new file name.
+const { imagesBaseAddress } = useRuntimeConfig().public;
+const image = (name: string) => `${imagesBaseAddress}${name}`;
+const videoPosters = {
+  640: image('vocabulary-bot-video-640.webp'),
+  960: image('vocabulary-bot-video-960.webp'),
+  1280: image('vocabulary-bot-video-1280.webp'),
+};
+const quiz480 = image('vocabulary-bot-quiz-480.webp');
+const quiz720 = image('vocabulary-bot-quiz-720.webp');
 
 const { t } = useI18n();
 const { getStaticOgImageUrl } = usePathUtil();
