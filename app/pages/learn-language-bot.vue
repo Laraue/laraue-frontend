@@ -20,7 +20,7 @@ import LCallToAction from "~/components/landins/LCallToAction.vue";
 import LVideo from "~/components/landins/LVideo.vue";
 // The bot's video on the Laraue YouTube channel, recorded in laraue-videos (MIN-55).
 const videoId = "ItFpkDgZ3Kg";
-// The poster and the quiz screenshot are on the static images server (/static/images), which
+// The poster and the screenshots are on the static images server (/static/images), which
 // caches for a year: a changed image needs a new file name.
 const { imagesBaseAddress } = useRuntimeConfig().public;
 const image = (name: string) => `${imagesBaseAddress}${name}`;
@@ -31,6 +31,8 @@ const videoPosters = {
 };
 const quiz480 = image('vocabulary-bot-quiz-480.webp');
 const quiz720 = image('vocabulary-bot-quiz-720.webp');
+const progress480 = image('vocabulary-bot-progress-480.webp');
+const progress720 = image('vocabulary-bot-progress-720.webp');
 
 const { t } = useI18n();
 const { getStaticOgImageUrl } = usePathUtil();
@@ -223,6 +225,14 @@ useSchemaOrg([
     "qf3": "All four options share the part of speech, so grammar does not give the answer away",
     "qf4": "Adaptive — revisits words you get wrong more often",
     "qf5": "A review quiz from the words you miss most",
+    "progress_label": "See your results",
+    "progress_title": "My Progress",
+    "progress_desc": "One screen per language pair shows how far you've come and what to practice next.",
+    "pf1": "Days in a row, and this week's quizzes, answers and accuracy",
+    "pf2": "Learned words per CEFR level, from A1 to C1",
+    "pf3": "Words learned on each of the last seven days",
+    "pf4": "The words you miss most, with a review quiz built from them",
+    "progress_alt": "My Progress in Vocabulary Bot: 7 days in a row, 104 words learned, progress by CEFR level and the most missed words",
     "oss_label": "Transparent by design",
     "oss_title": "Source code is public",
     "oss_sub": "The bot's source code is public on GitHub, so you can read how it works. It is free for personal and other noncommercial use; commercial use needs a separate agreement.",
@@ -313,6 +323,14 @@ useSchemaOrg([
     "qf3": "Все четыре варианта одной части речи, поэтому грамматика не подсказывает ответ",
     "qf4": "Адаптивность — слова с ошибками повторяются чаще",
     "qf5": "Квиз на повторение из слов, в которых вы чаще ошибаетесь",
+    "progress_label": "Ваши результаты",
+    "progress_title": "Мой прогресс",
+    "progress_desc": "Отдельный экран для каждой языковой пары: сколько уже пройдено и что повторить дальше.",
+    "pf1": "Дни подряд, а также квизы, ответы и точность за неделю",
+    "pf2": "Выученные слова по уровням CEFR от A1 до C1",
+    "pf3": "Сколько слов выучено в каждый из последних семи дней",
+    "pf4": "Слова, в которых вы чаще ошибаетесь, и квиз на их повторение",
+    "progress_alt": "«Мой прогресс» в Vocabulary Bot: 7 дней подряд, 104 выученных слова, прогресс по уровням CEFR и слова с ошибками",
     "oss_label": "Абсолютная прозрачность",
     "oss_title": "Исходный код открыт",
     "oss_sub": "Исходный код бота открыт на GitHub, так что можно прочитать, как он устроен. Он бесплатен для личного и другого некоммерческого использования; для коммерческого нужно отдельное соглашение.",
@@ -456,6 +474,35 @@ useSchemaOrg([
       </div>
     </section>
 
+    <!-- ══ MY PROGRESS SCREENSHOT ══ -->
+    <section class="screenshot screenshot--reverse" id="progress">
+      <div class="screenshot-inner">
+        <div>
+          <div class="section-label">{{ t('progress_label') }}</div>
+          <h2 class="section-title">{{ t('progress_title') }}</h2>
+          <p class="screenshot-desc">{{ t('progress_desc') }}</p>
+          <ul class="screenshot-feats">
+            <li>{{ t('pf1') }}</li>
+            <li>{{ t('pf2') }}</li>
+            <li>{{ t('pf3') }}</li>
+            <li>{{ t('pf4') }}</li>
+          </ul>
+        </div>
+        <div>
+          <div class="screenshot-img">
+            <img
+                :src="progress480"
+                :srcset="`${progress480} 480w, ${progress720} 720w`"
+                sizes="(max-width: 860px) calc(100vw - 44px), 490px"
+                :alt="t('progress_alt')"
+                width="720"
+                height="912"
+                loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
     <LSection class="features" :pre-title="t('lang_label')" :postTitle="t('lang_sub')" :title="t('lang_title')" type="cream">
       <div class="languages-grid">
         <div v-for="language in supportedLanguages" class="lang-card">
@@ -515,6 +562,9 @@ useSchemaOrg([
 .screenshot-img{border-radius:14px;overflow:hidden;border:1px solid var(--color-border);box-shadow:var(--shadow-popover)}
 .screenshot-img img{width:100%;display:block}
 .screenshot-img-placeholder svg{width:40px;height:40px;stroke:currentColor;opacity:.4}
+/* The second screenshot block: its image on the left, on the page's own background. */
+.screenshot--reverse{background:transparent;border-top:none}
+.screenshot--reverse .screenshot-inner>:first-child{order:2}
 
 /* ══ LANGUAGES ══ */
 .languages-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:48px}
@@ -545,6 +595,7 @@ useSchemaOrg([
 }
 @media(max-width:860px){
   .screenshot-inner,.oss-inner{grid-template-columns:1fr;gap:48px}
+  .screenshot--reverse .screenshot-inner>:first-child{order:0}
   .languages-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:720px){
