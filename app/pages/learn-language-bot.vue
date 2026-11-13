@@ -4,6 +4,7 @@ import {computed} from "vue";
 import {
   defineOffer,
   defineSoftwareApp,
+  defineVideo,
   defineBreadcrumb,
   useSchemaOrg
 } from "@unhead/schema-org/vue";
@@ -16,6 +17,16 @@ import LSteps from "~/components/landins/LSteps.vue";
 import LFeaturesGrid from "~/components/landins/LFeaturesGrid.vue";
 import LSection from "~/components/landins/LSection.vue";
 import LCallToAction from "~/components/landins/LCallToAction.vue";
+import LVideo from "~/components/landins/LVideo.vue";
+import video640 from "~/assets/images/vocabulary-bot-video-640.webp";
+import video960 from "~/assets/images/vocabulary-bot-video-960.webp";
+import video1280 from "~/assets/images/vocabulary-bot-video-1280.webp";
+import quiz480 from "~/assets/images/vocabulary-bot-quiz-480.webp";
+import quiz720 from "~/assets/images/vocabulary-bot-quiz-720.webp";
+
+// The bot's video on the Laraue YouTube channel, recorded in laraue-videos (MIN-55).
+const videoId = "ItFpkDgZ3Kg";
+const videoPosters = { 640: video640, 960: video960, 1280: video1280 };
 
 const { t } = useI18n();
 const { getStaticOgImageUrl } = usePathUtil();
@@ -66,8 +77,6 @@ const supportedLanguages = ref([
 // /start source label: users who come from this page show up as "landing" in the bot's funnel.
 const botLink = "https://t.me/learn_lang_bot?start=source-landing";
 
-const configuration = useRuntimeConfig();
-const imageUrl = configuration.public.imagesBaseAddress + "quiz-mode.jpg";
 const ogImageUrl = getStaticOgImageUrl('learn-language-bot-og');
 useSeoMeta({
   title: computed(() => t('seoTitle')),
@@ -112,6 +121,15 @@ useSchemaOrg([
       { '@type': 'Question', name: t('faq6q'), acceptedAnswer: { '@type': 'Answer', text: t('faq6a') } },
     ]
   },
+  defineVideo({
+    name: t('video_title'),
+    description: t('video_description'),
+    thumbnailUrl: `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
+    uploadDate: '2026-11-14',
+    duration: 'PT52S',
+    embedUrl: `https://www.youtube.com/embed/${videoId}`,
+    contentUrl: `https://www.youtube.com/watch?v=${videoId}`,
+  }),
   defineBreadcrumb({
     itemListElement: [
       { name: t('bc_home'), item: localePath('/') },
@@ -207,7 +225,11 @@ useSchemaOrg([
     "oss_card_desc": "Built with C# on .NET. The word list and the languages are plain JSON files in the repository.",
     "cta_eyebrow": "Free. No account. No install.",
     "cta_title": "Start building your vocabulary today",
-    "cta_sub": "Open the bot and answer your first question in under 60 seconds."
+    "cta_sub": "Open the bot and answer your first question in under 60 seconds.",
+    "video_title": "Vocabulary Bot in 52 seconds: learn English words in Telegram",
+    "video_play": "Play the video: Vocabulary Bot in 52 seconds",
+    "video_description": "The first quiz, daily reminders, My Progress, achievements and the weekly leaderboard of Vocabulary Bot, a free Telegram bot for learning English words.",
+    "quiz_alt": "Quiz results in Vocabulary Bot: six words, five right and one wrong"
   },
   "ru": {
     "bc_home": "Главная",
@@ -293,7 +315,11 @@ useSchemaOrg([
     "oss_card_desc": "Написан на C# на .NET. Список слов и языки — обычные JSON-файлы в репозитории.",
     "cta_eyebrow": "Бесплатно. Без аккаунта. Без установки приложений.",
     "cta_title": "Начните пополнять словарный запас сегодня",
-    "cta_sub": "Откройте бота и ответьте на первый вопрос меньше чем за минуту."
+    "cta_sub": "Откройте бота и ответьте на первый вопрос меньше чем за минуту.",
+    "video_title": "Vocabulary Bot за 52 секунды: английские слова в Telegram",
+    "video_play": "Смотреть видео: Vocabulary Bot за 52 секунды",
+    "video_description": "Первый квиз, ежедневные напоминания, «Мой прогресс», достижения и рейтинг недели в Vocabulary Bot — бесплатном Telegram-боте для изучения английских слов.",
+    "quiz_alt": "Итоги квиза в Vocabulary Bot: шесть слов, пять верных ответов и одна ошибка"
   }
 }
 </i18n>
@@ -326,44 +352,12 @@ useSchemaOrg([
         <LActionButton :title="t('view_blog')" :link="localePath('/blog/projects/learn-language')" type="site" />
       </template>
       <template #visual>
-        <!-- phone mockup -->
-        <div class="phone-mockup">
-          <div class="phone-notch"><div class="phone-notch-bar"></div></div>
-          <div class="phone-status">
-            <div class="phone-status-avatar"><LNavIcon name="bot" /></div>
-            <div>
-              <div class="phone-status-name">Vocabulary Bot</div>
-              <div class="phone-status-sub">@learn_lang_bot</div>
-            </div>
-            <div class="phone-status-dot"></div>
-          </div>
-          <div class="phone-body">
-            <div class="bubble bot">
-              Let&#8217;s practice! <span class="cefr-badge">B1</span><br>
-              <strong>What does &#8220;resilient&#8221; mean?</strong>
-              <div class="bubble-time">12:04</div>
-            </div>
-            <div class="quiz-card">
-              <div class="quiz-word">Resilient</div>
-              <div class="quiz-sub">Choose the correct translation</div>
-              <div class="quiz-options">
-                <div class="quiz-option correct">&#10003; Able to recover</div>
-                <div class="quiz-option">Fragile</div>
-                <div class="quiz-option wrong">&#10007; Rigid</div>
-                <div class="quiz-option">Cheerful</div>
-              </div>
-            </div>
-            <div class="bubble user">
-              Able to recover
-              <div class="bubble-time">12:04</div>
-            </div>
-            <div class="bubble bot">
-              &#127881; <strong style="color:var(--color-success)">Correct!</strong><br>
-              <span style="opacity:.6;font-size:11px">Next word in 3s</span>
-              <div class="bubble-time">12:04</div>
-            </div>
-          </div>
-        </div>
+        <LVideo
+            :video-id="videoId"
+            :title="t('video_title')"
+            :play-label="t('video_play')"
+            :posters="videoPosters"
+            sizes="(max-width: 720px) calc(100vw - 44px), (max-width: 1180px) calc((100vw - 200px) / 2), 490px" />
       </template>
     </LLandingIntro>
 
@@ -445,7 +439,14 @@ useSchemaOrg([
         <div>
           <!-- Real screenshot if available, placeholder otherwise -->
           <div class="screenshot-img">
-            <img :src="configuration.public.imagesBaseAddress + 'quiz-mode.jpg'" alt="Quiz Mode screenshot" width="470" height="611" loading="lazy" />
+            <img
+                :src="quiz480"
+                :srcset="`${quiz480} 480w, ${quiz720} 720w`"
+                sizes="(max-width: 860px) calc(100vw - 44px), 490px"
+                :alt="t('quiz_alt')"
+                width="720"
+                height="912"
+                loading="lazy" />
           </div>
         </div>
       </div>
@@ -497,59 +498,6 @@ useSchemaOrg([
 </template>
 
 <style scoped>
-/* ── hero phone mockup ── */
-.phone-mockup{
-  width:260px;flex-shrink:0;
-  background:var(--color-surface);
-  border:1px solid var(--color-border);
-  border-radius:28px;overflow:hidden;
-  box-shadow:var(--shadow-popover);
-}
-.phone-notch{
-  height:28px;background:var(--color-surface);
-  display:flex;align-items:center;justify-content:center;
-}
-.phone-notch-bar{width:60px;height:4px;background:var(--color-border);border-radius:2px}
-.phone-status{
-  background:var(--color-surface);border-bottom:1px solid var(--color-divider);
-  padding:10px 16px;
-  display:flex;align-items:center;gap:10px;
-}
-.phone-status-avatar{width:32px;height:32px;border-radius:50%;background:var(--color-accent-soft);color:var(--color-accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.phone-status-avatar :deep(.nav-icon-svg){width:18px;height:18px}
-.phone-status-name{font-size:13px;font-weight:700;color:var(--color-text)}
-.phone-status-sub{font-size:10px;color:var(--color-muted)}
-.phone-status-dot{width:7px;height:7px;border-radius:50%;background:var(--color-success);margin-left:auto;box-shadow:0 0 0 2px color-mix(in srgb,var(--color-success) 25%,transparent)}
-
-.phone-body{padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--color-workspace)}
-
-/* chat bubbles */
-.bubble{
-  max-width:86%;padding:8px 12px;border-radius:12px;font-size:12px;line-height:1.5;
-}
-.bubble.bot{background:var(--color-surface);border:1px solid var(--color-border);color:var(--color-text);align-self:flex-start;border-radius:4px 12px 12px 12px}
-.bubble.user{background:var(--color-accent-soft);color:var(--color-text);align-self:flex-end;border-radius:12px 4px 12px 12px}
-.bubble-time{font-size:9px;opacity:.6;text-align:right;margin-top:3px}
-
-/* quiz card inside phone */
-.quiz-card{
-  background:var(--color-surface);border:1px solid var(--color-border);
-  border-radius:var(--radius-card);padding:12px;margin:4px 0;
-}
-.quiz-word{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--color-text);text-align:center;margin-bottom:4px}
-.quiz-sub{font-size:10px;color:var(--color-muted);text-align:center;margin-bottom:10px;letter-spacing:.04em;text-transform:uppercase}
-.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:5px}
-.quiz-option{
-  padding:6px 8px;border-radius:var(--radius-control);
-  font-size:11px;font-weight:600;text-align:center;
-  border:1px solid var(--color-border);color:var(--color-muted);
-  background:var(--color-surface);
-  cursor:default;
-}
-.quiz-option.correct{background:color-mix(in srgb,var(--color-success) 12%,var(--color-surface));border-color:var(--color-success);color:var(--color-success)}
-.quiz-option.wrong{background:color-mix(in srgb,var(--color-danger) 10%,var(--color-surface));border-color:var(--color-danger);color:var(--color-danger)}
-
-.cefr-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:color-mix(in srgb,var(--color-success) 14%,var(--color-surface));color:var(--color-success);padding:2px 7px;border-radius:4px}
 /* ══ SCREENSHOT ══ */
 .screenshot{padding:80px 60px;background:var(--color-workspace);border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);position:relative;overflow:hidden}
 .screenshot-inner{max-width:1060px;margin:0 auto;position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
