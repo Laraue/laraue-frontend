@@ -8,19 +8,21 @@ export interface Step {
   icon?: string,
 }
 
-defineProps<{
+withDefaults(defineProps<{
   preTitle?: string,
   title?: string,
   postTitle?: string,
   steps: Step[],
-}>()
+  /** The section's background, so a page can alternate its sections. */
+  type?: 'light' | 'cream' | 'dark',
+}>(), { type: 'light' })
 
 // Icon names (e.g. "camera", "bot") render via LNavIcon; anything else (emoji) renders as-is.
 const isIconName = (icon: string) => /^[a-z]+$/.test(icon)
 </script>
 
 <template>
-  <LSection class="how" :pre-title="preTitle" :title="title" :post-title="postTitle" type="light">
+  <LSection class="how" :pre-title="preTitle" :title="title" :post-title="postTitle" :type="type">
     <div class="how-inner" :style="{ '--steps-count': steps.length }">
       <div class="how-steps">
         <div v-for="(step, i) in steps" class="how-step">
