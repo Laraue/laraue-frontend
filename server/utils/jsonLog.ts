@@ -1,49 +1,81 @@
 import { formatWithOptions } from 'node:util'
 
-// Server logs as one JSON object per line (BRD-374). Alloy reads `level` from it, and a message with an error
-// stays one entry: before, console.error(error) printed an H3Error over ~30 lines, each its own Loki entry.
-
-export type LogLevel = 'debug' | 'info' | 'warn' | 'error'
-
-export type LogEntry = {
-    time: string
-    level: LogLevel
+type LogEntry = {
+    level: 'error' | 'info' | 'warn'
     message: string
-    [field: string]: unknown
+    path?: string
+    stack?: string
+    status?: number
 }
 
-// Noise at its own level: a bot asking for a page that doesn't exist makes Vue Router warn on every request.
-const debugMessages = [/No match found for location with path/]
+export function requestErrorEntry(
+    error: Error & { status?: number; statusCode?: number },
+    path?: string,
+    tags?: unknown,
+): LogEntry | undefined {
+    // Nitro already reports process errors through console.error.
+    if (
+        Array.isArray(tags) &&
+        (tags.includes('unhandledRejection') || tags.includes('uncaughtException'))
+    ) {
+        return
+    }
 
-const inline = { breakLength: Infinity, compact: true, depth: 4 }
+    const status = error.statusCode ?? error.status ?? 500
+    if (status < 500) {
+        return
+    }
 
-export function errorFields(error: Error): Record<string, unknown> {
-    const { statusCode } = error as { statusCode?: unknown }
     return {
-        name: error.name,
+        level: 'error',
         message: error.message,
-        ...(typeof statusCode === 'number' ? { statusCode } : {}),
+        path: path?.split('?')[0],
         stack: error.stack,
-        ...(error.cause instanceof Error ? { cause: errorFields(error.cause) } : {}),
+        status,
     }
 }
 
-// What console.<level>(...args) would print, as an entry: the first Error goes to `error` (with its stack),
-// everything else is formatted the way console does it (%s, objects inline) into `message`.
-export function consoleEntry(level: LogLevel, args: unknown[], now = new Date()): LogEntry {
+export function consoleEntry(
+    level: 'debug' | LogEntry['level'],
+    args: unknown[],
+): LogEntry | undefined {
+    if (level === 'debug') {
+        return
+    }
+
+    const [first, second] = args
+    // Nitro also prints request failures after passing them to the error hook.
+    if (
+        level === 'error' &&
+        typeof first === 'string' &&
+        first.startsWith('[request error] ') &&
+        second instanceof Error
+    ) {
+        return
+    }
+
+    if (
+        level === 'warn' &&
+        typeof first === 'string' &&
+        (first.startsWith('[VUE_ROUTER_R0004]') ||
+            first.startsWith('[Vue Router warn]: No match found for location with path'))
+    ) {
+        return
+    }
+
     const error = args.find((arg): arg is Error => arg instanceof Error)
-    const text = formatWithOptions(inline, ...args.filter((arg) => arg !== error)).trim()
-    const message = error ? [text, error.message].filter(Boolean).join(' ') : text
-
-    return {
-        time: now.toISOString(),
-        level: debugMessages.some((pattern) => pattern.test(message)) ? 'debug' : level,
-        message,
-        ...(error ? { error: errorFields(error) } : {}),
-    }
+    const message = formatWithOptions(
+        { breakLength: Infinity, colors: false },
+        ...(error ? args.map((arg) => (arg === error ? error.message : arg)) : args),
+    )
+    return { level, message, stack: error?.stack }
 }
 
-export function writeEntry(entry: LogEntry): void {
+export function writeEntry(entry: LogEntry | undefined): void {
+    if (!entry) {
+        return
+    }
+
     const stream = entry.level === 'warn' || entry.level === 'error' ? process.stderr : process.stdout
     stream.write(`${JSON.stringify(entry)}\n`)
 }

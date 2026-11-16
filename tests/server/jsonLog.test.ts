@@ -1,39 +1,69 @@
-import { assert, test } from 'vitest'
+import { assert, test, vi } from 'vitest'
 
-import { consoleEntry } from '../../server/utils/jsonLog'
+import { consoleEntry, requestErrorEntry, writeEntry } from '../../server/utils/jsonLog'
 
-const now = new Date('2026-11-16T20:00:00.000Z')
+test('writes one JSON line for a request failure, including the default 500', () => {
+    const write = vi.spyOn(process.stderr, 'write').mockReturnValue(true)
+    try {
+        for (const statusCode of [undefined, 503]) {
+            const error = Object.assign(new Error('upstream\ntimeout'), { statusCode })
+            writeEntry(requestErrorEntry(error, '/boards?token=secret'))
+            writeEntry(consoleEntry('error', ['[request error] [unhandled] [GET] /boards\n', error]))
+            const expected = {
+                level: 'error',
+                message: error.message,
+                path: '/boards',
+                stack: error.stack,
+                status: statusCode ?? 500,
+            }
+            assert.deepEqual(write.mock.calls, [[`${JSON.stringify(expected)}\n`]])
+            write.mockClear()
+        }
+    } finally {
+        write.mockRestore()
+    }
+})
 
-test('formats console arguments into one message', () => {
-    assert.deepEqual(consoleEntry('info', ['Submitted %d URLs', 3, { status: 200 }], now), {
-        time: '2026-11-16T20:00:00.000Z',
-        level: 'info',
-        message: 'Submitted 3 URLs { status: 200 }',
+test('drops request 4xx and router misses without suppressing other warnings or errors', () => {
+    const error = Object.assign(new Error('missing'), { fatal: true, statusCode: 404 })
+    assert.isUndefined(requestErrorEntry(error, '/x'))
+    assert.isUndefined(consoleEntry('error', ['[request error] [fatal] [GET] /x\n', error]))
+
+    const message = '[VUE_ROUTER_R0004] No match found for location with path "/x"'
+    assert.isUndefined(consoleEntry('warn', [message]))
+    assert.isUndefined(consoleEntry('debug', ['details']))
+    assert.equal(consoleEntry('error', [new Error(message)])?.level, 'error')
+    assert.equal(consoleEntry('warn', ['No match found for location with path'])?.level, 'warn')
+})
+
+test.each(['unhandledRejection', 'uncaughtException'])(
+    'logs %s only through the console',
+    (tag) => {
+        const error = new Error('background failure')
+        assert.deepEqual(consoleEntry('error', [`[${tag}]`, error]), {
+            level: 'error',
+            message: `[${tag}] background failure`,
+            stack: error.stack,
+        })
+        assert.isUndefined(requestErrorEntry(error, undefined, [tag]))
+    },
+)
+
+test('preserves console formatting and an error stack', () => {
+    const error = new Error('timeout')
+    assert.deepEqual(consoleEntry('error', ['Attempt %d: %s', 3, error]), {
+        level: 'error',
+        message: 'Attempt 3: timeout',
+        stack: error.stack,
     })
 })
 
-test('keeps a multi-line message in one entry', () => {
-    const entry = consoleEntry('warn', ['first line\n  second line\n'], now)
-    assert.equal(entry.message, 'first line\n  second line')
-    assert.notInclude(JSON.stringify(entry), '\n')
-})
-
-test('moves an error and its stack into the error field', () => {
-    const error = Object.assign(new Error('Page not found: /x', { cause: new Error('inner') }), { statusCode: 404 })
-    const entry = consoleEntry('error', ['[request error] [GET] https://laraue.com/x\n', error], now)
-
-    assert.equal(entry.level, 'error')
-    assert.equal(entry.message, '[request error] [GET] https://laraue.com/x Page not found: /x')
-    assert.deepInclude(entry.error, { name: 'Error', message: 'Page not found: /x', statusCode: 404 })
-    assert.include((entry.error as { stack: string }).stack, 'Page not found: /x')
-    assert.deepInclude((entry.error as { cause: object }).cause, { message: 'inner' })
-})
-
-test('logs an error passed alone with its message', () => {
-    assert.equal(consoleEntry('error', [new Error('boom')], now).message, 'boom')
-})
-
-test('turns Vue Router misses into debug', () => {
-    assert.equal(consoleEntry('warn', ['[VUE_ROUTER_R0004] No match found for location with path "/wp-login.php"'], now).level, 'debug')
-    assert.equal(consoleEntry('warn', ['[Vue Router warn]: No match found for location with path "/x"'], now).level, 'debug')
+test('keeps the second error stack in the message', () => {
+    const first = new Error('timeout')
+    const second = new Error('retry failed')
+    const entry = consoleEntry('error', ['Both attempts failed', first, second])
+    assert.isDefined(entry)
+    assert.equal(entry.stack, first.stack)
+    assert.isDefined(second.stack)
+    assert.include(entry.message, second.stack)
 })
