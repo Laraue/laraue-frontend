@@ -85,3 +85,4 @@ The blog (articles and projects, English and Russian) is served by this app itse
 - Also served here: the RSS feed `/api/blog/rss?languageCode=en`, the sitemap `/blog/sitemap.xml` and the preview images `/api/blog/images/og-image`, drawn on request (`server/utils/ogImage.ts`).
 - `pnpm test` checks both languages exist, the frontmatter is valid and no link of the blog is broken.
 - `node scripts/compare-crawl.mjs <current host> <new host>` compares the pages, the feeds and the images of two deployments.
+- `public/f7793776f0494a43a34ad17c37bcf42f.txt` is the IndexNow key file: search engines read it to accept pages submitted to IndexNow by hand.
