@@ -91,9 +91,6 @@ export default defineNuxtConfig({
     detectBrowserLanguage: false,
   },
   runtimeConfig: {
-    // The key of the IndexNow file in `public/` (NUXT_INDEX_NOW_KEY): the blog addresses are sent
-    // to the search engines after a start when it is set.
-    indexNowKey: '',
     public: {
       // The public address of the site (NUXT_PUBLIC_SITE_URL): the addresses of the blog feed and
       // preview images are built from it.
