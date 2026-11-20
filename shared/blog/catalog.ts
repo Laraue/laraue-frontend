@@ -54,6 +54,8 @@ export interface BlogEntry {
     tags: string[] | null;
     projects: string[] | null;
     html: string;
+    // The page as it is written, without the frontmatter: for its markdown copy (`<page>.md`).
+    markdown: string;
     innerLinks: InnerLink[];
 }
 
@@ -238,6 +240,7 @@ export const createBlogCatalog = (files: Record<string, string>) => {
             html,
             innerLinks,
             locale,
+            markdown: body,
             name: text(attributes, 'name') ?? null,
             part: seriesPart(attributes, file),
             path: ['blog', section.folder, name],
@@ -310,6 +313,13 @@ export const createBlogCatalog = (files: Record<string, string>) => {
 
     return {
         entries: (locale: BlogLocale): BlogEntry[] => localeEntries(locale),
+
+        entry: (locale: BlogLocale, section: string, fileName: string): BlogEntry | undefined =>
+            entries.get(entryKey(locale, section, fileName)),
+
+        // The name of a series by its key (`series` of its articles).
+        seriesTitle: (locale: BlogLocale, key: string): string | undefined =>
+            seriesTitles.get(`${locale}/${key}`),
 
         // A page of the list of articles and projects, newest first.
         list(

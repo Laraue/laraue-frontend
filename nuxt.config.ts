@@ -52,6 +52,8 @@ export default defineNuxtConfig({
   routeRules: {
     // Data for the blog pages, not pages themselves.
     '/blog-content/**': { headers: { 'X-Robots-Tag': 'noindex, nofollow' } },
+    // For LLMs and AI agents (see server/routes/llms.txt), not for search results.
+    '/llms.txt': { headers: { 'X-Robots-Tag': 'noindex' } },
     '/': { prerender: true },
     '/crawled-apartments': { prerender: true },
     '/learn-language-bot': { prerender: true },
