@@ -2,3 +2,5 @@ User-agent: *
 Disallow: /blog-content/
 
 Sitemap: https://laraue.com/sitemap.xml
+
+# For LLMs and AI agents: https://laraue.com/llms.txt
